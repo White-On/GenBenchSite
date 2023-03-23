@@ -39,3 +39,10 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
         libraryList.append(library)
     
     return libraryList, taskList
+
+if __name__ == "__main__":
+    from json_to_python_object import FileReaderJson
+
+    _ = FileReaderJson("data.json")
+
+    print(list(Task.GetTaskNameByThemeName("Theme1")))

@@ -15,20 +15,20 @@ class BenchSite:
         self.libraryList, self.tasksList = FileReaderJson(filename)
 
     @staticmethod
-    def GenerateHTMLGlobalRanking():
+    def GenerateHTMLBestLibraryGlobal():
         HTMLGlobalRanking = "<div class=\"card \" id='global'>\
                                 <h1>Best Library</h1>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
-            [f"<div>{BenchSite.MakeLink(library)}</div>" for library in rk.RankingLibraryGlobal()])
+            [f"<div>{BenchSite.MakeLink(library)}</div>" for library in rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)])
         HTMLGlobalRanking += "</div>\
                             </div>"
         return HTMLGlobalRanking
     
     @staticmethod
     def GenerateHTMLRankingAllTheme():
-        HTMLThemeRanking = "<div id='global'><h1>Theme Ranking</h1><div class=\"grid\">"
-        rankLibraryInTheme = BenchSite.RankingBestLibraryPerTheme()
+        HTMLThemeRanking = "<div id='theme'><h1>Theme Ranking</h1><div class=\"grid\">"
+        rankLibraryInTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
         rankLibraryInTheme = {k: v for k, v in sorted(
             rankLibraryInTheme.items(), key=lambda item: item[0])}
@@ -43,23 +43,22 @@ class BenchSite:
     @staticmethod
     def GenerateHTMLRankingPerThemeName(themeName):
         HTMLThemeRanking = ""
-        rankLibraryInTheme = BenchSite.RankingBestLibraryPerTheme()
-        # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
+        rankLibraryByTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         HTMLThemeRanking += f"<div class=\"card theme\"><h2>{themeName}</h2><h3>{' '.join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName))}</h3><ol>"
         HTMLThemeRanking += "".join(
-            [f"<li>{BenchSite.MakeLink(library)}</li>" for library in rankLibraryInTheme[themeName]])
+            [f"<li>{BenchSite.MakeLink(library)}</li>" for library in rankLibraryByTheme[themeName]])
         HTMLThemeRanking += "</ol></div>"
         return HTMLThemeRanking
 
     @staticmethod
-    def GenerateHTMLBestTheme():
+    def GenerateHTMLBestLibraryByTheme():
         HTMLBestTheme = "<div id='theme'><h1>Best Library Per Theme</h1><div class=\"grid\">"
-        rankLibraryInTheme = BenchSite.RankingBestLibraryPerTheme()
+        rankLibraryInTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
         rankLibraryInTheme = {k: v for k, v in sorted(
             rankLibraryInTheme.items(), key=lambda item: item[0])}
         for themeName in rankLibraryInTheme.keys():
-            HTMLBestTheme += f"<div><a href='{themeName}.html'><h2>{themeName}</h2></a><h3>{' '.join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName))}</h3>"
+            HTMLBestTheme += f"<div><h2>{BenchSite.MakeLink(themeName)}</h2><h3>{' '.join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName))}</h3>"
             HTMLBestTheme += f"<p>{BenchSite.MakeLink(rankLibraryInTheme[themeName][0])}<p></div>"
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
@@ -68,7 +67,7 @@ class BenchSite:
     def GenerateHTMLRankingPerTask():
         # Classement des Librairies par tâche
         HTMLTaskRanking = "<div><h1>Task Ranking</h1>"
-        rankLibraryInTask = BenchSite.RankingBestLibraryPerTask(threshold=BenchSite.LEXMAX_THRESHOLD)
+        rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
         for taskName in rankLibraryInTask.keys():
             # On crée le graphique en fonction de tache
             benchSite.CreateGraphics(taskName, Library.GetLibraryByTaskName(taskName), "img")
@@ -79,7 +78,7 @@ class BenchSite:
             # On crée un dictionnaire avec comme clé le nom de la librairie et comme valeur le score
             DictionaryLibraryResult = {}
             for library in LibraryNameList:
-                DictionaryLibraryResult[library] = Library.GetLibraryByName(library).GetTaskByName(taskName).GetResultValue()
+                DictionaryLibraryResult[library] = Library.GetLibraryByName(library).GetTaskByName(taskName).results
             HTMLTaskRanking += "".join(
                 [f"<tr><td>{BenchSite.MakeLink(library)}</td><td>{value:.3f}</td></tr>" for library, value in DictionaryLibraryResult.items()])
             HTMLTaskRanking += "</table>"
@@ -91,7 +90,7 @@ class BenchSite:
     @staticmethod
     def GenerateHTMLBestLibraryByTask():
         HTMLTask = "<div id='task'><h1>Best Library Per Task</h1><div class=\"grid\">"
-        rankLibraryInTask = BenchSite.RankingBestLibraryPerTask(threshold=BenchSite.LEXMAX_THRESHOLD)
+        rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
         for taskName in rankLibraryInTask.keys():
             HTMLTask += f"<div><h2>{BenchSite.MakeLink(taskName)}</h2><p>{BenchSite.MakeLink(rankLibraryInTask[taskName][0])}<p></div>"
         HTMLTask += "</div>"
@@ -107,23 +106,24 @@ if __name__ == "__main__":
     staticSiteGenerator = StaticSiteGenerator(
         "img", "htmlTemplate", "assets", "output", "style")
     
-    # # HOME PAGE
-    # # HEADER
-    # HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",CSSFileName="style.css")
+    # HOME PAGE
+    # HEADER
+    HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/indexStyle.css"
+                                                                      ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
 
-    # # CLASSEMENT GLOBAL
-    # HTMLGlobalRanking = benchSite.GenerateHTMLGlobalRanking()
+    # CLASSEMENT GLOBAL
+    HTMLGlobalRanking = benchSite.GenerateHTMLBestLibraryGlobal()
 
-    # # CLASSEMENT DES MEILLEURS LIBRAIRIES PAR THEME
-    # HTMLThemeRanking = benchSite.GenerateHTMLBestTheme()
+    # CLASSEMENT DES MEILLEURS LIBRAIRIES PAR THEME
+    HTMLThemeRanking = benchSite.GenerateHTMLBestLibraryByTheme()
 
-    # # CLASSEMENT DES LIBRAIRIES PAR TACHES
-    # HTMLTaskRanking = benchSite.GenerateTaskBestLibrary()
+    # CLASSEMENT DES LIBRAIRIES PAR TACHES
+    HTMLTaskRanking = benchSite.GenerateHTMLBestLibraryByTask()
 
-    # # FOOTER
-    # HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
+    # FOOTER
+    HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
 
-    # staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
+    staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
 
     # # TACHES PAGES
     # for taskName in Task.ListAllTaskName():

@@ -91,9 +91,7 @@ def RankingLibraryByTheme(threshold = 0) -> dict[str:list[str]]:
         listTaskNameForCurrentTheme = Task.GetTaskNameByThemeName(theme)
         classementLibrary = {}
         for libraryName in Library.GetAllLibraryName():
-            classementLibrary[libraryName] = []
-            for taskName in listTaskNameForCurrentTheme:
-                classementLibrary[libraryName].append(rankLibraryByTask[taskName].index(libraryName))
+            classementLibrary[libraryName] = [rankLibraryByTask[taskName].index(libraryName) for taskName in listTaskNameForCurrentTheme]
         rankLibraryByTheme[theme] = LexMax(classementLibrary)
 
     return rankLibraryByTheme
@@ -236,6 +234,6 @@ if __name__ == "__main__":
 
     _ = FileReaderJson("data.json")
 
-    print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=0)}")
-    print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=0)}")
-    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=0)}")
+    print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
+    print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
+    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=50)}")

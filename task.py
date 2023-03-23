@@ -152,5 +152,8 @@ class Task:
             The list of all the tasks name with the same theme name.
         
         """
-        return (task.name for task in cls.GetTaskByThemeName(themeName))
-
+        listTaskName = []
+        for task in cls.GetTaskByThemeName(themeName):
+            if task.name not in listTaskName:
+                listTaskName.append(task.name) 
+        return listTaskName
