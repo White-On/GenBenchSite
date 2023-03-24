@@ -1,0 +1,25 @@
+:root{
+    /* color segment */
+    --primary-color: var(--green2);
+    --secondary-color: var(--lightblack);
+    --tertiary-color: var(--lightgray);
+    --quaternary-color: var(--white);
+    --quinary-color: var(--black);
+
+    --global-rank-color: var(--blue);
+    --theme-rank-color: var(--yellow);
+    --task-rank-color: var(--red);
+
+    --blue: #537FE7;
+    --red: #FF5E5E;
+    --green: #00C48C;
+    --green2: #749671;
+    --yellow: #FFC700;
+    --orange: #FF8C00;
+    --purple: #A64AC9;
+    --pink: #FF5EAA;
+    --lightblack: #222831;
+    --lightgray: #f2f2f2;
+    --white: #fff;
+    --black: #000;
+}

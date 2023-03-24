@@ -1,5 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-#header-grid{
+@import url('colorStyle.css');
+
+
+/* GLOBAL PARAMETER */
+
+/* :root{
+    
+} */
+
+body{
+    background-color: var(--tertiary-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--secondary-color);
+    margin: 90px 0px 24px 0px;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+}
+
+a{
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+/* HEADER */
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: var(--quaternary-color);
+    box-shadow: 0 0 5px var(--quinary-color);
+}
+
+ #header-grid{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,80 +49,43 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     margin: 0 0 0 0;
-    color: #222831;
-}
-
-a{
-    text-decoration: none;
-    color: #222831;
-}
-
-h1{
-    font-size: 32px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    color: #222831;
-}
-
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    background-color: #fff;
-    box-shadow: 0 0 5px #000;
-}
-
-body{
-    background-color: #f2f2f2;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: #222831;
-    margin: 0 0 0 0;
-    margin: 90px 24px 24px 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    
+    color: var(--secondary-color);
 }
 
 #name-logo{
     font-size: 32px;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: #222831;
+    color: var(--secondary-color);
     text-decoration: none;
     margin-block: 0;
 }
 
-nav ul{
+header nav ul{
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-nav ul li{
+header nav ul li{
     display: inline-block;
 }
 
-nav ul li a{
+header nav ul li a{
     text-decoration: none;
-    color: #222831;
+    color: var(--secondary-color);
     margin-left: 8px;
     margin-right: 8px;
     padding: 8px;
 }
 
-nav ul li a:hover{
+header nav ul li a:hover{
     border-radius: 10px;
-    background-color: #537FE7;
-    /* color: #fff; */
+    background-color: var(--primary-color);
     transition: background-color 0.5s ease-in-out;
-    /* transition: color 0.5s ease-in-out; */
 }
 
-nav ul li img{
+header nav ul li img{
     width: 32px;
     height: 32px;
     margin-left: 16px;
@@ -95,10 +99,34 @@ nav ul li img{
     }
 }
 
+/* GRAPHICS */
 
-div{
-    background-color: #fff;
+.graphics{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16px;
+    padding: 16px;
+}
+
+h1{
+    font-size: 32px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin-block: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/* DEBUG TOOLS */
+/* you can see more clearly the box model with this */
+/* div{
+    background-color: var(--white);
     border-radius: 10px;
     padding: 16px;
-    box-shadow: 0 0 5px #000;
-}
+    box-shadow: 0 0 5px var(--black);
+}  */

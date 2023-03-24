@@ -14,7 +14,7 @@ class StaticSiteGenerator:
 
     Attributes
     ----------
-    imgFilePath : str
+    scriptFilePath : str
         The path of the folder where the images are stored.
     htmlTemplateFilePath : str
         The path of the folder where the HTML templates are stored.
@@ -26,15 +26,15 @@ class StaticSiteGenerator:
         The path of the folder where the CSS files are stored.
     """
     
-    def __init__(self, imgFilePath="img", htmlTemplateFilePath="template", assetsFilePath="assets", outputFilePath="output", styleFilePath="style", createFolder:bool = True):
+    def __init__(self, scriptFilePath="script", htmlTemplateFilePath="template", assetsFilePath="assets", outputFilePath="output", styleFilePath="style", createFolder:bool = True):
         """Create the static site generator object
 
         Check if the path exist, if not, create the folder if `createFolder` is True.
 
         Parameters
         ----------
-        imgFilePath : str
-            The path of the folder where the images are stored.
+        scriptFilePath : str
+            The path of the folder where the script are stored, by default "script"
         htmlTemplateFilePath : str
             The path of the folder where the HTML templates are stored.
         assetsFilePath : str
@@ -47,7 +47,7 @@ class StaticSiteGenerator:
             If True, create the folder if it does not exist, by default True
         """
         
-        for path in [imgFilePath, htmlTemplateFilePath, assetsFilePath, outputFilePath, styleFilePath]:
+        for path in [scriptFilePath, htmlTemplateFilePath, assetsFilePath, outputFilePath, styleFilePath]:
             if not self.CheckIfPathExist(path) and not createFolder:
                 raise Exception(f"Path {path} does not exist")
             elif not self.CheckIfPathExist(path) and createFolder:
@@ -55,7 +55,7 @@ class StaticSiteGenerator:
                 os.mkdir(os.path.join(os.path.dirname(__file__), path))
 
 
-        self.imgFilePath = imgFilePath
+        self.scriptFilePath = scriptFilePath
         self.htmlTemplateFilePath = htmlTemplateFilePath
         self.assetsFilePath = assetsFilePath
         self.outputFilePath = outputFilePath

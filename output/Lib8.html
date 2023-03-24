@@ -1,14 +1,87 @@
-<script src="../script/histogram.js"></script>
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>BenchSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/libraryStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <header id="header-grid">
+        <p id="name-logo"><a href="index.html"><b>BenchSite</b></a></p>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="index.html"><b>Home</b></a></li>
+                <li><a href="#"><b>About</b></a></li>
+                <li><a href="../data.json" download="data.json"><b>Download</b></a></li>
+                <li><a href="#"><b>Contact</b></a></li>
+            </ul>
+        </nav>
+        <nav class="header-nav">
+            <ul>
+                <li><img src="../assets/github.svg" alt="github-icon"></li>
+                <li><img src="../assets/envelope-solid.svg" alt="mail-icon"></li>
+                <li><img src="../assets/twitter.svg" alt="twitter-icon"></li>
+            </ul>
+        </nav>
+    </header><script src="../script/histogram.js"></script>
 <script src="../script/dynamicPlot.js"></script>
-{{scriptFilePath}}
+<script defer type='module' src='../script/libraryScript.js'></script>
 
-<h1>{{libraryName}}</h1>
+<h1>Lib8</h1>
 
-{% for taskName in taskNameList %}
-<a href="{{taskName}}.html"><h2 id="entry-title">{{taskName}}</h2></a>
-<div id="{{taskName}}"></div>
 
-{% endfor %}
+<a href="Task0.html"><h2 id="entry-title">Task0</h2></a>
+<div id="Task0"></div>
+
+
+<a href="Task1.html"><h2 id="entry-title">Task1</h2></a>
+<div id="Task1"></div>
+
+
+<a href="Task2.html"><h2 id="entry-title">Task2</h2></a>
+<div id="Task2"></div>
+
+
+<a href="Task3.html"><h2 id="entry-title">Task3</h2></a>
+<div id="Task3"></div>
+
+
+<a href="Task4.html"><h2 id="entry-title">Task4</h2></a>
+<div id="Task4"></div>
+
+
+<a href="Task5.html"><h2 id="entry-title">Task5</h2></a>
+<div id="Task5"></div>
+
+
+<a href="Task6.html"><h2 id="entry-title">Task6</h2></a>
+<div id="Task6"></div>
+
+
+<a href="Task7.html"><h2 id="entry-title">Task7</h2></a>
+<div id="Task7"></div>
+
+
+<a href="Task8.html"><h2 id="entry-title">Task8</h2></a>
+<div id="Task8"></div>
+
+
+<a href="Task9.html"><h2 id="entry-title">Task9</h2></a>
+<div id="Task9"></div>
+
+
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -35,7 +108,7 @@ request.onload = function() {
 
     let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
     for (i = 0; i < AllTaskName.length; i++) {
-        let intermediateData = FormatedData({"{{libraryName}}" : data["{{libraryName}}"]}, AllTaskName[i]);
+        let intermediateData = FormatedData({"Lib8" : data["Lib8"]}, AllTaskName[i]);
         // console.log("intermediateData.length = " + intermediateData.length);
         if (intermediateData.length == 1) {
             let intermediateDataSorted = intermediateData.sort(orderingFunction);
@@ -523,4 +596,4 @@ function Histogram(data, {
     return Object.assign(svg.node(), {value: null});
 }
 </script>
-
+</body>
