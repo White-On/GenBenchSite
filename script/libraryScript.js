@@ -29,8 +29,8 @@ for (let i = 0; i < AllLibraryName.length; i++) {
 // console.log( page );
 
 //3. get the task name from the title of the page
-let LibraryName = document.getElementById('entry-title').innerHTML;
-console.log(LibraryName);
+const libraryName = document.getElementById('entry-title').innerHTML;
+console.log("libraryName = " + libraryName);
 
 // let width = element.clientWidth;
 // let height = element.clientHeight;
@@ -38,10 +38,10 @@ console.log(LibraryName);
 let width = window.innerWidth * 0.8;
 let height = window.innerHeight * 0.8;
 
+let chart;
 let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
-for (i = 0; i < AllTaskName.length; i++) {
-    let intermediateData = FormatedData({LibraryName : data[LibraryName]}, AllTaskName[i]);
-    // console.log("intermediateData.length = " + intermediateData.length);
+for (let i = 0; i < AllTaskName.length; i++) {
+    let intermediateData = FormatedData({[libraryName]:data[libraryName]}, AllTaskName[i]);
     if (intermediateData.length == 1) {
         let intermediateDataSorted = intermediateData.sort(orderingFunction);
         chart = Histogram(intermediateDataSorted, {
@@ -50,7 +50,7 @@ for (i = 0; i < AllTaskName.length; i++) {
             color: d => colorPalette[d],
             width: width,
             height: height,
-            yLabel: "Run Time (ms)",
+            yLabel: "Run Time (ms) ↑",
             labelFontSize: 30,
 
             marginLeft: 80,
@@ -65,7 +65,7 @@ for (i = 0; i < AllTaskName.length; i++) {
             x: d => d.arguments,
             y: d => d.runTime,
             z: d => d.libraryName,
-            yLabel: "Run Time (ms)",
+            yLabel: "Run Time (ms) ↑",
             width: width,
             height: height,
             color: d => colorPalette[d],
@@ -84,4 +84,24 @@ for (i = 0; i < AllTaskName.length; i++) {
 
     let element = document.getElementById(AllTaskName[i]);
     element.appendChild(chart);
+}
+
+function FormatedData(data, TaskName) {
+    let LibraryName = Object.keys(data);
+    let task;
+    
+    let formattedData = [];
+    for (let j = 0; j < LibraryName.length; j++) {
+        task = data[LibraryName[j]][TaskName]['results'];
+        let argument = Object.keys(task).map(x=>+x);
+        let results = Object.values(task);
+        for (let i = 0; i < argument.length; i++) {
+            formattedData.push({
+                arguments: argument[i],
+                runTime: results[i],
+                libraryName : LibraryName[j],
+            });
+        }
+    }
+    return formattedData;
 }

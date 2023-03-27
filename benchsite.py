@@ -19,7 +19,8 @@ class BenchSite:
                                 <h1>Best Library</h1>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
-            [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
+            # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
+            [f"<div class='global-card'><p>{BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
         HTMLGlobalRanking += "</div>\
                             </div>"
         return HTMLGlobalRanking
@@ -45,7 +46,8 @@ class BenchSite:
         rankLibraryByTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # HTMLThemeRanking += f"<div class=\"theme\"><h2>{themeName}</h2><h3>{' '.join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName))}</h3>"
         HTMLThemeRanking += "<div class='grid'>" + "".join(
-            [f"<div class='card'><p>{BenchSite.RankSubTitle(rank)} : {BenchSite.MakeLink(library)}</div>" for rank, library in enumerate(rankLibraryByTheme[themeName])])
+            # [f"<div class='card'><p>{BenchSite.RankSubTitle(rank)} : {BenchSite.MakeLink(library)}</div>" for rank, library in enumerate(rankLibraryByTheme[themeName])])
+            [f"<div class='card'><p>{BenchSite.MakeLink(library)}</div>" for rank, library in enumerate(rankLibraryByTheme[themeName])])
         HTMLThemeRanking += "</div>"
         return HTMLThemeRanking
 
@@ -104,6 +106,10 @@ class BenchSite:
         rank = int(rank)
         subtitle = ["st", "nd", "rd", "th"]
         return f"{rank}{subtitle[rank-1] if rank < 4 else subtitle[3]}"
+    
+    @staticmethod
+    def OrderedList(listElement:list) -> str:
+        return "&lt;".join([f"{element}" for element in listElement])
 
     @staticmethod
     def CreateScriptBalise(scriptName:str, module:bool=False) -> str:
@@ -153,7 +159,8 @@ if __name__ == "__main__":
 
         # CLASSEMENT DES LIBRAIRIES PAR TACHES
         HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName=taskName,
-                                                                               scriptFilePath=BenchSite.CreateScriptBalise(f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),)
+                                                                               scriptFilePath=BenchSite.CreateScriptBalise(f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
+                                                                               libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)))
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
