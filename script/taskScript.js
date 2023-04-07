@@ -1,4 +1,5 @@
-import myJson from '../data.json' assert { type: 'json' };
+// import myJson from '../data.json' assert { type: 'json' };
+import myJson from '../results.json' assert { type: 'json' };
 
 import {LineChart} from './dynamicPlot.js';
 import {Histogram} from './histogram.js';
@@ -57,7 +58,7 @@ if (intermediateData.length == AllLibraryName.length) {
         marginLeft: 80,
         marginTop: 40,
 
-        Legend: true,
+        legend: true,
 
     });
 }

@@ -15,11 +15,14 @@ export function Histogram(data, {
     xRange = [marginLeft , width - marginRight], // [x0, x1]
     yRange = [height - marginBottom, marginTop], // [y0, y1]
 
+    noXAxisValues = false, // array of x-values to show ticks for
+
     yType = d3.scaleLinear, // y-axis scale type
-    yFormat = d3.format(".2s"), // y-axis tick format
+    yFormat = d3.format(".0s"), // y-axis tick format
+    // yFormat,
 
     yLabel = "", // y-axis label
-    labelFontSize = 20, // font size of the label
+    labelFontSize = 8, // font size of the label
 
     xPadding = 0.2, // padding between bars on the x-axis
 
@@ -50,6 +53,8 @@ export function Histogram(data, {
 
     const xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
+
+    if (noXAxisValues) xAxis.tickValues(noXAxisValues);
 
     const format = yScale.tickFormat(100, yFormat);
     
@@ -141,7 +146,6 @@ export function Histogram(data, {
         
         return swatches;
     }
-
     if (legend) swatches();
 
     return Object.assign(svg.node(), {value: null});

@@ -25,6 +25,7 @@ export function LineChart(data, {
     yRange = [height - marginBottom, marginTop], // [bottom, top]
 
     yFormat, // a format specifier string for the y-axis
+    xFormat = d3.format(".0s"), // a format specifier string for the x-axis
     yLabel, // a label for the y-axis
     zDomain, // array of z-values
     labelFontSize = 20, // font size of axis labels
@@ -86,7 +87,7 @@ export function LineChart(data, {
     // Construct scales and axes.
     const xScale = xType(xDomain, xRange);
     const yScale = yType(yDomain, yRange);
-    const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
+    const xAxis = d3.axisBottom(xScale).ticks(width / 80, xFormat).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
 
     // Compute titles.

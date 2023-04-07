@@ -31,6 +31,8 @@ class Task:
     theme: str
     arguments: list[float] = field(default_factory=list)
     results: list[float] = field(default_factory=list)
+    resultsValue: list[float] = field(default_factory=list)
+    arguments_label: list[str] = field(default_factory=list)
     allTasks: ClassVar[list["Task"]] = []
 
     def __post_init__(self) -> None:

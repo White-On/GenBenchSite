@@ -16,7 +16,7 @@ class BenchSite:
     @staticmethod
     def GenerateHTMLBestLibraryGlobal():
         HTMLGlobalRanking = "<div id='global-rank'>\
-                                <h1>Best Library</h1>\
+                                <h1>Library</h1>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
@@ -53,7 +53,7 @@ class BenchSite:
 
     @staticmethod
     def GenerateHTMLBestLibraryByTheme():
-        HTMLBestTheme = "<div id='theme-rank'><h1>Best Library Per Theme</h1><div class=\"grid\">"
+        HTMLBestTheme = "<div id='theme-rank'><h1>Library Per Theme</h1><div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
         rankLibraryInTheme = {k: v for k, v in sorted(
@@ -90,7 +90,7 @@ class BenchSite:
 
     @staticmethod
     def GenerateHTMLBestLibraryByTask():
-        HTMLTask = "<div id='task-rank'><h1>Best Library Per Task</h1><div class=\"grid\">"
+        HTMLTask = "<div id='task-rank'><h1> Library Per Task</h1><div class=\"grid\">"
         rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
         for taskName in rankLibraryInTask.keys():
             HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(taskName)}</h2><p>{BenchSite.MakeLink(rankLibraryInTask[taskName][0])}<p></div>"
@@ -109,7 +109,7 @@ class BenchSite:
     
     @staticmethod
     def OrderedList(listElement:list) -> str:
-        return "&lt;".join([f"{element}" for element in listElement])
+        return "&gt;".join([f"{element}" for element in listElement])
 
     @staticmethod
     def CreateScriptBalise(scriptName:str, module:bool=False) -> str:
@@ -119,10 +119,10 @@ class BenchSite:
 
 if __name__ == "__main__":
     # création du site statique 
-    benchSite = BenchSite("data.json")
+    benchSite = BenchSite("results.json")
     staticSiteGenerator = StaticSiteGenerator(
         "script", "htmlTemplate", "assets", "output", "style")
-    
+
     # HOME PAGE
 
     styleFilePath = 'indexStyle.css'
@@ -160,7 +160,7 @@ if __name__ == "__main__":
         # CLASSEMENT DES LIBRAIRIES PAR TACHES
         HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName=taskName,
                                                                                scriptFilePath=BenchSite.CreateScriptBalise(f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
-                                                                               libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)))
+                                                                               libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))) # pas de classemrnt global ici
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")

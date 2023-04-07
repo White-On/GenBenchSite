@@ -32,13 +32,22 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
         library = Library(libName)
         for taskName, taskInfo in libInfo.items():
             task = Task(taskName, taskInfo["theme"])
-            task.arguments.extend([float(argument) for argument in taskInfo["results"].keys()])
-            task.results.extend(taskInfo["results"].values())
+            task.arguments_label.extend([argument for argument in taskInfo["results"].keys()])
+            task.arguments.extend(TokenizeArguments(task.arguments_label))
+            print(taskInfo["results"].values())
+            resultsTime = [result[0] for result in taskInfo["results"].values()]
+            resultsValue = [result[1] for result in taskInfo["results"].values()]
+            task.results.extend([float(result) if isinstance(result, float) or isinstance(result, int) else float("infinity") for result in resultsTime])
+            task.resultsValue.extend([float(result) if result is not None else float("infinity") for result in resultsValue])
             library.tasks.append(task)
             taskList.append(task)
         libraryList.append(library)
     
     return libraryList, taskList
+
+def TokenizeArguments(arguments: list[str]) -> list [int]:
+    return [index  for index, argument in enumerate(arguments)]
+
 
 if __name__ == "__main__":
     from json_to_python_object import FileReaderJson
