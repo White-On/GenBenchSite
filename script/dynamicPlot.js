@@ -129,6 +129,10 @@ export  function LineChart(data, {
         .attr("transform", `translate(0,${height - marginBottom})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
+        // change orientation of x-axis labels.
+        // .attr("text-anchor", "end")
+        // .selectAll("text")
+        // .attr("transform", "rotate(-45)")
         .call(g => g.select(".domain").remove())
         .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
             .attr("y2", marginTop + marginBottom - height)

@@ -68,9 +68,12 @@ export function Histogram(data, {
     
     // X-axis 
     const xGroup = svg.append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
-      .call(xAxis)
-      .style("font-size", labelFontSize);
+        .attr("transform", `translate(0,${height - marginBottom})`)
+        .call(xAxis)
+        .style("font-size", labelFontSize)
+        .attr("text-anchor", "end")
+        .selectAll("text")
+        .attr("transform", "rotate(-45)");
     
     // Y-axis 
     const yGroup = svg.append("g")

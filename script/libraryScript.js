@@ -80,13 +80,14 @@ for (let taskName of AllTaskName) {
             width: width,
             height: height,
             yLabel: "Run Time (ms) ↑",
-            labelFontSize: 30,
+            labelFontSize: 20,
             marginLeft: 80,
             marginTop: 40,
+            marginBottom: 80,
 
-            legend: true,
+            legend: false,
 
-            noXAxisValues: true,    
+            noXAxisValues: false,    
         });
     }
     else{
@@ -104,8 +105,9 @@ for (let taskName of AllTaskName) {
             
             marginLeft: 80,
             marginTop: 40,
+            
 
-            legend: true,
+            legend: false,
             legendColorBoxGap: 10,
             legendColorBoxSize: [40,40],
         });
