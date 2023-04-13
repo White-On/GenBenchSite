@@ -31,11 +31,11 @@ export function HeatMap(data,{
 
     const I = d3.range(V.length);
 
-    console.log(CX);
-    console.log(CY);
-    console.log(V);
+    // console.log(CX);
+    // console.log(CY);
+    // console.log(V);
 
-    console.log(I);
+    // console.log(I);
 
      // create scales for x and y axis
     var xScale = d3.scaleBand()
@@ -49,7 +49,7 @@ export function HeatMap(data,{
 
     // console.log(xScale.domain());
     // console.log(yScale.domain());
-    console.log(xScale.bandwidth());
+    // console.log(xScale.bandwidth());
     // console.log(xScale(CX[0]));
 
     const xAxis = d3.axisBottom(xScale);

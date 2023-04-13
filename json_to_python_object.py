@@ -33,12 +33,14 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
         for taskName, taskInfo in libInfo.items():
             task = Task(taskName, taskInfo["theme"])
             task.arguments_label.extend([argument for argument in taskInfo["results"].keys()])
+            # transform the argument label into a list of index to be able to use the LexMax algorithm
             task.arguments.extend(TokenizeArguments(task.arguments_label))
-            print(taskInfo["results"].values())
+            # print(taskInfo["results"].values())
             resultsTime = [result[0] for result in taskInfo["results"].values()]
             resultsValue = [result[1] for result in taskInfo["results"].values()]
             task.results.extend([float(result) if isinstance(result, float) or isinstance(result, int) else float("infinity") for result in resultsTime])
             task.resultsValue.extend([float(result) if result is not None else float("infinity") for result in resultsValue])
+            task.status = resultsTime[0] if all([r == float("infinity") for r in task.results]) else "Run"
             library.tasks.append(task)
             taskList.append(task)
         libraryList.append(library)

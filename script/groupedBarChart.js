@@ -100,6 +100,9 @@ export function GroupedBarChart(data,{
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
+        .attr("text-anchor", "end")
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
         .call(g => g.select(".domain").remove());
   
     // add the y-axis to the chart.

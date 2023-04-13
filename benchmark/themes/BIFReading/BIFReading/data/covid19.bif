@@ -1,0 +1,492 @@
+network "covid19" {
+// written by aGrUM 0.18.2
+}
+
+variable Current_covid19_status {
+   type discrete[4] {Severe, Mild, Asymptomatic, None};
+}
+
+variable Tested_result {
+   type discrete[3] {Negative, Positive, NA};
+}
+
+variable Test_type {
+   type discrete[4] {CT_scan, PCR_Nasal, Antibody, No_Test};
+}
+
+variable Symptoms_status {
+   type discrete[3] {Deteriorating, Stable, Improving};
+}
+
+variable Hospitalization_alert {
+   type discrete[2] {False, True};
+}
+
+variable Infected_with_covid19 {
+   type discrete[2] {Yes, No};
+}
+
+variable Age {
+   type discrete[5] {gt_80, 65_80, 50_65, 15_49, lt_15};
+}
+
+variable Underlying_medical_condition {
+   type discrete[3] {High, Medium, Low};
+}
+
+variable Sex {
+   type discrete[2] {Male, Female};
+}
+
+variable Obesity {
+   type discrete[2] {Yes, No};
+}
+
+variable Risk_factors {
+   type discrete[3] {High, Medium, Low};
+}
+
+variable Other_condition_with_covid_like_symptoms {
+   type discrete[2] {False, True};
+}
+
+variable Covid19_alert {
+   type discrete[2] {False, True};
+}
+
+variable Intractions_with_other_people {
+   type discrete[3] {Multiple_external, Some_external, Minimal};
+}
+
+variable Contact_with_symptomatic_covid19_person {
+   type discrete[2] {Yes, No};
+}
+
+variable Contact_with_confirmed_covid19_person {
+   type discrete[2] {Yes, No};
+}
+
+variable Frontline_healthcare_worker {
+   type discrete[2] {Yes, No};
+}
+
+variable Amount_of_contact_with_virus {
+   type discrete[5] {Very_High, High, Medium, Low, None};
+}
+
+variable Contact_transfer_eg_parcels {
+   type discrete[3] {High, Medium, Low};
+}
+
+variable Current_time_since_infection_if_infected {
+   type discrete[2] {gt__5_days, leq_5_days};
+}
+
+variable Risk_conditioned_on_age {
+   type discrete[3] {High, Medium, Low};
+}
+
+variable Eventual_covid19_status {
+   type discrete[4] {Severe, Mild, Asymptomatic, None};
+}
+
+variable Current_covid19_or_similar_status {
+   type discrete[5] {Severe, Mild, Asymptomatic, Non_Covid_similar_symptoms, None};
+}
+
+variable Sputum_production {
+   type discrete[2] {no, yes};
+}
+
+variable Myalgia {
+   type discrete[2] {no, yes};
+}
+
+variable Fever {
+   type discrete[2] {no, yes};
+}
+
+variable O2_saturation {
+   type discrete[2] {lt_90, geq_90};
+}
+
+variable Dyspnea {
+   type discrete[2] {no, yes};
+}
+
+variable Chills {
+   type discrete[2] {no, yes};
+}
+
+variable Fatigue {
+   type discrete[2] {no, yes};
+}
+
+variable Body_temp {
+   type discrete[2] {leq38, gt_38};
+}
+
+variable Cough {
+   type discrete[2] {no, yes};
+}
+
+variable Loss_of_taste_or_smell {
+   type discrete[2] {no, yes};
+}
+
+variable Previous_validated_test {
+   type discrete[3] {No, Positive, Negative};
+}
+
+variable Immune_due_to_previous_infection {
+   type discrete[2] {False, True};
+}
+
+variable Previously_infected {
+   type discrete[3] {No, Yes_asymptomatic, Yes_symptomatic};
+}
+
+variable Time_since_assumed_infected {
+   type discrete[3] {lt__8_weeks, geq__8_weeks, NA};
+}
+
+variable Previous_symptoms {
+   type discrete[3] {No, Mild, Serious};
+}
+
+variable Get_antibody_test_alert {
+   type discrete[2] {False, True};
+}
+
+probability (Current_covid19_status | Current_time_since_infection_if_infected, Risk_conditioned_on_age, Infected_with_covid19) {
+   (gt__5_days, High, Yes) 0.4 0.5 0.1 0;
+   (leq_5_days, High, Yes) 0.0001 0.0049 0.995 0;
+   (gt__5_days, Medium, Yes) 0.01 0.19 0.8 0;
+   (leq_5_days, Medium, Yes) 1e-05 0.00049 0.9995 0;
+   (gt__5_days, Low, Yes) 0.004 0.196 0.8 0;
+   (leq_5_days, Low, Yes) 1e-06 4.9e-05 0.99995 0;
+   (gt__5_days, High, No) 0 0 0 1;
+   (leq_5_days, High, No) 0 0 0 1;
+   (gt__5_days, Medium, No) 0 0 0 1;
+   (leq_5_days, Medium, No) 0 0 0 1;
+   (gt__5_days, Low, No) 0 0 0 1;
+   (leq_5_days, Low, No) 0 0 0 1;
+}
+probability (Tested_result | Current_covid19_status, Test_type) {
+   (Severe, CT_scan) 0.01 0.99 0;
+   (Mild, CT_scan) 0.02 0.98 0;
+   (Asymptomatic, CT_scan) 0.02 0.98 0;
+   (None, CT_scan) 0.99 0.01 0;
+   (Severe, PCR_Nasal) 0.1 0.9 0;
+   (Mild, PCR_Nasal) 0.3 0.7 0;
+   (Asymptomatic, PCR_Nasal) 0.46 0.54 0;
+   (None, PCR_Nasal) 0.9 0.1 0;
+   (Severe, Antibody) 0.3 0.7 0;
+   (Mild, Antibody) 0.3 0.7 0;
+   (Asymptomatic, Antibody) 0.3 0.7 0;
+   (None, Antibody) 0.9 0.1 0;
+   (Severe, No_Test) 0 0 1;
+   (Mild, No_Test) 0 0 1;
+   (Asymptomatic, No_Test) 0 0 1;
+   (None, No_Test) 0 0 1;
+}
+probability (Test_type) {
+   default 0.001 0.03 0.019 0.95;
+}
+probability (Symptoms_status) {
+   default 0.0002 0.9997 0.0001;
+}
+probability (Hospitalization_alert | Symptoms_status, Eventual_covid19_status) {
+   (Deteriorating, Severe) 0 1;
+   (Stable, Severe) 0.5 0.5;
+   (Improving, Severe) 0.7 0.3;
+   (Deteriorating, Mild) 0.6 0.4;
+   (Stable, Mild) 1 0;
+   (Improving, Mild) 1 0;
+   (Deteriorating, Asymptomatic) 1 0;
+   (Stable, Asymptomatic) 1 0;
+   (Improving, Asymptomatic) 1 0;
+   (Deteriorating, None) 1 0;
+   (Stable, None) 1 0;
+   (Improving, None) 1 0;
+}
+probability (Infected_with_covid19 | Amount_of_contact_with_virus, Immune_due_to_previous_infection) {
+   (Very_High, False) 0.95 0.05;
+   (High, False) 0.5 0.5;
+   (Medium, False) 0.2 0.8;
+   (Low, False) 0.01 0.99;
+   (None, False) 0 1;
+   (Very_High, True) 0 1;
+   (High, True) 0 1;
+   (Medium, True) 0 1;
+   (Low, True) 0 1;
+   (None, True) 0 1;
+}
+probability (Age) {
+   default 0.0909091 0.181818 0.318182 0.272727 0.136364;
+}
+probability (Underlying_medical_condition | Age) {
+   (gt_80) 0.6 0.35 0.05;
+   (65_80) 0.5 0.4 0.1;
+   (50_65) 0.1 0.4 0.5;
+   (15_49) 0.03 0.07 0.9;
+   (lt_15) 0.005 0.015 0.98;
+}
+probability (Sex) {
+   default 0.49 0.51;
+}
+probability (Obesity) {
+   default 0.1 0.9;
+}
+probability (Risk_factors | Obesity, Sex, Underlying_medical_condition) {
+   (Yes, Male, High) 0.939722 0.0602777 0;
+   (No, Male, High) 0.718242 0.281758 0;
+   (Yes, Female, High) 0.842856 0.157144 0;
+   (No, Female, High) 0.6 0.4 0;
+   (Yes, Male, Medium) 0.157144 0.842856 4.86117e-07;
+   (No, Male, Medium) 0.00581369 0.933909 0.0602777;
+   (Yes, Female, Medium) 0.0602777 0.933909 0.00581369;
+   (No, Female, Medium) 4.86117e-07 0.842856 0.157144;
+   (Yes, Male, Low) 0 0.4 0.6;
+   (No, Male, Low) 0 0.157144 0.842856;
+   (Yes, Female, Low) 0 0.281758 0.718242;
+   (No, Female, Low) 0 0.0602777 0.939722;
+}
+probability (Other_condition_with_covid_like_symptoms | Risk_factors, Age) {
+   (High, gt_80) 0.8 0.2;
+   (Medium, gt_80) 0.9 0.1;
+   (Low, gt_80) 0.95 0.05;
+   (High, 65_80) 0.9 0.1;
+   (Medium, 65_80) 0.95 0.05;
+   (Low, 65_80) 0.98 0.02;
+   (High, 50_65) 0.96 0.04;
+   (Medium, 50_65) 0.99 0.01;
+   (Low, 50_65) 0.995 0.005;
+   (High, 15_49) 0.95 0.05;
+   (Medium, 15_49) 0.99 0.01;
+   (Low, 15_49) 0.995 0.005;
+   (High, lt_15) 0.99 0.01;
+   (Medium, lt_15) 0.995 0.005;
+   (Low, lt_15) 0.999 0.001;
+}
+probability (Covid19_alert | Eventual_covid19_status) {
+   (Severe) 0 1;
+   (Mild) 0 1;
+   (Asymptomatic) 0 1;
+   (None) 1 0;
+}
+probability (Intractions_with_other_people | Frontline_healthcare_worker) {
+   (Yes) 0.7 0.2 0.1;
+   (No) 0.01 0.14 0.85;
+}
+probability (Contact_with_symptomatic_covid19_person | Frontline_healthcare_worker, Contact_with_confirmed_covid19_person) {
+   (Yes, Yes) 1 0;
+   (No, Yes) 1 0;
+   (Yes, No) 0.2 0.8;
+   (No, No) 0.05 0.95;
+}
+probability (Contact_with_confirmed_covid19_person) {
+   default 0.05 0.95;
+}
+probability (Frontline_healthcare_worker) {
+   default 0.05 0.95;
+}
+probability (Amount_of_contact_with_virus | Contact_with_confirmed_covid19_person, Contact_transfer_eg_parcels, Intractions_with_other_people, Contact_with_symptomatic_covid19_person) {
+   (Yes, High, Multiple_external, Yes) 0.411791 0.473204 0.115004 2.33966e-07 0;
+   (No, High, Multiple_external, Yes) 1.79667e-06 0.145657 0.477753 0.368532 0.00805603;
+   (Yes, Medium, Multiple_external, Yes) 0.379765 0.477486 0.142748 1.50571e-06 0;
+   (No, Medium, Multiple_external, Yes) 2.84062e-07 0.11767 0.473777 0.39314 0.0154133;
+   (Yes, Low, Multiple_external, Yes) 0.347895 0.479147 0.17295 8.15943e-06 0;
+   (No, Low, Multiple_external, Yes) 3.77091e-08 0.0920845 0.466439 0.414941 0.0265358;
+   (Yes, High, Some_external, Yes) 0.315216 0.479297 0.20545 3.73774e-05 0;
+   (No, High, Some_external, Yes) 4.19213e-09 0.0689869 0.455385 0.43396 0.041668;
+   (Yes, Medium, Some_external, Yes) 0.281313 0.479009 0.239533 0.000145443 0;
+   (No, Medium, Some_external, Yes) 3.89452e-10 0.0487944 0.440739 0.449938 0.0605282;
+   (Yes, Low, Some_external, Yes) 0.246622 0.478969 0.273926 0.000483625 8.67362e-19;
+   (No, Low, Some_external, Yes) 3.01817e-11 0.0321127 0.422891 0.462466 0.0825309;
+   (Yes, High, Minimal, Yes) 0.212223 0.479245 0.307147 0.00138431 3.07913e-17;
+   (No, High, Minimal, Yes) 1.94837e-12 0.0193843 0.402189 0.471277 0.107149;
+   (Yes, Medium, Minimal, Yes) 0.179291 0.479261 0.338008 0.00344078 9.20271e-16;
+   (No, Medium, Minimal, Yes) 1.04642e-13 0.0105851 0.378724 0.476521 0.13417;
+   (Yes, Low, Minimal, Yes) 0.148593 0.477995 0.36591 0.00750251 2.26264e-14;
+   (No, Low, Minimal, Yes) 4.66988e-15 0.00516109 0.352341 0.478861 0.163637;
+   (Yes, High, Multiple_external, No) 0.163637 0.478861 0.352341 0.00516109 4.67118e-15;
+   (No, High, Multiple_external, No) 2.26264e-14 0.00750251 0.36591 0.477995 0.148593;
+   (Yes, Medium, Multiple_external, No) 0.13417 0.476521 0.378724 0.0105851 1.04643e-13;
+   (No, Medium, Multiple_external, No) 9.19403e-16 0.00344078 0.338008 0.479261 0.179291;
+   (Yes, Low, Multiple_external, No) 0.107149 0.471277 0.402189 0.0193843 1.94837e-12;
+   (No, Low, Multiple_external, No) 3.03577e-17 0.00138431 0.307147 0.479245 0.212223;
+   (Yes, High, Some_external, No) 0.0825309 0.462466 0.422891 0.0321127 3.01817e-11;
+   (No, High, Some_external, No) 4.33681e-19 0.000483625 0.273926 0.478969 0.246622;
+   (Yes, Medium, Some_external, No) 0.0605282 0.449938 0.440739 0.0487944 3.89452e-10;
+   (No, Medium, Some_external, No) 0 0.000145443 0.239533 0.479009 0.281313;
+   (Yes, Low, Some_external, No) 0.041668 0.43396 0.455385 0.0689869 4.19213e-09;
+   (No, Low, Some_external, No) 0 3.73774e-05 0.20545 0.479297 0.315216;
+   (Yes, High, Minimal, No) 0.0265358 0.414941 0.466439 0.0920845 3.77091e-08;
+   (No, High, Minimal, No) 0 8.15943e-06 0.17295 0.479147 0.347895;
+   (Yes, Medium, Minimal, No) 0.0154133 0.39314 0.473777 0.11767 2.84062e-07;
+   (No, Medium, Minimal, No) 0 1.50571e-06 0.142748 0.477486 0.379765;
+   (Yes, Low, Minimal, No) 0.00805603 0.368532 0.477753 0.145657 1.79667e-06;
+   (No, Low, Minimal, No) 0 2.33966e-07 0.115004 0.473204 0.411791;
+}
+probability (Contact_transfer_eg_parcels) {
+   default 0.05 0.35 0.6;
+}
+probability (Current_time_since_infection_if_infected) {
+   default 0.5 0.5;
+}
+probability (Risk_conditioned_on_age | Risk_factors, Age) {
+   (High, gt_80) 0.94021 0.059787 2.84382e-06;
+   (Medium, gt_80) 0.604054 0.394779 0.00116655;
+   (Low, gt_80) 0.14213 0.805124 0.0527462;
+   (High, 65_80) 0.66222 0.337373 0.000406949;
+   (Medium, 65_80) 0.292022 0.693233 0.0147448;
+   (Low, 65_80) 0.0288894 0.759494 0.211617;
+   (High, 50_65) 0.178845 0.790176 0.0309793;
+   (Medium, 50_65) 0.0612395 0.827965 0.110796;
+   (Low, 50_65) 0.00295541 0.49755 0.499495;
+   (High, 15_49) 0.00929704 0.667297 0.323406;
+   (Medium, 15_49) 0.00210522 0.493355 0.504539;
+   (Low, 15_49) 0.000132178 0.199731 0.800137;
+   (High, lt_15) 5.62294e-05 0.180358 0.819586;
+   (Medium, lt_15) 6.02505e-06 0.0842636 0.91573;
+   (Low, lt_15) 4.36662e-07 0.0273335 0.972666;
+}
+probability (Eventual_covid19_status | Current_time_since_infection_if_infected, Risk_conditioned_on_age, Current_covid19_status) {
+   (gt__5_days, High, Severe) 1 0 0 0;
+   (leq_5_days, High, Severe) 1 0 0 0;
+   (gt__5_days, Medium, Severe) 1 0 0 0;
+   (leq_5_days, Medium, Severe) 1 0 0 0;
+   (gt__5_days, Low, Severe) 1 0 0 0;
+   (leq_5_days, Low, Severe) 1 0 0 0;
+   (gt__5_days, High, Mild) 0.2 0.8 0 0;
+   (leq_5_days, High, Mild) 0.9 0.1 0 0;
+   (gt__5_days, Medium, Mild) 0.1 0.9 0 0;
+   (leq_5_days, Medium, Mild) 0.5 0.5 0 0;
+   (gt__5_days, Low, Mild) 0.01 0.99 0 0;
+   (leq_5_days, Low, Mild) 0.1 0.9 0 0;
+   (gt__5_days, High, Asymptomatic) 0.1 0.2 0.7 0;
+   (leq_5_days, High, Asymptomatic) 0.7 0.2 0.1 0;
+   (gt__5_days, Medium, Asymptomatic) 0.01 0.19 0.8 0;
+   (leq_5_days, Medium, Asymptomatic) 0.1 0.5 0.4 0;
+   (gt__5_days, Low, Asymptomatic) 0 0.01 0.99 0;
+   (leq_5_days, Low, Asymptomatic) 0.001 0.002 0.997 0;
+   (gt__5_days, High, None) 0 0 0 1;
+   (leq_5_days, High, None) 0 0 0 1;
+   (gt__5_days, Medium, None) 0 0 0 1;
+   (leq_5_days, Medium, None) 0 0 0 1;
+   (gt__5_days, Low, None) 0 0 0 1;
+   (leq_5_days, Low, None) 0 0 0 1;
+}
+probability (Current_covid19_or_similar_status | Current_covid19_status, Other_condition_with_covid_like_symptoms) {
+   (Severe, False) 1 0 0 0 0;
+   (Mild, False) 0 1 0 0 0;
+   (Asymptomatic, False) 0 0 1 0 0;
+   (None, False) 0 0 0 0 1;
+   (Severe, True) 1 0 0 0 0;
+   (Mild, True) 0 1 0 0 0;
+   (Asymptomatic, True) 0 0 1 0 0;
+   (None, True) 0 0 0 1 0;
+}
+probability (Sputum_production | Current_covid19_or_similar_status) {
+   (Severe) 0.624 0.376;
+   (Mild) 0.72 0.28;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.95 0.05;
+   (None) 0.99 0.01;
+}
+probability (Myalgia | Current_covid19_or_similar_status) {
+   (Severe) 0.74 0.26;
+   (Mild) 0.87 0.13;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.95 0.05;
+   (None) 0.99 0.01;
+}
+probability (Fever | Current_covid19_or_similar_status) {
+   (Severe) 0.116 0.884;
+   (Mild) 0.186 0.814;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.7 0.3;
+   (None) 0.9999 0.0001;
+}
+probability (O2_saturation | Current_covid19_or_similar_status) {
+   (Severe) 0.9 0.1;
+   (Mild) 0.7 0.3;
+   (Asymptomatic) 0.01 0.99;
+   (Non_Covid_similar_symptoms) 0.6 0.4;
+   (None) 0.01 0.99;
+}
+probability (Dyspnea | Current_covid19_or_similar_status) {
+   (Severe) 0.4 0.6;
+   (Mild) 0.8 0.2;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.85 0.15;
+   (None) 0.85 0.15;
+}
+probability (Chills | Current_covid19_or_similar_status) {
+   (Severe) 0.3 0.7;
+   (Mild) 0.7 0.3;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.8 0.2;
+   (None) 0.9 0.1;
+}
+probability (Fatigue | Current_covid19_or_similar_status) {
+   (Severe) 0.397 0.603;
+   (Mild) 0.558 0.442;
+   (Asymptomatic) 0.95 0.05;
+   (Non_Covid_similar_symptoms) 0.65 0.35;
+   (None) 0.8 0.2;
+}
+probability (Body_temp | Fever) {
+   (no) 0.99 0.01;
+   (yes) 0.01 0.99;
+}
+probability (Cough | Current_covid19_or_similar_status) {
+   (Severe) 0.29 0.71;
+   (Mild) 0.343 0.657;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.5 0.5;
+   (None) 0.8 0.2;
+}
+probability (Loss_of_taste_or_smell | Current_covid19_or_similar_status) {
+   (Severe) 0.2 0.8;
+   (Mild) 0.3 0.7;
+   (Asymptomatic) 0.99 0.01;
+   (Non_Covid_similar_symptoms) 0.8 0.2;
+   (None) 0.9 0.1;
+}
+probability (Previous_validated_test | Previously_infected) {
+   (No) 0.85 0.02 0.13;
+   (Yes_asymptomatic) 0.85 0.1 0.05;
+   (Yes_symptomatic) 0.2 0.7 0.1;
+}
+probability (Immune_due_to_previous_infection | Time_since_assumed_infected, Previously_infected) {
+   (lt__8_weeks, No) 1 0;
+   (geq__8_weeks, No) 1 0;
+   (NA, No) 1 0;
+   (lt__8_weeks, Yes_asymptomatic) 0.01 0.99;
+   (geq__8_weeks, Yes_asymptomatic) 0.4 0.6;
+   (NA, Yes_asymptomatic) 1 0;
+   (lt__8_weeks, Yes_symptomatic) 0.1 0.9;
+   (geq__8_weeks, Yes_symptomatic) 0.8 0.2;
+   (NA, Yes_symptomatic) 1 0;
+}
+probability (Previously_infected) {
+   default 0.8 0.15 0.05;
+}
+probability (Time_since_assumed_infected | Previously_infected) {
+   (No) 0 0 1;
+   (Yes_asymptomatic) 0.5 0.5 0;
+   (Yes_symptomatic) 0.5 0.5 0;
+}
+probability (Previous_symptoms | Previously_infected) {
+   (No) 0.9 0.09 0.01;
+   (Yes_asymptomatic) 0.995 0.004 0.001;
+   (Yes_symptomatic) 0.01 0.9 0.09;
+}
+probability (Get_antibody_test_alert | Previously_infected) {
+   (No) 1 0;
+   (Yes_asymptomatic) 0 1;
+   (Yes_symptomatic) 0 1;
+}
+

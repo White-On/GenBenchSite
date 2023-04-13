@@ -38,7 +38,7 @@
             }
         },
         "BIFReading": {
-            "theme": "BIFReading",
+            "theme": "BIFExploiting",
             "results": {
                 "asia.bif": [
                     "Error",
@@ -103,7 +103,7 @@
             }
         },
         "Learning": {
-            "theme": "BIFReading",
+            "theme": "BIFExploiting",
             "results": {
                 "100": [
                     -4.34046740000008,
@@ -207,7 +207,7 @@
             }
         },
         "BIFReading": {
-            "theme": "BIFReading",
+            "theme": "BIFExploiting",
             "results": {
                 "asia.bif": [
                     -0.012697099999968486,
@@ -272,7 +272,7 @@
             }
         },
         "Learning": {
-            "theme": "BIFReading",
+            "theme": "BIFExploiting",
             "results": {
                 "100": [
                     0.07721779999997125,

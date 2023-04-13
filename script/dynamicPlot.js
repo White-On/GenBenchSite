@@ -1,4 +1,4 @@
-export function LineChart(data, {
+export  function LineChart(data, {
     x = ([x]) => x, // given d in data, returns the (temporal) x-value
     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
     z = () => 1, // given d in data, returns the (categorical) z-value
@@ -30,7 +30,7 @@ export function LineChart(data, {
     zDomain, // array of z-values
     labelFontSize = 20, // font size of axis labels
 
-    color = "currentColor", // stroke color of line, as a constant or a function of *z*
+    color = "blue", // stroke color of line, as a constant or a function of *z*
 
     strokeLinecap, // stroke line cap of line
     strokeLinejoin, // stroke line join of line
@@ -244,7 +244,8 @@ export function LineChart(data, {
         path.style("stroke", ([z]) => Z[i] === z ? null : "#ddd").filter(([z]) => Z[i] === z).raise();
         path.style("stroke-width", ([z]) => Z[i] === z ? circlesRadius*2 : null).filter(([z]) => Z[i] === z).raise();
         dot.attr("transform", `translate(${xScale(X[i])},${yScale(Y[i])})`);
-        dot.style("fill", color(Z[i]));
+        // dot.style("fill", color(Z[i]));
+        dot.style("fill", typeof color === "string" ? color : color(Z[i]));
         circles.selectAll('circle').style("fill", "#ddd");
         // TODO fix the Titles
         if (T) dot.select("text").text(Y[i].toFixed(2));

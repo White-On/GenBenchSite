@@ -33,13 +33,14 @@ class Task:
     results: list[float] = field(default_factory=list)
     resultsValue: list[float] = field(default_factory=list)
     arguments_label: list[str] = field(default_factory=list)
+    status: str = "NotRun"
     allTasks: ClassVar[list["Task"]] = []
 
     def __post_init__(self) -> None:
         self.allTasks.append(self)
         
     def __repr__(self) -> str:
-        return f"Task({self.name})"
+        return f"Task({self.name})-> status: {self.status}"
 
     @classmethod
     def GetAllTask(cls) -> list["Task"]:

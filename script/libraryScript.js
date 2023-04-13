@@ -1,22 +1,22 @@
 // import myJson from '../data.json' assert { type: 'json' };
-import myJson from '../results.json' assert { type: 'json' };
+// import myJson from '../results.json' assert { type: 'json' };
 
 import {LineChart} from './dynamicPlot.js';
 import {Histogram} from './histogram.js';
 
-const data = await myJson;
+// const data = await myJson;
 
-let AllLibraryName = Object.keys(data);
-console.log("AllLibraryName = " + AllLibraryName);
+// let AllLibraryName = Object.keys(data);
+// console.log("AllLibraryName = " + AllLibraryName);
 
-let AllTaskName = Object.keys(data[AllLibraryName[0]]);
-console.log("AllTaskName = " + AllTaskName);
+// let AllTaskName = Object.keys(data[AllLibraryName[0]]);
+// console.log("AllTaskName = " + AllTaskName);
 
-let ColorList = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "grey", "black"]
-let colorPalette = {};
-for (let i = 0; i < AllLibraryName.length; i++) {
-    colorPalette[AllLibraryName[i]] = ColorList[i];
-}
+// let ColorList = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "grey", "black"]
+// let colorPalette = {};
+// for (let i = 0; i < AllLibraryName.length; i++) {
+//     colorPalette[AllLibraryName[i]] = ColorList[i];
+// }
 
 // to get the Task Name that we want to plot we have 2 options:
 
@@ -42,15 +42,20 @@ let height = window.innerHeight * 0.8;
 let chart;
 
 
-let treatedData = ResultTreatement(data[libraryName],libraryName);
-console.log(treatedData);
+// let treatedData = ResultTreatement(data[libraryName],libraryName);
+// console.log(treatedData);
+
+console.log(importedData)
+
+let AllTaskName = Object.keys(importedData);
 
 let orderingFunction = (a, b) => d3.ascending(a.resultElement, b.resultElement);
-for (let taskName in treatedData) {
+for (let taskName of AllTaskName) {
+    console.log("taskName = " + taskName);
     // let intermediateData = FormatedData({[libraryName]:data[libraryName]}, AllTaskName[i]);
-    let intermediateData = treatedData[taskName];
+    let intermediateData = importedData[taskName];
     console.log(intermediateData);
-    if ( typeof intermediateData == "string") {
+    if ( intermediateData["status"] != "Run") {
         const dictionary = {
             "Error": "A Error occured during the execution of the task" + taskName, 
             "NotRun": "The task " + taskName + " is not available for the library " + libraryName,
@@ -58,11 +63,11 @@ for (let taskName in treatedData) {
         };
 
         chart = document.createElement("p");
-        chart.innerHTML = dictionary[treatedData[taskName]];
+        chart.innerHTML = dictionary[intermediateData["status"]];
     }
     else 
-    if (intermediateData[0].diplayModele == "histogram") {
-        let intermediateDataSorted = intermediateData.sort(orderingFunction);
+    if (intermediateData["display"] == "histo") {
+        let intermediateDataSorted = intermediateData["data"].sort(orderingFunction);
         // generate a color dictionary for the histogram with a gradient of color
         let colorPalette = {};
         for (let i = 0; i < intermediateDataSorted.length; i++) {
@@ -85,14 +90,14 @@ for (let taskName in treatedData) {
         });
     }
     else{
-        chart =  LineChart(intermediateData, {
+        chart =  LineChart(intermediateData["data"], {
             x: d => d.arguments,
             y: d => d.resultElement,
             z: d => d.libraryName,
             yLabel: "Run Time (ms) ↑",
             width: width,
             height: height,
-            color: d => colorPalette[d],
+            // color: d => colorPalette[d],
             labelFontSize: 30,
             legendFontSize: 30,
             tooltipFontSize: 30,
