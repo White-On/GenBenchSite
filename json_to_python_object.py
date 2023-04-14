@@ -24,6 +24,9 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
     """
     with open(filename, "r") as file:
         data = json.load(file)
+    
+    with open("code.json", "r") as file:
+        code = json.load(file)
 
     libraryList = []
     taskList = []
@@ -41,10 +44,13 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
             task.results.extend([float(result) if isinstance(result, float) or isinstance(result, int) else float("infinity") for result in resultsTime])
             task.resultsValue.extend([float(result) if result is not None else float("infinity") for result in resultsValue])
             task.status = resultsTime[0] if all([r == float("infinity") for r in task.results]) else "Run"
+
+            library.code = code[libName]
+
             library.tasks.append(task)
             taskList.append(task)
         libraryList.append(library)
-    
+
     return libraryList, taskList
 
 def TokenizeArguments(arguments: list[str]) -> list [int]:

@@ -164,11 +164,14 @@ if __name__ == "__main__":
         # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
         importedData = sum([[{"arguments":arg, "runTime":res if res>0 else 0, "libraryName":library.name}  for arg,res in zip(library.GetTaskByName(taskName).arguments_label,library.GetTaskByName(taskName).results) if library.GetTaskByName(taskName).status =="Run" and res != float("infinity")] for library in Library.GetAllLibrary()],[])
         # print(importedData)
+        code = {library.name:library.code[taskName] for library in Library.GetAllLibrary()}
+        # print(code,end="\n\n")
 
         HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName = taskName,
                                                                                scriptFilePath = BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                                libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
-                                                                               scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
+                                                                               scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
+                                                                               code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
@@ -210,7 +213,7 @@ if __name__ == "__main__":
                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
 
         importedData ={task.name:{"display":"plot" if task.arguments_label[0].isnumeric() else "histo", "status":task.status,"data":[{"arguments":float(arg) if arg.isnumeric() else arg, "resultElement":res if res>=0  and res != float("infinity") else 0, "libraryName":libraryName} for arg,res in zip(task.arguments_label,task.results)]} for task in Library.GetLibraryByName(libraryName).tasks}
-        print(importedData)
+        # print(importedData)
         # CLASSEMENT DES LIBRAIRIES PAR TACHES
         HTMLLibraryRanking = staticSiteGenerator.CreateHTMLComponent("library.html", libraryName=libraryName, 
                                                                                      taskNameList=[taskName for taskName in Task.GetAllTaskName()],

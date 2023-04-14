@@ -25,6 +25,7 @@ class Library:
     """
     name: str
     tasks: list[Task] = field(default_factory=list)
+    code: dict[str, str] = field(default_factory=dict)
     allLibrary: ClassVar[list["Library"]] = []
 
     def __post_init__(self) -> None:

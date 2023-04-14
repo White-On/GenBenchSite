@@ -13,16 +13,21 @@ export function GroupedBarChart(data,{
     color = d3.scaleOrdinal(d3.schemeCategory10),
 
     labelFontSize = 20, // font size of the labels
+    titleFontSize =12, // font size of the title
 
     yRange = [height - margin.bottom, margin.top], // [bottom, top]
     yFormat, // format of the y-axis
+
     yLabel, // label of the y-axis
+    xLabel, // label of the x-axis
 
     xLegend = width*0.1, // x-axis legend
     yLegend = height*0.1, // y-axis legend
     legendColorBoxSize = [20, 20], // size of the color box in the legend
     legendColorBoxGap = 5, // margin of the color box in the legend
     legendFontSize = 20, // font size of the legend
+
+    activationFunction = null,
 
 } = {}) {
 
@@ -49,7 +54,7 @@ export function GroupedBarChart(data,{
     let xScaleCategory = d3
         .scaleBand()
         .rangeRound([margin.left, width-margin.right])
-        .paddingInner(0.1)
+        .paddingInner(0.3)
         .domain(Categories);
 
     let xScaleInerCategory = d3
@@ -70,29 +75,85 @@ export function GroupedBarChart(data,{
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
-        .style("-webkit-tap-highlight-color", "transparent")
+        .style("-webkit-tap-highlight-color", "transparent");
 
-    let rect = svg
-      .selectAll("rect")
-      .data(I)
-      .join("rect")
-      .attr("x", function (d) {
-        return xScaleInerCategory(InerClass[d]);
-      })
-      .attr("y", function (d) {
-        return yScale(Values[d]);
-      })
-      .attr("width", xScaleInerCategory.bandwidth())
-      .attr("height", function (d) {
-        return height - yScale(Values[d]) - margin.bottom;
-      })
-      .attr("transform", function (d) {
+    
+    // const rect = svg
+    //   .selectAll("rect")
+    //   .data(I)
+    //   .join("rect")
+    //   .attr("x", function (d) {
+    //     return xScaleInerCategory(InerClass[d]);
+    //   })
+    //   .attr("y", function (d) {
+    //     return yScale(Values[d]);
+    //   })
+    //   .attr("width", xScaleInerCategory.bandwidth())
+    //   .attr("height", function (d) {
+    //     return height - yScale(Values[d]) - margin.bottom;
+    //   })
+    //   .attr("transform", function (d) {
+    //         return "translate(" + xScaleCategory(Categories[d]) + ",0)"
+    //     })
+    //   .attr("fill", function (d) {
+    //     return color(InerClass[d]);
+    //   })
+    //    // Add click event listener
+    //   .on("click", handleClick);
+
+    // rect
+    //     .selectAll("text")
+    //     .data(I)
+    //     .join("text")
+    //     .attr("font-size", 20)
+    //     .text("hello")
+    //     .attr("display", true);
+
+    const rect = svg
+        .selectAll("g")
+        .data(I)
+        .join("g")
+        .attr("transform", function (d) {
             return "translate(" + xScaleCategory(Categories[d]) + ",0)"
+        });
+    
+    rect
+        .append("rect")
+        .join("rect")
+        .attr("x", function (d) {
+            return xScaleInerCategory(InerClass[d]);
         })
-      .attr("fill", function (d) {
-        return color(InerClass[d]);
-      })
-      .on("click", handleBarClick); // Add click event listener
+        .attr("y", function (d) {
+            return yScale(Values[d]);
+        })
+        .attr("width", xScaleInerCategory.bandwidth())
+        .attr("height", function (d) {
+            return height - yScale(Values[d]) - margin.bottom;
+        })
+        .attr("fill", function (d) {
+            return color(InerClass[d]);
+        })
+        // Add click event listener
+        .on("click", handleClick);
+
+    rect
+        .append("text")
+        .join("text")
+        .attr("opacity", 0)
+        .attr("font-size", titleFontSize)
+        .attr("text-anchor", "middle")
+        .attr("fill", "black")
+        .attr("x", function (d) {
+            return xScaleInerCategory(InerClass[d]) + xScaleInerCategory.bandwidth()/2;
+        })
+        .attr("y", function (d) {
+            return yScale(Values[d]) - 5;
+        })
+        .text(function (d) {
+            return Values[d].toFixed(countDecimals(Values[d])<=2?countDecimals(Values[d]):2);
+        })
+        ;
+
   
 
     // add the x-axis to the chart.
@@ -104,6 +165,15 @@ export function GroupedBarChart(data,{
         .selectAll("text")
         .attr("transform", "rotate(-45)")
         .call(g => g.select(".domain").remove());
+        
+    svg
+        .call(g => g.append("text")
+            .attr("font-size", labelFontSize)
+            .attr("x", width - margin.right)
+            .attr("y", height -(10 + labelFontSize/2))
+            .attr("text-anchor", "end")
+            .attr("fill", "currentColor")
+            .text(xLabel));
   
     // add the y-axis to the chart.
     svg.append("g")
@@ -111,29 +181,13 @@ export function GroupedBarChart(data,{
         .call(yAxis)
         .attr("font-size", labelFontSize)
         .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick").call(grid)) // add the gridlines to the chart.
         .call(g => g.append("text")
             .attr("x", -margin.left)
             .attr("y", 10 + labelFontSize/2)
             .attr("text-anchor", "start")
+            .attr("fill", "currentColor")
             .text(yLabel));
-  
-    var legend = svg
-      .append("g")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
-      .attr("text-anchor", "end")
-      .selectAll("g")
-      .data(Categories.slice().reverse())
-      .enter()
-      .append("g")
-      .attr("transform", function (d, i) {
-        return "translate(0," + i * 20 + ")";
-      });
-  
-    legend
-      .append("rect")
-      .attr("x", width - 19)
-      .attr("width", 19);
 
     
     const swatches = svg.append("g")
@@ -144,7 +198,7 @@ export function GroupedBarChart(data,{
         .data(new Set(InerClass))
         .join("g")
         .attr("transform", (z, i) => `translate(0,${i * legendColorBoxSize[1] + i * legendColorBoxGap })`)
-        .on("click", handleSwatchClick); // Add click event listener
+        .on("click", handleClick); // Add click event listener
       
       swatches.append("rect")
         .attr("x", xLegend)
@@ -160,91 +214,131 @@ export function GroupedBarChart(data,{
         .text(z => z);
       
 
-    let previousElement = null;
+    let activeElement = [];
 
-    function handleSwatchClick(swatchElement) {
-        // console.log(swatchElement.srcElement.__data__);
+    function handleClick(clickedElement) {
+        let innerClassSelected;
+        // console.log(clickedElement.srcElement.__data__);
+        // console.log(clickedElement.srcElement.nodeName);
+        if (clickedElement.srcElement.nodeName == "rect"){
+            innerClassSelected = InerClass[clickedElement.srcElement.__data__];
+        }
+        else{
+            innerClassSelected = clickedElement.srcElement.__data__;
+        }
+        
 
-        if(previousElement == swatchElement.srcElement.__data__){
-            rect
-            .data(I)
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return color(InerClass[d]);
+        // If the clicked element is already active, remove it from the active list
+        if(activeElement.includes(innerClassSelected)){
+            activeElement = activeElement.filter(function(value, index, arr){
+                return value != innerClassSelected;
             });
-            previousElement = null;
+        // If the clicked element is not active, add it to the active list
+        }else{
+            activeElement.push(innerClassSelected);
+        }
+
+        // If there are no active elements, reset the chart
+        if(activeElement.length == 0){
+            rect
+                .data(I)
+                .transition()
+                .duration(500)
+                .select("text")
+                .attr("opacity", 0);
+
+            rect
+                .data(I)
+                .transition()
+                .duration(500)
+                .select("rect")
+                .attr("fill", function (d) {
+                    return color(InerClass[d]);
+                });
 
             swatches
-            .data(new Set(InerClass))
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return "black";
+                .data(new Set(InerClass))
+                .transition()
+                .duration(500)
+                .attr("fill", function (d) {
+                    return "black";
             });
+            
+            if (activationFunction != null) {
+                console.log("activationFunction");
+                activationFunction(activeElement);
+            }
+
+        // If there are active elements, update the chart
         }else{
             rect
-            .data(I)
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return InerClass[d] == swatchElement.srcElement.__data__ ? color(InerClass[d]) : "#ddd";
-            });
-            previousElement = swatchElement.srcElement.__data__;
+                .data(I)
+                .transition()
+                .duration(500)
+                .select("rect")
+                .attr("fill", function (d) {
+                    return activeElement.includes(InerClass[d]) ? color(InerClass[d]) : "#ddd";
+                });
+                // a process to make the inactive elements disappear
+                // // we add the value of the rect height to the y position to get the bottom of the rect
+                // .attr("y", function (d) {
+                //     return activeElement.includes(InerClass[d]) ? yScale(Values[d]) : yScale(Values[d]) + height - yScale(Values[d]) - margin.bottom;
+                // })  
+                // // we subtract the value of the rect height from the height of the chart to get the new height of the rect
+                // .attr("height", function (d) {
+                //     return activeElement.includes(InerClass[d]) ? height - yScale(Values[d]) - margin.bottom : 0;
+                // });
+                // process to make the value of the rect appear
+            rect
+                .data(I)
+                .transition()
+                .duration(500)
+                .select("text")
+                .attr("opacity", function (d) {
+                    return activeElement.includes(InerClass[d]) ? 1 : 0;
+                });
 
+            
             swatches
-            .data(new Set(InerClass))
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return d == swatchElement.srcElement.__data__ ? "black" : "#ddd";
-            });
+                .data(new Set(InerClass))
+                .transition()
+                .duration(500)
+                .attr("fill", function (d) {
+                    return activeElement.includes(d) ? "black" : "#ddd";
+                });
+
+            if (activationFunction != null) {
+                console.log("activationFunction");
+                activationFunction(activeElement);
+            }
         }
+
+        // console.log(activeElement);
+        // console.log(innerClassSelected);
+            
 
     }
 
-    function handleBarClick(barElement) {
-        // console.log(InerClass[barElement.srcElement.__data__]);
-
-        if(previousElement == barElement.srcElement.__data__){
-            rect
-            .data(I)
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return color(InerClass[d]);
-            });
-            previousElement = null;
-
-            swatches
-            .data(new Set(InerClass))
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return "black";
-            });
-        }else{
-            rect
-            .data(I)
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return InerClass[d] == InerClass[barElement.srcElement.__data__] ? color(InerClass[d]) : "#ddd";
-            });
-            previousElement = barElement.srcElement.__data__;
-
-            swatches
-            .data(new Set(InerClass))
-            .transition()
-            .duration(500)
-            .attr("fill", function (d) {
-                return d == InerClass[barElement.srcElement.__data__] ? "black" : "#ddd";
-            });
-        }
+    function grid(tick) {
+        return tick.append("line")
+            .attr("class", "grid")
+            .attr("x2", width - margin.left - margin.right)
+            .attr("stroke", "currentColor")
+            .attr("stroke-opacity", 0.1);
     }
+
       
     
     return svg.node();
 }
 
 
+function countDecimals(num) {
+    var str = num.toString();
+    var decimalIndex = str.indexOf('.');
+    if (decimalIndex === -1) {
+      return 0;
+    } else {
+      return str.length - decimalIndex - 1;
+    }
+  }

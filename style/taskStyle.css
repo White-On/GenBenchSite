@@ -122,6 +122,18 @@ h1{
 
 }
 
+#code{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+#code>div{
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 0 5px var(--black);
+}
+
 /* DEBUG TOOLS */
 /* you can see more clearly the box model with this */
 /* div{
