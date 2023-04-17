@@ -19,33 +19,31 @@
 
 <body>
     <header id="header-grid">
-        <p id="name-logo"><a href="index.html"><b>BenchSite</b></a></p>
         <nav class="header-nav">
-            <ul>
-                <li><a href="index.html"><b>Home</b></a></li>
-                <li><a href="#"><b>About</b></a></li>
-                <li><a href="../data.json" download="data.json"><b>Download</b></a></li>
-                <li><a href="#"><b>Contact</b></a></li>
-            </ul>
+            <a href="index.html"><b>Home</b></a>
+            <a href="#"><b>About</b></a>
+            <a href="../data.json" download="data.json"><b>Download</b></a>
         </nav>
         <nav class="header-nav">
-            <ul>
-                <li><img src="../assets/github.svg" alt="github-icon"></li>
-                <li><img src="../assets/envelope-solid.svg" alt="mail-icon"></li>
-                <li><img src="../assets/twitter.svg" alt="twitter-icon"></li>
-            </ul>
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            <img class="icon" src="../assets/github.svg" alt="github-icon">
+            <img class="icon" src="../assets/envelope-solid.svg" alt="mail-icon">
         </nav>
     </header><script defer  >const importedData = [{'arguments': 'BN_13_1.5_3.bif', 'runTime': 0.006510899999966568, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_2.bif', 'runTime': 0.009964699999954973, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_2.bif', 'runTime': 0.007171100000050501, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_13_1.5_2.bif', 'runTime': 0.0027790999997705512, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_3.bif', 'runTime': 0.010097500000028958, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'runTime': 0.0013882000000648986, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_18_1.5_3.bif', 'runTime': 0.0117014999998446, 'libraryName': 'pyAgrum'}];</script>
 <script defer  >const code = {'pgmpy': '<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pgmpy.readwrite</span> <span class="kn">import</span> <span class="n">BIFReader</span>\n<span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">VariableElimination</span>\n<span class="kn">import</span> <span class="nn">sys</span>\n<span class="kn">import</span> <span class="nn">os</span>\n\n<span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>\n\n<span class="n">reader</span> <span class="o">=</span> <span class="n">BIFReader</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">currentdir</span><span class="si">}</span><span class="s2">/data/</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>\n\n<span class="n">bn</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">get_model</span><span class="p">())</span>\n</pre></div>\n', 'pyAgrum': '<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyAgrum</span> <span class="k">as</span> <span class="nn">gum</span>\n<span class="kn">import</span> <span class="nn">os</span>\n<span class="kn">import</span> <span class="nn">sys</span>\n\n<span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>\n\n<span class="n">bn</span> <span class="o">=</span> <span class="n">gum</span><span class="o">.</span><span class="n">loadBN</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">currentdir</span><span class="si">}</span><span class="s2">/data/</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>\n\n<span class="n">ie</span><span class="o">=</span><span class="n">gum</span><span class="o">.</span><span class="n">LazyPropagation</span><span class="p">(</span><span class="n">bn</span><span class="p">)</span>\n<span class="n">ie</span><span class="o">.</span><span class="n">makeInference</span><span class="p">()</span>\n</pre></div>\n'};</script>
 <script defer type='module' src ='../script/taskScript.js'></script>
 <div>
 <h1 id="entry-title">InferenceRandomBN</h1>
-<div class="graphics" id="InferenceRandomBN"></div>
+<div id="menu"></div>
 
-<div>pyAgrum&gt;pgmpy</div>
-<div id="code">
-    <div id="codeLib1"></div>
-    <div id="codeLib2"></div>
+<div id="compare-tool">
+    <div class="graphics" id="InferenceRandomBN"></div>
+    
+    <!-- <div>pyAgrum&gt;pgmpy</div> -->
+    <div id="code">
+        <div id="codeLib1"></div>
+        <div id="codeLib2"></div>
+    </div>
 </div>
 
 </div></body>

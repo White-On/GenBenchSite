@@ -1,22 +1,5 @@
-// import myJson from '../data.json' assert { type: 'json' };
-// import myJson from '../results.json' assert { type: 'json' };
-
 import {LineChart} from './dynamicPlot.js';
 import {Histogram} from './histogram.js';
-
-// const data = await myJson;
-
-// let AllLibraryName = Object.keys(data);
-// console.log("AllLibraryName = " + AllLibraryName);
-
-// let AllTaskName = Object.keys(data[AllLibraryName[0]]);
-// console.log("AllTaskName = " + AllTaskName);
-
-// let ColorList = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "grey", "black"]
-// let colorPalette = {};
-// for (let i = 0; i < AllLibraryName.length; i++) {
-//     colorPalette[AllLibraryName[i]] = ColorList[i];
-// }
 
 // to get the Task Name that we want to plot we have 2 options:
 
@@ -33,11 +16,10 @@ import {Histogram} from './histogram.js';
 const libraryName = document.getElementById('entry-title').innerHTML;
 console.log("libraryName = " + libraryName);
 
-// let width = element.clientWidth;
-// let height = element.clientHeight;
 
-let width = window.innerWidth * 0.8;
-let height = window.innerHeight * 0.8;
+const reductFactor = 0.5;
+let width = window.innerWidth * reductFactor;
+let height = window.innerHeight * reductFactor;
 
 let chart;
 
@@ -45,12 +27,14 @@ let chart;
 // let treatedData = ResultTreatement(data[libraryName],libraryName);
 // console.log(treatedData);
 
-console.log(importedData)
+// console.log(importedData);
 
 let AllTaskName = Object.keys(importedData);
 
 let orderingFunction = (a, b) => d3.ascending(a.resultElement, b.resultElement);
 for (let taskName of AllTaskName) {
+    let element = document.getElementById(taskName);
+
     console.log("taskName = " + taskName);
     // let intermediateData = FormatedData({[libraryName]:data[libraryName]}, AllTaskName[i]);
     let intermediateData = importedData[taskName];
@@ -113,7 +97,7 @@ for (let taskName of AllTaskName) {
         });
     }
 
-    let element = document.getElementById(taskName);
+    
     element.appendChild(chart);
 }
 

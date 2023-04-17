@@ -25,6 +25,7 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
     with open(filename, "r") as file:
         data = json.load(file)
     
+    # NEED UPDATE
     with open("code.json", "r") as file:
         code = json.load(file)
 
@@ -54,7 +55,14 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
     return libraryList, taskList
 
 def TokenizeArguments(arguments: list[str]) -> list [int]:
-    return [index  for index, argument in enumerate(arguments)]
+    return [index for index, argument in enumerate(arguments)]
+
+def GetMachineData(filename:str):
+
+    with open(filename, "r") as file:
+        data = json.load(file)
+
+    return data
 
 
 if __name__ == "__main__":

@@ -9,8 +9,11 @@
 
 <h1 id="entry-title">{{libraryName}}</h1>
 
-{% for taskName in taskNameList %}
-<a href="{{taskName}}.html"><h2>{{taskName}}</h2></a>
-<div id="{{taskName}}"></div>
-
-{% endfor %}
+<div class ="grid">
+    {% for taskName in taskNameList %}
+    <div class="card">
+        <a href="{{taskName}}.html"><h2>{{taskName}}</h2></a>
+        <div id="{{taskName}}"></div>
+    </div>
+    {% endfor %}
+</div>

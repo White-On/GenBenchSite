@@ -18,8 +18,8 @@ let TaskName = document.getElementById('entry-title').innerHTML;
 
 let element = document.getElementById(TaskName);
 
-let width = window.innerWidth * 0.8;
-let height = window.innerHeight * 0.8;
+let width = window.innerWidth * 0.4;
+let height = window.innerHeight * 0.75;
 
 
 let chart;

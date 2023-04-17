@@ -2,7 +2,7 @@ import numpy as np
 from static_site_generator import StaticSiteGenerator
 
 # Here you can import you're own FileReader if the format of the Json/file is different
-from json_to_python_object import FileReaderJson
+from json_to_python_object import FileReaderJson, GetMachineData
 from library import Library
 from task import Task
 import ranking as rk
@@ -12,11 +12,13 @@ class BenchSite:
     def __init__(self, filename: str)->None:
         # Here to change you'r own FileReader
         self.libraryList, self.tasksList = FileReaderJson(filename)
+        self.filename = filename
 
     @staticmethod
     def GenerateHTMLBestLibraryGlobal():
-        HTMLGlobalRanking = "<div id='global-rank'>\
+        HTMLGlobalRanking = "<div id='global-rank' class='card'>\
                                 <h1>Library</h1>\
+                                <p>Here is the ranking of the best library for each task.</p>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
@@ -27,7 +29,10 @@ class BenchSite:
     
     @staticmethod
     def GenerateHTMLRankingAllTheme():
-        HTMLThemeRanking = "<div id='theme-rank'><h1>Theme Ranking</h1><div class=\"grid\">"
+        HTMLThemeRanking = "<div id='theme-rank'>\
+            <h1>Theme Ranking</h1>\
+            <p>Here is the ranking of the best library for each theme.</p>\
+                <div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
         rankLibraryInTheme = {k: v for k, v in sorted(
@@ -53,7 +58,10 @@ class BenchSite:
 
     @staticmethod
     def GenerateHTMLBestLibraryByTheme():
-        HTMLBestTheme = "<div id='theme-rank'><h1>Library Per Theme</h1><div class=\"grid\">"
+        HTMLBestTheme = "<div id='theme-rank' class='card'>\
+            <h1>Library Per Theme</h1>\
+            <p>Here is the ranking of the best library for each theme.</p>\
+                <div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
         # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
         rankLibraryInTheme = {k: v for k, v in sorted(
@@ -87,10 +95,23 @@ class BenchSite:
         HTMLTaskRanking += "</div>"
     
         return HTMLTaskRanking
+    
+    def GenerateHTMLMachineInfo(self):
+        HTMLMachineInfo = "<div class ='card'><h1>Machine Info</h1>"
+        machineData = GetMachineData("machine.json")
+        if machineData is None:
+            HTMLMachineInfo += "<p>No machine info available</p>"
+        else:
+            HTMLMachineInfo += "<ul>"
+            for key in machineData.keys():
+                HTMLMachineInfo += f"<li>{key.replace('_', ' ')} : {machineData[key]}</li>"
+            HTMLMachineInfo += "</ul>"
+        HTMLMachineInfo += "</div>"
+        return HTMLMachineInfo
 
     @staticmethod
     def GenerateHTMLBestLibraryByTask():
-        HTMLTask = "<div id='task-rank'><h1> Library Per Task</h1><div class=\"grid\">"
+        HTMLTask = "<div id='task-rank' class='card'><h1> Library Per Task</h1><div class=\"grid\">"
         rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
         for taskName in rankLibraryInTask.keys():
             HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(taskName)}</h2><p>{BenchSite.MakeLink(rankLibraryInTask[taskName][0])}<p></div>"
@@ -134,6 +155,12 @@ if __name__ == "__main__":
                                                                       ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}"
                                                                       ,scriptFilePath=f"../{staticSiteGenerator.assetsFilePath}/{scriptFilePath}")
 
+    #PRESENTATION DE L'OUTIL
+    HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
+
+    #INFORMATIONS SUR LA MACHINE
+    HTMLMachineInfo = benchSite.GenerateHTMLMachineInfo()
+
     # CLASSEMENT GLOBAL
     HTMLGlobalRanking = benchSite.GenerateHTMLBestLibraryGlobal()
 
@@ -146,7 +173,7 @@ if __name__ == "__main__":
     # FOOTER
     HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
 
-    staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
+    staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
 
     # TACHES PAGES
 

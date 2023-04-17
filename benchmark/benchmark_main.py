@@ -69,6 +69,7 @@ class RunTest:
             ConfigParser that will read the config files of the task
         
         """
+
         self.pathToInfrastructure = pathToInfrastructure
 
 
@@ -79,6 +80,8 @@ class RunTest:
         self.themeNames = os.listdir(os.path.join(self.pathToInfrastructure,"themes"))
 
         self.results = {libraryName:{} for libraryName in self.libraryNames}
+
+        self.results["MachineData"] = RunTest.GetMachineData()
 
         self.taskNames = []
         self.dictionaryTaskInTheme = {}
@@ -343,6 +346,7 @@ class RunTest:
 
         with open(os.path.join(self.pathToInfrastructure,"results.json"),"w") as file:
             json.dump(self.results,file,indent=4)
+
     
     def StartAllProcedure(self):
         self.BeforeBuildLibrary()
@@ -353,30 +357,7 @@ class RunTest:
         print(self.results)
         self.ConvertResultToJson()
 
-        # taskName = "InferenceRandomBN"
-        # tmp = {}
-        # path = os.path.join(self.pathToInfrastructure,"themes",self.dictonaryThemeInTask[taskName],taskName)
 
-        # for nbRun in range(1,102,5):
-        #     print(f"{nbRun = }")
-        #     with open(f"{path}/config.ini","r") as file:
-        #         lines = file.readlines()
-        #         for i,line in enumerate(lines):
-        #             if line.startswith("nb_runs"):
-        #                 lines[i] = f"nb_runs = {nbRun}\n"
-        #                 break
-                
-                
-        #     with open(f"{path}/config.ini","w") as file:
-        #         file.writelines(lines)
-
-        #     self.RunTask(taskName)
-        #     tmp[nbRun] = self.results["pyAgrum"][taskName]["results"]
-
-        # with open(os.path.join(self.pathToInfrastructure,"experiment.json"),"w") as file:
-        #     json.dump(tmp,file,indent=4)
-
-            
         
 
 if __name__ == "__main__":

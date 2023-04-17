@@ -65,49 +65,18 @@ export function GroupedBarChart(data,{
   
     const yMinMaxValue = d3.extent(Values);
     const yDomain = [0, yMinMaxValue[1]];
-    const yScale = d3.scaleLinear(yDomain, yRange);
+    let yScale = d3.scaleLinear(yDomain, yRange);
 
-    const xAxis = d3.axisBottom(xScaleCategory);
-    const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
+    let xAxis = d3.axisBottom(xScaleCategory);
+    let yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
 
-    let svg = d3.create("svg")
+    const svg = d3.create("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
         .style("-webkit-tap-highlight-color", "transparent");
 
-    
-    // const rect = svg
-    //   .selectAll("rect")
-    //   .data(I)
-    //   .join("rect")
-    //   .attr("x", function (d) {
-    //     return xScaleInerCategory(InerClass[d]);
-    //   })
-    //   .attr("y", function (d) {
-    //     return yScale(Values[d]);
-    //   })
-    //   .attr("width", xScaleInerCategory.bandwidth())
-    //   .attr("height", function (d) {
-    //     return height - yScale(Values[d]) - margin.bottom;
-    //   })
-    //   .attr("transform", function (d) {
-    //         return "translate(" + xScaleCategory(Categories[d]) + ",0)"
-    //     })
-    //   .attr("fill", function (d) {
-    //     return color(InerClass[d]);
-    //   })
-    //    // Add click event listener
-    //   .on("click", handleClick);
-
-    // rect
-    //     .selectAll("text")
-    //     .data(I)
-    //     .join("text")
-    //     .attr("font-size", 20)
-    //     .text("hello")
-    //     .attr("display", true);
 
     const rect = svg
         .selectAll("g")
@@ -134,7 +103,8 @@ export function GroupedBarChart(data,{
             return color(InerClass[d]);
         })
         // Add click event listener
-        .on("click", handleClick);
+        .on("click", handleClick)
+        .style("cursor", "pointer");
 
     rect
         .append("text")
@@ -157,7 +127,7 @@ export function GroupedBarChart(data,{
   
 
     // add the x-axis to the chart.
-    svg.append("g")
+    let xAxisG = svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
@@ -176,7 +146,7 @@ export function GroupedBarChart(data,{
             .text(xLabel));
   
     // add the y-axis to the chart.
-    svg.append("g")
+    let yAxisG = svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
         .attr("font-size", labelFontSize)
@@ -198,7 +168,8 @@ export function GroupedBarChart(data,{
         .data(new Set(InerClass))
         .join("g")
         .attr("transform", (z, i) => `translate(0,${i * legendColorBoxSize[1] + i * legendColorBoxGap })`)
-        .on("click", handleClick); // Add click event listener
+        .on("click", handleClick) // Add click event listener
+        .style("cursor", "pointer");
       
       swatches.append("rect")
         .attr("x", xLegend)
@@ -275,6 +246,7 @@ export function GroupedBarChart(data,{
                 .data(I)
                 .transition()
                 .duration(500)
+                .delay((d) => (d * 20))
                 .select("rect")
                 .attr("fill", function (d) {
                     return activeElement.includes(InerClass[d]) ? color(InerClass[d]) : "#ddd";
@@ -293,6 +265,7 @@ export function GroupedBarChart(data,{
                 .data(I)
                 .transition()
                 .duration(500)
+                .delay((d) => (d * 20))
                 .select("text")
                 .attr("opacity", function (d) {
                     return activeElement.includes(InerClass[d]) ? 1 : 0;
@@ -327,7 +300,106 @@ export function GroupedBarChart(data,{
             .attr("stroke-opacity", 0.1);
     }
 
-      
+    // Menu for the scale
+
+    const menu = () => {
+        let id;
+        let LabelText;
+        let options;
+
+        const my = (selection) => {
+            selection
+                .selectAll("label")
+                .data([null])
+                .join("label")
+                .attr("for", id)
+                .text(LabelText);
+            selection
+                .selectAll("select")
+                .data([null])
+                .join("select")
+                .attr("id", id)
+                .on("change", (event) => {
+                    console.log(event.target.value);
+                    if (event.target.value == "log") {
+                        yScale = d3.scaleLog()
+                            .domain([1, d3.max(Values)])
+                            .range([height - margin.bottom, margin.top]);
+                    } else if (event.target.value == "auto") {
+                        yScale = d3.scaleLinear()
+                            .domain([0, d3.max(Values)])
+                            .range([height - margin.bottom, margin.top]);
+                    }
+                    yAxis = d3.axisLeft(yScale);
+                    rect
+                        .data(I)
+                        .transition()
+                        .duration(500)
+                        .delay((d) => (d * 20))
+                        .select("rect")
+                        .attr("y", function (d) {
+                            return yScale(Values[d]);
+                        }
+                        )
+                        .attr("height", function (d) {
+                            return height - yScale(Values[d]) - margin.bottom;
+                        }
+                        );
+                    rect
+                        .data(I)
+                        .transition()
+                        .duration(500)
+                        .delay((d) => (d * 20))
+                        .select("text")
+                        .attr("y", function (d) {
+                            return yScale(Values[d]) - 5;
+                        }
+                        );
+                    
+                    yAxisG
+                        .transition()
+                        .duration(500)
+                        .call(yAxis);
+                    
+
+
+
+                })
+                .selectAll("option")
+                .data(options)
+                .join("option")
+                .attr("value", (d) => d)
+                .text((d) => d);
+
+
+        };
+        
+        my.id = function (value) {
+            return arguments.length ? (id = value, my) : id;
+        };
+
+        my.LabelText = function (value) {
+            return arguments.length ? (LabelText = value, my) : LabelText;
+        };
+
+        my.options = function (value) {
+            return arguments.length ? (options = value, my) : options;
+        };
+    
+        return my;
+    }
+   
+    let menuElement = document.getElementById("menu");
+    if (menuElement != null) {
+        // get the menu as a d3 selection
+        let menuD3 = d3.select(menuElement);
+        // add the menu items
+        menuD3
+            .call(menu().id("menu1").LabelText("Select view").options(["auto", "log", "normal"]))
+
+    }
+
+    
     
     return svg.node();
 }
