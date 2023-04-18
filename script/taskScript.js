@@ -18,9 +18,8 @@ let TaskName = document.getElementById('entry-title').innerHTML;
 
 let element = document.getElementById(TaskName);
 
-let width = window.innerWidth * 0.4;
-let height = window.innerHeight * 0.75;
-
+let width = window.innerWidth * 0.8;
+let height = window.innerHeight * 0.8;
 
 let chart;
 // check if the arguments are numbers or not to sort the data if needed 
@@ -28,6 +27,11 @@ if (isNaN(importedData[0].arguments)){
     let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
     importedData.sort(orderingFunction);
 }
+
+let allLibraries = importedData.map(d => d.libraryName);
+allLibraries = [...new Set(allLibraries)];
+
+handleClickToPrintCode([])
 
 chart = GroupedBarChart(importedData, {
     values: d => d.runTime,
@@ -42,26 +46,18 @@ chart = GroupedBarChart(importedData, {
 
     activationFunction: handleClickToPrintCode,
 
-    margin: { top: 40, right: 50, bottom: 100, left: 50 },
+    margin: { top: 40, right: 10, bottom: 100, left: 50 },
     
 });
 
-function handleClickToPrintCode(elements) {
-    console.log(elements);
-    if (elements.length == 0) {
-        document.getElementById("codeLib1").innerHTML = "";
-        document.getElementById("codeLib2").innerHTML = "";
-        return;
-    }
-    else if (elements.length == 1) {
-        document.getElementById("codeLib1").innerHTML = code[elements[0]];
-        document.getElementById("codeLib2").innerHTML = "";
-        return;
-    }
-    else if (elements.length == 2) {
-        document.getElementById("codeLib1").innerHTML = code[elements[0]];
-        document.getElementById("codeLib2").innerHTML = code[elements[1]];
-        return;
+function handleClickToPrintCode(elementsToDisplay) {
+    // console.log(elementsToDisplay);
+    for(let library of allLibraries){
+        if(elementsToDisplay.includes(library)){
+            document.getElementById(library).style.display = "block";
+        }else{
+            document.getElementById(library).style.display = "none";
+        }
     }
 }
 

@@ -191,14 +191,24 @@ if __name__ == "__main__":
         # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
         importedData = sum([[{"arguments":arg, "runTime":res if res>0 else 0, "libraryName":library.name}  for arg,res in zip(library.GetTaskByName(taskName).arguments_label,library.GetTaskByName(taskName).results) if library.GetTaskByName(taskName).status =="Run" and res != float("infinity")] for library in Library.GetAllLibrary()],[])
         # print(importedData)
+
+        # create the template for the code
         code = {library.name:library.code[taskName] for library in Library.GetAllLibrary()}
-        # print(code,end="\n\n")
+        templateTask = ""
+        for library in Library.GetAllLibrary():
+            templateTask += f" <div id='{library.name}'>"
+            templateTask += f" <h2>{library.name}</h2>"
+            templateTask += f" {library.code[taskName]}"
+            templateTask += f" </div>"
+        
+
 
         HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName = taskName,
                                                                                scriptFilePath = BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                                libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
                                                                                scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
-                                                                               code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
+                                                                            #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
+                                                                                 code = templateTask)
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")

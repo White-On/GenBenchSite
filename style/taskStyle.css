@@ -24,8 +24,12 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 16px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border-radius: 10px;
     padding: 16px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    margin: 16px;
 }
 
 h1{
@@ -41,16 +45,19 @@ h1{
 
 }
 
+
 #code{
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 16px;
+    font-size: clamp(6px, 1.5vw, 12px);
 }
 #code>div{
     background-color: var(--secondary-color);
     border-radius: 10px;
     padding: 16px;
     box-shadow: 0 0 5px var(--box-shadow-color);
+    color: var(--primary-color);
 }
 
 /* DEBUG TOOLS */
@@ -66,4 +73,6 @@ h1{
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    align-items: center;
 }
+

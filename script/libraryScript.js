@@ -17,7 +17,7 @@ const libraryName = document.getElementById('entry-title').innerHTML;
 console.log("libraryName = " + libraryName);
 
 
-const reductFactor = 0.5;
+const reductFactor = 0.8;
 let width = window.innerWidth * reductFactor;
 let height = window.innerHeight * reductFactor;
 

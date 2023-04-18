@@ -39,7 +39,7 @@ body{
     /* margin-block: var(--card-margin-block); */
     box-shadow: 0 0 5px var(--black);
     /* border: solid 2px var(--secondary-color); */
-    background-color: var(--secondary-color);
+    background-color: var(--tertiary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
