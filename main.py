@@ -2,7 +2,7 @@ import argparse
 import os
 
 from benchmark import Benchmark
-from benchsite import Benchsite
+from benchsite import BenchSite
 from collectCode import CollectCode
 from getMachineData import SaveMachineDataInJson
 
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
 
-    benchsite = Benchsite("result50.json", outputFilePath=args.output_folder)
+    benchsite = BenchSite("result50.json", outputFilePath=args.output_folder)
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
