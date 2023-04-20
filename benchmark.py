@@ -8,9 +8,9 @@ import numpy as np
 import threading
 from tqdm import tqdm
 
-class RunTest:
+class Benchmark:
     """
-    RunTest is a class that run process for each library and each task and save the results in a json file
+    Benchmark is a class that run process for each library and each task and save the results in a json file
 
     We expect a very specific infrastucture of file and folder in order to run the test. The infrastucture is the following:
     - pathToInfrastructure
@@ -78,12 +78,11 @@ class RunTest:
 
         targetDirectory = os.path.join(self.pathToInfrastructure,"targets")
         themeDirectory = os.path.join(self.pathToInfrastructure,"themes")
-        self.libraryNames = [f for f in os.listdir(targetDirectory) if os.path.isfile(os.path.join(targetDirectory, f))]
+
+        self.libraryNames = [f for f in os.listdir(targetDirectory) if os.path.isdir(os.path.join(targetDirectory, f))]
         self.themeNames = [f for f in os.listdir(themeDirectory) if os.path.isdir(os.path.join(themeDirectory, f))]
 
         self.results = {libraryName:{} for libraryName in self.libraryNames}
-
-        self.results["MachineData"] = RunTest.GetMachineData()
 
         self.taskNames = []
         self.dictionaryTaskInTheme = {}
@@ -191,7 +190,7 @@ class RunTest:
         if process.poll() is None:
             # The subprocess is still running, so we need to kill it
             process.kill()
-            return RunTest.TIMEOUT_VALUE
+            return Benchmark.TIMEOUT_VALUE
 
         # Cancel the timer
         timer.cancel()
@@ -200,12 +199,12 @@ class RunTest:
         if process.returncode == 1:
             # print(f"\nError in the {command} command")
             # print(process.stderr)
-            return RunTest.ERROR_VALUE
+            return Benchmark.ERROR_VALUE
         
         elif process.returncode == 2:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
-            return RunTest.NOT_RUN_VALUE
+            return Benchmark.NOT_RUN_VALUE
         
         if printOut:
             print(process.stdout)
@@ -242,7 +241,7 @@ class RunTest:
 
         # The timeout of the task is the timeout in the config file or the default timeout
         # the timeout is in seconds
-        taskTimeout = self.TaskConfigReader.getint(taskName,"timeout",fallback=RunTest.DEFAULT_TIMEOUT)
+        taskTimeout = self.TaskConfigReader.getint(taskName,"timeout",fallback=Benchmark.DEFAULT_TIMEOUT)
 
         for libraryName in self.libraryNames:
             self.results[libraryName][taskName] = {}
@@ -261,7 +260,7 @@ class RunTest:
 
         # we check if the library support the task
         if not self.ScriptExist(taskPath,self.CreateScriptName(libraryName,"_run")):
-            self.results[libraryName][taskName]["results"] = {arg : (RunTest.NOT_RUN_VALUE, None) for arg in arguments}
+            self.results[libraryName][taskName]["results"] = {arg : (Benchmark.NOT_RUN_VALUE, None) for arg in arguments}
             self.progressBar.update(self.TaskConfigReader.getint(taskName,"nb_runs")*len(arguments))
             return
 
@@ -339,25 +338,23 @@ class RunTest:
         return nbIteration
     
     
-    def ConvertResultToJson(self, outputPath:str=None):
+    def ConvertResultToJson(self, outputPath:str=None, outputFileName:str="results"):
         """
         convert the result to a json file
         """
         if outputPath is None:
             outputPath = self.pathToInfrastructure
 
-        with open(os.path.join(self.pathToInfrastructure,"results.json"),"w") as file:
+        with open(os.path.join(self.pathToInfrastructure,f"{outputFileName}.json"),"w") as file:
             json.dump(self.results,file,indent=4)
 
     
     def StartAllProcedure(self):
         self.BeforeBuildLibrary()
 
+        self.progressBar = tqdm(total=self.CalculNumberIteration(),desc="Initialization", ncols=100)
         for taskName in self.taskNames:
             self.RunTask(taskName)
-        
-        print(self.results)
-        self.ConvertResultToJson()
 
 
         
@@ -365,12 +362,8 @@ class RunTest:
 if __name__ == "__main__":
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     outputPath = os.path.abspath(os.path.join(currentDirectory, os.pardir))
-    run = RunTest(pathToInfrastructure=currentDirectory)
-    run.BeforeBuildLibrary()
-
-    run.progressBar = tqdm(total=run.CalculNumberIteration(),desc="Initialization", ncols=100)
-    for taskName in run.taskNames:
-        run.RunTask(taskName)
+    run = Benchmark(pathToInfrastructure=currentDirectory)
+    run.StartAllProcedure()
     
     print(run.results)
     run.ConvertResultToJson(outputPath=outputPath)

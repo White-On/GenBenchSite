@@ -9,10 +9,11 @@ import ranking as rk
 
 class BenchSite:
     LEXMAX_THRESHOLD = 50
-    def __init__(self, filename: str)->None:
+    def __init__(self, filename: str, outputPath= "output")->None:
         # Here to change you'r own FileReader
         self.libraryList, self.tasksList = FileReaderJson(filename)
         self.filename = filename
+        self.outputPath = outputPath
 
     @staticmethod
     def GenerateHTMLBestLibraryGlobal():
@@ -137,126 +138,131 @@ class BenchSite:
         moduleElement = "type='module'" if module else ""
         scriptFilePath = f"src ='{scriptName}'" if scriptName else ""
         return f"<script defer {moduleElement} {scriptFilePath}>{content}</script>"
+    
+    def GenerateStaticSite(self):
+        # création du site statique 
+        
+        staticSiteGenerator = StaticSiteGenerator(
+            "script", "htmlTemplate", "assets", self.outputPath, "style")
+
+        # HOME PAGE
+
+        styleFilePath = 'indexStyle.css'
+        scriptFilePath = 'taskScript.js'
+
+        # HEADER
+        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}"
+                                                                        ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}"
+                                                                        ,scriptFilePath=f"../{staticSiteGenerator.assetsFilePath}/{scriptFilePath}")
+
+        # PRESENTATION DE L'OUTIL
+        HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
+
+        # INFORMATIONS SUR LA MACHINE
+        HTMLMachineInfo = self.GenerateHTMLMachineInfo()
+
+        # CLASSEMENT GLOBAL
+        HTMLGlobalRanking = self.GenerateHTMLBestLibraryGlobal()
+
+        # CLASSEMENT DES MEILLEURS LIBRAIRIES PAR THEME
+        HTMLThemeRanking = self.GenerateHTMLBestLibraryByTheme()
+
+        # CLASSEMENT DES LIBRAIRIES PAR TACHES
+        HTMLTaskRanking = self.GenerateHTMLBestLibraryByTask()
+
+        # FOOTER
+        HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
+
+        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
+
+        # TACHES PAGES
+
+        styleFilePath = 'taskStyle.css'
+        scriptFilePath = 'taskScript.js'
+        
+        for taskName in Task.GetAllTaskName():
+            # HEADER
+            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+
+            # CLASSEMENT DES LIBRAIRIES PAR TACHES
+
+            # importedData = [task for task in Task.GetAllTaskByName(taskName)]
+            # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
+            importedData = sum([[{"arguments":arg, "runTime":res if res>0 else 0, "libraryName":library.name}  for arg,res in zip(library.GetTaskByName(taskName).arguments_label,library.GetTaskByName(taskName).results) if library.GetTaskByName(taskName).status =="Run" and res != float("infinity")] for library in Library.GetAllLibrary()],[])
+            # print(importedData)
+
+            # create the template for the code
+            code = {library.name:library.code[taskName] for library in Library.GetAllLibrary()}
+            templateTask = ""
+            for library in Library.GetAllLibrary():
+                templateTask += f" <div id='{library.name}'>"
+                templateTask += f" <h2>{library.name}</h2>"
+                templateTask += f" {library.code[taskName]}"
+                templateTask += f" </div>"
+            
+
+
+            HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName = taskName,
+                                                                                scriptFilePath = BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
+                                                                                libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
+                                                                                scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
+                                                                                #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
+                                                                                    code = templateTask)
+
+            # FOOTER
+            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
+
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
+
+        # THEME PAGES
+
+        styleFilePath = 'themeStyle.css'
+        scriptFilePath = 'themeScript.js'
+
+        for themeName in Task.GetAllThemeName():
+            # HEADER
+            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+
+            importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName].index(t)}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
+            # CLASSEMENT DES LIBRAIRIES PAR TACHES
+            HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent("theme.html", themeName=themeName,\
+                                                                        taskNameList=" ".join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName)),
+                                                                        results = self.GenerateHTMLRankingPerThemeName(themeName),
+                                                                        scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
+                                                                        scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
+
+
+            # FOOTER
+            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
+
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
+        
+        # LIBRAIRIES PAGES
+
+        styleFilePath = 'libraryStyle.css'
+        scriptFilePath = 'libraryScript.js'
+
+        for libraryName in Library.GetAllLibraryName():
+            # HEADER
+            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+
+            importedData ={task.name:{"display":"plot" if task.arguments_label[0].isnumeric() else "histo", "status":task.status,"data":[{"arguments":float(arg) if arg.isnumeric() else arg, "resultElement":res if res>=0  and res != float("infinity") else 0, "libraryName":libraryName} for arg,res in zip(task.arguments_label,task.results)]} for task in Library.GetLibraryByName(libraryName).tasks}
+            # print(importedData)
+            # CLASSEMENT DES LIBRAIRIES PAR TACHES
+            HTMLLibraryRanking = staticSiteGenerator.CreateHTMLComponent("library.html", libraryName=libraryName, 
+                                                                                        taskNameList=[taskName for taskName in Task.GetAllTaskName()],
+                                                                                        scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
+                                                                                        scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
+            # FOOTER
+            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
+
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
 
 
 if __name__ == "__main__":
     # création du site statique 
     benchSite = BenchSite("results.json")
-    staticSiteGenerator = StaticSiteGenerator(
-        "script", "htmlTemplate", "assets", "output", "style")
-
-    # HOME PAGE
-
-    styleFilePath = 'indexStyle.css'
-    scriptFilePath = 'taskScript.js'
-
-    # HEADER
-    HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}"
-                                                                      ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}"
-                                                                      ,scriptFilePath=f"../{staticSiteGenerator.assetsFilePath}/{scriptFilePath}")
-
-    #PRESENTATION DE L'OUTIL
-    HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
-
-    #INFORMATIONS SUR LA MACHINE
-    HTMLMachineInfo = benchSite.GenerateHTMLMachineInfo()
-
-    # CLASSEMENT GLOBAL
-    HTMLGlobalRanking = benchSite.GenerateHTMLBestLibraryGlobal()
-
-    # CLASSEMENT DES MEILLEURS LIBRAIRIES PAR THEME
-    HTMLThemeRanking = benchSite.GenerateHTMLBestLibraryByTheme()
-
-    # CLASSEMENT DES LIBRAIRIES PAR TACHES
-    HTMLTaskRanking = benchSite.GenerateHTMLBestLibraryByTask()
-
-    # FOOTER
-    HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-    staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
-
-    # TACHES PAGES
-
-    styleFilePath = 'taskStyle.css'
-    scriptFilePath = 'taskScript.js'
-    
-    for taskName in Task.GetAllTaskName():
-        # HEADER
-        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                           assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
-
-        # CLASSEMENT DES LIBRAIRIES PAR TACHES
-
-        # importedData = [task for task in Task.GetAllTaskByName(taskName)]
-        # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
-        importedData = sum([[{"arguments":arg, "runTime":res if res>0 else 0, "libraryName":library.name}  for arg,res in zip(library.GetTaskByName(taskName).arguments_label,library.GetTaskByName(taskName).results) if library.GetTaskByName(taskName).status =="Run" and res != float("infinity")] for library in Library.GetAllLibrary()],[])
-        # print(importedData)
-
-        # create the template for the code
-        code = {library.name:library.code[taskName] for library in Library.GetAllLibrary()}
-        templateTask = ""
-        for library in Library.GetAllLibrary():
-            templateTask += f" <div id='{library.name}'>"
-            templateTask += f" <h2>{library.name}</h2>"
-            templateTask += f" {library.code[taskName]}"
-            templateTask += f" </div>"
-        
-
-
-        HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName = taskName,
-                                                                               scriptFilePath = BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
-                                                                               libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
-                                                                               scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
-                                                                            #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
-                                                                                 code = templateTask)
-
-        # FOOTER
-        HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
-
-    # THEME PAGES
-
-    styleFilePath = 'themeStyle.css'
-    scriptFilePath = 'themeScript.js'
-
-    for themeName in Task.GetAllThemeName():
-        # HEADER
-        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                           assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
-
-        importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName].index(t)}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
-        # CLASSEMENT DES LIBRAIRIES PAR TACHES
-        HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent("theme.html", themeName=themeName,\
-                                                                    taskNameList=" ".join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName)),
-                                                                    results = benchSite.GenerateHTMLRankingPerThemeName(themeName),
-                                                                    scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
-                                                                    scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
-
-
-        # FOOTER
-        HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
-    
-    # LIBRAIRIES PAGES
-
-    styleFilePath = 'libraryStyle.css'
-    scriptFilePath = 'libraryScript.js'
-
-    for libraryName in Library.GetAllLibraryName():
-        # HEADER
-        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                           assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
-
-        importedData ={task.name:{"display":"plot" if task.arguments_label[0].isnumeric() else "histo", "status":task.status,"data":[{"arguments":float(arg) if arg.isnumeric() else arg, "resultElement":res if res>=0  and res != float("infinity") else 0, "libraryName":libraryName} for arg,res in zip(task.arguments_label,task.results)]} for task in Library.GetLibraryByName(libraryName).tasks}
-        # print(importedData)
-        # CLASSEMENT DES LIBRAIRIES PAR TACHES
-        HTMLLibraryRanking = staticSiteGenerator.CreateHTMLComponent("library.html", libraryName=libraryName, 
-                                                                                     taskNameList=[taskName for taskName in Task.GetAllTaskName()],
-                                                                                     scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
-                                                                                     scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
-        # FOOTER
-        HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
+    benchSite.GenerateStaticSite()
