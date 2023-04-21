@@ -11,9 +11,10 @@ def clear_directory(dir_path):
         file_path = os.path.join(dir_path, filename)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
+                os.remove(file_path)
             elif os.path.isdir(file_path):
-                os.rmdir(file_path)
+                clear_directory(file_path)
+                os.remove(file_path)
         except Exception as e:
             print(f"Failed to delete {file_path}. Reason: {e}")
 
@@ -66,10 +67,11 @@ if __name__ == "__main__":
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):
             os.mkdir(tmpPath)
-        # we clear the local repository
-        clear_directory(tmpPath)
+        # # we clear the local repository
+        # clear_directory(tmpPath)
+        # os.removedirs(tmpPath)
         # we clone the repository in the local repository
-        command = f"git clone {args.repository} {tmpPath}"
+        command = f"git  {args.repository} {tmpPath}"
         try:
             os.system(command)
         except:
@@ -106,7 +108,7 @@ if __name__ == "__main__":
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
     
-    benchsite = BenchSite(inputFilename=resultFilename, outputPath=curentPath)
+    benchsite = BenchSite(inputFilename=resultFilename, outputPath=args.output_folder)
     benchsite.GenerateStaticSite()
     
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
@@ -114,11 +116,11 @@ if __name__ == "__main__":
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.isDeployed and not args.isLocal:
-        print("Deploying the HTML page on the github page")
-        os.system(f"git add .")
-        os.system(f"git commit -m \"Update the HTML page\"")
-        os.system(f"git push origin master")
+    # if args.isDeployed and not args.isLocal:
+    #     print("Deploying the HTML page on the github page")
+    #     os.system(f"git add {args.output_folder}")
+    #     os.system(f"git commit -m \"Update the HTML page\"")
+    #     os.system(f"git push origin master")
 
         
         
