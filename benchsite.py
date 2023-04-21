@@ -1,5 +1,6 @@
 import numpy as np
 from static_site_generator import StaticSiteGenerator
+import os
 
 # Here you can import you're own FileReader if the format of the Json/file is different
 from json_to_python_object import FileReaderJson, GetMachineData
@@ -9,11 +10,20 @@ import ranking as rk
 
 class BenchSite:
     LEXMAX_THRESHOLD = 50
-    def __init__(self, filename: str, outputPath= "output")->None:
+    def __init__(self, inputFilename: str, outputPath= "pages")->None:
         # Here to change you'r own FileReader
-        self.libraryList, self.tasksList = FileReaderJson(filename)
-        self.filename = filename
+        self.libraryList, self.tasksList = FileReaderJson(inputFilename)
+        self.inputFilename = inputFilename
         self.outputPath = outputPath
+
+        # création du site statique 
+        # relative path to the script, assets and website folder
+        self.staticSiteGenerator = StaticSiteGenerator(
+            os.path.join(outputPath,"script"),
+            "htmlTemplate", 
+            os.path.join(outputPath,"assets"), 
+            os.path.join(outputPath,"website"), 
+            os.path.join(outputPath,"style"))
 
     @staticmethod
     def GenerateHTMLBestLibraryGlobal():
@@ -140,10 +150,7 @@ class BenchSite:
         return f"<script defer {moduleElement} {scriptFilePath}>{content}</script>"
     
     def GenerateStaticSite(self):
-        # création du site statique 
-        
-        staticSiteGenerator = StaticSiteGenerator(
-            "script", "htmlTemplate", "assets", self.outputPath, "style")
+        staticSiteGenerator = self.staticSiteGenerator
 
         # HOME PAGE
 
@@ -193,7 +200,6 @@ class BenchSite:
             # print(importedData)
 
             # create the template for the code
-            code = {library.name:library.code[taskName] for library in Library.GetAllLibrary()}
             templateTask = ""
             for library in Library.GetAllLibrary():
                 templateTask += f" <div id='{library.name}'>"
@@ -208,7 +214,7 @@ class BenchSite:
                                                                                 libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
                                                                                 scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
                                                                                 #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
-                                                                                    code = templateTask)
+                                                                                code = templateTask)
 
             # FOOTER
             HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
@@ -264,5 +270,6 @@ class BenchSite:
 
 if __name__ == "__main__":
     # création du site statique 
-    benchSite = BenchSite("results.json")
+    benchSite = BenchSite("C:/Users/jules/Documents/Git/BenchSite/repository/result50.json")
+    pagePath = "pages"
     benchSite.GenerateStaticSite()

@@ -6,6 +6,18 @@ from benchsite import BenchSite
 from collectCode import CollectCode
 from getMachineData import SaveMachineDataInJson
 
+def clear_directory(dir_path):
+    for filename in os.listdir(dir_path):
+        file_path = os.path.join(dir_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                os.rmdir(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
+
+
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository 
     # inputed by the user. This repository may be a github repository or a local repository.
@@ -37,15 +49,16 @@ if __name__ == "__main__":
     parser.add_argument('-of','--output_folder',
                         type=str,
                         help='the path of the folder where the user want to save the HTML page',
-                        default='output')
+                        default='pages')
     
     parser.add_argument('-D','--isDeployed',
                         help='True if the user want to deploy the HTML page, False otherwise',
-                        default=False,
+                        default=True,
                         action=argparse.BooleanOptionalAction)
     
     args = parser.parse_args()
     # print(args)
+    online_repository = None
 
     if not args.isLocal:
         print("Online repository")
@@ -53,6 +66,8 @@ if __name__ == "__main__":
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):
             os.mkdir(tmpPath)
+        # we clear the local repository
+        clear_directory(tmpPath)
         # we clone the repository in the local repository
         command = f"git clone {args.repository} {tmpPath}"
         try:
@@ -60,35 +75,52 @@ if __name__ == "__main__":
         except:
             raise Exception(f"Error when cloning the repository {args.repository}")
 
+        online_repository = args.repository
         args.repository = tmpPath
     
     if not os.path.exists(args.repository):
         raise Exception(f"Path {args.repository} does not exist")
     
     # Test the repository
-    benchmark = Benchmark(pathToInfrastructure = args.repository)
-    benchmark.StartAllProcedure()
+    resultFilename = "result.json"
+    codeFilename = "code.py"
+    machineFilename = "machine.json"
 
-    print(benchmark.results)
-    benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName="result50")
+    # benchmark = Benchmark(pathToInfrastructure = args.repository)
+    # benchmark.StartAllProcedure()
+
+    # print(benchmark.results)
+    # benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
+
+    
 
     # we want to create two additional files :
     # - a file that contains the machine information/metadata
     # - a file that contains the code of the tests done on the test repository
 
-    CollectCode(args.repository, curentPath)
+    CollectCode(pathToInfrastructure= args.repository, outputPath = curentPath)
 
-    SaveMachineDataInJson(curentPath)
+    SaveMachineDataInJson(outputFile=os.path.join(curentPath, machineFilename))
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
-
-    benchsite = BenchSite("result50.json", outputFilePath=args.output_folder)
-
+    
+    benchsite = BenchSite(inputFilename=resultFilename, outputPath=curentPath)
+    benchsite.GenerateStaticSite()
+    
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
+
+    if args.isDeployed and not args.isLocal:
+        print("Deploying the HTML page on the github page")
+        os.system(f"git add .")
+        os.system(f"git commit -m \"Update the HTML page\"")
+        os.system(f"git push origin master")
+
+        
+        
 
 

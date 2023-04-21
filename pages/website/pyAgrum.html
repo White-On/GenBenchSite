@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>BenchSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/libraryStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="index.html"><b>Home</b></a>
+            <a href="#"><b>About</b></a>
+            <a href="../data.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            <img class="icon" src="../assets/github.svg" alt="github-icon">
+            <img class="icon" src="../assets/envelope-solid.svg" alt="mail-icon">
+        </nav>
+    </header><!-- <script src="../script/histogram.js"></script>
+<script src="../script/dynamicPlot.js"></script>
+<script src="../script/heatMapChart.js"></script>
+<script src="../script/groupedBarChart.js"></script> -->
+
+<script defer  >const importedData = {'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'asia.bif', 'resultElement': 0.02239910000935197, 'libraryName': 'pyAgrum'}, {'arguments': 'alarm.bif', 'resultElement': 0.05298350000521168, 'libraryName': 'pyAgrum'}, {'arguments': 'Barley.bif', 'resultElement': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'carpo.bif', 'resultElement': 0.06820730000617914, 'libraryName': 'pyAgrum'}, {'arguments': 'child.bif', 'resultElement': 0.008060499996645376, 'libraryName': 'pyAgrum'}, {'arguments': 'complete_carpo.bif', 'resultElement': 0.03019579999090638, 'libraryName': 'pyAgrum'}, {'arguments': 'covid19.bif', 'resultElement': 0.028909299988299608, 'libraryName': 'pyAgrum'}, {'arguments': 'Diabetes.bif', 'resultElement': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'insurance.bif', 'resultElement': 0.05388310001580976, 'libraryName': 'pyAgrum'}, {'arguments': 'Link.bif', 'resultElement': 1.35346280001977, 'libraryName': 'pyAgrum'}, {'arguments': 'Mildew.bif', 'resultElement': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'Munin1.bif', 'resultElement': 0.878423300004215, 'libraryName': 'pyAgrum'}, {'arguments': 'Pigs.bif', 'resultElement': 0.5560251999995671, 'libraryName': 'pyAgrum'}, {'arguments': 'simpleCovid19.bif', 'resultElement': 0.005033699999330565, 'libraryName': 'pyAgrum'}, {'arguments': 'Water.bif', 'resultElement': 0.5763696000067284, 'libraryName': 'pyAgrum'}]}, 'Learning': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 100.0, 'resultElement': 0.0925174000003608, 'libraryName': 'pyAgrum'}, {'arguments': 250.0, 'resultElement': 0.13845369998307433, 'libraryName': 'pyAgrum'}, {'arguments': 500.0, 'resultElement': 0.12173579999944195, 'libraryName': 'pyAgrum'}, {'arguments': 750.0, 'resultElement': 0.1706969999941066, 'libraryName': 'pyAgrum'}, {'arguments': 1000.0, 'resultElement': 0.19267970000510104, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.21199850000266451, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.22795810000388883, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.21548129999428056, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.35177170000679325, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.30957659998966847, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.4078534000000218, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.4448659000045154, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.35328039999876637, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.527917500003241, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.5247248999949079, 'libraryName': 'pyAgrum'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'BN_10_1.5_3.bif', 'resultElement': 0.0003412000078242272, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_13_1.5_2.bif', 'resultElement': 0.015729100006865337, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_2.bif', 'resultElement': 0.002254000006360002, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'resultElement': 0.005067299978691153, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_15_1.5_3.bif', 'resultElement': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_19_1.5_3.bif', 'resultElement': 0.007586100007756613, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_3.bif', 'resultElement': 0.005966099997749552, 'libraryName': 'pyAgrum'}]}};</script>
+<script defer type='module' src ='../script/libraryScript.js'></script>
+
+
+<h1 id="entry-title">pyAgrum</h1>
+
+<div class ="grid">
+    
+    <div class="card">
+        <a href="BIFReading.html"><h2>BIFReading</h2></a>
+        <div id="BIFReading"></div>
+    </div>
+    
+    <div class="card">
+        <a href="Learning.html"><h2>Learning</h2></a>
+        <div id="Learning"></div>
+    </div>
+    
+    <div class="card">
+        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
+        <div id="InferenceRandomBN"></div>
+    </div>
+    
+</div></body>

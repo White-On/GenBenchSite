@@ -46,20 +46,29 @@ class StaticSiteGenerator:
         createFolder : bool, optional
             If True, create the folder if it does not exist, by default True
         """
+
+        curentPath = os.path.dirname(__file__)
         
         for path in [scriptFilePath, htmlTemplateFilePath, assetsFilePath, outputFilePath, styleFilePath]:
             if not self.CheckIfPathExist(path) and not createFolder:
                 raise Exception(f"Path {path} does not exist")
             elif not self.CheckIfPathExist(path) and createFolder:
                 # Create the folder relative to path of the script
-                os.mkdir(os.path.join(os.path.dirname(__file__), path))
+                os.mkdir(os.path.join(curentPath, path))
+        
+        # we clean the output folder
+        for file in os.listdir(os.path.join(curentPath, outputFilePath)):
+            os.remove(os.path.join(curentPath, outputFilePath, file))
+        
+        # we need the basename of these path to use it in the HTML template
+        basename = lambda path: os.path.basename(os.path.normpath(path))
 
+        self.scriptFilePath = basename(scriptFilePath)
+        self.assetsFilePath = basename(assetsFilePath)
+        self.styleFilePath = basename(styleFilePath)
 
-        self.scriptFilePath = scriptFilePath
-        self.htmlTemplateFilePath = htmlTemplateFilePath
-        self.assetsFilePath = assetsFilePath
         self.outputFilePath = outputFilePath
-        self.styleFilePath = styleFilePath
+        self.htmlTemplateFilePath = htmlTemplateFilePath
 
     def CheckIfPathExist(self, path:str) -> bool:
         """Check if the path relative to the path of the script exist.

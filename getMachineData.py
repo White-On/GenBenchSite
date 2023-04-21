@@ -18,8 +18,8 @@ def GetRunMachineMetadata():
             "machine_python_version" : platform.python_version()
         }
 
-def SaveMachineDataInJson(outputPath:str):
-        with open(outputPath, 'w') as file:
+def SaveMachineDataInJson(outputFile:str):
+        with open(outputFile, 'w') as file:
             json.dump(GetRunMachineMetadata(), file)
 
 if __name__ == "__main__":

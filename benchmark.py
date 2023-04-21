@@ -165,36 +165,60 @@ class Benchmark:
         """
         self.TaskConfigReader.read(os.path.join(self.pathToInfrastructure,"themes",self.dictonaryThemeInTask[taskName],taskName,"config.ini"))
     
-    def RunProcess(self, command, printOut, timeout):
+    # def RunProcess(self, command, printOut, timeout):
         
-        start = time.perf_counter()
+    #     start = time.perf_counter()
         
-        process = subprocess.Popen(command,shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    #     process = subprocess.Popen(command,shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-        # print(f"\nTimeout expired for the {command} command")
+    #     # print(f"\nTimeout expired for the {command} command")
        
 
-        # Create an event to signal the timeout
-        event = threading.Event()
+    #     # Create an event to signal the timeout
+    #     event = threading.Event()
 
-        # Start a timer to set the event after the timeout
-        timer = threading.Timer(timeout, event.set)
-        timer.start()
+    #     # Start a timer to set the event after the timeout
+    #     timer = threading.Timer(timeout, event.set)
+    #     timer.start()
 
-        # Wait for the subprocess to finish or the timeout to occur
-        while process.poll() is None and not event.is_set():
-            # The subprocess is still running and the timeout has not occurred
-            pass
+    #     # Wait for the subprocess to finish or the timeout to occur
+    #     while process.poll() is None and not event.is_set():
+    #         # The subprocess is still running and the timeout has not occurred
+    #         pass
 
-        # Check if the subprocess is still running
-        if process.poll() is None:
-            # The subprocess is still running, so we need to kill it
-            process.kill()
+    #     # Check if the subprocess is still running
+    #     if process.poll() is None:
+    #         # The subprocess is still running, so we need to kill it
+    #         process.kill()
+    #         return Benchmark.TIMEOUT_VALUE
+
+    #     # Cancel the timer
+    #     timer.cancel()
+
+    #     end = time.perf_counter()
+    #     if process.returncode == 1:
+    #         # print(f"\nError in the {command} command")
+    #         # print(process.stderr)
+    #         return Benchmark.ERROR_VALUE
+        
+    #     elif process.returncode == 2:
+    #         # print(f"\nCan't run this task because the library doesn't support it")
+    #         # print(process.stderr)
+    #         return Benchmark.NOT_RUN_VALUE
+        
+    #     if printOut:
+    #         print(process.stdout)
+
+    #     return end-start
+
+    def RunProcess(self, command, printOut, timeout):
+
+        start = time.perf_counter()
+        try:
+            process = subprocess.run(command,shell=True,capture_output=True, text=True, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            # print(f"\nTimeout expired for the {command} command")
             return Benchmark.TIMEOUT_VALUE
-
-        # Cancel the timer
-        timer.cancel()
-
         end = time.perf_counter()
         if process.returncode == 1:
             # print(f"\nError in the {command} command")
@@ -210,7 +234,6 @@ class Benchmark:
             print(process.stdout)
 
         return end-start
-
 
     def CreateScriptName(self, libraryName:str, nameComplement="") -> str:
         """
@@ -345,7 +368,7 @@ class Benchmark:
         if outputPath is None:
             outputPath = self.pathToInfrastructure
 
-        with open(os.path.join(self.pathToInfrastructure,f"{outputFileName}.json"),"w") as file:
+        with open(outputFileName,"w") as file:
             json.dump(self.results,file,indent=4)
 
     
