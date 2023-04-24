@@ -12,7 +12,7 @@ export function GroupedBarChart(data,{
 
     color = d3.scaleOrdinal(d3.schemeCategory10),
 
-    labelFontSize = 20, // font size of the labels
+    labelFontSize = 8, // font size of the labels
     titleFontSize =12, // font size of the title
 
     yRange = [height - margin.bottom, margin.top], // [bottom, top]
@@ -23,9 +23,9 @@ export function GroupedBarChart(data,{
 
     xLegend = width*0.1, // x-axis legend
     yLegend = height*0.1, // y-axis legend
-    legendColorBoxSize = [20, 20], // size of the color box in the legend
+    legendColorBoxSize = [10, 10], // size of the color box in the legend
     legendColorBoxGap = 5, // margin of the color box in the legend
-    legendFontSize = 20, // font size of the legend
+    legendFontSize = 8, // font size of the legend
 
     activationFunction = null,
 
@@ -302,102 +302,102 @@ export function GroupedBarChart(data,{
 
     // Menu for the scale
 
-    const menu = () => {
-        let id;
-        let LabelText;
-        let options;
+    // const menu = () => {
+    //     let id;
+    //     let LabelText;
+    //     let options;
 
-        const my = (selection) => {
-            selection
-                .selectAll("label")
-                .data([null])
-                .join("label")
-                .attr("for", id)
-                .text(LabelText);
-            selection
-                .selectAll("select")
-                .data([null])
-                .join("select")
-                .attr("id", id)
-                .on("change", (event) => {
-                    console.log(event.target.value);
-                    if (event.target.value == "log") {
-                        yScale = d3.scaleLog()
-                            .domain([1, d3.max(Values)])
-                            .range([height - margin.bottom, margin.top]);
-                    } else if (event.target.value == "auto") {
-                        yScale = d3.scaleLinear()
-                            .domain([0, d3.max(Values)])
-                            .range([height - margin.bottom, margin.top]);
-                    }
-                    yAxis = d3.axisLeft(yScale);
-                    rect
-                        .data(I)
-                        .transition()
-                        .duration(500)
-                        .delay((d) => (d * 20))
-                        .select("rect")
-                        .attr("y", function (d) {
-                            return yScale(Values[d]);
-                        }
-                        )
-                        .attr("height", function (d) {
-                            return height - yScale(Values[d]) - margin.bottom;
-                        }
-                        );
-                    rect
-                        .data(I)
-                        .transition()
-                        .duration(500)
-                        .delay((d) => (d * 20))
-                        .select("text")
-                        .attr("y", function (d) {
-                            return yScale(Values[d]) - 5;
-                        }
-                        );
+    //     const my = (selection) => {
+    //         selection
+    //             .selectAll("label")
+    //             .data([null])
+    //             .join("label")
+    //             .attr("for", id)
+    //             .text(LabelText);
+    //         selection
+    //             .selectAll("select")
+    //             .data([null])
+    //             .join("select")
+    //             .attr("id", id)
+    //             .on("change", (event) => {
+    //                 console.log(event.target.value);
+    //                 if (event.target.value == "log") {
+    //                     yScale = d3.scaleLog()
+    //                         .domain([1, d3.max(Values)])
+    //                         .range([height - margin.bottom, margin.top]);
+    //                 } else if (event.target.value == "auto") {
+    //                     yScale = d3.scaleLinear()
+    //                         .domain([0, d3.max(Values)])
+    //                         .range([height - margin.bottom, margin.top]);
+    //                 }
+    //                 yAxis = d3.axisLeft(yScale);
+    //                 rect
+    //                     .data(I)
+    //                     .transition()
+    //                     .duration(500)
+    //                     .delay((d) => (d * 20))
+    //                     .select("rect")
+    //                     .attr("y", function (d) {
+    //                         return yScale(Values[d]);
+    //                     }
+    //                     )
+    //                     .attr("height", function (d) {
+    //                         return height - yScale(Values[d]) - margin.bottom;
+    //                     }
+    //                     );
+    //                 rect
+    //                     .data(I)
+    //                     .transition()
+    //                     .duration(500)
+    //                     .delay((d) => (d * 20))
+    //                     .select("text")
+    //                     .attr("y", function (d) {
+    //                         return yScale(Values[d]) - 5;
+    //                     }
+    //                     );
                     
-                    yAxisG
-                        .transition()
-                        .duration(500)
-                        .call(yAxis);
+    //                 yAxisG
+    //                     .transition()
+    //                     .duration(500)
+    //                     .call(yAxis);
                     
 
 
 
-                })
-                .selectAll("option")
-                .data(options)
-                .join("option")
-                .attr("value", (d) => d)
-                .text((d) => d);
+    //             })
+    //             .selectAll("option")
+    //             .data(options)
+    //             .join("option")
+    //             .attr("value", (d) => d)
+    //             .text((d) => d);
 
 
-        };
+    //     };
         
-        my.id = function (value) {
-            return arguments.length ? (id = value, my) : id;
-        };
+    //     my.id = function (value) {
+    //         return arguments.length ? (id = value, my) : id;
+    //     };
 
-        my.LabelText = function (value) {
-            return arguments.length ? (LabelText = value, my) : LabelText;
-        };
+    //     my.LabelText = function (value) {
+    //         return arguments.length ? (LabelText = value, my) : LabelText;
+    //     };
 
-        my.options = function (value) {
-            return arguments.length ? (options = value, my) : options;
-        };
+    //     my.options = function (value) {
+    //         return arguments.length ? (options = value, my) : options;
+    //     };
     
-        return my;
-    }
+    //     return my;
+    // }
    
-    let menuElement = document.getElementById("menu");
-    if (menuElement != null) {
-        // get the menu as a d3 selection
-        let menuD3 = d3.select(menuElement);
-        // add the menu items
-        menuD3
-            .call(menu().id("menu1").LabelText("Select view").options(["auto", "log", "normal"]))
+    // let menuElement = document.getElementById("menu");
+    // if (menuElement != null) {
+    //     // get the menu as a d3 selection
+    //     let menuD3 = d3.select(menuElement);
+    //     // add the menu items
+    //     menuD3
+    //         .call(menu().id("menu1").LabelText("Select view").options(["auto", "log", "normal"]))
 
-    }
+    // }
 
     
     

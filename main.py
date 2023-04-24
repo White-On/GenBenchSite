@@ -92,11 +92,11 @@ if __name__ == "__main__":
     codeFilename = "code.py"
     machineFilename = "machine.json"
 
-    benchmark = Benchmark(pathToInfrastructure = args.repository)
-    benchmark.StartAllProcedure()
+    # benchmark = Benchmark(pathToInfrastructure = args.repository)
+    # benchmark.StartAllProcedure()
 
-    print(benchmark.results)
-    benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
+    # print(benchmark.results)
+    # benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
 
     
 

@@ -1,0 +1,24 @@
+<!-- Navigation Bar -->
+<nav id = "leftNavBar">
+    <nav class="inerBarNav">
+        <div class="titleNav">Task</div>
+        <!-- task -->
+        {% for task in tasklist %}
+            {{task}}
+        {% endfor %}
+    </nav>
+    <nav class="inerBarNav">
+        <div class="titleNav">Theme</div>
+        <!-- theme -->
+        {% for theme in themelist %}
+            {{theme}}
+        {% endfor %}
+    </nav>
+    <nav class="inerBarNav">
+        <div class="titleNav">Library</div>
+        <!-- library -->
+        {% for library in librarylist %}
+            {{library}}
+        {% endfor %}
+    </nav>
+</nav>

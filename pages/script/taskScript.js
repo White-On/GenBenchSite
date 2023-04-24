@@ -18,8 +18,11 @@ let TaskName = document.getElementById('entry-title').innerHTML;
 
 let element = document.getElementById(TaskName);
 
-let width = window.innerWidth * 0.8;
-let height = window.innerHeight * 0.8;
+
+
+let width = element.getBoundingClientRect().width;
+// let height = window.innerHeight * 0.5;
+let height = 500;
 
 let chart;
 // check if the arguments are numbers or not to sort the data if needed 
@@ -44,6 +47,8 @@ chart = GroupedBarChart(importedData, {
     xLabel: "Arguments →",
     yLabel: "Run Time (ms) ↑",
 
+    
+
     activationFunction: handleClickToPrintCode,
 
     margin: { top: 40, right: 10, bottom: 100, left: 50 },
@@ -62,6 +67,5 @@ function handleClickToPrintCode(elementsToDisplay) {
 }
 
 element.appendChild(chart);
-
 
 // document.body.innerHTML += code["pgmpy"]

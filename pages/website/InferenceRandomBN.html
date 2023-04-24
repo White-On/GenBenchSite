@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>BenchSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/taskStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="index.html"><b>Home</b></a>
+            <a href="#"><b>About</b></a>
+            <a href="../data.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            <img class="icon" src="../assets/github.svg" alt="github-icon">
+            <img class="icon" src="../assets/envelope-solid.svg" alt="mail-icon">
+        </nav>
+    </header><!-- Navigation Bar -->
+<nav id = "leftNavBar">
+    <nav class="inerBarNav">
+        <div class="titleNav">Task</div>
+        <!-- task -->
+        
+            <a href='BIFReading.html'>BIFReading</a>
+        
+            <a href='Learning.html'>Learning</a>
+        
+            <a href='InferenceRandomBN.html'>InferenceRandomBN</a>
+        
+    </nav>
+    <nav class="inerBarNav">
+        <div class="titleNav">Theme</div>
+        <!-- theme -->
+        
+            <a href='BIFExploiting.html'>BIFExploiting</a>
+        
+            <a href='BIFGeneration.html'>BIFGeneration</a>
+        
+    </nav>
+    <nav class="inerBarNav">
+        <div class="titleNav">Library</div>
+        <!-- library -->
+        
+            <a href='pgmpy.html'>pgmpy</a>
+        
+            <a href='pyAgrum.html'>pyAgrum</a>
+        
+    </nav>
+</nav><script defer  >const importedData = [{'arguments': 'BN_10_1.5_3.bif', 'runTime': 0.01452160000008007, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_13_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_15_1.5_2.bif', 'runTime': 0.008573099999921396, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_12_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_3.bif', 'runTime': 0.003048000000489992, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}];</script>
+<script defer type='module' src ='../script/taskScript.js'></script>
+<div>
+<h1 id="entry-title">InferenceRandomBN</h1>
+<div id="menu"></div>
+
+<div id="compare-tool">
+    <div class="graphics" id="InferenceRandomBN"></div>
+    
+    <!-- <div>pyAgrum&gt;pgmpy</div> -->
+    <div id="code">
+        <!-- <div id="codeLib1" class="hidden"></div>
+        <div id="codeLib2" class="hidden"></div> -->
+         <div id='pgmpy'> <h2>pgmpy</h2> <div class="manni" style="background: #f0f3f3"><table class="mannitable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 3</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 4</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 5</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 6</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 7</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #006699; font-weight: bold">from</span> <span style="color: #00CCFF; font-weight: bold">pgmpy.readwrite</span> <span style="color: #006699; font-weight: bold">import</span> BIFReader
+<span style="color: #006699; font-weight: bold">from</span> <span style="color: #00CCFF; font-weight: bold">pgmpy.inference</span> <span style="color: #006699; font-weight: bold">import</span> VariableElimination
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">sys</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">os</span>
+
+currentdir <span style="color: #555555">=</span> os<span style="color: #555555">.</span>path<span style="color: #555555">.</span>dirname(os<span style="color: #555555">.</span>path<span style="color: #555555">.</span>realpath(<span style="color: #003333">__file__</span>))
+
+reader <span style="color: #555555">=</span> BIFReader(<span style="color: #CC3300">f&quot;</span><span style="color: #AA0000">{</span>currentdir<span style="color: #AA0000">}</span><span style="color: #CC3300">/data/</span><span style="color: #AA0000">{</span>sys<span style="color: #555555">.</span>argv[<span style="color: #FF6600">1</span>]<span style="color: #AA0000">}</span><span style="color: #CC3300">&quot;</span>)
+
+bn <span style="color: #555555">=</span> VariableElimination(reader<span style="color: #555555">.</span>get_model())
+</pre></div></td></tr></table></div>
+ </div> <div id='pyAgrum'> <h2>pyAgrum</h2> <div class="manni" style="background: #f0f3f3"><table class="mannitable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 3</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 4</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 5</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 6</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 7</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">pyAgrum</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">gum</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">os</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">sys</span>
+
+currentdir <span style="color: #555555">=</span> os<span style="color: #555555">.</span>path<span style="color: #555555">.</span>dirname(os<span style="color: #555555">.</span>path<span style="color: #555555">.</span>realpath(<span style="color: #003333">__file__</span>))
+
+bn <span style="color: #555555">=</span> gum<span style="color: #555555">.</span>loadBN(<span style="color: #CC3300">f&quot;</span><span style="color: #AA0000">{</span>currentdir<span style="color: #AA0000">}</span><span style="color: #CC3300">/data/</span><span style="color: #AA0000">{</span>sys<span style="color: #555555">.</span>argv[<span style="color: #FF6600">1</span>]<span style="color: #AA0000">}</span><span style="color: #CC3300">&quot;</span>)
+
+ie<span style="color: #555555">=</span>gum<span style="color: #555555">.</span>LazyPropagation(bn)
+ie<span style="color: #555555">.</span>makeInference()
+</pre></div></td></tr></table></div>
+ </div>
+    </div>
+</div>
+
+</div></body>

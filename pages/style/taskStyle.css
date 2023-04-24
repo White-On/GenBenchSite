@@ -2,6 +2,7 @@
 @import url('colorStyle.css');
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
+@import url('navigationStyle.css');
 
 
 /* GLOBAL PARAMETER */
@@ -30,12 +31,12 @@ body{
     padding: 16px;
     box-shadow: 0 0 5px var(--box-shadow-color);
     margin: 16px;
+    width: clamp(300px, 50vw, 600px);
 }
 
 h1{
-    font-size: 32px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    font-weight: 400;
     /* color: var(--secondary-color); */
     text-decoration: none;
     margin-block: 0;

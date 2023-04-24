@@ -2,6 +2,7 @@
 @import url('colorStyle.css');
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
+@import url('navigationStyle.css');
 
 
 /* GLOBAL PARAMETER */
@@ -19,7 +20,6 @@ body{
 }
 
 a{
-    font-size: larger;
     color: var(--green6);
 }
 
@@ -28,15 +28,14 @@ a{
     /* width: clamp(100px, 90%, 1200px); */
     display: grid;
     gap : 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-auto-rows: auto;
     
 }
 
 .card{
-    font-size: clamp(1rem, 1.25rem, 1.5rem);
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    font-weight: 400;
     background-color: var(--white);
     border-radius: 10px;
     box-shadow: 0 0 5px var(--box-shadow-color);

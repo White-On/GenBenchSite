@@ -1,7 +1,7 @@
 import { HeatMap } from "./heatMapChart.js";
 
-let width = window.innerWidth * 0.8;
-let height = window.innerHeight * 0.8;
+let width = window.innerWidth * 0.5;
+let height = window.innerHeight * 0.5;
 
 console.log(importedData)
 

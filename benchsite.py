@@ -162,6 +162,11 @@ class BenchSite:
                                                                         ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}"
                                                                         ,scriptFilePath=f"../{staticSiteGenerator.assetsFilePath}/{scriptFilePath}")
 
+        #NAVIGATION
+        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", tasklist = [BenchSite.MakeLink(taskName) for taskName in Task.GetAllTaskName()],
+                                                                                    themelist = [BenchSite.MakeLink(themeName) for themeName in Task.GetAllThemeName()],
+                                                                                    librarylist = [BenchSite.MakeLink(libraryName) for libraryName in Library.GetAllLibraryName()])
+        
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
 
@@ -216,10 +221,7 @@ class BenchSite:
                                                                                 #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
                                                                                 code = templateTask)
 
-            # FOOTER
-            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
 
         # THEME PAGES
 
@@ -239,11 +241,7 @@ class BenchSite:
                                                                         scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                         scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
 
-
-            # FOOTER
-            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
         
         # LIBRAIRIES PAGES
 
@@ -262,14 +260,12 @@ class BenchSite:
                                                                                         taskNameList=[taskName for taskName in Task.GetAllTaskName()],
                                                                                         scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                                         scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
-            # FOOTER
-            HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
 
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
 
 
 if __name__ == "__main__":
     # création du site statique 
-    benchSite = BenchSite("C:/Users/jules/Documents/Git/BenchSite/repository/result50.json")
+    benchSite = BenchSite("C:/Users/jules/Documents/Git/BenchSite/result.json")
     pagePath = "pages"
     benchSite.GenerateStaticSite()

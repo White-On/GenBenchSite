@@ -3,17 +3,21 @@
 
 /* GLOBAL PARAMETER */
 
-/* :root{
-    
-} */
+:root{
+    --navbar-width: 12rem;
+    --topMargin: 62px 
+}
 
 body{
     background-color: var(--primary-color);
     font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: clamp(1rem, 1vw, 1.5rem);
+    font-weight: 300;
+    font-size: clamp(0.5rem, 0.5vw, 1rem);
     color: var(--font-color);
-    margin: calc(62px + 1rem) 1rem 24px 1rem;
+    margin-top: calc(var(--topMargin) + 1rem);
+    margin-right: 1rem;
+    margin-bottom: 24px;
+    margin-left: calc(var(--navbar-width) + 1rem);
 }
 
 a{

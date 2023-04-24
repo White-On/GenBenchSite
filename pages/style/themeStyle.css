@@ -2,6 +2,7 @@
 @import url('colorStyle.css');
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
+@import url('navigationStyle.css');
 
 
 /* GLOBAL PARAMETER */
@@ -30,9 +31,8 @@ body{
 }
 
 .card{
-    font-size: 2rem;
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    font-weight: 400;
     background-color: var(--quaternary-color);
     border-radius: 10px;
     box-shadow: 0 0 5px var(--quinary-color);

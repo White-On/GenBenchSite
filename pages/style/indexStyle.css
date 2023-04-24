@@ -18,6 +18,9 @@ body{
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     grid-auto-rows: auto;
     gap: 1rem;
+
+    /* No navbar in home page */
+    margin-left: 1rem;
     
 }
 
