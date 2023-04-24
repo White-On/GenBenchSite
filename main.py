@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 
 from benchmark import Benchmark
 from benchsite import BenchSite
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository 
     # inputed by the user. This repository may be a github repository or a local repository.
 
-    # usege :
+    # usage :
     # python main.py {isLocal} {repository} {output_folder} {isDeployed}
 
     # isLocal = True if the repository is local, False if the repository is on github
@@ -67,15 +68,18 @@ if __name__ == "__main__":
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):
             os.mkdir(tmpPath)
+
         # # we clear the local repository
         # clear_directory(tmpPath)
         # os.removedirs(tmpPath)
+
         # we clone the repository in the local repository
-        command = f"git  {args.repository} {tmpPath}"
+        command = f"git clone {args.repository} {tmpPath}"
         try:
             os.system(command)
         except:
             raise Exception(f"Error when cloning the repository {args.repository}")
+            exit(1)
 
         online_repository = args.repository
         args.repository = tmpPath
@@ -88,11 +92,11 @@ if __name__ == "__main__":
     codeFilename = "code.py"
     machineFilename = "machine.json"
 
-    # benchmark = Benchmark(pathToInfrastructure = args.repository)
-    # benchmark.StartAllProcedure()
+    benchmark = Benchmark(pathToInfrastructure = args.repository)
+    benchmark.StartAllProcedure()
 
-    # print(benchmark.results)
-    # benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
+    print(benchmark.results)
+    benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
 
     
 
@@ -116,11 +120,22 @@ if __name__ == "__main__":
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    # if args.isDeployed and not args.isLocal:
-    #     print("Deploying the HTML page on the github page")
-    #     os.system(f"git add {args.output_folder}")
-    #     os.system(f"git commit -m \"Update the HTML page\"")
-    #     os.system(f"git push origin master")
+    if args.isDeployed and not args.isLocal:
+        # before copying the output folder in the repository, we need to check if there is not already 
+        #copy the output folder in the repository
+        shutil.copytree(args.output_folder, os.path.join(args.repository, args.output_folder))
+        print("Deploying the HTML page on the github page")
+        os.chdir(args.repository)
+        os.system(f"git add {args.output_folder}")
+        os.system(f"git commit -m \"Update the HTML page\"")
+        os.system(f"git push")
+        print("HTML page deployed on the github page")
+
+        # we remove the local repository
+        os.chdir(curentPath)
+        # shutil.rmtree(args.repository)
+        
+
 
         
         
