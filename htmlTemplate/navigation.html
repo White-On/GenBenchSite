@@ -1,24 +1,32 @@
 <!-- Navigation Bar -->
 <nav id = "leftNavBar">
     <nav class="inerBarNav">
-        <div class="titleNav">Task</div>
-        <!-- task -->
-        {% for task in tasklist %}
-            {{task}}
-        {% endfor %}
-    </nav>
-    <nav class="inerBarNav">
-        <div class="titleNav">Theme</div>
-        <!-- theme -->
-        {% for theme in themelist %}
-            {{theme}}
-        {% endfor %}
-    </nav>
-    <nav class="inerBarNav">
-        <div class="titleNav">Library</div>
+        <div class="titleNav">
+            <img src="{{assetsFilePath}}/bullseye.svg" alt="target svg">
+            <div>Targets</div></div>
         <!-- library -->
         {% for library in librarylist %}
             {{library}}
         {% endfor %}
     </nav>
+
+
+    <nav class="inerBarNav">
+        <div class="titleNav">
+            <img src="{{assetsFilePath}}/clipboard-list.svg" alt="target svg">
+            <div>Theme</div></div>
+        <!-- theme -->
+        {% for theme, tasklist in TaskClassifiedByTheme.items() %}
+            <div class="openTheme">{{theme}}
+            <nav class="inerBarNav hidden underBarNav">
+                {% for task in tasklist %}
+                    {{task}}
+                {% endfor %}
+            </nav></div>
+        {% endfor %}
+    </nav>
+
+    <script>
+        
+    </script>
 </nav>

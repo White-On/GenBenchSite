@@ -54,6 +54,7 @@ h1{
     font-size: clamp(6px, 1.5vw, 12px);
 }
 #code>div{
+    display: none;
     background-color: var(--secondary-color);
     border-radius: 10px;
     padding: 16px;

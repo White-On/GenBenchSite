@@ -46,7 +46,7 @@ class CollectCode:
                 if (path != "None"):
                     with open(path, 'r') as f:
                         code = f.read()
-                        formatter = HtmlFormatter(linenos=True, cssclass="manni", noclasses=True, style="manni")
+                        formatter = HtmlFormatter(linenos=True, cssclass="zenburn", noclasses=True, style="zenburn")
                         html = highlight(code, PythonLexer(), formatter)
 
                 self.CodeHTML[target][taskName] = html

@@ -7,9 +7,20 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #333;
+    background-color: var(--navBar-color);
     margin-top: var(--topMargin);
     font-size: 1rem;
+
+    overflow-y: scroll;
+    /* overscroll-behavior-block: contain; */
+}
+
+#leftNavBar::-webkit-scrollbar {
+    display: none;
+    /* color: transparent;
+    background-color: transparent; */
+    /* keep the scrool position even when the page change*/
+    
 }
 
 .inerBarNav {
@@ -17,24 +28,62 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    gap: 1rem;
-    border-bottom: solid 2px var(--green3);
+    /* border-bottom: solid 2px var(--green3); */
 }
 
 .inerBarNav a {
     display: block;
-    padding: 16px;
-    color: var(--font-color);
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
     transition: all 0.3s ease-in-out;
+    color: var(--font-color);
 }
 
 .inerBarNav a:hover {
-    background-color: var(--tertiary-color);
+    background-color: var(--navBar-over-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.inerBarNav a:active {
+    background-color: var(--navBar-color-active);
+    transition: all 0.3s ease-in-out;
 }
 
 .titleNav {
-    font-size: 1.5rem;
+    display: flex;
+    gap : 1rem;
+    font-size: 1.3rem;
     color: var(--white);
     text-align: center;
     margin: 16px;
 }
+
+.titleNav img {
+    width: 32px;
+    height: 32px;
+}
+
+.hidden {
+    display: none;
+}
+
+.openTheme:hover .hidden{
+    display: block;
+    transition: all 0.3s ease-in-out;
+}
+
+.openTheme:hover {
+    background-color: var(--navBar-over-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.underBarNav {
+    background-color: var(--navBar-under-color);
+    margin: 0;
+}
+
+.underBarNav a {
+    font-size: smaller;
+    padding-left:2rem;
+}
+

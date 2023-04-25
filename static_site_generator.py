@@ -20,13 +20,13 @@ class StaticSiteGenerator:
         The path of the folder where the HTML templates are stored.
     assetsFilePath : str
         The path of the folder where the assets are stored.
-    outputFilePath : str
+    contentFilePath : str
         The path of the folder where the output files are stored.
     styleFilePath : str
         The path of the folder where the CSS files are stored.
     """
     
-    def __init__(self, scriptFilePath="script", htmlTemplateFilePath="template", assetsFilePath="assets", outputFilePath="output", styleFilePath="style", createFolder:bool = True):
+    def __init__(self, scriptFilePath="script", htmlTemplateFilePath="template", assetsFilePath="assets", contentFilePath="output", styleFilePath="style", createFolder:bool = True):
         """Create the static site generator object
 
         Check if the path exist, if not, create the folder if `createFolder` is True.
@@ -39,7 +39,7 @@ class StaticSiteGenerator:
             The path of the folder where the HTML templates are stored.
         assetsFilePath : str
             The path of the folder where the assets are stored.
-        outputFilePath : str
+        contentFilePath : str
             The path of the folder where the output files are stored.
         styleFilePath : str
             The path of the folder where the CSS files are stored.
@@ -49,7 +49,7 @@ class StaticSiteGenerator:
 
         curentPath = os.path.dirname(__file__)
         
-        for path in [scriptFilePath, htmlTemplateFilePath, assetsFilePath, outputFilePath, styleFilePath]:
+        for path in [scriptFilePath, htmlTemplateFilePath, assetsFilePath, contentFilePath, styleFilePath]:
             if not self.CheckIfPathExist(path) and not createFolder:
                 raise Exception(f"Path {path} does not exist")
             elif not self.CheckIfPathExist(path) and createFolder:
@@ -57,8 +57,8 @@ class StaticSiteGenerator:
                 os.mkdir(os.path.join(curentPath, path))
         
         # we clean the output folder
-        for file in os.listdir(os.path.join(curentPath, outputFilePath)):
-            os.remove(os.path.join(curentPath, outputFilePath, file))
+        for file in os.listdir(os.path.join(curentPath, contentFilePath)):
+            os.remove(os.path.join(curentPath, contentFilePath, file))
         
         # we need the basename of these path to use it in the HTML template
         basename = lambda path: os.path.basename(os.path.normpath(path))
@@ -67,7 +67,7 @@ class StaticSiteGenerator:
         self.assetsFilePath = basename(assetsFilePath)
         self.styleFilePath = basename(styleFilePath)
 
-        self.outputFilePath = outputFilePath
+        self.contentFilePath = contentFilePath
         self.htmlTemplateFilePath = htmlTemplateFilePath
 
     def CheckIfPathExist(self, path:str) -> bool:
@@ -108,7 +108,7 @@ class StaticSiteGenerator:
         template = env.get_template(templateName)
         return template.render(**kwargs)
     
-    def CreateHTMLPage(self, HTMLComponent:list[str], pageName:str) -> None:
+    def CreateHTMLPage(self, HTMLComponent:list[str], pageName:str, manualOutputPath = None) -> None:
         """Create the HTML page from the HTML component list. You can compose the HTML component list as you want, 
         but the order is important. The first element of the list will be the first element of the HTML page.
 
@@ -121,6 +121,10 @@ class StaticSiteGenerator:
 
         """
         html = "".join(HTMLComponent)
-        with open(f"{self.outputFilePath}/{pageName}", "w") as f:
+        outputPath = self.contentFilePath
+        if manualOutputPath is not None:
+            outputPath = manualOutputPath
+        
+        with open(f"{outputPath}/{pageName}", "w") as f:
             f.write(html)
         

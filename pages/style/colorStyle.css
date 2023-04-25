@@ -29,4 +29,13 @@
     --green4: #415643;
     --green5: #324634;
     --green6: #222E23;
+
+    /* navBar color */
+
+    --navBar-color: #333;
+    --navBar-under-color: var(--green4);
+    --navBar-over-color: var(--green2);
+    --navBar-font-color-hover: var(--green1);
+    --navBar-color-hover: var(--green1);
+    --navBar-color-active: var(--green4);
 }

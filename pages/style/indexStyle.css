@@ -2,6 +2,7 @@
 @import url('colorStyle.css');
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
+@import url('navigationStyle.css');
 
 /* GLOBAL PARAMETER */
 
@@ -19,8 +20,8 @@ body{
     grid-auto-rows: auto;
     gap: 1rem;
 
-    /* No navbar in home page */
-    margin-left: 1rem;
+    /* No navbar in home page
+    margin-left: 1rem; */
     
 }
 

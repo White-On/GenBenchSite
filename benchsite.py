@@ -22,18 +22,20 @@ class BenchSite:
             os.path.join(outputPath,"script"),
             "htmlTemplate", 
             os.path.join(outputPath,"assets"), 
-            os.path.join(outputPath,"website"), 
+            os.path.join(outputPath,"content"), 
             os.path.join(outputPath,"style"))
 
     @staticmethod
     def GenerateHTMLBestLibraryGlobal():
+        # TODO ! ICI les lien ne sont pas bon pour la main pages !
+        contentfilePath = os.path.basename(staticSiteGenerator.contentFilePath) + "/"
         HTMLGlobalRanking = "<div id='global-rank' class='card'>\
                                 <h1>Library</h1>\
                                 <p>Here is the ranking of the best library for each task.</p>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
-            [f"<div class='global-card'><p>{BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
+            [f"<div class='global-card'><p>{BenchSite.MakeLink(library,library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
         HTMLGlobalRanking += "</div>\
                             </div>"
         return HTMLGlobalRanking
@@ -130,8 +132,11 @@ class BenchSite:
         return HTMLTask
 
     @staticmethod
-    def MakeLink(nameElement:str) -> str:
-        return f"<a href='{nameElement}.html'>{nameElement}</a>"
+    def MakeLink(nameElement:str, strElement = None) -> str:
+        if strElement is not None:
+            return f"<a href='{nameElement}.html'>{strElement}</a>"
+        else:
+            return f"<a href='{nameElement}.html'>{nameElement}</a>"
     
     @staticmethod
     def RankSubTitle(rank:float) -> str:
@@ -153,19 +158,20 @@ class BenchSite:
         staticSiteGenerator = self.staticSiteGenerator
 
         # HOME PAGE
-
         styleFilePath = 'indexStyle.css'
-        scriptFilePath = 'taskScript.js'
+        scriptFilePath = ''
+        linkTo = {"home":"index.html","about":"#","download":"#"}
+        contentfilePath = os.path.basename(staticSiteGenerator.contentFilePath) + "/"
 
         # HEADER
-        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}"
-                                                                        ,assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}"
-                                                                        ,scriptFilePath=f"../{staticSiteGenerator.assetsFilePath}/{scriptFilePath}")
+        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html", styleFilePath=f"{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",
+                                                                            linkTo=linkTo,)
 
         #NAVIGATION
-        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", tasklist = [BenchSite.MakeLink(taskName) for taskName in Task.GetAllTaskName()],
-                                                                                    themelist = [BenchSite.MakeLink(themeName) for themeName in Task.GetAllThemeName()],
-                                                                                    librarylist = [BenchSite.MakeLink(libraryName) for libraryName in Library.GetAllLibraryName()])
+        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(contentfilePath + theme,"&bull; "+theme): [BenchSite.MakeLink(contentfilePath + taskName, taskName) for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
+                                                                                    librarylist = [BenchSite.MakeLink(contentfilePath + libraryName,libraryName) for libraryName in Library.GetAllLibraryName()],
+                                                                                    assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",)
         
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
@@ -184,19 +190,27 @@ class BenchSite:
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
-        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html")
+        
+        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html",manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0])
 
         # TACHES PAGES
 
         styleFilePath = 'taskStyle.css'
         scriptFilePath = 'taskScript.js'
+        linkTo = {"home":"../index.html","about":"#","download":"#"}
+
+        #NAVIGATION
+        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(theme,"&bull; "+theme): [BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
+                                                                                    librarylist = [BenchSite.MakeLink(libraryName) for libraryName in Library.GetAllLibraryName()],
+                                                                                    assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",)
         
         for taskName in Task.GetAllTaskName():
             # HEADER
-            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html", styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                                assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+                                                                                linkTo=linkTo,)
 
+            
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
 
             # importedData = [task for task in Task.GetAllTaskByName(taskName)]
@@ -231,7 +245,8 @@ class BenchSite:
         for themeName in Task.GetAllThemeName():
             # HEADER
             HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+                                                                                assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+                                                                                linkTo=linkTo,)
 
             importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName].index(t)}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
@@ -251,7 +266,8 @@ class BenchSite:
         for libraryName in Library.GetAllLibraryName():
             # HEADER
             HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}")
+                                                                                assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+                                                                                linkTo=linkTo,)
 
             importedData ={task.name:{"display":"plot" if task.arguments_label[0].isnumeric() else "histo", "status":task.status,"data":[{"arguments":float(arg) if arg.isnumeric() else arg, "resultElement":res if res>=0  and res != float("infinity") else 0, "libraryName":libraryName} for arg,res in zip(task.arguments_label,task.results)]} for task in Library.GetLibraryByName(libraryName).tasks}
             # print(importedData)
