@@ -25,12 +25,12 @@ if __name__ == "__main__":
     # inputed by the user. This repository may be a github repository or a local repository.
 
     # usage :
-    # python main.py {isLocal} {repository} {output_folder} {isDeployed}
+    # python main.py {isLocal} {repository} {output_folder} {publish}
 
     # isLocal = True if the repository is local, False if the repository is on github
     # repository = the path of the repository if isLocal is True, the name of the repository if isLocal is False
     # output_folder = the path of the folder where the user want to save the HTML page
-    # isDeployed = True if the user want to deploy the HTML page, False otherwise
+    # publish = True if the user want to deploy the HTML page, False otherwise
 
     curentPath = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,12 +48,12 @@ if __name__ == "__main__":
                         default=True,
                         action=argparse.BooleanOptionalAction)
     
-    parser.add_argument('-of','--output_folder',
+    parser.add_argument('-O','--output_folder',
                         type=str,
                         help='the path of the folder where the user want to save the HTML page',
                         default='pages')
     
-    parser.add_argument('-D','--isDeployed',
+    parser.add_argument('-P','--publish',
                         help='True if the user want to deploy the HTML page, False otherwise',
                         default=True,
                         action=argparse.BooleanOptionalAction)
@@ -92,11 +92,11 @@ if __name__ == "__main__":
     codeFilename = "code.py"
     machineFilename = "machine.json"
 
-    # benchmark = Benchmark(pathToInfrastructure = args.repository)
-    # benchmark.StartAllProcedure()
+    benchmark = Benchmark(pathToInfrastructure = args.repository)
+    benchmark.StartAllProcedure()
 
-    # print(benchmark.results)
-    # benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
+    print(benchmark.results)
+    benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
 
     
 
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.isDeployed and not args.isLocal:
+    if args.publish and not args.isLocal:
         # before copying the output folder in the repository, we need to check if there is not already 
         #copy the output folder in the repository
         shutil.copytree(args.output_folder, os.path.join(args.repository, args.output_folder))

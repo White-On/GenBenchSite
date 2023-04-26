@@ -3,6 +3,7 @@
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
 @import url('navigationStyle.css');
+@import url('rankBarStyle.css');
 
 /* GLOBAL PARAMETER */
 
@@ -12,17 +13,18 @@
 }
 
 
-body{
+/* body{
+     No navbar in home page
+    margin-left: 1rem; 
     
+} */
+
+#main-container{
     display: grid;
-    /* grid-template-columns: 1fr 1fr 1fr;*/
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     grid-auto-rows: auto;
     gap: 1rem;
-
-    /* No navbar in home page
-    margin-left: 1rem; */
-    
+    margin-top: 1rem;
 }
 
 
@@ -30,9 +32,10 @@ body{
 
 .grid{
     display: grid;
-    gap : 2rem;
+    gap : 1rem;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     grid-auto-rows: auto;
+    align-self: normal;
     
 }
 
@@ -47,7 +50,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     
     
 }
@@ -56,6 +59,7 @@ body{
 
 #global-rank{
     background-color: var(--global-rank-color);
+    
 }
 
 #global-rank .grid{
@@ -143,7 +147,7 @@ body{
 }
 
 #task-rank .grid{
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .task-card{

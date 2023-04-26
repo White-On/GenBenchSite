@@ -16,7 +16,7 @@ body{
     color: var(--font-color);
     margin-top: calc(var(--topMargin) + 1rem);
     margin-right: 1rem;
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
     margin-left: calc(var(--navbar-width) + 1rem);
 }
 

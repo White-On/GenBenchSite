@@ -3,6 +3,7 @@
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
 @import url('navigationStyle.css');
+@import url('rankBarStyle.css');
 
 
 /* GLOBAL PARAMETER */
@@ -39,7 +40,7 @@ h1{
     font-weight: 400;
     /* color: var(--secondary-color); */
     text-decoration: none;
-    margin-block: 0;
+    margin-block: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,7 +50,7 @@ h1{
 
 #code{
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
     font-size: clamp(6px, 1.5vw, 12px);
 }
@@ -74,7 +75,7 @@ h1{
 #compare-tool{
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
 

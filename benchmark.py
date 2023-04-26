@@ -284,7 +284,7 @@ class Benchmark:
         # we check if the library support the task
         if not self.ScriptExist(taskPath,self.CreateScriptName(libraryName,"_run")):
             self.results[libraryName][taskName]["results"] = {arg : (Benchmark.NOT_RUN_VALUE, None) for arg in arguments}
-            self.progressBar.update(self.TaskConfigReader.getint(taskName,"nb_runs")*len(arguments))
+            self.progressBar.update(self.TaskConfigReader.getint(taskName,"nb_runs")*len(arguments) * 2) # *2 because we have before and after run script
             return
 
         # we check if there is a before run script
@@ -357,6 +357,7 @@ class Benchmark:
         nbIteration = 0
         for taskName in self.TaskConfigReader.sections():
             nbIteration += self.TaskConfigReader.getint(taskName,"nb_runs") * len(self.TaskConfigReader.get(taskName,"arguments").split(",")) * 2 * len(self.libraryNames)# Nb runs * nb arguments * 2 (before run and after run) * nb libraries
+            # print(f"{len(self.TaskConfigReader.get(taskName,'arguments').split(',')) = }")
             # print(f"{nbIteration = }")
         return nbIteration
     

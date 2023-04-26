@@ -18,7 +18,7 @@
         <!-- theme -->
         {% for theme, tasklist in TaskClassifiedByTheme.items() %}
             <div class="openTheme">{{theme}}
-            <nav class="inerBarNav hidden underBarNav">
+            <nav class="inerBarNav collapsed underBarNav">
                 {% for task in tasklist %}
                     {{task}}
                 {% endfor %}

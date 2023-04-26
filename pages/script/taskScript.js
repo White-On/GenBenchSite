@@ -69,3 +69,10 @@ function handleClickToPrintCode(elementsToDisplay) {
 element.appendChild(chart);
 
 // document.body.innerHTML += code["pgmpy"]
+
+//we want to make the navActive class active on the library page 
+let navActive = document.getElementById(TaskName + "-nav");
+navActive.classList.add("active");
+
+navActive.parentElement.parentElement.getElementsByTagName('a')[0].classList.add("active");
+navActive.parentElement.classList.replace("collapsed", "expanded");

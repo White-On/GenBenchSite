@@ -9,7 +9,7 @@ from task import Task
 import ranking as rk
 
 class BenchSite:
-    LEXMAX_THRESHOLD = 50
+    LEXMAX_THRESHOLD = 0
     def __init__(self, inputFilename: str, outputPath= "pages")->None:
         # Here to change you'r own FileReader
         self.libraryList, self.tasksList = FileReaderJson(inputFilename)
@@ -25,17 +25,16 @@ class BenchSite:
             os.path.join(outputPath,"content"), 
             os.path.join(outputPath,"style"))
 
-    @staticmethod
-    def GenerateHTMLBestLibraryGlobal():
-        # TODO ! ICI les lien ne sont pas bon pour la main pages !
-        contentfilePath = os.path.basename(staticSiteGenerator.contentFilePath) + "/"
+    
+    def GenerateHTMLBestLibraryGlobal(self):
+        contentfilePath = os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         HTMLGlobalRanking = "<div id='global-rank' class='card'>\
                                 <h1>Library</h1>\
                                 <p>Here is the ranking of the best library for each task.</p>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
-            [f"<div class='global-card'><p>{BenchSite.MakeLink(library,library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
+            [f"<div class='global-card'><p>{BenchSite.MakeLink(contentfilePath + library,library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
         HTMLGlobalRanking += "</div>\
                             </div>"
         return HTMLGlobalRanking
@@ -69,8 +68,8 @@ class BenchSite:
         HTMLThemeRanking += "</div>"
         return HTMLThemeRanking
 
-    @staticmethod
-    def GenerateHTMLBestLibraryByTheme():
+    def GenerateHTMLBestLibraryByTheme(self):
+        contentfilePath = os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         HTMLBestTheme = "<div id='theme-rank' class='card'>\
             <h1>Library Per Theme</h1>\
             <p>Here is the ranking of the best library for each theme.</p>\
@@ -80,13 +79,15 @@ class BenchSite:
         rankLibraryInTheme = {k: v for k, v in sorted(
             rankLibraryInTheme.items(), key=lambda item: item[0])}
         for themeName in rankLibraryInTheme.keys():
-            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(themeName)}</h2><p>(made of <b>{' '.join(BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</b></p>"
-            HTMLBestTheme += f"<p><b>{BenchSite.MakeLink(rankLibraryInTheme[themeName][0])}</b></p></div>"
+            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>(made of <b>{' '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</b></p>"
+            highLightedLibrary = rankLibraryInTheme[themeName][0]
+            HTMLBestTheme += f"<p><b>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</b></p></div>"
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
 
-    @staticmethod
-    def GenerateHTMLRankingPerTask():
+    
+    def GenerateHTMLRankingPerTask(self):
+        contentfilePath = os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         # Classement des Librairies par tâche
         HTMLTaskRanking = "<div><h1>Task Ranking</h1>"
         rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
@@ -102,7 +103,7 @@ class BenchSite:
             for library in LibraryNameList:
                 DictionaryLibraryResult[library] = Library.GetLibraryByName(library).GetTaskByName(taskName).results
             HTMLTaskRanking += "".join(
-                [f"<tr><td>{BenchSite.MakeLink(library)}</td><td>{value:.3f}</td></tr>" for library, value in DictionaryLibraryResult.items()])
+                [f"<tr><td>{BenchSite.MakeLink(contentfilePath + library, library)}</td><td>{value:.3f}</td></tr>" for library, value in DictionaryLibraryResult.items()])
             HTMLTaskRanking += "</table>"
             HTMLTaskRanking += f"<img src=\"../img/{taskName}.png\" alt=\"{taskName}\"></img></div>"
         HTMLTaskRanking += "</div>"
@@ -122,21 +123,21 @@ class BenchSite:
         HTMLMachineInfo += "</div>"
         return HTMLMachineInfo
 
-    @staticmethod
-    def GenerateHTMLBestLibraryByTask():
+    def GenerateHTMLBestLibraryByTask(self):
+        contentfilePath = os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         HTMLTask = "<div id='task-rank' class='card'><h1> Library Per Task</h1><div class=\"grid\">"
         rankLibraryInTask = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
         for taskName in rankLibraryInTask.keys():
-            HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(taskName)}</h2><p>{BenchSite.MakeLink(rankLibraryInTask[taskName][0])}<p></div>"
+            highLightedLibrary = rankLibraryInTask[taskName][0]
+            HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(contentfilePath + taskName, taskName)}</h2><p>{BenchSite.MakeLink(contentfilePath + highLightedLibrary, highLightedLibrary)}<p></div>"
         HTMLTask += "</div>"
         return HTMLTask
 
     @staticmethod
-    def MakeLink(nameElement:str, strElement = None) -> str:
-        if strElement is not None:
-            return f"<a href='{nameElement}.html'>{strElement}</a>"
-        else:
-            return f"<a href='{nameElement}.html'>{nameElement}</a>"
+    def MakeLink(nameElement:str, strElement = None, a_balise_id = None) -> str:
+        strElement = nameElement if strElement is None else strElement
+        a_balise_id = f"id='{a_balise_id}'" if a_balise_id is not None else ""
+        return f"<a href='{nameElement}.html' {a_balise_id}>{strElement}</a>"
     
     @staticmethod
     def RankSubTitle(rank:float) -> str:
@@ -169,10 +170,14 @@ class BenchSite:
                                                                             linkTo=linkTo,)
 
         #NAVIGATION
-        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(contentfilePath + theme,"&bull; "+theme): [BenchSite.MakeLink(contentfilePath + taskName, taskName) for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
-                                                                                    librarylist = [BenchSite.MakeLink(contentfilePath + libraryName,libraryName) for libraryName in Library.GetAllLibraryName()],
+        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(contentfilePath + theme,"&bull; "+theme, f"{theme}-nav"): [BenchSite.MakeLink(contentfilePath + taskName, taskName, f"{taskName}-nav") for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
+                                                                                    librarylist = [BenchSite.MakeLink(contentfilePath + libraryName,libraryName, f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
                                                                                     assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",)
         
+        # RANKING BAR GLOBALE
+        HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html",  listElementRank = BenchSite.OrderedList([BenchSite.MakeLink(contentfilePath + libraryName, libraryName, libraryName) for libraryName in rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)]),
+                                                                                        rankDescription="Ranking of the week :",)
+
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html")
 
@@ -187,11 +192,15 @@ class BenchSite:
 
         # CLASSEMENT DES LIBRAIRIES PAR TACHES
         HTMLTaskRanking = self.GenerateHTMLBestLibraryByTask()
+        
+        HTMLMainContainer = "<div id='main-container'>" + \
+                            "".join([HTMLPresentation,HTMLMachineInfo,HTMLGlobalRanking, HTMLThemeRanking, HTMLTaskRanking])\
+                            + "</div>"
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
         
-        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLGlobalRanking, HTMLPresentation, HTMLMachineInfo, HTMLThemeRanking, HTMLTaskRanking, HTMLFooter], "index.html",manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0])
+        staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation,  HTMLGlobalRankingBar, HTMLMainContainer, HTMLFooter], "index.html",manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0])
 
         # TACHES PAGES
 
@@ -200,16 +209,20 @@ class BenchSite:
         linkTo = {"home":"../index.html","about":"#","download":"#"}
 
         #NAVIGATION
-        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(theme,"&bull; "+theme): [BenchSite.MakeLink(taskName) for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
-                                                                                    librarylist = [BenchSite.MakeLink(libraryName) for libraryName in Library.GetAllLibraryName()],
+        HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(theme,"&bull; "+theme, f"{theme}-nav"): [BenchSite.MakeLink(taskName, a_balise_id=f"{taskName}-nav") for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
+                                                                                    librarylist = [BenchSite.MakeLink(libraryName, a_balise_id=f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
                                                                                     assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",)
-        
-        for taskName in Task.GetAllTaskName():
-            # HEADER
-            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html", styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                                assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
-                                                                                linkTo=linkTo,)
+        # HEADER
+        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html", styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+                                                                            linkTo=linkTo,)
+    
+        taskRankDico = rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)
 
+        for taskName in Task.GetAllTaskName():
+            
+            HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", listElementRank = BenchSite.OrderedList([BenchSite.MakeLink(libraryName) for libraryName in taskRankDico[taskName]])
+                                                                                       , rankDescription=f"Ranking of the week for the task {taskName} : ",)
             
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
 
@@ -235,18 +248,24 @@ class BenchSite:
                                                                                 #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
                                                                                 code = templateTask)
 
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLTaskRankingBar, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
 
         # THEME PAGES
 
         styleFilePath = 'themeStyle.css'
         scriptFilePath = 'themeScript.js'
 
+        # HEADER
+        HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+                                                                            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+                                                                            linkTo=linkTo,)
+        themeRankDico = rk.RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
+
         for themeName in Task.GetAllThemeName():
-            # HEADER
-            HTMLHeader = staticSiteGenerator.CreateHTMLComponent("header.html",styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-                                                                                assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
-                                                                                linkTo=linkTo,)
+            
+            # CLASSEMENT DES LIBRAIRIES PAR TACHES BAR
+            HTMLThemeRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", listElementRank = BenchSite.OrderedList([BenchSite.MakeLink(libraryName) for libraryName in themeRankDico[themeName]])
+                                                                                        , rankDescription=f"Ranking of the week for the theme {themeName} : ",)
 
             importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName].index(t)}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
@@ -256,12 +275,15 @@ class BenchSite:
                                                                         scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                         scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
 
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLThemeRankingBar, HTMLThemeRanking, HTMLFooter], f"{themeName}.html")
         
         # LIBRAIRIES PAGES
-
         styleFilePath = 'libraryStyle.css'
         scriptFilePath = 'libraryScript.js'
+
+         # RANKING BAR GLOBALE
+        HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", listElementRank = BenchSite.OrderedList([BenchSite.MakeLink(libraryName,a_balise_id=libraryName) for libraryName in rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)])
+                                                                                     , rankDescription=f"Ranking of the week : ",)
 
         for libraryName in Library.GetAllLibraryName():
             # HEADER
@@ -277,7 +299,7 @@ class BenchSite:
                                                                                         scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                                         scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),)
 
-            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
+            staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLGlobalRankingBar, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
 
 
 if __name__ == "__main__":

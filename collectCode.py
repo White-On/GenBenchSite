@@ -43,7 +43,7 @@ class CollectCode:
         for target,value in self.taskPath.items():
             for taskName,path in value.items():
                 html = None
-                if (path != "None"):
+                if (path != None):
                     with open(path, 'r') as f:
                         code = f.read()
                         formatter = HtmlFormatter(linenos=True, cssclass="zenburn", noclasses=True, style="zenburn")

@@ -3,6 +3,7 @@
 @import url('bodyStyle.css');
 @import url('headerStyle.css');
 @import url('navigationStyle.css');
+@import url('rankBarStyle.css');
 
 
 /* GLOBAL PARAMETER */
@@ -19,7 +20,7 @@ body{
 
 }
 
-a{
+.card a{
     color: var(--green6);
 }
 

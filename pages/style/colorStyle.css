@@ -37,5 +37,7 @@
     --navBar-over-color: var(--green2);
     --navBar-font-color-hover: var(--green1);
     --navBar-color-hover: var(--green1);
-    --navBar-color-active: var(--green4);
+    --navBar-color-active: var(--green2);
+    --navBar-color-under-hover: var(--green2);
+    --navBar-color-under-active: var(--green1);
 }

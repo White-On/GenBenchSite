@@ -1,0 +1,31 @@
+@import url('bodyStyle.css');
+
+#rank-bar{
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--black);
+    font-size: larger;
+    align-self: normal;
+    
+
+}
+
+#rank-bar p{
+    margin: 0rem;
+    transition: all 0.3s ease-in-out;
+}
+
+#rank-str{
+    display : flex;
+    flex-direction: inline-block;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0rem;
+}
