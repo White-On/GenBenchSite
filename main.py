@@ -25,9 +25,9 @@ if __name__ == "__main__":
     # inputed by the user. This repository may be a github repository or a local repository.
 
     # usage :
-    # python main.py {isLocal} {repository} {output_folder} {publish}
+    # python main.py {access_folder} {repository} {output_folder} {publish}
 
-    # isLocal = True if the repository is local, False if the repository is on github
+    # access_folder = the way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github
     # repository = the path of the repository if isLocal is True, the name of the repository if isLocal is False
     # output_folder = the path of the folder where the user want to save the HTML page
     # publish = True if the user want to deploy the HTML page, False otherwise
@@ -40,14 +40,14 @@ if __name__ == "__main__":
     
     parser.add_argument('repository',
                         type=str,
-                        help='the path of the repository if isLocal is True, the name of the repository if isLocal is False',
+                        help='the path of the repository',
                         )
     
-    parser.add_argument('-L','--isLocal', 
-                        help='True if the repository is local, False if the repository is on github',
-                        default=True,
-                        action=argparse.BooleanOptionalAction)
-    
+    parser.add_argument('-A','--access_folder', 
+                        help='The way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github',
+                        default='local',
+                        choices=['local', 'github'])
+
     parser.add_argument('-O','--output_folder',
                         type=str,
                         help='the path of the folder where the user want to save the HTML page',
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # print(args)
     online_repository = None
 
-    if not args.isLocal:
+    if args.access_folder == "github":
         print("Online repository")
         # we create a local repository 
         tmpPath = os.path.join(curentPath, "repository")
@@ -98,8 +98,6 @@ if __name__ == "__main__":
     print(benchmark.results)
     benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
 
-    
-
     # we want to create two additional files :
     # - a file that contains the machine information/metadata
     # - a file that contains the code of the tests done on the test repository
@@ -114,13 +112,16 @@ if __name__ == "__main__":
     
     benchsite = BenchSite(inputFilename=resultFilename, outputPath=args.output_folder)
     benchsite.GenerateStaticSite()
+
+    # we copy the result.json file in the output folder
+    shutil.copyfile(os.path.join(curentPath, resultFilename), os.path.join(args.output_folder, resultFilename))
     
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.publish and not args.isLocal:
+    if args.publish and not args.access_folder:
         # before copying the output folder in the repository, we need to check if there is not already 
         #copy the output folder in the repository
         shutil.copytree(args.output_folder, os.path.join(args.repository, args.output_folder))

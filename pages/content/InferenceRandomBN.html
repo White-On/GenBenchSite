@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <head>
-    <title>BenchSite</title>
+    <title></title>
     <meta charset="UTF-8">
     <meta name="description" content="This is the description of the page">
     <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
@@ -22,7 +22,7 @@
         <nav class="header-nav">
             <a href="../index.html"><b>Home</b></a>
             <a href="#"><b>About</b></a>
-            <a href="#" download="data.json"><b>Download</b></a>
+            <a href="../result.json" download="data.json"><b>Download</b></a>
         </nav>
         <nav class="header-nav">
             <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
@@ -74,13 +74,16 @@
         
     </script>
 </nav><div id="rank-bar">
-    <p>Ranking of the week for the task InferenceRandomBN : </p>
-    <div id="rank-str"><a href='pyAgrum.html' >pyAgrum</a>&gt;<a href='bnlearn.html' >bnlearn</a>&gt;<a href='pgmpy.html' >pgmpy</a></div>
-</div><script defer  >const importedData = [{'arguments': 'BN_18_1.5_3.bif', 'runTime': 0.014130600000498816, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_12_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'runTime': 0.010760999999547494, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_19_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_2.bif', 'runTime': 0.004306299999370822, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_15_1.5_2.bif', 'runTime': 0.006124599998656777, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_19_1.5_3.bif', 'runTime': 0.0036432999986573122, 'libraryName': 'pyAgrum'}];</script>
+    <div id="rank-str">Order for the task InferenceRandomBN : <a href='pyAgrum.html' >pyAgrum</a>&gt;<a href='bnlearn.html' >bnlearn</a>&gt;<a href='pgmpy.html' >pgmpy</a></div>
+    <div>2023-04-27 16:43:10</div>
+</div><script defer  >const importedData = [{'arguments': 'BN_13_1.5_2.bif', 'runTime': 0.006808600002841558, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_17_1.5_3.bif', 'runTime': 0.004280900000594556, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_2.bif', 'runTime': 0.0033518999989610165, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_3.bif', 'runTime': 0.03961749999871245, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_17_1.5_2.bif', 'runTime': 0.0075143000030948315, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_15_1.5_2.bif', 'runTime': 0.03624409999611089, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_18_1.5_2.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}];</script>
+<script defer  >const argDescription = 'Bayesian network';</script>
 <script defer type='module' src ='../script/taskScript.js'></script>
+
 <div>
 <h1 id="entry-title">InferenceRandomBN</h1>
-<div id="menu"></div>
+<!-- <div id="menu"></div> -->
+<div>Inference is the process of using a Bayesian Network to compute the probability of an event given some evidence or observations. Bayesian Networks are graphical models that represent the relationships between random variables using directed acyclic graphs. Each node in the graph represents a random variable, and the edges represent the conditional dependencies between them. Inference can be used to answer questions like "What is the probability of a certain event occurring, given that some other event has already occurred?" or "What is the most likely value of a certain variable, given some observed data?" Inference can also be used to propagate uncertainty through the network, allowing us to reason about the probabilities of complex events that depend on multiple variables. The Inference task in a benchmark of Bayesian Network libraries would typically involve measuring the speed and accuracy of various methods for performing inference on a given Bayesian Network. This could include methods like exact inference, approximate inference using Monte Carlo methods, or message-passing algorithms like belief propagation. To perform the Inference task, a benchmarking tool would typically provide a set of test cases, each consisting of a Bayesian Network and some evidence or observations. The tool would then run each of the inference methods being tested on each test case, measuring the time required to perform the inference and the accuracy of the results obtained. The results of the benchmark could then be used to compare the performance and accuracy of different Bayesian Network libraries for the task of inference.</div>
 
 <div id="compare-tool">
     <div class="graphics" id="InferenceRandomBN"></div>

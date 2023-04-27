@@ -44,7 +44,7 @@ chart = GroupedBarChart(importedData, {
     width: width,
     height: height,
 
-    xLabel: "Arguments →",
+    xLabel: argDescription + " →",
     yLabel: "Run Time (ms) ↑",
 
     

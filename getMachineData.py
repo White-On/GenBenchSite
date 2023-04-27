@@ -1,6 +1,7 @@
 import platform
 import psutil
 import multiprocessing
+import datetime
 
 import json
 
@@ -15,7 +16,8 @@ def GetRunMachineMetadata():
             "machine_processor" : platform.processor(),
             "machine_processor_count" : multiprocessing.cpu_count(),
             "machine_memory" :psutil._common.bytes2human(psutil.virtual_memory().total),
-            "machine_python_version" : platform.python_version()
+            "machine_python_version" : platform.python_version(),
+            "execution_date" : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
 def SaveMachineDataInJson(outputFile:str):
