@@ -198,4 +198,5 @@ rankLibraryName.style.transition = "all 0.3s ease-in-out";
 
 //we want to make the navActive class active on the library page 
 let navActive = document.getElementById(libraryName + "-nav");
+console.log(navActive);
 navActive.classList.add("active");

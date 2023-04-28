@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <head>
-    <title></title>
+    <title>GenBenSite</title>
     <meta charset="UTF-8">
     <meta name="description" content="This is the description of the page">
     <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
@@ -37,11 +37,11 @@
             <div>Targets</div></div>
         <!-- library -->
         
-            <a href='bnlearn.html' id='bnlearn-nav'>bnlearn</a>
+            <a href='bnlearn.html' id='bnlearn-nav'>bnlearn<img src='../assets\question.svg' alt='bnlearn'></a>
         
-            <a href='pgmpy.html' id='pgmpy-nav'>pgmpy</a>
+            <a href='pgmpy.html' id='pgmpy-nav'>pgmpy<img src='../assets\pgmpy.png' alt='pgmpy'></a>
         
-            <a href='pyAgrum.html' id='pyAgrum-nav'>pyAgrum</a>
+            <a href='pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='../assets\pyAgrum.png' alt='pyAgrum'></a>
         
     </nav>
 
@@ -74,9 +74,27 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order for the theme BIFGeneration : <a href='pyAgrum.html' >pyAgrum</a>&gt;<a href='bnlearn.html' >bnlearn</a>&gt;<a href='pgmpy.html' >pgmpy</a></div>
-    <div>2023-04-27 16:43:10</div>
-</div><script defer  >const importedData = [{'taskName': 'InferenceRandomBN', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'InferenceRandomBN', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'InferenceRandomBN', 'libraryName': 'pgmpy', 'results': 2}];</script>
+    <div id="rank-str">Order for the theme BIFGeneration : 
+        <a href='pyAgrum.html' >pyAgrum</a><a href='bnlearn.html' >bnlearn</a><a href='pgmpy.html' >pgmpy</a>
+    </div>
+    <div>2023-04-28 09:13:20</div>
+</div>
+<script>
+    let element = document.getElementById("rank-str");
+    let rankDescription = element.getElementsByTagName("a")
+    const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                     .domain([0,rankDescription.length-1]);
+    for (let i = 0; i < rankDescription.length; i++) {
+        rankDescription[i].style.background = colorScale(i);
+    }
+
+    let arrows = element.getElementsByTagName("img");
+    for (let i = 0; i < arrows.length; i++) {
+        arrows[i].style.fill = colorScale(i);
+        arrows[i].style.backgroundColor = colorScale(i+1);
+        // arrows[i].style.rotate = "90deg";
+    }
+</script><script defer  >const importedData = [{'taskName': 'InferenceRandomBN', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'InferenceRandomBN', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'InferenceRandomBN', 'libraryName': 'pgmpy', 'results': 2}];</script>
 <script defer type='module' src ='../script/themeScript.js'></script>
 
 <h1 id="entry-title">BIFGeneration</h1>

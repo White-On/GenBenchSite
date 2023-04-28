@@ -1,4 +1,22 @@
 <div id="rank-bar">
-    <div id="rank-str">{{rankDescription}}{{listElementRank}}</div>
+    <div id="rank-str">{{rankDescription}}
+        {{listElementRank}}
+    </div>
     <div>{{dataGenerationDate}}</div>
 </div>
+<script>
+    let element = document.getElementById("rank-str");
+    let rankDescription = element.getElementsByTagName("a")
+    const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                     .domain([0,rankDescription.length-1]);
+    for (let i = 0; i < rankDescription.length; i++) {
+        rankDescription[i].style.background = colorScale(i);
+    }
+
+    let arrows = element.getElementsByTagName("img");
+    for (let i = 0; i < arrows.length; i++) {
+        arrows[i].style.fill = colorScale(i);
+        arrows[i].style.backgroundColor = colorScale(i+1);
+        // arrows[i].style.rotate = "90deg";
+    }
+</script>

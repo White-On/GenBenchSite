@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <head>
-    <title>GenBench</title>
+    <title>GenBenSite</title>
     <meta charset="UTF-8">
     <meta name="description" content="This is the description of the page">
     <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
@@ -37,11 +37,11 @@
             <div>Targets</div></div>
         <!-- library -->
         
-            <a href='content/bnlearn.html' id='bnlearn-nav'>bnlearn</a>
+            <a href='bnlearn.html' id='bnlearn-nav'>bnlearn<img src='../assets\question.svg' alt='bnlearn'></a>
         
-            <a href='content/pgmpy.html' id='pgmpy-nav'>pgmpy</a>
+            <a href='pgmpy.html' id='pgmpy-nav'>pgmpy<img src='../assets\pgmpy.png' alt='pgmpy'></a>
         
-            <a href='content/pyAgrum.html' id='pyAgrum-nav'>pyAgrum</a>
+            <a href='pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='../assets\pyAgrum.png' alt='pyAgrum'></a>
         
     </nav>
 
@@ -74,9 +74,27 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order : <a href='content/pyAgrum.html' id='pyAgrum'>pyAgrum</a>&gt;<a href='content/pgmpy.html' id='pgmpy'>pgmpy</a>&gt;<a href='content/bnlearn.html' id='bnlearn'>bnlearn</a></div>
-    <div>2023-04-27 16:43:10</div>
-</div><div id='main-container'><div class="card">
-    <h1>Welcome to BenchSite</h1>
+    <div id="rank-str">Order : 
+        <a href='content/pyAgrum.html' id='pyAgrum'>pyAgrum</a><a href='content/pgmpy.html' id='pgmpy'>pgmpy</a><a href='content/bnlearn.html' id='bnlearn'>bnlearn</a>
+    </div>
+    <div>2023-04-28 09:13:20</div>
+</div>
+<script>
+    let element = document.getElementById("rank-str");
+    let rankDescription = element.getElementsByTagName("a")
+    const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                     .domain([0,rankDescription.length-1]);
+    for (let i = 0; i < rankDescription.length; i++) {
+        rankDescription[i].style.background = colorScale(i);
+    }
+
+    let arrows = element.getElementsByTagName("img");
+    for (let i = 0; i < arrows.length; i++) {
+        arrows[i].style.fill = colorScale(i);
+        arrows[i].style.backgroundColor = colorScale(i+1);
+        // arrows[i].style.rotate = "90deg";
+    }
+</script><div id='main-container'><div class="card">
+    <h1>Welcome to GenBenSite</h1>
     <p>This website is a benchmark tool to help you compare, study and decide which tools are the most adapted to your task. You are currently to the main page where you can have a quick overview of each Library and their capability compare to each other</p>
-</div><div class ='card'><h1>Machine Info</h1><ul><li>machine os : Windows</li><li>machine os version : 10</li><li>machine os architecture : ['64bit', 'WindowsPE']</li><li>machine processor : Intel64 Family 6 Model 94 Stepping 3, GenuineIntel</li><li>machine processor count : 4</li><li>machine memory : 7.9G</li><li>machine python version : 3.10.4</li><li>execution date : 2023-04-27 16:43:10</li></ul></div><div id='global-rank' class='card'>                                <h1>Library</h1>                                <p>Here is the ranking of the best library for each task.</p>                            <div class='grid'><div class='global-card'><p><a href='content/pyAgrum.html' >pyAgrum</a></p></div><div class='global-card'><p><a href='content/pgmpy.html' >pgmpy</a></p></div><div class='global-card'><p><a href='content/bnlearn.html' >bnlearn</a></p></div></div>                            </div><div id='theme-rank' class='card'>            <h1>Library Per Theme</h1>            <p>Here is the ranking of the best library for each theme.</p>                <div class="grid"><div class='theme-card'><h2><a href='content/BIFExploiting.html' >BIFExploiting</a></h2><p>(made of <b><a href='content/BIFReading.html' >BIFReading</a> <a href='content/Learning.html' >Learning</a>)</b></p><p><b><a href='content/pgmpy.html' >pgmpy</a></b></p></div><div class='theme-card'><h2><a href='content/BIFGeneration.html' >BIFGeneration</a></h2><p>(made of <b><a href='content/InferenceRandomBN.html' >InferenceRandomBN</a>)</b></p><p><b><a href='content/pyAgrum.html' >pyAgrum</a></b></p></div></div></div><div id='task-rank' class='card'><h1> Library Per Task</h1><div class="grid"><div class='task-card'><h2><a href='content/BIFReading.html' >BIFReading</a></h2><p><a href='content/pyAgrum.html' >pyAgrum</a><p></div><div class='task-card'><h2><a href='content/Learning.html' >Learning</a></h2><p><a href='content/pgmpy.html' >pgmpy</a><p></div><div class='task-card'><h2><a href='content/InferenceRandomBN.html' >InferenceRandomBN</a></h2><p><a href='content/pyAgrum.html' >pyAgrum</a><p></div></div></div></body>
+</div><div class ='card'><h1>Machine Info</h1><ul><li>machine os : Windows</li><li>machine os version : 10</li><li>machine os architecture : ['64bit', 'WindowsPE']</li><li>machine processor : Intel64 Family 6 Model 94 Stepping 3, GenuineIntel</li><li>machine processor count : 4</li><li>machine memory : 7.9G</li><li>machine python version : 3.10.4</li><li>execution date : 2023-04-28 09:13:20</li></ul></div><div id='global-rank' class='card'>                                <h1>Library</h1>                                <p>Here is the ranking of the best library for each task.</p>                            <div class='grid'><div class='global-card'><p><a href='content/pyAgrum.html' >pyAgrum</a></p></div><div class='global-card'><p><a href='content/pgmpy.html' >pgmpy</a></p></div><div class='global-card'><p><a href='content/bnlearn.html' >bnlearn</a></p></div></div>                            </div><div id='theme-rank' class='card'>            <h1>Library Per Theme</h1>            <p>Here is the ranking of the best library for each theme.</p>                <div class="grid"><div class='theme-card'><h2><a href='content/BIFExploiting.html' >BIFExploiting</a></h2><p>(made of <b><a href='content/BIFReading.html' >BIFReading</a> <a href='content/Learning.html' >Learning</a>)</b></p><p><b><a href='content/pgmpy.html' >pgmpy</a></b></p></div><div class='theme-card'><h2><a href='content/BIFGeneration.html' >BIFGeneration</a></h2><p>(made of <b><a href='content/InferenceRandomBN.html' >InferenceRandomBN</a>)</b></p><p><b><a href='content/pyAgrum.html' >pyAgrum</a></b></p></div></div></div><div id='task-rank' class='card'><h1> Library Per Task</h1><div class="grid"><div class='task-card'><h2><a href='content/BIFReading.html' >BIFReading</a></h2><p><a href='content/pyAgrum.html' >pyAgrum</a><p></div><div class='task-card'><h2><a href='content/Learning.html' >Learning</a></h2><p><a href='content/pgmpy.html' >pgmpy</a><p></div><div class='task-card'><h2><a href='content/InferenceRandomBN.html' >InferenceRandomBN</a></h2><p><a href='content/pyAgrum.html' >pyAgrum</a><p></div></div></div></body>

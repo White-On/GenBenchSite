@@ -32,11 +32,19 @@
 }
 
 .inerBarNav a {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
     padding-inline: 1rem;
     padding-block: 0.5rem;
     transition: all 0.3s ease-in-out;
     color: var(--font-color);
+}
+
+.inerBarNav img {
+    width: 24px;
+    height: 24px;
 }
 
 .inerBarNav a:hover {
@@ -44,8 +52,9 @@
     transition: all 0.3s ease-in-out;
 }
 
-.inerBarNav a.active {
+.inerBarNav .active{
     background-color: var(--navBar-color-active);
+    border: 2mm ridge var(--green3);
 }
 
 .titleNav {
@@ -97,5 +106,7 @@
 
 .underBarNav a.active {
     background-color: var(--navBar-color-under-active);
+    border: 3mm ridge var(--green3);
+    padding-left: 1rem;
     
 }

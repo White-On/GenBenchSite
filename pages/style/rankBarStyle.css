@@ -26,6 +26,13 @@
     flex-direction: inline-block;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0rem;
     padding: 0rem;
+}
+
+
+
+#rank-str a{
+    padding-inline: 0.5rem;
+    /* border-radius: 10px; */
 }

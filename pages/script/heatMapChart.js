@@ -31,7 +31,7 @@ export function HeatMap(data,{
 
     const I = d3.range(V.length);
 
-    // console.log(CX);
+    console.log(CX);
     // console.log(CY);
     // console.log(V);
 
@@ -52,7 +52,7 @@ export function HeatMap(data,{
     // console.log(xScale.bandwidth());
     // console.log(xScale(CX[0]));
 
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3.axisTop(xScale);
     const yAxis = d3.axisLeft(yScale);
 
     // create SVG element and set size
@@ -80,7 +80,7 @@ export function HeatMap(data,{
     
     // add the x-axis to the chart.
     svg.append("g")
-        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .attr("transform", `translate(0,${margin.top})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
         .call(g => g.select(".domain").remove());
