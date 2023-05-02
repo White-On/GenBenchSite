@@ -159,6 +159,8 @@ def LexMax(dictionnary:dict[str, list[float]]) -> list[str]:
     ['Library3', 'Library2', 'Library1']
     """
     rankMatrix = np.zeros((len(dictionnary.keys()), len(list(dictionnary.values())[0])))
+    sortMatrix = np.zeros((len(dictionnary.keys()), len(list(dictionnary.values())[0])))
+    sortMatrix.dtype = int
     # On remplit la matrice avec les valeurs du dictionnaire
     for i, key in enumerate(dictionnary.keys()):
         for j, value in enumerate(dictionnary[key]):
@@ -166,11 +168,14 @@ def LexMax(dictionnary:dict[str, list[float]]) -> list[str]:
     
     # On trie chaque colonne de la matrice avec un classement 
     for row in range(rankMatrix.shape[1]):
-        rankMatrix[:,row] = [sorted(rankMatrix[:,row].tolist()).index(element) for element in rankMatrix[:,row].tolist()]
+        sortMatrix[:,row] = [sorted(rankMatrix[:,row].tolist()).index(element) for element in rankMatrix[:,row].tolist()]
     
     VectorLibrary = {}
     for i, key in enumerate(dictionnary.keys()):
-        VectorLibrary[key] = sorted(rankMatrix[i,:].tolist())
+        VectorLibrary[key] = sorted(sortMatrix[i,:].tolist())
+    
+    print(dictionnary.keys())
+    print(dictionnary.values())
 
     return [k for k, _ in sorted(VectorLibrary.items(), key=lambda item: item[1])]
 
@@ -234,6 +239,6 @@ if __name__ == "__main__":
 
     _ = FileReaderJson("result.json")
 
-    print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
-    print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
-    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=50)}")
+    # print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
+    # print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
+    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=0)}")

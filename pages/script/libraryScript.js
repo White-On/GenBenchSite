@@ -190,11 +190,7 @@ function ResultTreatement(tasksData,libraryName,type = "time") {
     return formattedData;
 }
 
-// we want to make the name of the library bigger in the rank bar when on the page of the library
-let rankLibraryName = document.getElementById(libraryName);
-rankLibraryName.style.fontSize = "1.2rem";
-rankLibraryName.style.fontWeight = "bold";
-rankLibraryName.style.transition = "all 0.3s ease-in-out";
+
 
 //we want to make the navActive class active on the library page 
 let navActive = document.getElementById(libraryName + "-nav");

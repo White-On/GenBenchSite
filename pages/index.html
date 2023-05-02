@@ -37,11 +37,11 @@
             <div>Targets</div></div>
         <!-- library -->
         
-            <a href='bnlearn.html' id='bnlearn-nav'>bnlearn<img src='../assets\question.svg' alt='bnlearn'></a>
+            <a href='./content/bnlearn.html' id='bnlearn-nav'>bnlearn<img src='assets\question.svg' alt='bnlearn'></a>
         
-            <a href='pgmpy.html' id='pgmpy-nav'>pgmpy<img src='../assets\pgmpy.png' alt='pgmpy'></a>
+            <a href='./content/pgmpy.html' id='pgmpy-nav'>pgmpy<img src='assets\pgmpy.png' alt='pgmpy'></a>
         
-            <a href='pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='../assets\pyAgrum.png' alt='pyAgrum'></a>
+            <a href='./content/pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='assets\pyAgrum.png' alt='pyAgrum'></a>
         
     </nav>
 
@@ -74,26 +74,20 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order : 
-        <a href='content/pyAgrum.html' id='pyAgrum'>pyAgrum</a><a href='content/pgmpy.html' id='pgmpy'>pgmpy</a><a href='content/bnlearn.html' id='bnlearn'>bnlearn</a>
-    </div>
+    <div id="rank-str"></div>
     <div>2023-04-28 09:13:20</div>
 </div>
-<script>
-    let element = document.getElementById("rank-str");
-    let rankDescription = element.getElementsByTagName("a")
-    const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                     .domain([0,rankDescription.length-1]);
-    for (let i = 0; i < rankDescription.length; i++) {
-        rankDescription[i].style.background = colorScale(i);
-    }
+<script type="module">
+    import { rankBar } from "./script/rankBar.js";
+    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
 
-    let arrows = element.getElementsByTagName("img");
-    for (let i = 0; i < arrows.length; i++) {
-        arrows[i].style.fill = colorScale(i);
-        arrows[i].style.backgroundColor = colorScale(i+1);
-        // arrows[i].style.rotate = "90deg";
-    }
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
 </script><div id='main-container'><div class="card">
     <h1>Welcome to GenBenSite</h1>
     <p>This website is a benchmark tool to help you compare, study and decide which tools are the most adapted to your task. You are currently to the main page where you can have a quick overview of each Library and their capability compare to each other</p>

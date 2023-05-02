@@ -69,11 +69,11 @@ class BenchSite:
             # we copy the logo in the assets folder
             if os.path.exists(os.path.join(self.structureTestPath,"targets",libraryName,"logo.png")):
                 shutil.copyfile(os.path.join(self.structureTestPath,"targets",libraryName,"logo.png"),os.path.join(self.outputPath,self.staticSiteGenerator.assetsFilePath,libraryName+".png"))
-                logo[libraryName] = os.path.join("../",self.staticSiteGenerator.assetsFilePath,libraryName+".png")
+                logo[libraryName] = os.path.join(self.staticSiteGenerator.assetsFilePath,libraryName+".png")
             
             else:
                 # logo[libraryName] = os.path.join(self.staticSiteGenerator.assetsFilePath,"default.png")
-                logo[libraryName] = os.path.join("../",self.staticSiteGenerator.assetsFilePath,"question.svg")
+                logo[libraryName] = os.path.join(self.staticSiteGenerator.assetsFilePath,"question.svg")
         
         return logo
 
@@ -228,13 +228,13 @@ class BenchSite:
 
         #NAVIGATION
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(contentfilePath + theme,"&bull; "+theme, f"{theme}-nav"): [BenchSite.MakeLink(contentfilePath + taskName, taskName, f"{taskName}-nav") for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
-                                                                                    librarylist = [BenchSite.MakeLink(libraryName, strElement= f"{libraryName}<img src='{logoLibrary[libraryName]}' alt='{libraryName}'>", a_balise_id=f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
+                                                                                    librarylist = [BenchSite.MakeLink("./content/"+libraryName, strElement= f"{libraryName}<img src='{logoLibrary[libraryName]}' alt='{libraryName}'>", a_balise_id=f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
                                                                                     assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",)
         
         # RANKING BAR GLOBALE
         HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html",  listElementRank = "".join([f"{element}" for element in[BenchSite.MakeLink(contentfilePath + libraryName, libraryName, libraryName) for libraryName in rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)]]),
-                                                                                        rankDescription="Order : ",
-                                                                                        dataGenerationDate = self.machineData["execution_date"])
+                                                                                        dataGenerationDate = self.machineData["execution_date"],
+                                                                                        scriptFilePath = f"./{staticSiteGenerator.scriptFilePath}/rankBar.js")
 
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent("presentation.html",     siteName = self.siteConfig["name"],
@@ -269,7 +269,7 @@ class BenchSite:
 
         #NAVIGATION
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(theme,"&bull; "+theme, f"{theme}-nav"): [BenchSite.MakeLink(taskName, a_balise_id=f"{taskName}-nav") for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
-                                                                                    librarylist = [BenchSite.MakeLink(libraryName, strElement= f"{libraryName}<img src='{logoLibrary[libraryName]}' alt='{libraryName}'>", a_balise_id=f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
+                                                                                    librarylist = [BenchSite.MakeLink(libraryName, strElement= f"{libraryName}<img src='../{logoLibrary[libraryName]}' alt='{libraryName}'>", a_balise_id=f"{libraryName}-nav") for libraryName in Library.GetAllLibraryName()],
                                                                                     assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
                                                                                     )
         # HEADER
@@ -283,10 +283,10 @@ class BenchSite:
         for taskName in Task.GetAllTaskName():
             
             HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", 
-                                                                                        # listElementRank = "<svg xmlns='http://www.w3.org/2000/svg' height='100px' width= '100px' ><polygon points='50,0 100,100 0,100' /></svg>".join([f"{element}" for element in[BenchSite.MakeLink(libraryName) for libraryName in taskRankDico[taskName]]])
                                                                                         listElementRank = "".join([f"{element}" for element in[BenchSite.MakeLink(libraryName) for libraryName in taskRankDico[taskName]]])
-                                                                                       , rankDescription=f"Order for the task {taskName} : ",
-                                                                                       dataGenerationDate = self.machineData["execution_date"])
+                                                                                       ,
+                                                                                       dataGenerationDate = self.machineData["execution_date"],
+                                                                                       scriptFilePath = f"../{staticSiteGenerator.scriptFilePath}/rankBar.js")
             
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
 
@@ -333,8 +333,9 @@ class BenchSite:
             
             # CLASSEMENT DES LIBRAIRIES PAR TACHES BAR
             HTMLThemeRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", listElementRank = "".join([f"{element}" for element in[BenchSite.MakeLink(libraryName) for libraryName in themeRankDico[themeName]]])
-                                                                                        , rankDescription=f"Order for the theme {themeName} : ",
-                                                                                        dataGenerationDate = self.machineData["execution_date"])
+                                                                                        , 
+                                                                                        dataGenerationDate = self.machineData["execution_date"],
+                                                                                        scriptFilePath = f"../{staticSiteGenerator.scriptFilePath}/rankBar.js")
 
             importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName].index(t)}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
@@ -352,8 +353,9 @@ class BenchSite:
 
          # RANKING BAR GLOBALE
         HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent("rankBar.html", listElementRank = "".join([f"{element}" for element in[BenchSite.MakeLink(libraryName,a_balise_id=libraryName) for libraryName in rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)]])
-                                                                                     , rankDescription=f"Order : ",
-                                                                                     dataGenerationDate = self.machineData["execution_date"])
+                                                                                     , 
+                                                                                     dataGenerationDate = self.machineData["execution_date"],
+                                                                                     scriptFilePath = f"../{staticSiteGenerator.scriptFilePath}/rankBar.js",)
 
         for libraryName in Library.GetAllLibraryName():
             # HEADER
@@ -370,7 +372,7 @@ class BenchSite:
                                                                                         scriptFilePath=BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
                                                                                         scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
                                                                                         taskDescription=descriptionLibrary[libraryName],
-                                                                                        logoLibrary = f"<img src='{logoLibrary[libraryName]}' alt='{libraryName}' width='50' height='50'>" if logoLibrary[libraryName] != None else '',)
+                                                                                        logoLibrary = f"<img src='../{logoLibrary[libraryName]}' alt='{libraryName}' width='50' height='50'>" if logoLibrary[libraryName] != None else '',)
 
             staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLGlobalRankingBar, HTMLLibraryRanking, HTMLFooter], f"{libraryName}.html")
 

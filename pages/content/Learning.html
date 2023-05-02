@@ -74,26 +74,20 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order for the task Learning : 
-        <a href='pgmpy.html' >pgmpy</a><a href='pyAgrum.html' >pyAgrum</a><a href='bnlearn.html' >bnlearn</a>
-    </div>
+    <div id="rank-str"></div>
     <div>2023-04-28 09:13:20</div>
 </div>
-<script>
-    let element = document.getElementById("rank-str");
-    let rankDescription = element.getElementsByTagName("a")
-    const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                     .domain([0,rankDescription.length-1]);
-    for (let i = 0; i < rankDescription.length; i++) {
-        rankDescription[i].style.background = colorScale(i);
-    }
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
 
-    let arrows = element.getElementsByTagName("img");
-    for (let i = 0; i < arrows.length; i++) {
-        arrows[i].style.fill = colorScale(i);
-        arrows[i].style.backgroundColor = colorScale(i+1);
-        // arrows[i].style.rotate = "90deg";
-    }
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
 </script><script defer  >const importedData = [{'arguments': '100', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '250', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '750', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2500', 'runTime': 0.39340569998603314, 'libraryName': 'pgmpy'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '100', 'runTime': 0.17652550000639167, 'libraryName': 'pyAgrum'}, {'arguments': '250', 'runTime': 0.11140069998509716, 'libraryName': 'pyAgrum'}, {'arguments': '500', 'runTime': 0.18864829999802168, 'libraryName': 'pyAgrum'}, {'arguments': '750', 'runTime': 0.18399089999729767, 'libraryName': 'pyAgrum'}, {'arguments': '1000', 'runTime': 0.1988409000041429, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.16890919998695608, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.2385839000053238, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.24918320000870153, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.2952705000207061, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.36157759999332484, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.26136669999687, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.30438619999040384, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.35221980001369957, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.4262961000058567, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.5273321000131546, 'libraryName': 'pyAgrum'}];</script>
 <script defer  >const argDescription = 'Number of samples';</script>
 <script defer type='module' src ='../script/taskScript.js'></script>

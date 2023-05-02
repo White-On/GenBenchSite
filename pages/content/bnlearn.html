@@ -74,26 +74,20 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order : 
-        <a href='pyAgrum.html' id='pyAgrum'>pyAgrum</a><a href='pgmpy.html' id='pgmpy'>pgmpy</a><a href='bnlearn.html' id='bnlearn'>bnlearn</a>
-    </div>
+    <div id="rank-str"></div>
     <div>2023-04-28 09:13:20</div>
 </div>
-<script>
-    let element = document.getElementById("rank-str");
-    let rankDescription = element.getElementsByTagName("a")
-    const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                     .domain([0,rankDescription.length-1]);
-    for (let i = 0; i < rankDescription.length; i++) {
-        rankDescription[i].style.background = colorScale(i);
-    }
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
 
-    let arrows = element.getElementsByTagName("img");
-    for (let i = 0; i < arrows.length; i++) {
-        arrows[i].style.fill = colorScale(i);
-        arrows[i].style.backgroundColor = colorScale(i+1);
-        // arrows[i].style.rotate = "90deg";
-    }
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
 </script><script defer  >const importedData = {'BIFReading': {'display': 'histo', 'status': 'NotRun', 'data': [{'arguments': 'asia.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'alarm.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Barley.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'carpo.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'child.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'complete_carpo.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'covid19.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Diabetes.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'insurance.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Link.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Mildew.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Munin1.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Pigs.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'simpleCovid19.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'Water.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}]}, 'Learning': {'display': 'plot', 'status': 'NotRun', 'data': [{'arguments': 100.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 250.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 750.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 1000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 4000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 4500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 5000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 7500.0, 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 10000.0, 'resultElement': 0, 'libraryName': 'bnlearn'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'NotRun', 'data': [{'arguments': 'BN_12_1.5_3.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_11_1.5_2.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_13_1.5_2.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_14_1.5_2.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_16_1.5_3.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_10_1.5_3.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_13_1.5_3.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}, {'arguments': 'BN_10_1.5_2.bif', 'resultElement': 0, 'libraryName': 'bnlearn'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 

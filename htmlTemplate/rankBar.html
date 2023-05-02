@@ -1,22 +1,16 @@
 <div id="rank-bar">
-    <div id="rank-str">{{rankDescription}}
-        {{listElementRank}}
-    </div>
+    <div id="rank-str"></div>
     <div>{{dataGenerationDate}}</div>
 </div>
-<script>
-    let element = document.getElementById("rank-str");
-    let rankDescription = element.getElementsByTagName("a")
-    const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                     .domain([0,rankDescription.length-1]);
-    for (let i = 0; i < rankDescription.length; i++) {
-        rankDescription[i].style.background = colorScale(i);
-    }
+<script type="module">
+    import { rankBar } from "{{scriptFilePath}}";
+    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
 
-    let arrows = element.getElementsByTagName("img");
-    for (let i = 0; i < arrows.length; i++) {
-        arrows[i].style.fill = colorScale(i);
-        arrows[i].style.backgroundColor = colorScale(i+1);
-        // arrows[i].style.rotate = "90deg";
-    }
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
 </script>

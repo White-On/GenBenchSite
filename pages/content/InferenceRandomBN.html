@@ -74,26 +74,20 @@
         
     </script>
 </nav><div id="rank-bar">
-    <div id="rank-str">Order for the task InferenceRandomBN : 
-        <a href='pyAgrum.html' >pyAgrum</a><a href='bnlearn.html' >bnlearn</a><a href='pgmpy.html' >pgmpy</a>
-    </div>
+    <div id="rank-str"></div>
     <div>2023-04-28 09:13:20</div>
 </div>
-<script>
-    let element = document.getElementById("rank-str");
-    let rankDescription = element.getElementsByTagName("a")
-    const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                     .domain([0,rankDescription.length-1]);
-    for (let i = 0; i < rankDescription.length; i++) {
-        rankDescription[i].style.background = colorScale(i);
-    }
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
 
-    let arrows = element.getElementsByTagName("img");
-    for (let i = 0; i < arrows.length; i++) {
-        arrows[i].style.fill = colorScale(i);
-        arrows[i].style.backgroundColor = colorScale(i+1);
-        // arrows[i].style.rotate = "90deg";
-    }
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
 </script><script defer  >const importedData = [{'arguments': 'BN_12_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_2.bif', 'runTime': 0.00279430000227876, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_13_1.5_2.bif', 'runTime': 0.00015600000915583223, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_14_1.5_2.bif', 'runTime': 0.015289199989638291, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_3.bif', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_13_1.5_3.bif', 'runTime': 0.009709099991596304, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_2.bif', 'runTime': 0.015902499988442287, 'libraryName': 'pyAgrum'}];</script>
 <script defer  >const argDescription = 'Bayesian network';</script>
 <script defer type='module' src ='../script/taskScript.js'></script>
