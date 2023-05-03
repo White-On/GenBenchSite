@@ -9,7 +9,7 @@ import numpy as np
 from task import Task
 from library import Library
 
-def RankingLibraryByTask(threshold = 0.0) -> dict[str:list[str]]:
+def RankingLibraryByTask(threshold = 0.0, isResultList = True) -> dict[str:list[str]]:
     r"""Rank all the Library by their results for each task.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm 
@@ -48,11 +48,15 @@ def RankingLibraryByTask(threshold = 0.0) -> dict[str:list[str]]:
     
     for taskName in dictionaryTaskLibraryResults.keys():
         dictionaryTaskLibraryResults[taskName] = LexMaxWithThreshold(dictionaryTaskLibraryResults[taskName],Task.GetTaskByName(taskName).arguments,threshold)
+
+    if isResultList:
+        for taskName in dictionaryTaskLibraryResults.keys():
+            dictionaryTaskLibraryResults[taskName] = list(dictionaryTaskLibraryResults[taskName].keys())
     
     return dictionaryTaskLibraryResults
 
 
-def RankingLibraryByTheme(threshold = 0) -> dict[str:list[str]]:
+def RankingLibraryByTheme(threshold = 0, isResultList=True) -> dict[str:list[str]]:
     """ Rank all the Library by their results for each theme.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm
@@ -84,20 +88,24 @@ def RankingLibraryByTheme(threshold = 0) -> dict[str:list[str]]:
     {'Theme1': ['Library1', 'Library2', 'Library3'], 'Theme2': ['Library1', 'Library2', 'Library3'], 'Theme3': ['Library1', 'Library2', 'Library3']}
     
     """
-    rankLibraryByTask = RankingLibraryByTask(threshold=threshold)
+    rankLibraryByTask = RankingLibraryByTask(threshold=threshold, isResultList=False)
     rankLibraryByTheme = {}
 
     for theme in Task.GetAllThemeName():
         listTaskNameForCurrentTheme = Task.GetTaskNameByThemeName(theme)
         classementLibrary = {}
         for libraryName in Library.GetAllLibraryName():
-            classementLibrary[libraryName] = [rankLibraryByTask[taskName].index(libraryName) for taskName in listTaskNameForCurrentTheme]
+            classementLibrary[libraryName] = [rankLibraryByTask[taskName][libraryName] for taskName in listTaskNameForCurrentTheme]
         rankLibraryByTheme[theme] = LexMax(classementLibrary)
+
+    if isResultList:
+        for theme in rankLibraryByTheme.keys():
+            rankLibraryByTheme[theme] = list(rankLibraryByTheme[theme].keys())
 
     return rankLibraryByTheme
 
 
-def RankingLibraryGlobal(threshold = 0) -> list[str]:
+def RankingLibraryGlobal(threshold = 0, isResultList=True) -> list[str]:
     """ Rank all the Library by their results for each theme.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm
@@ -121,14 +129,19 @@ def RankingLibraryGlobal(threshold = 0) -> list[str]:
 
     """
 
-    rankLibraryByTask = RankingLibraryByTask(threshold=threshold)
+    rankLibraryByTask = RankingLibraryByTask(threshold=threshold, isResultList=False)
     classementLibrary = {}
     for libraryName in Library.GetAllLibraryName():
             classementLibrary[libraryName] = []
             for taskName in rankLibraryByTask.keys():
-                    classementLibrary[libraryName].append(rankLibraryByTask[taskName].index(libraryName))
-    
-    return LexMax(classementLibrary)
+                    classementLibrary[libraryName].append(rankLibraryByTask[taskName][libraryName])
+
+    classementLibrary = LexMax(classementLibrary)
+
+    if isResultList:
+        classementLibrary = list(classementLibrary.keys())
+
+    return classementLibrary
 
 
 def LexMax(dictionnary:dict[str, list[float]]) -> list[str]:
@@ -163,16 +176,29 @@ def LexMax(dictionnary:dict[str, list[float]]) -> list[str]:
     for i, key in enumerate(dictionnary.keys()):
         for j, value in enumerate(dictionnary[key]):
             rankMatrix[i, j] = value
+
     
-    # On trie chaque colonne de la matrice avec un classement 
-    for row in range(rankMatrix.shape[1]):
-        rankMatrix[:,row] = [sorted(rankMatrix[:,row].tolist()).index(element) for element in rankMatrix[:,row].tolist()]
+    # for each column we sort the value and we replace the value by their rank
+    # the sort here will give a rank no matter the precision of the value
+    for column in range(rankMatrix.shape[1]):
+        rankMatrix[:,column] = [sorted(rankMatrix[:,column].tolist()).index(element) for element in rankMatrix[:,column].tolist()]
     
+    # we now sort the rank of each element to have a list of rank for each element sorted
     VectorLibrary = {}
     for i, key in enumerate(dictionnary.keys()):
         VectorLibrary[key] = sorted(rankMatrix[i,:].tolist())
-
-    return [k for k, _ in sorted(VectorLibrary.items(), key=lambda item: item[1])]
+    
+    # we can now compare the element by their list of rank
+    sortedListRank = sorted(VectorLibrary.items(), key=lambda item: item[1])
+    rk = 0
+    elementRank = {}
+    for i in range (len(sortedListRank)):
+        elementRank[sortedListRank[i][0]] = rk
+        # if the next element is the same, they share the same rank as the element are equivelent
+        if i < len(sortedListRank)-1 and sortedListRank[i][1] != sortedListRank[i+1][1]:
+            rk += 1
+        
+    return elementRank
 
 
 def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold = 0) -> list:
@@ -236,4 +262,4 @@ if __name__ == "__main__":
 
     print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
     print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
-    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=50)}")
+    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=0)}")

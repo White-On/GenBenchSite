@@ -13,6 +13,8 @@
 
     overflow-y: scroll;
     /* overscroll-behavior-block: contain; */
+
+    list-style-type: none;
 }
 
 #leftNavBar::-webkit-scrollbar {
@@ -23,90 +25,56 @@
     
 }
 
-.inerBarNav {
-    display: block;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    border-bottom: solid 2px var(--green3);
-}
-
-.inerBarNav a {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    padding-inline: 1rem;
-    padding-block: 0.5rem;
-    transition: all 0.3s ease-in-out;
-    color: var(--font-color);
-}
-
-.inerBarNav img {
-    width: 24px;
-    height: 24px;
-}
-
-.inerBarNav a:hover {
-    background-color: var(--navBar-over-color);
-    transition: all 0.3s ease-in-out;
-}
-
-.inerBarNav .active{
-    background-color: var(--navBar-color-active);
-    border: 2mm ridge var(--green3);
-}
-
-.titleNav {
-    display: flex;
-    gap : 1rem;
-    font-size: 1.3rem;
-    color: var(--white);
-    text-align: center;
-    margin: 16px;
-}
-
-.titleNav img {
+#leftNavBar .logo {
     width: 32px;
     height: 32px;
 }
 
-.collapsed {
+#leftNavBar ul{
+    padding-inline-start: 1rem;
+}
+
+#leftNavBar button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+.collapse.subMenu{
     display: none;
 }
 
-.openTheme:hover .collapsed{
+.expand.subMenu{
     display: block;
 }
 
-.expanded {
+
+.arrow{
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(-90deg);
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item{
+    list-style: none;
     display: block;
-
+    padding: 1rem 0;
 }
 
-.openTheme:hover {
-    background-color: var(--navBar-over-color);
+.menu-item a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap : 1rem;
+    color: var(--font-color);
     transition: all 0.3s ease-in-out;
-}
-
-.underBarNav {
-    background-color: var(--navBar-under-color);
-    /* margin: 0; */
-}
-
-.underBarNav a {
-    font-size: smaller;
-    padding-left:2rem;
-}
-
-.underBarNav a:hover {
-    background-color: var(--navBar-color-under-hover);
-    transition: all 0.3s ease-in-out;
-}
-
-.underBarNav a.active {
-    background-color: var(--navBar-color-under-active);
-    border: 3mm ridge var(--green3);
-    padding-left: 1rem;
-    
 }

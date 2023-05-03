@@ -6,6 +6,9 @@ export function rankBar(data, {
     color = d3.scaleSequential(d3.interpolateViridis),
 
     fontSize = 24,
+    gap = 10,
+
+    contentFolderPath = "",
 
 
 } = {}) {
@@ -13,7 +16,6 @@ export function rankBar(data, {
     let textBoxSize = 120;
     let chartSizeStep = 0;
     let arrowSize = 30;
-    let gap = 10;
     // to round the number of pixel to avoid glitches
     let vrb = 0;
 
@@ -42,7 +44,7 @@ export function rankBar(data, {
 
 
     const colorScale = color
-    .domain([0,d3.max(Object.values(order))*1.2]);
+    .domain([0,d3.max(Object.values(order))*1.4]);
 
     let totalSize = 0;
     for(let element of chartBatch){
@@ -104,7 +106,13 @@ export function rankBar(data, {
             .attr("font-size", fontSize)
             .attr("font-weight", 400)
             .text((d) => d)
-            .attr("fill", "white");
+            .attr("fill", "white")
+            .on('click', function(d) {
+                // we redirect to the page of the element
+                window.location.href = contentFolderPath + d.srcElement.innerHTML + ".html";
+                
+            })
+            .style("cursor", "pointer");
 
         // we remove the last rect of the last group
         lastrect

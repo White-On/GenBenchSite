@@ -4,12 +4,17 @@
 </div>
 <script type="module">
     import { rankBar } from "{{scriptFilePath}}";
-    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    {{data}}
+    console.log(cls);
 
     let chart = rankBar(cls, {
         width : 400,
         height : 25,
         fontSize : 10,
+        gap : 5,
+
+        contentFolderPath : "{{contentFolderPath}}",
     });
 
     document.getElementById("rank-str").appendChild(chart);

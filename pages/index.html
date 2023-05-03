@@ -30,61 +30,101 @@
             <img class="icon" src="assets/envelope-solid.svg" alt="mail-icon">
         </nav>
     </header><!-- Navigation Bar -->
+
 <nav id = "leftNavBar">
-    <nav class="inerBarNav">
-        <div class="titleNav">
-            <img src="assets/bullseye.svg" alt="target svg">
-            <div>Targets</div></div>
-        <!-- library -->
-        
-            <a href='./content/bnlearn.html' id='bnlearn-nav'>bnlearn<img src='assets\question.svg' alt='bnlearn'></a>
-        
-            <a href='./content/pgmpy.html' id='pgmpy-nav'>pgmpy<img src='assets\pgmpy.png' alt='pgmpy'></a>
-        
-            <a href='./content/pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='assets\pyAgrum.png' alt='pyAgrum'></a>
-        
-    </nav>
+    <ul>
+        <li class="menu-item has-submenu">
+        <button><img src="assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            
+                <a href='./content/bnlearn.html' id='bnlearn-nav'>bnlearn<img src='assets\question.svg' alt='bnlearn'></a>
+            
+                <a href='./content/pgmpy.html' id='pgmpy-nav'>pgmpy<img src='assets\pgmpy.png' alt='pgmpy'></a>
+            
+                <a href='./content/pyAgrum.html' id='pyAgrum-nav'>pyAgrum<img src='assets\pyAgrum.png' alt='pyAgrum'></a>
+            
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button><img src="assets/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            
+                <li class="menu-item has-submenu">
+                <button><img src="assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='content/BIFExploiting.html' id='BIFExploiting-nav'>&bull; BIFExploiting</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='content/BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                        <a href='content/Learning.html' id='Learning-nav'>Learning</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button><img src="assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='content/BIFGeneration.html' id='BIFGeneration-nav'>&bull; BIFGeneration</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='content/InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                    
+                </ul>
+                </li>
+            
+        </ul>
+    </ul>
+</nav>
 
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
 
-    <nav class="inerBarNav">
-        <div class="titleNav">
-            <img src="assets/clipboard-list.svg" alt="target svg">
-            <div>Theme</div></div>
-        <!-- theme -->
-        
-            <div class="openTheme"><a href='content/BIFExploiting.html' id='BIFExploiting-nav'>&bull; BIFExploiting</a>
-            <nav class="inerBarNav collapsed underBarNav">
-                
-                    <a href='content/BIFReading.html' id='BIFReading-nav'>BIFReading</a>
-                
-                    <a href='content/Learning.html' id='Learning-nav'>Learning</a>
-                
-            </nav></div>
-        
-            <div class="openTheme"><a href='content/BIFGeneration.html' id='BIFGeneration-nav'>&bull; BIFGeneration</a>
-            <nav class="inerBarNav collapsed underBarNav">
-                
-                    <a href='content/InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
-                
-            </nav></div>
-        
-    </nav>
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
 
-    <script>
-        
-    </script>
-</nav><div id="rank-bar">
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+<div id="rank-bar">
     <div id="rank-str"></div>
     <div>2023-04-28 09:13:20</div>
 </div>
 <script type="module">
     import { rankBar } from "./script/rankBar.js";
-    let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    console.log(cls);
 
     let chart = rankBar(cls, {
         width : 400,
         height : 25,
         fontSize : 10,
+        gap : 5,
+
+        contentFolderPath : "content/",
     });
 
     document.getElementById("rank-str").appendChild(chart);
