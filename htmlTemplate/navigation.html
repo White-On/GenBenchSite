@@ -3,7 +3,7 @@
 <nav id = "leftNavBar">
     <ul>
         <li class="menu-item has-submenu">
-        <button><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             {% for library in librarylist %}
                 {{library}}
@@ -11,11 +11,11 @@
         </ul>
         </li>
         <li class="menu-item has-submenu">
-        <button><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
         <ul class="subMenu collapse">
             {% for theme, tasklist in TaskClassifiedByTheme.items() %}
                 <li class="menu-item has-submenu">
-                <button><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
+                <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
                 
                 <ul class="subMenu collapse">
                     {% for task in tasklist %}

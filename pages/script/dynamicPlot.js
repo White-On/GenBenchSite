@@ -53,7 +53,7 @@ export  function LineChart(data, {
     legendColorBoxGap = 5, // margin of the color box in the legend
     legendFontSize = 20, // font size of the legend
 
-    graphicalreduction = 0.05, // graphical reduction of the chart 
+    graphicalreduction = 0.1, // graphical reduction of the chart 
 
     voronoi // show a Voronoi overlay? (for debugging)
     } = {}) {
@@ -246,7 +246,7 @@ export  function LineChart(data, {
         // console.log(Z[i]);
         
         path.style("stroke", ([z]) => Z[i] === z ? null : "#ddd").filter(([z]) => Z[i] === z).raise();
-        path.style("stroke-width", ([z]) => Z[i] === z ? circlesRadius*2 : null).filter(([z]) => Z[i] === z).raise();
+        path.style("stroke-width", ([z]) => Z[i] === z ? circlesRadius : null).filter(([z]) => Z[i] === z).raise();
         dot.attr("transform", `translate(${xScale(X[i])},${yScale(Y[i])})`);
         // dot.style("fill", color(Z[i]));
         dot.style("fill", typeof color === "string" ? color : color(Z[i]));

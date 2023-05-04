@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    <!-- Header -->
     <header id="header-grid">
         <nav class="header-nav">
             <a href="{{ linkTo.home }}"><b>Home</b></a>
@@ -26,7 +27,10 @@
         </nav>
         <nav class="header-nav">
             <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
-            <img class="icon" src="{{assetsFilePath}}/github.svg" alt="github-icon">
-            <img class="icon" src="{{assetsFilePath}}/envelope-solid.svg" alt="mail-icon">
+            {% for name,link in socialMediaList %}
+            <a href="{{link}}" class="icon">
+            <img src="{{assetsFilePath}}/{{name}}.svg" alt="{{name}}-icon">
+            </a>
+            {% endfor %}
         </nav>
     </header>

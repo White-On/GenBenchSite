@@ -3,8 +3,6 @@ export function HeatMap(data,{
     y = ([, y]) => y, 
     value = ([, , value]) => value,
 
-    title,
-
     width = width,
     height = height,
 
@@ -14,15 +12,11 @@ export function HeatMap(data,{
 
     labelFontSize = 20, // font size of the labels
 
-    yRange = [height - margin.bottom, margin.top], // [bottom, top]
-    yFormat, // format of the y-axis
+    xLabel, // label of the x-axis
     yLabel, // label of the y-axis
 
-    xLegend = width*0.1, // x-axis legend
-    yLegend = height*0.1, // y-axis legend
-    legendColorBoxSize = [20, 20], // size of the color box in the legend
-    legendColorBoxGap = 5, // margin of the color box in the legend
-    legendFontSize = 20, // font size of the legend
+    cubeSize = 100, // size of the cube
+
 
 } = {}) {
     const CX = d3.map(data, x); // column x-axis
@@ -31,25 +25,23 @@ export function HeatMap(data,{
 
     const I = d3.range(V.length);
 
-    console.log(CX);
-    // console.log(CY);
-    // console.log(V);
-
-    // console.log(I);
+    // we calculate the number of tasks in the theme
+    let numberOfXElement = [...new Set(CX)].length;
+    let numberOfYElement = [...new Set(CY)].length;
 
      // create scales for x and y axis
     var xScale = d3.scaleBand()
-        .range([margin.left, width - margin.right])
+        .range([margin.left, margin.left+numberOfXElement*cubeSize - margin.right])
         .domain(CX)
         .padding(0);
     var yScale = d3.scaleBand()
-        .range([margin.top, height - margin.bottom])
+        .range([margin.top, margin.top +numberOfYElement*cubeSize - margin.bottom])
         .domain(CY)
         .padding(0);
 
-    // console.log(xScale.domain());
-    // console.log(yScale.domain());
-    // console.log(xScale.bandwidth());
+    console.log(xScale.domain());
+    console.log(yScale.domain());
+    console.log(xScale.bandwidth());
     // console.log(xScale(CX[0]));
 
     const xAxis = d3.axisTop(xScale);
@@ -57,16 +49,16 @@ export function HeatMap(data,{
 
     // create SVG element and set size
     const svg = d3.create("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
+        .attr("width", margin.left + numberOfXElement*cubeSize - margin.right)
+        .attr("height", margin.top + numberOfYElement*cubeSize - margin.bottom)
+        .attr("viewBox", [0, 0, margin.left + numberOfXElement*cubeSize - margin.right, margin.top + numberOfYElement*cubeSize - margin.bottom])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
         .style("-webkit-tap-highlight-color", "transparent")
   
    
     // create color scale
     var colorScale = d3.scaleSequential(d3.interpolateViridis)
-      .domain([0, d3.max(V)]);
+      .domain([0, d3.max(V)*1.4]);
   
     // create rectangles for each cell in the heatmap
     let rect = svg.selectAll("rect")
@@ -74,8 +66,8 @@ export function HeatMap(data,{
         .join("rect")
         .attr("x", (i) => xScale(CX[i]))
         .attr("y", (i) => yScale(CY[i]))
-        .attr("width", Math.floor(xScale.bandwidth()) +1)
-        .attr("height", Math.floor(yScale.bandwidth())+1)
+        .attr("width", xScale.bandwidth().toFixed(0))
+        .attr("height",yScale.bandwidth().toFixed(0))
         .attr("fill", (i) => colorScale(V[i]));
     
     // add the x-axis to the chart.
@@ -83,7 +75,15 @@ export function HeatMap(data,{
         .attr("transform", `translate(0,${margin.top})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
-        .call(g => g.select(".domain").remove());
+        .call(g => g.select(".domain").remove())
+        .call(g => g.append("text")
+            .text(xLabel))
+            .on('click', function(d) {
+                // we redirect to the page of the element
+                window.location.href = d.srcElement.innerHTML + ".html";
+                
+            })
+            .style("cursor", "pointer");
   
     // add the y-axis to the chart.
     svg.append("g")
@@ -95,7 +95,13 @@ export function HeatMap(data,{
             .attr("x", -margin.left)
             .attr("y", 10 + labelFontSize/2)
             .attr("text-anchor", "start")
-            .text(yLabel));
+            .text(yLabel))
+            .on('click', function(d) {
+                // we redirect to the page of the element
+                window.location.href = d.srcElement.innerHTML + ".html";
+                
+            })
+            .style("cursor", "pointer");
     
     return svg.node(); 
   }
