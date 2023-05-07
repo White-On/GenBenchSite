@@ -231,7 +231,7 @@ class BenchSite:
                                                                             socialMediaList = social_media,)
         #NAVIGATION
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent("navigation.html", TaskClassifiedByTheme = {BenchSite.MakeLink(contentFilePath + theme,"&bull; "+theme, f"{theme}-nav"): [BenchSite.MakeLink(contentFilePath + taskName, taskName, f"{taskName}-nav") for taskName in Task.GetTaskNameByThemeName(theme)] for theme in Task.GetAllThemeName()},
-                                                                                    librarylist = ["<li class='menu-item'>" + BenchSite.MakeLink(libraryName, strElement= f"<img src='{logoLibrary[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}", a_balise_id=f"{libraryName}-nav") + "</li>" for libraryName in Library.GetAllLibraryName()],
+                                                                                    librarylist = ["<li class='menu-item'>" + BenchSite.MakeLink(contentFilePath + libraryName, strElement= f"<img src='{logoLibrary[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}", a_balise_id=f"{libraryName}-nav") + "</li>" for libraryName in Library.GetAllLibraryName()],
                                                                                     assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",)
         
         # RANKING BAR GLOBALE
@@ -346,7 +346,6 @@ class BenchSite:
             importedData = sum([[{"taskName":taskName,"libraryName":t,"results":rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD, isResultList=False)[taskName][t]}for t in rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]] for taskName in Task.GetTaskNameByThemeName(themeName)],[])
             summaryData = [{"taskName":themeName, "libraryName":libraryName, "results":themeRankDico[themeName][libraryName]} for libraryName in themeRankDico[themeName].keys()]
             importedData = summaryData  + importedData
-            print(importedData)
 
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent("theme.html", themeName=themeName,\

@@ -116,6 +116,11 @@ if __name__ == "__main__":
     # we copy the result.json file in the output folder
     shutil.copyfile(os.path.join(curentPath, resultFilename), os.path.join(args.output_folder, resultFilename))
     
+    # we delete the result.json,code.json and machine.json files
+    os.remove(os.path.join(curentPath, resultFilename))
+    os.remove(os.path.join(curentPath, codeFilename))
+    os.remove(os.path.join(curentPath, machineFilename))
+
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
     # the HTML page on the github page. The user must specify the name of the github repository where
