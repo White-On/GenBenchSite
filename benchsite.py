@@ -50,17 +50,19 @@ class BenchSite:
         
         return siteConfig
     
-    def GetTaskDescription(self):
+    def GetTaskDescriptionConfig(self):
         confparser = ConfigParser()
-        description = {}
+        taskConfig = {}
         # on parcours les themes dans le dossier themes
         for themeName in Task.GetAllThemeName():
             currentTask = os.listdir(os.path.join(self.structureTestPath,"themes",themeName))
             for task in currentTask:
                 confparser.read(os.path.join(self.structureTestPath,"themes",themeName,task,"config.ini"))
-                description[task] = {"description":confparser.get(task,"description",fallback="No description available"),"argumentsDescription":confparser.get(task,"arguments_description",fallback="No description available")}
-        
-        return description
+                taskConfig[task] = {}
+                for option in confparser.options(task):
+                    taskConfig[task][option] = confparser.get(task,option,fallback=f"No {option} available")
+                    # taskConfig[task] = {"description":confparser.get(task,"description",fallback="No description available"),"argumentsDescription":confparser.get(task,"arguments_description",fallback="No description available")}
+        return taskConfig
 
     def GetLibraryLogo(self):
         logo = {}
@@ -218,7 +220,7 @@ class BenchSite:
         
 
         descriptionLibrary = self.GetLibraryDescription()
-        descriptionTask = self.GetTaskDescription()
+        descriptionTask = self.GetTaskDescriptionConfig()
         logoLibrary = self.GetLibraryLogo()
 
         social_media = list(map(lambda x: tuple(x.split(',')),self.siteConfig.get("social_media",{}).split(" ")))
@@ -317,7 +319,8 @@ class BenchSite:
                                                                                 #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
                                                                                 code = templateTask,
                                                                                 taskDescritpion = descriptionTask[taskName]["description"],
-                                                                                argumentsDescription = BenchSite.CreateScriptBalise(content=f"const argDescription = '{descriptionTask[taskName]['argumentsDescription']}';"),)
+                                                                                argumentsDescription = BenchSite.CreateScriptBalise(content=f"const argDescription = '{descriptionTask[taskName]['arguments_description']}';"),
+                                                                                displayScale = BenchSite.CreateScriptBalise(content=f"const displayScale = '{descriptionTask[taskName]['display_scale']}';"),)
 
             staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLTaskRankingBar, HTMLTaskRanking, HTMLFooter], f"{taskName}.html")
 
@@ -397,7 +400,7 @@ class BenchSite:
                                                                             socialMediaList = social_media,)
         # ABOUT
 
-        HTMLAbout = ""
+        HTMLAbout = staticSiteGenerator.CreateHTMLComponent("aboutContent.html")
 
         staticSiteGenerator.CreateHTMLPage([HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html")
 

@@ -89,7 +89,7 @@ if __name__ == "__main__":
     
     # Test the repository
     resultFilename = "result.json"
-    codeFilename = "code.py"
+    codeFilename = "code.json"
     machineFilename = "machine.json"
 
     benchmark = Benchmark(pathToInfrastructure = args.repository)
@@ -117,9 +117,9 @@ if __name__ == "__main__":
     shutil.copyfile(os.path.join(curentPath, resultFilename), os.path.join(args.output_folder, resultFilename))
     
     # we delete the result.json,code.json and machine.json files
-    os.remove(os.path.join(curentPath, resultFilename))
-    os.remove(os.path.join(curentPath, codeFilename))
-    os.remove(os.path.join(curentPath, machineFilename))
+    # os.remove(os.path.join(curentPath, resultFilename))
+    # os.remove(os.path.join(curentPath, codeFilename))
+    # os.remove(os.path.join(curentPath, machineFilename))
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy

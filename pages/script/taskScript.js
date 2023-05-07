@@ -18,8 +18,6 @@ let TaskName = document.getElementById('entry-title').innerHTML;
 
 let element = document.getElementById(TaskName);
 
-
-
 let width = element.getBoundingClientRect().width;
 // let height = window.innerHeight * 0.5;
 let height = 500;
@@ -52,6 +50,8 @@ chart = GroupedBarChart(importedData, {
     activationFunction: handleClickToPrintCode,
 
     margin: { top: 40, right: 10, bottom: 100, left: 50 },
+
+    scale : displayScale,
     
 });
 

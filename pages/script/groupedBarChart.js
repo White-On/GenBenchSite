@@ -29,6 +29,8 @@ export function GroupedBarChart(data,{
 
     activationFunction = null,
 
+    scale = "linear", // "linear" or "log"
+
 } = {}) {
 
     const Values = d3.map(data, values);
@@ -64,8 +66,20 @@ export function GroupedBarChart(data,{
         .rangeRound([0, xScaleCategory.bandwidth()]);
   
     const yMinMaxValue = d3.extent(Values);
-    const yDomain = [0, yMinMaxValue[1]];
-    let yScale = d3.scaleLinear(yDomain, yRange);
+
+    // CAUTION: if the min value is 0, the log scale will not work
+
+    let yDomain;
+    let yScale;
+    if (scale == "log") {
+        yDomain = [yMinMaxValue[0] <= 0 ? 0.0001 : yMinMaxValue[0], yMinMaxValue[1]];
+        yScale = d3.scaleLog(yDomain, yRange)
+    }
+    else {
+        yDomain = [0, yMinMaxValue[1]];
+        yScale = d3.scaleLinear(yDomain, yRange);
+    }
+    console.log(yScale(1));
 
     let xAxis = d3.axisBottom(xScaleCategory);
     let yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
@@ -201,12 +215,16 @@ export function GroupedBarChart(data,{
 
         // If the clicked element is already active, remove it from the active list
         if(activeElement.includes(innerClassSelected)){
-            activeElement = activeElement.filter(function(value, index, arr){
+            activeElement = activeElement.filter(function(value){
                 return value != innerClassSelected;
             });
         // If the clicked element is not active, add it to the active list
         }else{
-            activeElement.push(innerClassSelected);
+            // for multiple selection
+            // activeElement.push(innerClassSelected);
+
+            // for single selection
+            activeElement = [innerClassSelected];
         }
 
         // If there are no active elements, reset the chart
@@ -236,7 +254,7 @@ export function GroupedBarChart(data,{
             });
             
             if (activationFunction != null) {
-                console.log("activationFunction");
+                // console.log("activationFunction");
                 activationFunction(activeElement);
             }
 
@@ -252,7 +270,7 @@ export function GroupedBarChart(data,{
                     return activeElement.includes(InerClass[d]) ? color(InerClass[d]) : "#ddd";
                 });
                 // a process to make the inactive elements disappear
-                // // we add the value of the rect height to the y position to get the bottom of the rect
+                // we add the value of the rect height to the y position to get the bottom of the rect
                 // .attr("y", function (d) {
                 //     return activeElement.includes(InerClass[d]) ? yScale(Values[d]) : yScale(Values[d]) + height - yScale(Values[d]) - margin.bottom;
                 // })  
@@ -260,6 +278,7 @@ export function GroupedBarChart(data,{
                 // .attr("height", function (d) {
                 //     return activeElement.includes(InerClass[d]) ? height - yScale(Values[d]) - margin.bottom : 0;
                 // });
+
                 // process to make the value of the rect appear
             rect
                 .data(I)
