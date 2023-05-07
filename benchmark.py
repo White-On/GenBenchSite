@@ -8,6 +8,7 @@ import numpy as np
 import threading
 from tqdm import tqdm
 
+
 class Benchmark:
     """
     Benchmark is a class that run process for each library and each task and save the results in a json file
@@ -20,7 +21,7 @@ class Benchmark:
             - task1
                 - config.ini
                 - [<beforeBuildScript>]
-                - [<libraryScript>] * 
+                - [<libraryScript>] *
                 - [file(data)]
             - task2
             [...]
@@ -39,7 +40,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
 
-    def __init__(self,pathToInfrastructure:str) -> None:
+    def __init__(self, pathToInfrastructure: str) -> None:
         """
         We initialize the class by reading the config file and getting the list of library and task.
         We also initialize the results dictionary and keep the path to the infrastructure
@@ -48,7 +49,7 @@ class Benchmark:
         ----------
         pathToInfrastructure : str
             path to the infrastructure
-        
+
         Attributes
         ----------
         pathToInfrastructure : str
@@ -67,22 +68,29 @@ class Benchmark:
             ConfigParser that will read the config files of the library
         TaskConfigReader : ConfigParser
             ConfigParser that will read the config files of the task
-        
+
         """
 
         self.pathToInfrastructure = pathToInfrastructure
 
-
         self.LibraryConfigReader = ConfigParser()
         self.TaskConfigReader = ConfigParser()
 
-        targetDirectory = os.path.join(self.pathToInfrastructure,"targets")
-        themeDirectory = os.path.join(self.pathToInfrastructure,"themes")
+        targetDirectory = os.path.join(self.pathToInfrastructure, "targets")
+        themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
 
-        self.libraryNames = [f for f in os.listdir(targetDirectory) if os.path.isdir(os.path.join(targetDirectory, f))]
-        self.themeNames = [f for f in os.listdir(themeDirectory) if os.path.isdir(os.path.join(themeDirectory, f))]
+        self.libraryNames = [
+            f
+            for f in os.listdir(targetDirectory)
+            if os.path.isdir(os.path.join(targetDirectory, f))
+        ]
+        self.themeNames = [
+            f
+            for f in os.listdir(themeDirectory)
+            if os.path.isdir(os.path.join(themeDirectory, f))
+        ]
 
-        self.results = {libraryName:{} for libraryName in self.libraryNames}
+        self.results = {libraryName: {} for libraryName in self.libraryNames}
 
         self.taskNames = []
         self.dictionaryTaskInTheme = {}
@@ -91,24 +99,36 @@ class Benchmark:
         # We read the config file of each library and task
         # with ConfigParser we can read multiple config file and get the value of a specific section and key
         for libraryName in self.libraryNames:
-            self.LibraryConfigReader.read(os.path.join(self.pathToInfrastructure,"targets",libraryName,"config.ini"))
-        
+            self.LibraryConfigReader.read(
+                os.path.join(
+                    self.pathToInfrastructure, "targets", libraryName, "config.ini"
+                )
+            )
+
         # We read the config file of each library and task
         # we also create a dictionary that associate a theme to a list of task and a dictionary that associate a task to a theme
         for themeName in self.themeNames:
-            self.taskNames += os.listdir(os.path.join(self.pathToInfrastructure,"themes",themeName))
-            self.dictionaryTaskInTheme[themeName] = os.listdir(os.path.join(self.pathToInfrastructure,"themes",themeName))
+            self.taskNames += os.listdir(
+                os.path.join(self.pathToInfrastructure, "themes", themeName)
+            )
+            self.dictionaryTaskInTheme[themeName] = os.listdir(
+                os.path.join(self.pathToInfrastructure, "themes", themeName)
+            )
             for taskName in self.dictionaryTaskInTheme[themeName]:
-                self.TaskConfigReader.read(os.path.join(self.pathToInfrastructure,"themes",themeName,taskName,"config.ini"))
+                self.TaskConfigReader.read(
+                    os.path.join(
+                        self.pathToInfrastructure,
+                        "themes",
+                        themeName,
+                        taskName,
+                        "config.ini",
+                    )
+                )
                 self.dictonaryThemeInTask[taskName] = themeName
-        
+
         print(f"Library found {self.LibraryConfigReader.sections()}")
         print(f"Task found {self.TaskConfigReader.sections()}\n")
 
-        
-
-        
-    
     def BeforeBuildLibrary(self):
         """
         run the beforeBuild command of each library
@@ -117,7 +137,11 @@ class Benchmark:
 
         print("Before build library")
         for libraryName in self.libraryNames:
-            process = subprocess.run(self.LibraryConfigReader.get(libraryName,"before_build"),shell=True,capture_output=True)
+            process = subprocess.run(
+                self.LibraryConfigReader.get(libraryName, "before_build"),
+                shell=True,
+                capture_output=True,
+            )
 
             if process.returncode != 0:
                 print(f"Error in the beforeBuild command of {libraryName}")
@@ -125,8 +149,8 @@ class Benchmark:
                 sys.exit(1)
             else:
                 print(f"Before build of {libraryName} done")
-    
-    def BeforeTask(self, taskPath:str, taskName:str):
+
+    def BeforeTask(self, taskPath: str, taskName: str):
         """
         Run the before task command/script of a task if it exist
 
@@ -139,13 +163,25 @@ class Benchmark:
 
         """
         # We check if the before task command/script exist if not we do nothing
-        beforeTaskCommand = self.TaskConfigReader.get(taskName,"before_task",fallback=None)
+        beforeTaskCommand = self.TaskConfigReader.get(
+            taskName, "before_task", fallback=None
+        )
         if beforeTaskCommand is not None:
             # the beforetask might have some arguments
-            before_task_arguments = self.TaskConfigReader.get(taskName,"before_task_arguments",fallback="")
+            before_task_arguments = self.TaskConfigReader.get(
+                taskName, "before_task_arguments", fallback=""
+            )
             # We split the command/script and the arguments in oder
             beforeTaskCommand = beforeTaskCommand.split(" ")
-            process = subprocess.run([beforeTaskCommand[0] ,os.path.join(taskPath,beforeTaskCommand[1]), before_task_arguments],shell=True,capture_output=True)
+            process = subprocess.run(
+                [
+                    beforeTaskCommand[0],
+                    os.path.join(taskPath, beforeTaskCommand[1]),
+                    before_task_arguments,
+                ],
+                shell=True,
+                capture_output=True,
+            )
             if process.returncode != 0:
                 print(f"Error in the beforeBuild command of {taskName}\n")
                 print(process.stderr)
@@ -157,22 +193,28 @@ class Benchmark:
                 # print(f"Before task of {taskName} done")
                 # read the config file again because it can be modified by the before task command/script
                 self.ReadTaskConfigFile(taskName)
-        
-    
-    def ReadTaskConfigFile(self,taskName:str):
+
+    def ReadTaskConfigFile(self, taskName: str):
         """
         Read the config file of the task and return a dictionary with the config
         """
-        self.TaskConfigReader.read(os.path.join(self.pathToInfrastructure,"themes",self.dictonaryThemeInTask[taskName],taskName,"config.ini"))
-    
+        self.TaskConfigReader.read(
+            os.path.join(
+                self.pathToInfrastructure,
+                "themes",
+                self.dictonaryThemeInTask[taskName],
+                taskName,
+                "config.ini",
+            )
+        )
+
     # def RunProcess(self, command, printOut, timeout):
-        
+
     #     start = time.perf_counter()
-        
+
     #     process = subprocess.Popen(command,shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
+
     #     # print(f"\nTimeout expired for the {command} command")
-       
 
     #     # Create an event to signal the timeout
     #     event = threading.Event()
@@ -200,22 +242,23 @@ class Benchmark:
     #         # print(f"\nError in the {command} command")
     #         # print(process.stderr)
     #         return Benchmark.ERROR_VALUE
-        
+
     #     elif process.returncode == 2:
     #         # print(f"\nCan't run this task because the library doesn't support it")
     #         # print(process.stderr)
     #         return Benchmark.NOT_RUN_VALUE
-        
+
     #     if printOut:
     #         print(process.stdout)
 
     #     return end-start
 
     def RunProcess(self, command, printOut, timeout):
-
         start = time.perf_counter()
         try:
-            process = subprocess.run(command,shell=True,capture_output=True, text=True, timeout=timeout)
+            process = subprocess.run(
+                command, shell=True, capture_output=True, text=True, timeout=timeout
+            )
         except subprocess.TimeoutExpired:
             # print(f"\nTimeout expired for the {command} command")
             return Benchmark.TIMEOUT_VALUE
@@ -224,131 +267,162 @@ class Benchmark:
             # print(f"\nError in the {command} command")
             # print(process.stderr)
             return Benchmark.ERROR_VALUE
-        
+
         elif process.returncode == 2:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
             return Benchmark.NOT_RUN_VALUE
-        
+
         if printOut:
             print(process.stdout)
 
-        return end-start
+        return end - start
 
-    def CreateScriptName(self, libraryName:str, nameComplement="") -> str:
+    def CreateScriptName(self, libraryName: str, nameComplement="") -> str:
         """
         Create the name of the script that will be run for each library and task
         """
-        suffix = {
-            "python":"py",
-            "java":"java",
-            "c":"c",
-            "c++":"cpp"
-            }
+        suffix = {"python": "py", "java": "java", "c": "c", "c++": "cpp"}
         return f"{libraryName}{nameComplement}.{suffix[self.LibraryConfigReader.get(libraryName,'language')]}"
-    
-    def ScriptExist(self, scriptPath:str, scriptName:str) -> bool:
+
+    def ScriptExist(self, scriptPath: str, scriptName: str) -> bool:
         """
         Check if the script exist in the path
         """
-        return os.path.exists(os.path.join(scriptPath,scriptName))
-    
-    def RunTask(self,taskName:str):
+        return os.path.exists(os.path.join(scriptPath, scriptName))
+
+    def RunTask(self, taskName: str):
         """
         Run the task for each library and save the results in the results dictionary
         """
-        path = os.path.join(self.pathToInfrastructure,"themes",self.dictonaryThemeInTask[taskName],taskName)
+        path = os.path.join(
+            self.pathToInfrastructure,
+            "themes",
+            self.dictonaryThemeInTask[taskName],
+            taskName,
+        )
 
         # TEMPORAIRE
-        self.BeforeTask(path,taskName)
+        self.BeforeTask(path, taskName)
 
         # The timeout of the task is the timeout in the config file or the default timeout
         # the timeout is in seconds
-        taskTimeout = self.TaskConfigReader.getint(taskName,"timeout",fallback=Benchmark.DEFAULT_TIMEOUT)
+        taskTimeout = self.TaskConfigReader.getint(
+            taskName, "timeout", fallback=Benchmark.DEFAULT_TIMEOUT
+        )
 
         for libraryName in self.libraryNames:
             self.results[libraryName][taskName] = {}
-            self.results[libraryName][taskName]["theme"] = self.dictonaryThemeInTask[taskName]
+            self.results[libraryName][taskName]["theme"] = self.dictonaryThemeInTask[
+                taskName
+            ]
             self.results[libraryName][taskName]["results"] = {}
 
-            self.progressBar.set_description(f"Run task {taskName} for library {libraryName}")
+            self.progressBar.set_description(
+                f"Run task {taskName} for library {libraryName}"
+            )
 
-            self.RunTaskForLibrary(libraryName,taskName,path, timeout=taskTimeout)
+            self.RunTaskForLibrary(libraryName, taskName, path, timeout=taskTimeout)
 
-     
-    
-    def RunTaskForLibrary(self, libraryName:str, taskName:str, taskPath:str, timeout:int):
-
-        arguments = self.TaskConfigReader.get(taskName,"arguments").split(",")
+    def RunTaskForLibrary(
+        self, libraryName: str, taskName: str, taskPath: str, timeout: int
+    ):
+        arguments = self.TaskConfigReader.get(taskName, "arguments").split(",")
 
         # we check if the library support the task
-        if not self.ScriptExist(taskPath,self.CreateScriptName(libraryName,"_run")):
-            self.results[libraryName][taskName]["results"] = {arg : (Benchmark.NOT_RUN_VALUE, None) for arg in arguments}
-            self.progressBar.update(self.TaskConfigReader.getint(taskName,"nb_runs")*len(arguments) * 2) # *2 because we have before and after run script
+        if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
+            self.results[libraryName][taskName]["results"] = {
+                arg: (Benchmark.NOT_RUN_VALUE, None) for arg in arguments
+            }
+            self.progressBar.update(
+                self.TaskConfigReader.getint(taskName, "nb_runs") * len(arguments) * 2
+            )  # *2 because we have before and after run script
             return
 
         # we check if there is a before run script
-        beforeRunScriptExist = self.ScriptExist(taskPath,self.CreateScriptName(libraryName,"_before_run"))
+        beforeRunScriptExist = self.ScriptExist(
+            taskPath, self.CreateScriptName(libraryName, "_before_run")
+        )
         if not beforeRunScriptExist:
             beforeRunListTime = [0]
 
         # we check if there is a after run script
-        afterRunScriptExist = self.ScriptExist(taskPath,self.CreateScriptName(libraryName,"_after_run"))
+        afterRunScriptExist = self.ScriptExist(
+            taskPath, self.CreateScriptName(libraryName, "_after_run")
+        )
 
         # for arg in tqdm(arguments,desc=f"{taskName} for {libraryName}", ncols=100):
         for arg in arguments:
-                # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
+            # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
 
-                listTime = []
+            listTime = []
+            if beforeRunScriptExist:
+                beforeRunListTime = []
+
+            numberRun = self.TaskConfigReader.getint(taskName, "nb_runs")
+
+            for nb_run in range(numberRun):
+                # Before run script
                 if beforeRunScriptExist:
-                    beforeRunListTime = []
-                
-                numberRun = self.TaskConfigReader.getint(taskName,"nb_runs")
-                
-                for nb_run in range(numberRun):
-                    # Before run script
-                    if beforeRunScriptExist:
-                        command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
-                        resultProcess = self.RunProcess(command=command,printOut=False,timeout=timeout)
-                        beforeRunListTime.append(resultProcess)
-                        self.progressBar.update(1)
-                        if isinstance(resultProcess, str):
-                            listTime.append(resultProcess)
-                            self.progressBar.update((numberRun-nb_run)*2 -1)
-                            break
-
-                    # Run script
-                    scriptName = self.CreateScriptName(libraryName,"_run")
-                    language = self.LibraryConfigReader.get(libraryName,"language")
-
-                    command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
-
-                    resultProcess = self.RunProcess(command=command,printOut=False,timeout=timeout)
-                    listTime.append(resultProcess)
+                    command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
+                    resultProcess = self.RunProcess(
+                        command=command, printOut=False, timeout=timeout
+                    )
+                    beforeRunListTime.append(resultProcess)
                     self.progressBar.update(1)
                     if isinstance(resultProcess, str):
-                        self.progressBar.update((numberRun-nb_run-1)*2)
+                        listTime.append(resultProcess)
+                        self.progressBar.update((numberRun - nb_run) * 2 - 1)
                         break
 
-                valueAfterRun= None
-                # After run script
-                if afterRunScriptExist:
-                    command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_after_run'))} {arg}"
-                    valueAfterRun = self.RunProcess(command=command,printOut=False,timeout=timeout)
-                
-                # we remove the error and timeout values to calculate the mean
-                filteredListTime = [x for x in listTime if isinstance(x, float) or isinstance(x, int)]
-                filteredListBeforeRunTime = [x for x in beforeRunListTime if isinstance(x, float) or isinstance(x, int)]
-                # If there is no value in the list, we take the first value even if it is an error or a timeout
-                if len(filteredListTime) != 0:
-                    # TEMPORAIRE
-                    self.results[libraryName][taskName]["results"][arg] = (np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime), valueAfterRun)
-                    # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
-                else:
-                    self.results[libraryName][taskName]["results"][arg] = (listTime[0], valueAfterRun)
+                # Run script
+                scriptName = self.CreateScriptName(libraryName, "_run")
+                language = self.LibraryConfigReader.get(libraryName, "language")
 
-                # # print(f"{valueResult = }")
-                # # print(f"{valueBeforeRun = }")
+                command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
+
+                resultProcess = self.RunProcess(
+                    command=command, printOut=False, timeout=timeout
+                )
+                listTime.append(resultProcess)
+                self.progressBar.update(1)
+                if isinstance(resultProcess, str):
+                    self.progressBar.update((numberRun - nb_run - 1) * 2)
+                    break
+
+            valueAfterRun = None
+            # After run script
+            if afterRunScriptExist:
+                command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_after_run'))} {arg}"
+                valueAfterRun = self.RunProcess(
+                    command=command, printOut=False, timeout=timeout
+                )
+
+            # we remove the error and timeout values to calculate the mean
+            filteredListTime = [
+                x for x in listTime if isinstance(x, float) or isinstance(x, int)
+            ]
+            filteredListBeforeRunTime = [
+                x
+                for x in beforeRunListTime
+                if isinstance(x, float) or isinstance(x, int)
+            ]
+            # If there is no value in the list, we take the first value even if it is an error or a timeout
+            if len(filteredListTime) != 0:
+                # TEMPORAIRE
+                self.results[libraryName][taskName]["results"][arg] = (
+                    np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime),
+                    valueAfterRun,
+                )
+                # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
+            else:
+                self.results[libraryName][taskName]["results"][arg] = (
+                    listTime[0],
+                    valueAfterRun,
+                )
+
+            # # print(f"{valueResult = }")
+            # # print(f"{valueBeforeRun = }")
 
     def CalculNumberIteration(self):
         """
@@ -356,38 +430,43 @@ class Benchmark:
         """
         nbIteration = 0
         for taskName in self.TaskConfigReader.sections():
-            nbIteration += self.TaskConfigReader.getint(taskName,"nb_runs") * len(self.TaskConfigReader.get(taskName,"arguments").split(",")) * 2 * len(self.libraryNames)# Nb runs * nb arguments * 2 (before run and after run) * nb libraries
+            nbIteration += (
+                self.TaskConfigReader.getint(taskName, "nb_runs")
+                * len(self.TaskConfigReader.get(taskName, "arguments").split(","))
+                * 2
+                * len(self.libraryNames)
+            )  # Nb runs * nb arguments * 2 (before run and after run) * nb libraries
             # print(f"{len(self.TaskConfigReader.get(taskName,'arguments').split(',')) = }")
             # print(f"{nbIteration = }")
         return nbIteration
-    
-    
-    def ConvertResultToJson(self, outputPath:str=None, outputFileName:str="results"):
+
+    def ConvertResultToJson(
+        self, outputPath: str = None, outputFileName: str = "results"
+    ):
         """
         convert the result to a json file
         """
         if outputPath is None:
             outputPath = self.pathToInfrastructure
 
-        with open(outputFileName,"w") as file:
-            json.dump(self.results,file,indent=4)
+        with open(outputFileName, "w") as file:
+            json.dump(self.results, file, indent=4)
 
-    
     def StartAllProcedure(self):
         self.BeforeBuildLibrary()
 
-        self.progressBar = tqdm(total=self.CalculNumberIteration(),desc="Initialization", ncols=100)
+        self.progressBar = tqdm(
+            total=self.CalculNumberIteration(), desc="Initialization", ncols=100
+        )
         for taskName in self.taskNames:
             self.RunTask(taskName)
 
-
-        
 
 if __name__ == "__main__":
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     outputPath = os.path.abspath(os.path.join(currentDirectory, os.pardir))
     run = Benchmark(pathToInfrastructure=currentDirectory)
     run.StartAllProcedure()
-    
+
     print(run.results)
     run.ConvertResultToJson(outputPath=outputPath)
