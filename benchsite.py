@@ -317,7 +317,7 @@ class BenchSite:
             "navigation.html",
             TaskClassifiedByTheme={
                 BenchSite.MakeLink(
-                    contentFilePath + theme, "&bull; " + theme, f"{theme}-nav"
+                    contentFilePath + theme, theme, f"{theme}-nav"
                 ): [
                     BenchSite.MakeLink(
                         contentFilePath + taskName, taskName, f"{taskName}-nav"
@@ -329,7 +329,7 @@ class BenchSite:
             librarylist=[
                 "<li class='menu-item'>"
                 + BenchSite.MakeLink(
-                    libraryName,
+                    contentFilePath + libraryName,
                     strElement=f"<img src='{logoLibrary[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
                     a_balise_id=f"{libraryName}-nav",
                 )
@@ -562,7 +562,6 @@ class BenchSite:
                 for libraryName in themeRankDico[themeName].keys()
             ]
             importedData = summaryData + importedData
-            print(importedData)
 
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(

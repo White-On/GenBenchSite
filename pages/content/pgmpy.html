@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>GenBenSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/libraryStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="../index.html"><b>Home</b></a>
+            <a href="about.html"><b>About</b></a>
+            <a href="../result.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            
+            <a href="#" class="icon">
+            <img src="../assets/discord.svg" alt="discord-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/github.svg" alt="github-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/gitlab.svg" alt="gitlab-icon">
+            </a>
+            
+        </nav>
+    </header><!-- Navigation Bar -->
+
+<nav id = "leftNavBar">
+    <ul>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
+            
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFExploiting.html' id='BIFExploiting-nav'>BIFExploiting</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                        <a href='LearningHillClimb.html' id='LearningHillClimb-nav'>LearningHillClimb</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFGeneration.html' id='BIFGeneration-nav'>BIFGeneration</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                    
+                </ul>
+                </li>
+            
+        </ul>
+    </ul>
+</nav>
+
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
+
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
+
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+
+<!-- Rank Bar  -->
+<div id="rank-bar">
+    <div id="rank-str"></div>
+    <div>2023-05-08 17:23:01</div>
+</div>
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    console.log(cls);
+
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+        gap : 5,
+
+        contentFolderPath : "./",
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
+</script><script defer  >const importedData = {'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 6.537729199975729, 'libraryName': 'pgmpy'}, {'arguments': 'water.bif', 'resultElement': 6.221610100008547, 'libraryName': 'pgmpy'}, {'arguments': 'pathfinder.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'munin.bif', 'resultElement': 8.702153300051577, 'libraryName': 'pgmpy'}, {'arguments': 'mildew.bif', 'resultElement': 21.51144850003766, 'libraryName': 'pgmpy'}, {'arguments': 'link.bif', 'resultElement': 6.827477500017267, 'libraryName': 'pgmpy'}, {'arguments': 'insurance.bif', 'resultElement': 5.816923999984283, 'libraryName': 'pgmpy'}, {'arguments': 'hepar2.bif', 'resultElement': 5.952049800020177, 'libraryName': 'pgmpy'}, {'arguments': 'hailfinder.bif', 'resultElement': 5.679052600055002, 'libraryName': 'pgmpy'}, {'arguments': 'earthquake.bif', 'resultElement': 5.794010100013111, 'libraryName': 'pgmpy'}, {'arguments': 'diabetes.bif', 'resultElement': 14.863514599972405, 'libraryName': 'pgmpy'}, {'arguments': 'child.bif', 'resultElement': 5.72096230002353, 'libraryName': 'pgmpy'}, {'arguments': 'cancer.bif', 'resultElement': 5.900118000048678, 'libraryName': 'pgmpy'}, {'arguments': 'barley.bif', 'resultElement': 9.7846929000807, 'libraryName': 'pgmpy'}, {'arguments': 'asia.bif', 'resultElement': 5.739988000015728, 'libraryName': 'pgmpy'}, {'arguments': 'andes.bif', 'resultElement': 5.808573299960699, 'libraryName': 'pgmpy'}, {'arguments': 'alarm.bif', 'resultElement': 5.919982900028117, 'libraryName': 'pgmpy'}]}, 'LearningHillClimb': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 100.0, 'resultElement': 9.265567400027066, 'libraryName': 'pgmpy'}, {'arguments': 250.0, 'resultElement': 10.950043399992865, 'libraryName': 'pgmpy'}, {'arguments': 500.0, 'resultElement': 13.790824400028214, 'libraryName': 'pgmpy'}, {'arguments': 750.0, 'resultElement': 17.62877249997109, 'libraryName': 'pgmpy'}, {'arguments': 1000.0, 'resultElement': 20.92714599997271, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 24.83569910004735, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 29.89301230001729, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 36.69160979997832, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 41.70008360000793, 'libraryName': 'pgmpy'}, {'arguments': 3500.0, 'resultElement': 46.163557399995625, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 51.31251929997234, 'libraryName': 'pgmpy'}, {'arguments': 4500.0, 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 5000.0, 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 7500.0, 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 10000.0, 'resultElement': 0, 'libraryName': 'pgmpy'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'Error', 'data': [{'arguments': 'BN_16_1.5_3.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_15_1.5_3.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_15_1.5_2.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_19_1.5_3.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_17_1.5_3.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_18_1.5_2.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_12_1.5_2.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}, {'arguments': 'BN_14_1.5_2.bif', 'resultElement': 0, 'libraryName': 'pgmpy'}]}};</script>
+<script defer type='module' src ='../script/libraryScript.js'></script>
+
+<!-- Target main component -->
+<div class="title">
+    <img src='../assets\pgmpy.png' alt='pgmpy' width='50' height='50'><h1 id="entry-title">pgmpy</h1> 
+</div>
+<p class="description">PGMpy is a Python library for working with Probabilistic Graphical Models (PGMs), which are graphical representations of probability distributions that allow for efficient computation of complex probability functions over many random variables. PGMs can be used to model a wide variety of domains, such as natural language processing, computer vision, bioinformatics, and social network analysis. PGMpy provides a set of classes for defining and manipulating different types of PGMs, including Bayesian Networks, Markov Networks, and Factor Graphs. It includes a variety of algorithms for performing inference and learning in PGMs, including exact inference, approximate inference, and parameter estimation. PGMpy also provides tools for visualization and evaluation of PGMs. PGMpy is an open-source library that is actively maintained and developed by a community of contributors. It has been extensively used in research and industry, and is considered one of the most popular libraries for PGMs in the Python ecosystem.</p>
+
+<div class ="grid">
+    
+    <div class="card">
+        <a href="BIFReading.html"><h2>BIFReading</h2></a>
+        <div id="BIFReading"></div>
+    </div>
+    
+    <div class="card">
+        <a href="LearningHillClimb.html"><h2>LearningHillClimb</h2></a>
+        <div id="LearningHillClimb"></div>
+    </div>
+    
+    <div class="card">
+        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
+        <div id="InferenceRandomBN"></div>
+    </div>
+    
+</div></body>

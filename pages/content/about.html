@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>GenBenSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/libraryStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="../index.html"><b>Home</b></a>
+            <a href="about.html"><b>About</b></a>
+            <a href="../result.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            
+            <a href="#" class="icon">
+            <img src="../assets/discord.svg" alt="discord-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/github.svg" alt="github-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/gitlab.svg" alt="gitlab-icon">
+            </a>
+            
+        </nav>
+    </header><!-- Navigation Bar -->
+
+<nav id = "leftNavBar">
+    <ul>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
+            
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFExploiting.html' id='BIFExploiting-nav'>BIFExploiting</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                        <a href='LearningHillClimb.html' id='LearningHillClimb-nav'>LearningHillClimb</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFGeneration.html' id='BIFGeneration-nav'>BIFGeneration</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                    
+                </ul>
+                </li>
+            
+        </ul>
+    </ul>
+</nav>
+
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
+
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
+
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+<div>
+    <h1>ABOUT</h1>
+
+    <h2>What is this tool</h2>
+    <p>The benchmark website is a platform designed to compare the performance of different libraries and frameworks. It
+        provides a detailed report of each library's speed, precision, and other parameters, making it easier for
+        developers to choose the best library for their project.</p>
+
+    <h2>Why Creating this tool</h2>
+    <p>The development of this tool was initiated to address the need for a reliable and unbiased way of comparing the
+        performance of different libraries. With so many options available in the market, it can be challenging to
+        choose the right library for a particular task. This tool aims to simplify the selection process by providing a
+        standardized benchmarking methodology for all libraries.</p>
+
+    <h2>How work the tool</h2>
+    <p>The benchmark website is designed to automate the process of comparing and testing different libraries. To
+        achieve this, the website runs a set of requested tests at the end of each week. The tests are executed in a
+        controlled environment, and the results are then analyzed and compiled into easy-to-read reports. These reports
+        are published on dedicated GitHub pages, where users can access them and see how the different libraries perform
+        in a variety of scenarios. By automating the testing process, the website enables developers to save time and
+        effort when evaluating libraries, and helps them make informed decisions based on reliable data.</p>
+    
+    <h2>How we compare the targets</h2>
+    <p>For the time being, we we decided to compare results base on the Lexicographic Maximal Ordering Algorithm (LexMax).
+        each ranking is based on the number of wins, ties, and losses of each library. The library with the highest
+        number of wins is ranked first, followed by the library with the second-highest number of wins, and so on. In
+        the case of a tie, both libraries are ranked equally.
+    </p>
+
+    <h2>How to contribute</h2>
+    <p>The benchmark website is an open-source project, and contributions from the community are welcome. To contribute,
+        users can fork the project on GitHub, make changes to the code, and submit a pull request. Users can also
+        contribute by reporting bugs, suggesting improvements, or sharing their benchmarking results. The project has a
+        dedicated community of developers who are always willing to help new contributors get started.</p>
+</div></body>
