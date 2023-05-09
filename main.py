@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     if args.publish and args.access_folder == "github":
         # before copying the output folder in the repository, we need to check if there is not already 
-        #copy the output folder in the repository
+        # copy the output folder in the repository
         shutil.copytree(args.output_folder, os.path.join(args.repository, args.output_folder))
         print("Deploying the HTML page on the github page")
         os.chdir(args.repository)

@@ -10,7 +10,6 @@ import ranking as rk
 from configparser import ConfigParser
 import shutil
 
-
 class BenchSite:
     LEXMAX_THRESHOLD = 0
 
@@ -628,12 +627,10 @@ class BenchSite:
                     "data": [
                         {
                             "arguments": float(arg) if arg.isnumeric() else arg,
-                            "resultElement": res
-                            if res >= 0 and res != float("infinity")
-                            else 0,
+                            "resultElement": res,
                             "libraryName": libraryName,
                         }
-                        for arg, res in zip(task.arguments_label, task.results)
+                        for arg, res in zip(task.arguments_label, task.results) if res >= 0 and res != float("infinity")
                     ],
                 }
                 for task in Library.GetLibraryByName(libraryName).tasks

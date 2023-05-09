@@ -68,6 +68,8 @@ export function HeatMap(data,{
         .attr("y", (i) => yScale(CY[i]))
         .attr("width", xScale.bandwidth().toFixed(0))
         .attr("height",yScale.bandwidth().toFixed(0))
+        .attr("stroke", "black")
+        .attr("stroke-width", 2)
         .attr("fill", (i) => colorScale(V[i]));
     
     // add the x-axis to the chart.
@@ -76,6 +78,7 @@ export function HeatMap(data,{
         .call(xAxis)
         .attr("font-size", labelFontSize)
         .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick line").remove())
         .call(g => g.append("text")
             .text(xLabel))
             .on('click', function(d) {
@@ -84,13 +87,14 @@ export function HeatMap(data,{
                 
             })
             .style("cursor", "pointer");
-  
+
     // add the y-axis to the chart.
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
         .attr("font-size", labelFontSize)
         .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick line").remove())
         .call(g => g.append("text")
             .attr("x", -margin.left)
             .attr("y", 10 + labelFontSize/2)

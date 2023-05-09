@@ -39,9 +39,9 @@ export function GroupedBarChart(data,{
 
     const I = d3.range(Values.length);
 
-    console.log(Values);
-    console.log(Categories);
-    console.log(InerClass);
+    // console.log(Values);
+    // console.log(Categories);
+    // console.log(InerClass);
 
     // // console.log(d3.schemeCategory10);
     // color = d3.scaleOrdinal(color)
@@ -79,7 +79,6 @@ export function GroupedBarChart(data,{
         yDomain = [0, yMinMaxValue[1]];
         yScale = d3.scaleLinear(yDomain, yRange);
     }
-    console.log(yScale(1));
 
     let xAxis = d3.axisBottom(xScaleCategory);
     let yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
@@ -94,11 +93,17 @@ export function GroupedBarChart(data,{
 
     const rect = svg
         .selectAll("g")
-        .data(I)
+        .data(I.reverse())
         .join("g")
         .attr("transform", function (d) {
             return "translate(" + xScaleCategory(Categories[d]) + ",0)"
         });
+    
+    console.log(I);
+    console.log(InerClass);
+    console.log(Values);
+    
+    
     
     rect
         .append("rect")
@@ -120,6 +125,7 @@ export function GroupedBarChart(data,{
         .on("click", handleClick)
         .style("cursor", "pointer");
 
+    
     rect
         .append("text")
         .join("text")
@@ -137,7 +143,6 @@ export function GroupedBarChart(data,{
             return Values[d].toFixed(countDecimals(Values[d])<=2?countDecimals(Values[d]):2);
         })
         ;
-
   
 
     // add the x-axis to the chart.
@@ -200,6 +205,7 @@ export function GroupedBarChart(data,{
       
 
     let activeElement = [];
+    let lastTwoElementSelected = [];
 
     function handleClick(clickedElement) {
         let innerClassSelected;
@@ -225,7 +231,12 @@ export function GroupedBarChart(data,{
 
             // for single selection
             activeElement = [innerClassSelected];
+
+            lastTwoElementSelected.push(innerClassSelected);
+            lastTwoElementSelected = [...new Set(lastTwoElementSelected)]
+            lastTwoElementSelected = lastTwoElementSelected.slice(-2);
         }
+
 
         // If there are no active elements, reset the chart
         if(activeElement.length == 0){
@@ -252,10 +263,10 @@ export function GroupedBarChart(data,{
                 .attr("fill", function (d) {
                     return "black";
             });
-            
+
             if (activationFunction != null) {
                 // console.log("activationFunction");
-                activationFunction(activeElement);
+                activationFunction(lastTwoElementSelected);
             }
 
         // If there are active elements, update the chart
@@ -300,8 +311,8 @@ export function GroupedBarChart(data,{
                 });
 
             if (activationFunction != null) {
-                console.log("activationFunction");
-                activationFunction(activeElement);
+                // console.log("activationFunction");
+                activationFunction(lastTwoElementSelected);
             }
         }
 
