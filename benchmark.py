@@ -5,7 +5,7 @@ import subprocess
 import time
 import json
 import numpy as np
-import threading
+import ast
 from tqdm import tqdm
 
 
@@ -173,6 +173,7 @@ class Benchmark:
             )
             # We split the command/script and the arguments in oder
             beforeTaskCommand = beforeTaskCommand.split(" ")
+
             process = subprocess.run(
                 [
                     beforeTaskCommand[0],
@@ -253,7 +254,7 @@ class Benchmark:
 
     #     return end-start
 
-    def RunProcess(self, command, printOut, timeout):
+    def RunProcess(self, command, printOut, timeout, getOutput=False):
         start = time.perf_counter()
         try:
             process = subprocess.run(
@@ -263,6 +264,11 @@ class Benchmark:
             # print(f"\nTimeout expired for the {command} command")
             return Benchmark.TIMEOUT_VALUE
         end = time.perf_counter()
+
+        if printOut:
+            print(process.stdout)
+            print(process.stderr)
+
         if process.returncode == 1:
             # print(f"\nError in the {command} command")
             # print(process.stderr)
@@ -272,9 +278,9 @@ class Benchmark:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
             return Benchmark.NOT_RUN_VALUE
-
-        if printOut:
-            print(process.stdout)
+        
+        if getOutput:
+            return process.stdout
 
         return end - start
 
@@ -347,11 +353,10 @@ class Benchmark:
             beforeRunListTime = [0]
 
         # we check if there is a after run script
-        afterRunScriptExist = self.ScriptExist(
-            taskPath, self.CreateScriptName(libraryName, "_after_run")
-        )
+        afterRunScript = self.TaskConfigReader.get(taskName, "evaluation_script",fallback=None)
+        if afterRunScript is not None:
+            afterRunScript = afterRunScript.split(",")
 
-        # for arg in tqdm(arguments,desc=f"{taskName} for {libraryName}", ncols=100):
         for arg in arguments:
             # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
 
@@ -390,13 +395,18 @@ class Benchmark:
                     self.progressBar.update((numberRun - nb_run - 1) * 2)
                     break
 
-            valueAfterRun = None
+            valueEvaluation = None
             # After run script
-            if afterRunScriptExist:
-                command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_after_run'))} {arg}"
-                valueAfterRun = self.RunProcess(
-                    command=command, printOut=False, timeout=timeout
-                )
+            if afterRunScript is not None:
+                # if the script is not None, then it should be a script name or a list of script name
+                valueEvaluation = []
+                for script in afterRunScript:
+                    command = f"{self.TaskConfigReader.get(taskName,'evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
+                    output = self.RunProcess(command=command, printOut=False, timeout=20, getOutput=True)
+                    if(output in [Benchmark.NOT_RUN_VALUE, Benchmark.ERROR_VALUE, Benchmark.DEFAULT_VALUE, Benchmark.TIMEOUT_VALUE]):
+                        output = "None"
+                    valueEvaluation.append(ast.literal_eval(output))                
+                    
 
             # we remove the error and timeout values to calculate the mean
             filteredListTime = [
@@ -412,13 +422,13 @@ class Benchmark:
                 # TEMPORAIRE
                 self.results[libraryName][taskName]["results"][arg] = (
                     np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime),
-                    valueAfterRun,
+                    valueEvaluation,
                 )
                 # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
             else:
                 self.results[libraryName][taskName]["results"][arg] = (
                     listTime[0],
-                    valueAfterRun,
+                    valueEvaluation,
                 )
 
             # # print(f"{valueResult = }")
@@ -464,8 +474,8 @@ class Benchmark:
 
 if __name__ == "__main__":
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
-    outputPath = os.path.abspath(os.path.join(currentDirectory, os.pardir))
-    run = Benchmark(pathToInfrastructure=currentDirectory)
+    outputPath = currentDirectory
+    run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
     run.StartAllProcedure()
 
     print(run.results)

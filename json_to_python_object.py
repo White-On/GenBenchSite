@@ -43,7 +43,7 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
             resultsTime = [result[0] for result in taskInfo["results"].values()]
             resultsValue = [result[1] for result in taskInfo["results"].values()]
             task.results.extend([float(result) if isinstance(result, float) or isinstance(result, int) else float("infinity") for result in resultsTime])
-            task.resultsValue.extend([float(result) if result is not None else float("infinity") for result in resultsValue])
+            task.resultsValue.extend(resultsValue)
             task.status = resultsTime[0] if all([r == float("infinity") for r in task.results]) else "Run"
 
             library.code = code[libName]
