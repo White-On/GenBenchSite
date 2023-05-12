@@ -1,6 +1,7 @@
 import {LineChart} from './dynamicPlot.js';
 import {Histogram} from './histogram.js';
 import {GroupedBarChart} from './groupedBarChart.js';
+import {ViolonsChart} from './violonsChart.js';
 
 // to get the Task Name that we want to plot we have 2 options:
 
@@ -29,12 +30,14 @@ if (isNaN(importedData[0].arguments)){
     importedData.sort(orderingFunction);
 }
 
+console.log(importedData);
+
 let allLibraries = importedData.map(d => d.libraryName);
 allLibraries = [...new Set(allLibraries)];
 
 handleClickToPrintCode([])
 
-chart = GroupedBarChart(importedData, {
+chart = ViolonsChart(importedData, {
     values: d => d.runTime,
     categories: d => d.arguments,
     inerClass: d => d.libraryName,
@@ -57,22 +60,24 @@ chart = GroupedBarChart(importedData, {
 
 element.appendChild(chart);
 
-let chartResult = GroupedBarChart(importedResults, {
-    values: d => d.runTime,
-    categories: d => d.arguments,
-    inerClass: d => d.libraryName,
+if (importedResults.length > 0){
+    let chartResult = GroupedBarChart(importedResults, {
+        values: d => d.runTime,
+        categories: d => d.arguments,
+        inerClass: d => d.libraryName,
 
-    width: width,
-    height: height,
+        width: width,
+        height: height,
 
-    xLabel: argDescription + " →",
-    yLabel: "Run Time (ms) ↑",
+        xLabel: argDescription + " →",
+        yLabel: "Run Time (ms) ↑",
 
-    margin: { top: 40, right: 10, bottom: 100, left: 50 },
+        margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
-});
+    });
 
-element.appendChild(chartResult);
+    element.appendChild(chartResult);
+}
 
 function handleClickToPrintCode(elementsToDisplay) {
     // console.log(elementsToDisplay);

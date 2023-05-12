@@ -1,4 +1,4 @@
-export function GroupedBarChart(data,{
+export function ViolonsChart(data,{
     values = ([value]) => value, 
     categories = ([, categories]) => categories, 
     inerClass = ([, , inerClass]) => inerClass,
@@ -42,6 +42,23 @@ export function GroupedBarChart(data,{
     const indices = [...Values.keys()].sort((a, b) => Values[b] - Values[a]);
 
     const I = d3.range(Values.length);
+
+    // TEMPORAIRE Il faudrait que les quantiles soient calculés en fonction des données
+    let upperQuantile = [];
+    let lowerQuantile = [];
+    let maxValues = [];
+    let minValues = [];
+    for (let _ of I) {
+        let uq = 1 + Math.floor(Math.random() * 5);
+        let lq = -1 - Math.floor(Math.random() * 5);
+        let max = uq + Math.floor(Math.random() * 2) + 1;
+        let min = lq - Math.floor(Math.random() * 2) - 1;
+        upperQuantile.push(uq);
+        lowerQuantile.push(lq);
+        maxValues.push(max);
+        minValues.push(min);
+
+    }
 
     // console.log(Values);
     // console.log(Categories);
@@ -103,9 +120,6 @@ export function GroupedBarChart(data,{
             return "translate(" + xScaleCategory(Categories[d]) + ",0)"
         });
     
-    console.log(I);
-    console.log(InerClass);
-    console.log(Values);
     
     rect
         .append("rect")
@@ -114,11 +128,11 @@ export function GroupedBarChart(data,{
             return xScaleInerCategory(InerClass[d]);
         })
         .attr("y", function (d) {
-            return yScale(Values[d]);
+            return yScale(Values[d] + upperQuantile[d]);
         })
         .attr("width", xScaleInerCategory.bandwidth())
         .attr("height", function (d) {
-            return height - yScale(Values[d]) - margin.bottom;
+            return yScale(Values[d] + lowerQuantile[d]) - yScale(Values[d] + upperQuantile[d]);
         })
         .attr("fill", function (d) {
             return color(InerClass[d]);
@@ -145,7 +159,19 @@ export function GroupedBarChart(data,{
             return Values[d].toFixed(countDecimals(Values[d])<=2?countDecimals(Values[d]):2);
         })
         ;
-  
+
+    //we add the violons to the chart
+    rect
+        .append("path")
+        .join("path")
+        .attr("d", function (d) {
+            let middle = xScaleInerCategory.bandwidth()/2 + xScaleInerCategory(InerClass[d]);
+            let halfWidth = xScaleInerCategory.bandwidth()/2;
+            return `M ${middle} ${yScale(Values[d] + upperQuantile[d])} L ${middle} ${yScale(Values[d] + maxValues[d])} M ${middle - halfWidth} ${yScale(Values[d] + maxValues[d])} L ${middle + halfWidth} ${yScale(Values[d] + maxValues[d])} Z
+                    M ${middle} ${yScale(Values[d] + lowerQuantile[d])} L ${middle} ${yScale(Values[d] + minValues[d])} M ${middle - halfWidth} ${yScale(Values[d] + minValues[d])} L ${middle + halfWidth} ${yScale(Values[d] + minValues[d])} Z`
+        })
+        .attr("stroke", "black")
+        .attr("stroke-width", 1);
 
     // add the x-axis to the chart.
     let xAxisG = svg.append("g")

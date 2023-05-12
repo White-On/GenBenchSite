@@ -12,7 +12,7 @@ body{
     background-color: var(--primary-color);
     font-family: 'Poppins', sans-serif;
     font-weight: 200;
-    font-size: clamp(1rem, 0.5vw, 2rem);
+    font-size: clamp(0.75rem, 0.5vw, 1rem);
     color: var(--font-color);
     margin-top: calc(var(--topMargin) + 1rem);
     margin-right: 1rem;
