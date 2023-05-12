@@ -10,6 +10,7 @@ import ranking as rk
 from configparser import ConfigParser
 import shutil
 
+
 class BenchSite:
     LEXMAX_THRESHOLD = 0
 
@@ -58,7 +59,7 @@ class BenchSite:
             siteConfig[option] = confparser["site"][option]
 
         return siteConfig
-    
+
     def GetTaskDescriptionConfig(self):
         confparser = ConfigParser()
         taskConfig = {}
@@ -68,10 +69,16 @@ class BenchSite:
                 os.path.join(self.structureTestPath, "themes", themeName)
             )
             for task in currentTask:
-                confparser.read(os.path.join(self.structureTestPath,"themes",themeName,task,"config.ini"))
+                confparser.read(
+                    os.path.join(
+                        self.structureTestPath, "themes", themeName, task, "config.ini"
+                    )
+                )
                 taskConfig[task] = {}
                 for option in confparser.options(task):
-                    taskConfig[task][option] = confparser.get(task,option,fallback=f"No {option} available")
+                    taskConfig[task][option] = confparser.get(
+                        task, option, fallback=f"No {option} available"
+                    )
                     # taskConfig[task] = {"description":confparser.get(task,"description",fallback="No description available"),"argumentsDescription":confparser.get(task,"arguments_description",fallback="No description available")}
         return taskConfig
 
@@ -315,9 +322,7 @@ class BenchSite:
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent(
             "navigation.html",
             TaskClassifiedByTheme={
-                BenchSite.MakeLink(
-                    contentFilePath + theme, theme, f"{theme}-nav"
-                ): [
+                BenchSite.MakeLink(contentFilePath + theme, theme, f"{theme}-nav"): [
                     BenchSite.MakeLink(
                         contentFilePath + taskName, taskName, f"{taskName}-nav"
                     )
@@ -473,8 +478,28 @@ class BenchSite:
                 ],
                 [],
             )
-            # print(importedData)
 
+            importedResults = sum(
+                [
+                    [
+                        {
+                            "arguments": arg,
+                            "runTime": res[0] if res[0] != None else 0,
+                            "libraryName": library.name,
+                        }
+                        for arg, res in zip(
+                            library.GetTaskByName(taskName).arguments_label,
+                            library.GetTaskByName(taskName).resultsValue,
+                        )
+                        if library.GetTaskByName(taskName).status == "Run"
+                        and res != None
+                    ]
+                    for library in Library.GetAllLibrary()
+                ],
+                [],
+            )
+
+            print(importedResults)
             # create the template for the code
             templateTask = ""
             for library in Library.GetAllLibrary():
@@ -482,18 +507,34 @@ class BenchSite:
                 templateTask += f" <h2>{library.name}</h2>"
                 templateTask += f" {library.code[taskName]}"
                 templateTask += f" </div>"
-            
 
-
-            HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent("task.html", taskName = taskName,
-                                                                                scriptFilePath = BenchSite.CreateScriptBalise(scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",module=True),
-                                                                                libraryOrdered = BenchSite.OrderedList(rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]),
-                                                                                scriptData = BenchSite.CreateScriptBalise(content=f"const importedData = {importedData};"),
-                                                                                #    code = BenchSite.CreateScriptBalise(content=f"const code = {code};"),)
-                                                                                code = templateTask,
-                                                                                taskDescritpion = descriptionTask[taskName]["description"],
-                                                                                argumentsDescription = BenchSite.CreateScriptBalise(content=f"const argDescription = '{descriptionTask[taskName]['arguments_description']}';"),
-                                                                                displayScale = BenchSite.CreateScriptBalise(content=f"const displayScale = '{descriptionTask[taskName]['display_scale']}';"),)
+            HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
+                "task.html",
+                taskName=taskName,
+                scriptFilePath=BenchSite.CreateScriptBalise(
+                    scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",
+                    module=True,
+                ),
+                libraryOrdered=BenchSite.OrderedList(
+                    rk.RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[
+                        taskName
+                    ]
+                ),
+                scriptData=BenchSite.CreateScriptBalise(
+                    content=f"const importedData = {importedData};"
+                ),
+                scriptResults=BenchSite.CreateScriptBalise(
+                    content=f"const importedResults = {importedResults};"
+                ),
+                code=templateTask,
+                taskDescritpion=descriptionTask[taskName]["description"],
+                argumentsDescription=BenchSite.CreateScriptBalise(
+                    content=f"const argDescription = '{descriptionTask[taskName]['arguments_description']}';"
+                ),
+                displayScale=BenchSite.CreateScriptBalise(
+                    content=f"const displayScale = '{descriptionTask[taskName]['display_scale']}';"
+                ),
+            )
 
             staticSiteGenerator.CreateHTMLPage(
                 [
@@ -630,7 +671,8 @@ class BenchSite:
                             "resultElement": res,
                             "libraryName": libraryName,
                         }
-                        for arg, res in zip(task.arguments_label, task.results) if res >= 0 and res != float("infinity")
+                        for arg, res in zip(task.arguments_label, task.results)
+                        if res >= 0 and res != float("infinity")
                     ],
                 }
                 for task in Library.GetLibraryByName(libraryName).tasks

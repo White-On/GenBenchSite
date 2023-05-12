@@ -7,6 +7,7 @@ from benchsite import BenchSite
 from collectCode import CollectCode
 from getMachineData import SaveMachineDataInJson
 
+
 def clear_directory(dir_path):
     for filename in os.listdir(dir_path):
         file_path = os.path.join(dir_path, filename)
@@ -21,7 +22,7 @@ def clear_directory(dir_path):
 
 
 if __name__ == "__main__":
-    # first step is to Run the tests and evaluate the library based on the repository 
+    # first step is to Run the tests and evaluate the library based on the repository
     # inputed by the user. This repository may be a github repository or a local repository.
 
     # usage :
@@ -35,36 +36,46 @@ if __name__ == "__main__":
     curentPath = os.path.dirname(os.path.abspath(__file__))
 
     parser = argparse.ArgumentParser(
-        description='Generate a static website of a benchamrk of library.'
-        )
-    
-    parser.add_argument('repository',
-                        type=str,
-                        help='the path of the repository',
-                        )
-    
-    parser.add_argument('-A','--access_folder', 
-                        help='The way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github',
-                        default='local',
-                        choices=['local', 'github'])
+        description="Generate a static website of a benchamrk of library."
+    )
 
-    parser.add_argument('-O','--output_folder',
-                        type=str,
-                        help='the path of the folder where the user want to save the HTML page',
-                        default='pages')
-    
-    parser.add_argument('-P','--publish',
-                        help='True if the user want to deploy the HTML page, False otherwise',
-                        default=True,
-                        action=argparse.BooleanOptionalAction)
-    
+    parser.add_argument(
+        "repository",
+        type=str,
+        help="the path of the repository",
+    )
+
+    parser.add_argument(
+        "-A",
+        "--access_folder",
+        help="The way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github",
+        default="local",
+        choices=["local", "github"],
+    )
+
+    parser.add_argument(
+        "-O",
+        "--output_folder",
+        type=str,
+        help="the path of the folder where the user want to save the HTML page",
+        default="pages",
+    )
+
+    parser.add_argument(
+        "-P",
+        "--publish",
+        help="True if the user want to deploy the HTML page, False otherwise",
+        default=True,
+        action=argparse.BooleanOptionalAction,
+    )
+
     args = parser.parse_args()
     # print(args)
     online_repository = None
 
     if args.access_folder == "github":
         print("Online repository")
-        # we create a local repository 
+        # we create a local repository
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):
             os.mkdir(tmpPath)
@@ -83,16 +94,16 @@ if __name__ == "__main__":
 
         online_repository = args.repository
         args.repository = tmpPath
-    
+
     if not os.path.exists(args.repository):
         raise Exception(f"Path {args.repository} does not exist")
-    
+
     # Test the repository
     resultFilename = "result.json"
     codeFilename = "code.json"
     machineFilename = "machine.json"
 
-    benchmark = Benchmark(pathToInfrastructure = args.repository)
+    benchmark = Benchmark(pathToInfrastructure=args.repository)
     benchmark.StartAllProcedure()
 
     print(benchmark.results)
@@ -102,20 +113,23 @@ if __name__ == "__main__":
     # - a file that contains the machine information/metadata
     # - a file that contains the code of the tests done on the test repository
 
-    CollectCode(pathToInfrastructure= args.repository, outputPath = curentPath)
+    CollectCode(pathToInfrastructure=args.repository, outputPath=curentPath)
 
     SaveMachineDataInJson(outputFile=os.path.join(curentPath, machineFilename))
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
-    
+
     benchsite = BenchSite(inputFilename=resultFilename, outputPath=args.output_folder)
     benchsite.GenerateStaticSite()
 
     # we copy the result.json file in the output folder
-    shutil.copyfile(os.path.join(curentPath, resultFilename), os.path.join(args.output_folder, resultFilename))
-    
+    shutil.copyfile(
+        os.path.join(curentPath, resultFilename),
+        os.path.join(args.output_folder, resultFilename),
+    )
+
     # we delete the result.json,code.json and machine.json files
     # os.remove(os.path.join(curentPath, resultFilename))
     # os.remove(os.path.join(curentPath, codeFilename))
@@ -127,23 +141,20 @@ if __name__ == "__main__":
     # the HTML page will be deployed.
 
     if args.publish and args.access_folder == "github":
-        # before copying the output folder in the repository, we need to check if there is not already 
+        # before copying the output folder in the repository, we need to check if there is not already
         # copy the output folder in the repository
-        shutil.copytree(args.output_folder, os.path.join(args.repository, args.output_folder))
+        if os.path.exists(os.path.join(args.repository, args.output_folder)):
+            shutil.rmtree(os.path.join(args.repository, args.output_folder))
+        shutil.copytree(
+            args.output_folder, os.path.join(args.repository, args.output_folder)
+        )
         print("Deploying the HTML page on the github page")
         os.chdir(args.repository)
         os.system(f"git add {args.output_folder}")
-        os.system(f"git commit -m \"Update the HTML page\"")
+        os.system(f'git commit -m "Update the HTML page"')
         os.system(f"git push")
         print("HTML page deployed on the github page")
 
         # we remove the local repository
         os.chdir(curentPath)
         # shutil.rmtree(args.repository)
-        
-
-
-        
-        
-
-

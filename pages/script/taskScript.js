@@ -23,7 +23,7 @@ let width = element.getBoundingClientRect().width;
 let height = 500;
 
 let chart;
-// check if the arguments are numbers or not to sort the data if needed 
+// check if the arguments are numbers or not to sort the data if needed
 if (isNaN(importedData[0].arguments)){
     let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
     importedData.sort(orderingFunction);
@@ -45,15 +45,34 @@ chart = GroupedBarChart(importedData, {
     xLabel: argDescription + " →",
     yLabel: "Run Time (ms) ↑",
 
-    
+
 
     activationFunction: handleClickToPrintCode,
 
     margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
     scale : displayScale,
-    
+
 });
+
+element.appendChild(chart);
+
+let chartResult = GroupedBarChart(importedResults, {
+    values: d => d.runTime,
+    categories: d => d.arguments,
+    inerClass: d => d.libraryName,
+
+    width: width,
+    height: height,
+
+    xLabel: argDescription + " →",
+    yLabel: "Run Time (ms) ↑",
+
+    margin: { top: 40, right: 10, bottom: 100, left: 50 },
+
+});
+
+element.appendChild(chartResult);
 
 function handleClickToPrintCode(elementsToDisplay) {
     // console.log(elementsToDisplay);
@@ -65,18 +84,15 @@ function handleClickToPrintCode(elementsToDisplay) {
         }
     }
 }
-
-element.appendChild(chart);
-
 // document.body.innerHTML += code["pgmpy"]
 
-//we want to make the navActive class active on the library page 
+//we want to make the navActive class active on the library page
 let navActive = document.getElementById(TaskName + "-nav");
 
 // we want to change the color of the active nav element
 navActive.classList.add("active");
 // we now go up to the parent over and over again until we reach the nav element
-// and we turn all submenu class to expand  
+// and we turn all submenu class to expand
 while (navActive.tagName != "NAV") {
     if (navActive.classList.contains("collapse")) {
         navActive.classList.replace("collapse", "expand");

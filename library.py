@@ -9,6 +9,7 @@ from typing import ClassVar
 
 from task import Task
 
+
 @dataclass
 class Library:
     """Store all the information about all the libraries created.
@@ -21,8 +22,9 @@ class Library:
         The list of the tasks of the library.
     allLibrary : list of Library
         Class Attribute ! The list of all the libraries created.
-        
+
     """
+
     name: str
     tasks: list[Task] = field(default_factory=list)
     code: dict[str, str] = field(default_factory=dict)
@@ -33,7 +35,7 @@ class Library:
 
     def __repr__(self) -> str:
         return f"Library({self.name})"
-    
+
     @classmethod
     def GetAllLibrary(cls) -> list["Library"]:
         """Getter for all the libraries created.
@@ -44,7 +46,7 @@ class Library:
             The list of all the libraries created.
         """
         return cls.allLibrary
-    
+
     @classmethod
     def GetAllLibraryName(cls) -> list[str]:
         """Getter for all the libraries name created.
@@ -55,11 +57,11 @@ class Library:
             The list of all the libraries name created.
         """
         return (library.name for library in cls.allLibrary)
-    
+
     @classmethod
     def GetLibraryByTaskName(cls, taskName: str) -> list["Library"]:
         """Getter for all the libraries that contains a task with the name taskName.
-        
+
         Parameters
         ----------
         taskName : str
@@ -72,18 +74,20 @@ class Library:
         """
         libraryList = []
         for library in cls.GetAllLibrary():
-            libraryList.extend([library for task in library.tasks if task.name == taskName])
+            libraryList.extend(
+                [library for task in library.tasks if task.name == taskName]
+            )
         return libraryList
-    
+
     @classmethod
     def GetLibraryByName(cls, libraryName: str) -> "Library":
         """Getter for the library with the name libraryName.
-        
+
         Parameters
         ----------
         libraryName : str
             The name of the library to search.
-            
+
         Returns
         -------
         Library
@@ -129,7 +133,7 @@ class Library:
             The task with the name `taskName` in the library with the name `libraryName`.
         """
         return cls.GetLibraryByName(libraryName).GetTaskByName(taskName)
-    
+
     @classmethod
     def GetResultsByTaskName(cls, taskName: str) -> dict[str, list[float]]:
         """Getter for the results of all the tasks with the name `taskName`.
