@@ -8,7 +8,8 @@ import json
 from library import Library
 from task import Task
 
-def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
+
+def FileReaderJson(filename: str) -> tuple[list[Library], list[Task]]:
     """Read a json file and create the python object.
 
     Parameters
@@ -24,7 +25,7 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
     """
     with open(filename, "r") as file:
         data = json.load(file)
-    
+
     # NEED UPDATE
     with open("code.json", "r") as file:
         code = json.load(file)
@@ -36,15 +37,28 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
         library = Library(libName)
         for taskName, taskInfo in libInfo.items():
             task = Task(taskName, taskInfo["theme"])
-            task.arguments_label.extend([argument for argument in taskInfo["results"].keys()])
+            task.arguments_label.extend(
+                [argument for argument in taskInfo["results"].keys()]
+            )
             # transform the argument label into a list of index to be able to use the LexMax algorithm
             task.arguments.extend(TokenizeArguments(task.arguments_label))
             # print(taskInfo["results"].values())
             resultsTime = [result[0] for result in taskInfo["results"].values()]
             resultsValue = [result[1] for result in taskInfo["results"].values()]
-            task.results.extend([float(result) if isinstance(result, float) or isinstance(result, int) else float("infinity") for result in resultsTime])
+            task.results.extend(
+                [
+                    float(result)
+                    if isinstance(result, float) or isinstance(result, int)
+                    else float("infinity")
+                    for result in resultsTime
+                ]
+            )
             task.resultsValue.extend(resultsValue)
-            task.status = resultsTime[0] if all([r == float("infinity") for r in task.results]) else "Run"
+            task.status = (
+                resultsTime[0]
+                if all([r == float("infinity") for r in task.results])
+                else "Run"
+            )
 
             library.code = code[libName]
 
@@ -54,11 +68,12 @@ def FileReaderJson(filename: str)-> tuple[list[Library], list[Task]]:
 
     return libraryList, taskList
 
-def TokenizeArguments(arguments: list[str]) -> list [int]:
+
+def TokenizeArguments(arguments: list[str]) -> list[int]:
     return [index for index, argument in enumerate(arguments)]
 
-def GetMachineData(filename:str):
 
+def GetMachineData(filename: str):
     with open(filename, "r") as file:
         data = json.load(file)
 

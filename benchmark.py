@@ -304,7 +304,7 @@ class Benchmark:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
             return Benchmark.NOT_RUN_VALUE
-        
+
         if getOutput:
             return process.stdout
 
@@ -379,7 +379,9 @@ class Benchmark:
             beforeRunListTime = [0]
 
         # we check if there is a after run script
-        afterRunScript = self.TaskConfigReader.get(taskName, "evaluation_script",fallback=None)
+        afterRunScript = self.TaskConfigReader.get(
+            taskName, "evaluation_script", fallback=None
+        )
         if afterRunScript is not None:
             afterRunScript = afterRunScript.split(",")
 
@@ -428,11 +430,17 @@ class Benchmark:
                 valueEvaluation = []
                 for script in afterRunScript:
                     command = f"{self.TaskConfigReader.get(taskName,'evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-                    output = self.RunProcess(command=command, printOut=False, timeout=20, getOutput=True)
-                    if(output in [Benchmark.NOT_RUN_VALUE, Benchmark.ERROR_VALUE, Benchmark.DEFAULT_VALUE, Benchmark.TIMEOUT_VALUE]):
+                    output = self.RunProcess(
+                        command=command, printOut=False, timeout=20, getOutput=True
+                    )
+                    if output in [
+                        Benchmark.NOT_RUN_VALUE,
+                        Benchmark.ERROR_VALUE,
+                        Benchmark.DEFAULT_VALUE,
+                        Benchmark.TIMEOUT_VALUE,
+                    ]:
                         output = "None"
-                    valueEvaluation.append(ast.literal_eval(output))                
-                    
+                    valueEvaluation.append(ast.literal_eval(output))
 
             # we remove the error and timeout values to calculate the mean
             filteredListTime = [
