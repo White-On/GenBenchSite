@@ -128,6 +128,32 @@ class Benchmark:
 
         print(f"Library found {self.LibraryConfigReader.sections()}")
         print(f"Task found {self.TaskConfigReader.sections()}\n")
+    
+    def GetStructureTestInfo(self):
+        themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
+        themeNames = [
+            themeName
+            for themeName in os.listdir(themeDirectory)
+            if os.path.isdir(os.path.join(themeDirectory, themeName))
+        ]
+
+        self.structureTestInfo = {}
+        for themeName in themeNames:
+            currentThemeDirectory = os.path.join(self.pathToInfrastructure, "themes", themeName)
+            taskInCurrentTheme = [
+            taskName
+            for taskName in os.listdir(themeDirectory)
+            if os.path.isdir(os.path.join(currentThemeDirectory, taskName))
+            ]
+
+            for taskName in taskInCurrentTheme:
+                currentTaskDirectory = os.path.join(currentThemeDirectory, taskName)
+                configParser = ConfigParser()
+                configParser.read(os.path.join(currentTaskDirectory, "config.ini"))
+                self.structureTestInfo[taskName] = {key : configParser.get(taskName, key) for key in configParser["TestConfig"]}
+
+            
+
 
     def BeforeBuildLibrary(self):
         """
