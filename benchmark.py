@@ -7,6 +7,7 @@ import json
 import numpy as np
 import ast
 from tqdm import tqdm
+from logger import logger
 
 
 class Benchmark:
@@ -126,8 +127,10 @@ class Benchmark:
                 )
                 self.dictonaryThemeInTask[taskName] = themeName
 
-        print(f"Library found {self.LibraryConfigReader.sections()}")
-        print(f"Task found {self.TaskConfigReader.sections()}\n")
+        # print(f"Library found {self.LibraryConfigReader.sections()}")
+        # print(f"Task found {self.TaskConfigReader.sections()}\n")
+        logger.info(f"Library found {self.LibraryConfigReader.sections()}")
+        logger.info(f"Task found {self.TaskConfigReader.sections()}\n")
     
     def GetStructureTestInfo(self):
         themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
@@ -161,7 +164,8 @@ class Benchmark:
 
         """
 
-        print("Before build library")
+        # print("Before build library")
+        logger.info("Before build library")
         for libraryName in self.libraryNames:
             process = subprocess.run(
                 self.LibraryConfigReader.get(libraryName, "before_build"),
@@ -193,6 +197,7 @@ class Benchmark:
             taskName, "before_task", fallback=None
         )
         if beforeTaskCommand is not None:
+            logger.info(f"Before task of {taskName}")
             # the beforetask might have some arguments
             before_task_arguments = self.TaskConfigReader.get(
                 taskName, "before_task_arguments", fallback=""
@@ -210,16 +215,22 @@ class Benchmark:
                 capture_output=True,
             )
             if process.returncode != 0:
-                print(f"Error in the beforeBuild command of {taskName}\n")
-                print(process.stderr)
+                logger.error(f"Error in the beforeBuild command of {taskName}\n{process.stderr}")
+                logger.debug(f"{process.stdout = }")
+                # print(f"Error in the beforeBuild command of {taskName}\n")
+                # print(process.stderr)
                 # print(process.stdout)
                 # print(process.returncode)
                 sys.exit(1)
             else:
+                logger.info(f"Before task of {taskName} done")
+                logger.debug(f"{process.stdout = }")
                 # print(process.stdout)
                 # print(f"Before task of {taskName} done")
                 # read the config file again because it can be modified by the before task command/script
                 self.ReadTaskConfigFile(taskName)
+        else:
+            logger.info(f"No before task command/script for {taskName}")
 
     def ReadTaskConfigFile(self, taskName: str):
         """
@@ -281,6 +292,7 @@ class Benchmark:
     #     return end-start
 
     def RunProcess(self, command, printOut, timeout, getOutput=False):
+        logger.debug(f"RunProcess {command = }")
         start = time.perf_counter()
         try:
             process = subprocess.run(
@@ -291,6 +303,10 @@ class Benchmark:
             return Benchmark.TIMEOUT_VALUE
         end = time.perf_counter()
 
+        logger.debug(f"{process.stdout = }")
+        logger.debug(f"{process.stderr = }")
+        logger.debug(f"{process.returncode = }")
+
         if printOut:
             print(process.stdout)
             print(process.stderr)
@@ -298,11 +314,13 @@ class Benchmark:
         if process.returncode == 1:
             # print(f"\nError in the {command} command")
             # print(process.stderr)
+            logger.warning(f"Error in the command")
             return Benchmark.ERROR_VALUE
 
         elif process.returncode == 2:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
+            logger.warning(f"Can't run this command")
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
@@ -334,7 +352,6 @@ class Benchmark:
             taskName,
         )
 
-        # TEMPORAIRE
         self.BeforeTask(path, taskName)
 
         # The timeout of the task is the timeout in the config file or the default timeout
@@ -482,6 +499,8 @@ class Benchmark:
             )  # Nb runs * nb arguments * 2 (before run and after run) * nb libraries
             # print(f"{len(self.TaskConfigReader.get(taskName,'arguments').split(',')) = }")
             # print(f"{nbIteration = }")
+
+        logger.info(f"Number of iteration for the progress bar: {nbIteration}")
         return nbIteration
 
     def ConvertResultToJson(

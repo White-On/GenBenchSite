@@ -1,8 +1,10 @@
 import numpy as np
 from static_site_generator import StaticSiteGenerator
+from structure_test import StructureTest
 import os
 
 # Here you can import you're own FileReader if the format of the Json/file is different
+from logger import logger
 from json_to_python_object import FileReaderJson, GetMachineData
 from library import Library
 from task import Task
@@ -22,6 +24,11 @@ class BenchSite:
         self.inputFilename = inputFilename
         self.outputPath = outputPath
         self.structureTestPath = structureTestPath
+
+        logger.info("BenchSite created")
+        logger.debug(f"inputFilename : {inputFilename}")
+        logger.debug(f"outputPath : {outputPath}")
+        logger.debug(f"structureTestPath : {structureTestPath}")
 
         # création du site statique
         # relative path to the script, assets and website folder
@@ -50,6 +57,8 @@ class BenchSite:
             )
 
         return description
+    
+    
 
     def GetSiteConfiguatrion(self):
         confparser = ConfigParser()
@@ -301,6 +310,11 @@ class BenchSite:
         descriptionLibrary = self.GetLibraryDescription()
         descriptionTask = self.GetTaskDescriptionConfig()
         logoLibrary = self.GetLibraryLogo()
+
+        logger.info("Generate HTML Home Page")
+        logger.debug(f"description library : {descriptionLibrary}")
+        logger.debug(f"description task : {descriptionTask}")
+        logger.debug(f"logo library : {logoLibrary}")
 
         social_media = list(
             map(

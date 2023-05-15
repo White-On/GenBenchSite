@@ -6,6 +6,7 @@ from benchmark import Benchmark
 from benchsite import BenchSite
 from collectCode import CollectCode
 from getMachineData import SaveMachineDataInJson
+from logger import logger
 
 
 def clear_directory(dir_path):
@@ -73,8 +74,10 @@ if __name__ == "__main__":
     # print(args)
     online_repository = None
 
+    logger.info("Starting the main script")
+
     if args.access_folder == "github":
-        print("Online repository")
+        logger.info("Github repository")   
         # we create a local repository
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):
@@ -89,6 +92,7 @@ if __name__ == "__main__":
         try:
             os.system(command)
         except:
+            logger.error(f"Error when cloning the repository {args.repository}")
             raise Exception(f"Error when cloning the repository {args.repository}")
             exit(1)
 
@@ -96,6 +100,7 @@ if __name__ == "__main__":
         args.repository = tmpPath
 
     if not os.path.exists(args.repository):
+        logger.error(f"Path {args.repository} does not exist")
         raise Exception(f"Path {args.repository} does not exist")
 
     # Test the repository
@@ -103,10 +108,10 @@ if __name__ == "__main__":
     codeFilename = "code.json"
     machineFilename = "machine.json"
 
+    logger.info("Starting the benchmark")
     benchmark = Benchmark(pathToInfrastructure=args.repository)
     benchmark.StartAllProcedure()
 
-    print(benchmark.results)
     benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
 
     # we want to create two additional files :
@@ -141,6 +146,7 @@ if __name__ == "__main__":
     # the HTML page will be deployed.
 
     if args.publish and args.access_folder == "github":
+        logger.info("Publishing the HTML page on the github page")
         # before copying the output folder in the repository, we need to check if there is not already
         # copy the output folder in the repository
         if os.path.exists(os.path.join(args.repository, args.output_folder)):
