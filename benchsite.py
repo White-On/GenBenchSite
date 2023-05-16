@@ -41,55 +41,24 @@ class BenchSite:
         )
 
         self.machineData = GetMachineData("machine.json")
-        self.siteConfig = self.GetSiteConfiguatrion()
+        self.siteConfig = self.GetSiteConfig()
 
-    def GetLibraryDescription(self):
-        confparser = ConfigParser()
-        description = {}
-        for libraryName in Library.GetAllLibraryName():
-            confparser.read(
-                os.path.join(
-                    self.structureTestPath, "targets", libraryName, "config.ini"
-                )
-            )
-            description[libraryName] = confparser.get(
-                libraryName, "description", fallback="No description available"
-            )
+    def GetLibraryConfig(self):
+        strtest = StructureTest()
+        libraryConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.structureTestPath, "targets")))
+        return libraryConfig
 
-        return description
-    
-    
-
-    def GetSiteConfiguatrion(self):
-        confparser = ConfigParser()
-        confparser.read(os.path.join(self.structureTestPath, "site", "config.ini"))
-        siteConfig = {}
-        for option in confparser.options("site"):
-            siteConfig[option] = confparser["site"][option]
-
-        return siteConfig
-
-    def GetTaskDescriptionConfig(self):
-        confparser = ConfigParser()
-        taskConfig = {}
-        # on parcours les themes dans le dossier themes
-        for themeName in Task.GetAllThemeName():
-            currentTask = os.listdir(
-                os.path.join(self.structureTestPath, "themes", themeName)
-            )
-            for task in currentTask:
-                confparser.read(
-                    os.path.join(
-                        self.structureTestPath, "themes", themeName, task, "config.ini"
-                    )
-                )
-                taskConfig[task] = {}
-                for option in confparser.options(task):
-                    taskConfig[task][option] = confparser.get(
-                        task, option, fallback=f"No {option} available"
-                    )
-                    # taskConfig[task] = {"description":confparser.get(task,"description",fallback="No description available"),"argumentsDescription":confparser.get(task,"arguments_description",fallback="No description available")}
+    def GetTaskConfig(self):
+        listTaskpath = []
+        strTest = StructureTest()
+        listTaskpath = strTest.findConfigFile(os.path.join(self.structureTestPath, "themes"))
+        taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
+
+    def GetSiteConfig(self):
+        strtest = StructureTest()
+        siteConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.structureTestPath, "site")))
+        return siteConfig
 
     def GetLibraryLogo(self):
         logo = {}
@@ -307,13 +276,13 @@ class BenchSite:
             "download": "result.json",
         }
 
-        descriptionLibrary = self.GetLibraryDescription()
-        descriptionTask = self.GetTaskDescriptionConfig()
+        libraryConfig = self.GetLibraryConfig()
+        taskConfig = self.GetTaskConfig()
         logoLibrary = self.GetLibraryLogo()
 
         logger.info("Generate HTML Home Page")
-        logger.debug(f"description library : {descriptionLibrary}")
-        logger.debug(f"description task : {descriptionTask}")
+        logger.debug(f"library config : {libraryConfig}")
+        logger.debug(f"task config : {taskConfig}")
         logger.debug(f"logo library : {logoLibrary}")
 
         social_media = list(
@@ -541,12 +510,12 @@ class BenchSite:
                     content=f"const importedResults = {importedResults};"
                 ),
                 code=templateTask,
-                taskDescritpion=descriptionTask[taskName]["description"],
+                taskDescritpion=taskConfig[taskName].get("description", "No description"),
                 argumentsDescription=BenchSite.CreateScriptBalise(
-                    content=f"const argDescription = '{descriptionTask[taskName]['arguments_description']}';"
+                    content=f"const argDescription = '{taskConfig[taskName].get('argument_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
-                    content=f"const displayScale = '{descriptionTask[taskName]['display_scale']}';"
+                    content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
             )
 
@@ -704,7 +673,7 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedData};"
                 ),
-                taskDescription=descriptionLibrary[libraryName],
+                taskDescription = libraryConfig[libraryName].get("description", "No Description Attributed"),
                 logoLibrary=f"<img src='../{logoLibrary[libraryName]}' alt='{libraryName}' width='50' height='50'>"
                 if logoLibrary[libraryName] != None
                 else "",
@@ -746,4 +715,6 @@ if __name__ == "__main__":
     currentPath = os.path.dirname(os.path.realpath(__file__))
     benchSite = BenchSite(os.path.join(currentPath, "result.json"))
     pagePath = "pages"
+    benchSite.GetLibraryConfig()
+    benchSite.GetTaskConfig()
     benchSite.GenerateStaticSite()

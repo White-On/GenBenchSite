@@ -77,7 +77,7 @@ if __name__ == "__main__":
     logger.info("Starting the main script")
 
     if args.access_folder == "github":
-        logger.info("Github repository")   
+        logger.info("Github repository")
         # we create a local repository
         tmpPath = os.path.join(curentPath, "repository")
         if not os.path.exists(tmpPath):

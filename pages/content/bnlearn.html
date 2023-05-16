@@ -66,19 +66,11 @@
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                        <a href='LearningBestMethod.html' id='LearningBestMethod-nav'>LearningBestMethod</a>
                     
-                        <a href='LearningHillClimb.html' id='LearningHillClimb-nav'>LearningHillClimb</a>
+                        <a href='LearningOtherMethod.html' id='LearningOtherMethod-nav'>LearningOtherMethod</a>
                     
-                </ul>
-                </li>
-            
-                <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFGeneration.html' id='BIFGeneration-nav'>BIFGeneration</a></button>
-                
-                <ul class="subMenu collapse">
-                    
-                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                        <a href='LearningOtherMethodTwo.html' id='LearningOtherMethodTwo-nav'>LearningOtherMethodTwo</a>
                     
                 </ul>
                 </li>
@@ -124,12 +116,12 @@
 <!-- Rank Bar  -->
 <div id="rank-bar">
     <div id="rank-str"></div>
-    <div>2023-05-12 02:09:20</div>
+    <div>2023-05-15 16:21:12</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 1}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -142,7 +134,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 9.21769838999753, 'libraryName': 'bnlearn'}, {'arguments': 'water.bif', 'resultElement': 6.481674029995338, 'libraryName': 'bnlearn'}, {'arguments': 'munin.bif', 'resultElement': 11.025987734999216, 'libraryName': 'bnlearn'}, {'arguments': 'mildew.bif', 'resultElement': 22.26603885000368, 'libraryName': 'bnlearn'}, {'arguments': 'link.bif', 'resultElement': 7.983912674993917, 'libraryName': 'bnlearn'}, {'arguments': 'insurance.bif', 'resultElement': 6.016571559998555, 'libraryName': 'bnlearn'}, {'arguments': 'hepar2.bif', 'resultElement': 6.150958970001375, 'libraryName': 'bnlearn'}, {'arguments': 'hailfinder.bif', 'resultElement': 6.226910044999386, 'libraryName': 'bnlearn'}, {'arguments': 'earthquake.bif', 'resultElement': 6.036852785004885, 'libraryName': 'bnlearn'}, {'arguments': 'diabetes.bif', 'resultElement': 16.62091356000019, 'libraryName': 'bnlearn'}, {'arguments': 'child.bif', 'resultElement': 6.076817199998187, 'libraryName': 'bnlearn'}, {'arguments': 'cancer.bif', 'resultElement': 6.302848719997565, 'libraryName': 'bnlearn'}, {'arguments': 'barley.bif', 'resultElement': 10.246328544999413, 'libraryName': 'bnlearn'}, {'arguments': 'asia.bif', 'resultElement': 6.021067024992954, 'libraryName': 'bnlearn'}, {'arguments': 'andes.bif', 'resultElement': 6.514276334996975, 'libraryName': 'bnlearn'}, {'arguments': 'alarm.bif', 'resultElement': 6.091941025003326, 'libraryName': 'bnlearn'}]}, 'LearningHillClimb': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 100.0, 'resultElement': 9.402277845004575, 'libraryName': 'bnlearn'}, {'arguments': 250.0, 'resultElement': 11.023549365000507, 'libraryName': 'bnlearn'}, {'arguments': 500.0, 'resultElement': 14.900285415002143, 'libraryName': 'bnlearn'}, {'arguments': 750.0, 'resultElement': 18.36267288500094, 'libraryName': 'bnlearn'}, {'arguments': 1000.0, 'resultElement': 21.170199250002042, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 26.75744240500062, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 32.61879909499403, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 37.84832488000102, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 42.981493949999276, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 46.89430299997912, 'libraryName': 'bnlearn'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'NotRun', 'data': []}};</script>
+</script><script defer  >const importedData = {'LearningBestMethod': {'display': 'plot', 'status': 'NotRun', 'data': []}, 'LearningOtherMethod': {'display': 'plot', 'status': 'NotRun', 'data': []}, 'LearningOtherMethodTwo': {'display': 'plot', 'status': 'NotRun', 'data': []}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -154,18 +146,18 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="BIFReading.html"><h2>BIFReading</h2></a>
-        <div id="BIFReading"></div>
+        <a href="LearningBestMethod.html"><h2>LearningBestMethod</h2></a>
+        <div id="LearningBestMethod"></div>
     </div>
     
     <div class="card">
-        <a href="LearningHillClimb.html"><h2>LearningHillClimb</h2></a>
-        <div id="LearningHillClimb"></div>
+        <a href="LearningOtherMethod.html"><h2>LearningOtherMethod</h2></a>
+        <div id="LearningOtherMethod"></div>
     </div>
     
     <div class="card">
-        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
-        <div id="InferenceRandomBN"></div>
+        <a href="LearningOtherMethodTwo.html"><h2>LearningOtherMethodTwo</h2></a>
+        <div id="LearningOtherMethodTwo"></div>
     </div>
     
 </div></body>

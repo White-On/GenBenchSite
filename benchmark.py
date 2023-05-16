@@ -8,6 +8,7 @@ import numpy as np
 import ast
 from tqdm import tqdm
 from logger import logger
+from structure_test import StructureTest
 
 
 class Benchmark:
@@ -65,26 +66,16 @@ class Benchmark:
             dictionary that associate a theme to a list of task
         dictonaryThemeInTask : dict of str
             dictionary that associate a task to a theme
-        LibraryConfigReader : ConfigParser
-            ConfigParser that will read the config files of the library
-        TaskConfigReader : ConfigParser
-            ConfigParser that will read the config files of the task
-
         """
 
         self.pathToInfrastructure = pathToInfrastructure
 
-        self.LibraryConfigReader = ConfigParser()
-        self.TaskConfigReader = ConfigParser()
+        self.libraryConfig = self.GetLibraryConfig()
+        self.taskConfig = self.GetTaskConfig()
 
-        targetDirectory = os.path.join(self.pathToInfrastructure, "targets")
         themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
 
-        self.libraryNames = [
-            f
-            for f in os.listdir(targetDirectory)
-            if os.path.isdir(os.path.join(targetDirectory, f))
-        ]
+        self.libraryNames = self.libraryConfig.keys()
         self.themeNames = [
             f
             for f in os.listdir(themeDirectory)
@@ -97,17 +88,7 @@ class Benchmark:
         self.dictionaryTaskInTheme = {}
         self.dictonaryThemeInTask = {}
 
-        # We read the config file of each library and task
-        # with ConfigParser we can read multiple config file and get the value of a specific section and key
-        for libraryName in self.libraryNames:
-            self.LibraryConfigReader.read(
-                os.path.join(
-                    self.pathToInfrastructure, "targets", libraryName, "config.ini"
-                )
-            )
-
-        # We read the config file of each library and task
-        # we also create a dictionary that associate a theme to a list of task and a dictionary that associate a task to a theme
+        # create a dictionary that associate a theme to a list of task and a dictionary that associate a task to a theme
         for themeName in self.themeNames:
             self.taskNames += os.listdir(
                 os.path.join(self.pathToInfrastructure, "themes", themeName)
@@ -116,46 +97,24 @@ class Benchmark:
                 os.path.join(self.pathToInfrastructure, "themes", themeName)
             )
             for taskName in self.dictionaryTaskInTheme[themeName]:
-                self.TaskConfigReader.read(
-                    os.path.join(
-                        self.pathToInfrastructure,
-                        "themes",
-                        themeName,
-                        taskName,
-                        "config.ini",
-                    )
-                )
                 self.dictonaryThemeInTask[taskName] = themeName
 
-        # print(f"Library found {self.LibraryConfigReader.sections()}")
-        # print(f"Task found {self.TaskConfigReader.sections()}\n")
-        logger.info(f"Library found {self.LibraryConfigReader.sections()}")
-        logger.info(f"Task found {self.TaskConfigReader.sections()}\n")
+        
+
+        logger.info(f"Library config {self.libraryConfig}")
+        logger.info(f"Task config {self.taskConfig}")
     
-    def GetStructureTestInfo(self):
-        themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
-        themeNames = [
-            themeName
-            for themeName in os.listdir(themeDirectory)
-            if os.path.isdir(os.path.join(themeDirectory, themeName))
-        ]
+    def GetLibraryConfig(self):
+        strtest = StructureTest()
+        libraryConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.pathToInfrastructure, "targets")))
+        return libraryConfig
 
-        self.structureTestInfo = {}
-        for themeName in themeNames:
-            currentThemeDirectory = os.path.join(self.pathToInfrastructure, "themes", themeName)
-            taskInCurrentTheme = [
-            taskName
-            for taskName in os.listdir(themeDirectory)
-            if os.path.isdir(os.path.join(currentThemeDirectory, taskName))
-            ]
-
-            for taskName in taskInCurrentTheme:
-                currentTaskDirectory = os.path.join(currentThemeDirectory, taskName)
-                configParser = ConfigParser()
-                configParser.read(os.path.join(currentTaskDirectory, "config.ini"))
-                self.structureTestInfo[taskName] = {key : configParser.get(taskName, key) for key in configParser["TestConfig"]}
-
-            
+    def GetTaskConfig(self):
+        listTaskpath = []
+        strTest = StructureTest()
+        listTaskpath = strTest.findConfigFile(os.path.join(self.pathToInfrastructure, "themes"))
+        taskConfig = strTest.readConfig(*listTaskpath)
+        return taskConfig
 
 
     def BeforeBuildLibrary(self):
@@ -168,7 +127,7 @@ class Benchmark:
         logger.info("Before build library")
         for libraryName in self.libraryNames:
             process = subprocess.run(
-                self.LibraryConfigReader.get(libraryName, "before_build"),
+                self.libraryConfig[libraryName].get("before_build"),
                 shell=True,
                 capture_output=True,
             )
@@ -193,15 +152,16 @@ class Benchmark:
 
         """
         # We check if the before task command/script exist if not we do nothing
-        beforeTaskCommand = self.TaskConfigReader.get(
-            taskName, "before_task", fallback=None
-        )
+        beforeTaskCommand = self.taskConfig[taskName].get("before_task", None)
         if beforeTaskCommand is not None:
             logger.info(f"Before task of {taskName}")
             # the beforetask might have some arguments
-            before_task_arguments = self.TaskConfigReader.get(
-                taskName, "before_task_arguments", fallback=""
+            before_task_arguments = self.taskConfig[taskName].get(
+                "before_task_arguments", None
             )
+            if before_task_arguments is None:
+                logger.warning("No arguments for the before task command/script for {taskName}")
+                before_task_arguments = ""
             # We split the command/script and the arguments in oder
             beforeTaskCommand = beforeTaskCommand.split(" ")
 
@@ -215,36 +175,19 @@ class Benchmark:
                 capture_output=True,
             )
             if process.returncode != 0:
-                logger.error(f"Error in the beforeBuild command of {taskName}\n{process.stderr}")
+                logger.error(
+                    f"Error in the beforeBuild command of {taskName}\n{process.stderr}"
+                )
                 logger.debug(f"{process.stdout = }")
-                # print(f"Error in the beforeBuild command of {taskName}\n")
-                # print(process.stderr)
-                # print(process.stdout)
-                # print(process.returncode)
                 sys.exit(1)
             else:
                 logger.info(f"Before task of {taskName} done")
                 logger.debug(f"{process.stdout = }")
-                # print(process.stdout)
-                # print(f"Before task of {taskName} done")
                 # read the config file again because it can be modified by the before task command/script
-                self.ReadTaskConfigFile(taskName)
+                self.taskConfig = self.GetTaskConfig()
         else:
             logger.info(f"No before task command/script for {taskName}")
 
-    def ReadTaskConfigFile(self, taskName: str):
-        """
-        Read the config file of the task and return a dictionary with the config
-        """
-        self.TaskConfigReader.read(
-            os.path.join(
-                self.pathToInfrastructure,
-                "themes",
-                self.dictonaryThemeInTask[taskName],
-                taskName,
-                "config.ini",
-            )
-        )
 
     # def RunProcess(self, command, printOut, timeout):
 
@@ -292,7 +235,7 @@ class Benchmark:
     #     return end-start
 
     def RunProcess(self, command, printOut, timeout, getOutput=False):
-        logger.debug(f"RunProcess {command = }")
+        logger.info(f"RunProcess {command = }")
         start = time.perf_counter()
         try:
             process = subprocess.run(
@@ -333,7 +276,7 @@ class Benchmark:
         Create the name of the script that will be run for each library and task
         """
         suffix = {"python": "py", "java": "java", "c": "c", "c++": "cpp"}
-        return f"{libraryName}{nameComplement}.{suffix[self.LibraryConfigReader.get(libraryName,'language')]}"
+        return f"{libraryName}{nameComplement}.{suffix[self.libraryConfig[libraryName].get('language', 'python')]}"
 
     def ScriptExist(self, scriptPath: str, scriptName: str) -> bool:
         """
@@ -356,9 +299,7 @@ class Benchmark:
 
         # The timeout of the task is the timeout in the config file or the default timeout
         # the timeout is in seconds
-        taskTimeout = self.TaskConfigReader.getint(
-            taskName, "timeout", fallback=Benchmark.DEFAULT_TIMEOUT
-        )
+        taskTimeout = int(self.taskConfig[taskName].get("timeout", Benchmark.DEFAULT_TIMEOUT))
 
         for libraryName in self.libraryNames:
             self.results[libraryName][taskName] = {}
@@ -376,7 +317,7 @@ class Benchmark:
     def RunTaskForLibrary(
         self, libraryName: str, taskName: str, taskPath: str, timeout: int
     ):
-        arguments = self.TaskConfigReader.get(taskName, "arguments").split(",")
+        arguments = self.taskConfig[taskName].get('arguments').split(",")
 
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
@@ -384,7 +325,7 @@ class Benchmark:
                 arg: (Benchmark.NOT_RUN_VALUE, None) for arg in arguments
             }
             self.progressBar.update(
-                self.TaskConfigReader.getint(taskName, "nb_runs") * len(arguments) * 2
+                int(self.taskConfig[taskName].get('nb_runs')) * len(arguments) * 2
             )  # *2 because we have before and after run script
             return
 
@@ -396,9 +337,8 @@ class Benchmark:
             beforeRunListTime = [0]
 
         # we check if there is a after run script
-        afterRunScript = self.TaskConfigReader.get(
-            taskName, "evaluation_script", fallback=None
-        )
+        
+        afterRunScript = self.taskConfig[taskName].get('evaluation_script', None)
         if afterRunScript is not None:
             afterRunScript = afterRunScript.split(",")
 
@@ -409,12 +349,12 @@ class Benchmark:
             if beforeRunScriptExist:
                 beforeRunListTime = []
 
-            numberRun = self.TaskConfigReader.getint(taskName, "nb_runs")
+            numberRun = int(self.taskConfig[taskName].get('nb_runs'))
 
             for nb_run in range(numberRun):
                 # Before run script
                 if beforeRunScriptExist:
-                    command = f"{self.LibraryConfigReader.get(libraryName,'language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
+                    command = f"{self.libraryConfig[libraryName].get('language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
                     resultProcess = self.RunProcess(
                         command=command, printOut=False, timeout=timeout
                     )
@@ -427,7 +367,7 @@ class Benchmark:
 
                 # Run script
                 scriptName = self.CreateScriptName(libraryName, "_run")
-                language = self.LibraryConfigReader.get(libraryName, "language")
+                language = self.libraryConfig[libraryName].get('language')
 
                 command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
 
@@ -446,7 +386,7 @@ class Benchmark:
                 # if the script is not None, then it should be a script name or a list of script name
                 valueEvaluation = []
                 for script in afterRunScript:
-                    command = f"{self.TaskConfigReader.get(taskName,'evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
+                    command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
                     output = self.RunProcess(
                         command=command, printOut=False, timeout=20, getOutput=True
                     )
@@ -490,15 +430,13 @@ class Benchmark:
         Calculate the number of iteration for the progress bar
         """
         nbIteration = 0
-        for taskName in self.TaskConfigReader.sections():
+        for taskName in self.taskConfig.keys():
             nbIteration += (
-                self.TaskConfigReader.getint(taskName, "nb_runs")
-                * len(self.TaskConfigReader.get(taskName, "arguments").split(","))
+                int(self.taskConfig[taskName].get('nb_runs'))
+                * len(self.taskConfig[taskName].get("arguments").split(","))
                 * 2
                 * len(self.libraryNames)
             )  # Nb runs * nb arguments * 2 (before run and after run) * nb libraries
-            # print(f"{len(self.TaskConfigReader.get(taskName,'arguments').split(',')) = }")
-            # print(f"{nbIteration = }")
 
         logger.info(f"Number of iteration for the progress bar: {nbIteration}")
         return nbIteration

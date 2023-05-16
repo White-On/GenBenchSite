@@ -37,7 +37,7 @@ allLibraries = [...new Set(allLibraries)];
 
 handleClickToPrintCode([])
 
-chart = ViolonsChart(importedData, {
+chart = GroupedBarChart(importedData, {
     values: d => d.runTime,
     categories: d => d.arguments,
     inerClass: d => d.libraryName,

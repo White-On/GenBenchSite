@@ -66,19 +66,11 @@
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                        <a href='LearningBestMethod.html' id='LearningBestMethod-nav'>LearningBestMethod</a>
                     
-                        <a href='LearningHillClimb.html' id='LearningHillClimb-nav'>LearningHillClimb</a>
+                        <a href='LearningOtherMethod.html' id='LearningOtherMethod-nav'>LearningOtherMethod</a>
                     
-                </ul>
-                </li>
-            
-                <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFGeneration.html' id='BIFGeneration-nav'>BIFGeneration</a></button>
-                
-                <ul class="subMenu collapse">
-                    
-                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                        <a href='LearningOtherMethodTwo.html' id='LearningOtherMethodTwo-nav'>LearningOtherMethodTwo</a>
                     
                 </ul>
                 </li>
@@ -124,12 +116,12 @@
 <!-- Rank Bar  -->
 <div id="rank-bar">
     <div id="rank-str"></div>
-    <div>2023-05-12 02:09:20</div>
+    <div>2023-05-15 16:21:12</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 1}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -142,7 +134,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 0.3742515000063577, 'libraryName': 'pyAgrum'}, {'arguments': 'water.bif', 'resultElement': 0.566080435004551, 'libraryName': 'pyAgrum'}, {'arguments': 'munin.bif', 'resultElement': 4.035749529997702, 'libraryName': 'pyAgrum'}, {'arguments': 'mildew.bif', 'resultElement': 20.931352080000217, 'libraryName': 'pyAgrum'}, {'arguments': 'link.bif', 'resultElement': 0.9394254900020315, 'libraryName': 'pyAgrum'}, {'arguments': 'insurance.bif', 'resultElement': 0.06014143499924102, 'libraryName': 'pyAgrum'}, {'arguments': 'hepar2.bif', 'resultElement': 0.09920999499881872, 'libraryName': 'pyAgrum'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.15651570999471004, 'libraryName': 'pyAgrum'}, {'arguments': 'earthquake.bif', 'resultElement': 0.0018003449979005492, 'libraryName': 'pyAgrum'}, {'arguments': 'diabetes.bif', 'resultElement': 18.01739073499484, 'libraryName': 'pyAgrum'}, {'arguments': 'cancer.bif', 'resultElement': 0.0017313799980911426, 'libraryName': 'pyAgrum'}, {'arguments': 'barley.bif', 'resultElement': 5.258548629992584, 'libraryName': 'pyAgrum'}, {'arguments': 'asia.bif', 'resultElement': 0.004303369998524431, 'libraryName': 'pyAgrum'}, {'arguments': 'andes.bif', 'resultElement': 0.11181630999926706, 'libraryName': 'pyAgrum'}, {'arguments': 'alarm.bif', 'resultElement': 0.03347454499307784, 'libraryName': 'pyAgrum'}]}, 'LearningHillClimb': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 100.0, 'resultElement': 0.08763046000240138, 'libraryName': 'pyAgrum'}, {'arguments': 250.0, 'resultElement': 0.10356609000300526, 'libraryName': 'pyAgrum'}, {'arguments': 500.0, 'resultElement': 0.11540121999714759, 'libraryName': 'pyAgrum'}, {'arguments': 750.0, 'resultElement': 0.14635764999839018, 'libraryName': 'pyAgrum'}, {'arguments': 1000.0, 'resultElement': 0.157305490001454, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.17151369499188152, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.17723783500405266, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.20516054000181605, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.2281110649986658, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.2384837599965976, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.2646058400001493, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.264227764995303, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.2927890899954946, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.37625665499799654, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.4900095999983023, 'libraryName': 'pyAgrum'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'BN_19_1.5_2.bif', 'resultElement': 0.01049234999663895, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_11_1.5_3.bif', 'resultElement': 0.0010462900012498944, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_10_1.5_2.bif', 'resultElement': 0.0028771600002073794, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_19_1.5_3.bif', 'resultElement': 0.004678780006361183, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_16_1.5_2.bif', 'resultElement': 0.007911794990650367, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_15_1.5_2.bif', 'resultElement': 0.004026584999519411, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_17_1.5_2.bif', 'resultElement': 0.004192695002711855, 'libraryName': 'pyAgrum'}]}};</script>
+</script><script defer  >const importedData = {'LearningBestMethod': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.15896411999128757, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.2097165850078454, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.1905113250191789, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.2078701149905101, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.24793770000396764, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.2570182550029131, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.2537460599996848, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.2786263349931687, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.3046466200088616, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.3786672999907751, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.5237266499985708, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 1.1922660150099547, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 2.082083870007773, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 2.9281698700069683, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 3.3240745199902446, 'libraryName': 'pyAgrum'}]}, 'LearningOtherMethod': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.17425657502317338, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.16774484500347175, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.22586224000842775, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.5516156949859579, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.29304766500426926, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.28129338500148154, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.3268583850061986, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.42359084500640165, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.5761184799892363, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.41582292499660983, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 1.1018198949925135, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 1.411906865006313, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 2.58571963001159, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 4.220033309995779, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 4.285200975014596, 'libraryName': 'pyAgrum'}]}, 'LearningOtherMethodTwo': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.6273465649952413, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 1.0064228999981424, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.729077764993417, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.8049063300015405, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 1.0276665449899156, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 1.0138457449967975, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 1.1353881950024516, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 1.131681179991574, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 1.6672224950103554, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 2.086737339993124, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 4.867771670006914, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 8.044234344986034, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 9.317992430005688, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 18.944627764986944, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 18.069729449989975, 'libraryName': 'pyAgrum'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -154,18 +146,18 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="BIFReading.html"><h2>BIFReading</h2></a>
-        <div id="BIFReading"></div>
+        <a href="LearningBestMethod.html"><h2>LearningBestMethod</h2></a>
+        <div id="LearningBestMethod"></div>
     </div>
     
     <div class="card">
-        <a href="LearningHillClimb.html"><h2>LearningHillClimb</h2></a>
-        <div id="LearningHillClimb"></div>
+        <a href="LearningOtherMethod.html"><h2>LearningOtherMethod</h2></a>
+        <div id="LearningOtherMethod"></div>
     </div>
     
     <div class="card">
-        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
-        <div id="InferenceRandomBN"></div>
+        <a href="LearningOtherMethodTwo.html"><h2>LearningOtherMethodTwo</h2></a>
+        <div id="LearningOtherMethodTwo"></div>
     </div>
     
 </div></body>
