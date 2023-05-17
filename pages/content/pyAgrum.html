@@ -62,15 +62,15 @@
         <ul class="subMenu collapse">
             
                 <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFExploiting.html' id='BIFExploiting-nav'>BIFExploiting</a></button>
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='LearningBestMethod.html' id='LearningBestMethod-nav'>LearningBestMethod</a>
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning_best_method</a>
                     
-                        <a href='LearningOtherMethod.html' id='LearningOtherMethod-nav'>LearningOtherMethod</a>
+                        <a href='Learning_exaustive_search_BIC.html' id='Learning_exaustive_search_BIC-nav'>Learning_exaustive_search_BIC</a>
                     
-                        <a href='LearningOtherMethodTwo.html' id='LearningOtherMethodTwo-nav'>LearningOtherMethodTwo</a>
+                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning_hill_climb_BIC</a>
                     
                 </ul>
                 </li>
@@ -116,12 +116,12 @@
 <!-- Rank Bar  -->
 <div id="rank-bar">
     <div id="rank-str"></div>
-    <div>2023-05-15 16:21:12</div>
+    <div>2023-05-17 10:52:16</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 1}
+    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -134,7 +134,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'LearningBestMethod': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.15896411999128757, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.2097165850078454, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.1905113250191789, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.2078701149905101, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.24793770000396764, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.2570182550029131, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.2537460599996848, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.2786263349931687, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.3046466200088616, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.3786672999907751, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.5237266499985708, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 1.1922660150099547, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 2.082083870007773, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 2.9281698700069683, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 3.3240745199902446, 'libraryName': 'pyAgrum'}]}, 'LearningOtherMethod': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.17425657502317338, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.16774484500347175, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.22586224000842775, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.5516156949859579, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.29304766500426926, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.28129338500148154, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.3268583850061986, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.42359084500640165, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.5761184799892363, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.41582292499660983, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 1.1018198949925135, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 1.411906865006313, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 2.58571963001159, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 4.220033309995779, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 4.285200975014596, 'libraryName': 'pyAgrum'}]}, 'LearningOtherMethodTwo': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.6273465649952413, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 1.0064228999981424, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.729077764993417, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.8049063300015405, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 1.0276665449899156, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 1.0138457449967975, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 1.1353881950024516, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 1.131681179991574, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 1.6672224950103554, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 2.086737339993124, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 4.867771670006914, 'libraryName': 'pyAgrum'}, {'arguments': 20000.0, 'resultElement': 8.044234344986034, 'libraryName': 'pyAgrum'}, {'arguments': 30000.0, 'resultElement': 9.317992430005688, 'libraryName': 'pyAgrum'}, {'arguments': 40000.0, 'resultElement': 18.944627764986944, 'libraryName': 'pyAgrum'}, {'arguments': 50000.0, 'resultElement': 18.069729449989975, 'libraryName': 'pyAgrum'}]}};</script>
+</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.503945600008592, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.5726219999487512, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 1.05842809996102, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.6587654000031762, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.8908201999147423, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.9302589999861084, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 1.0126238000229932, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 1.0743198999552988, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 1.1789592999848537, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 1.5582691000308841, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 2.4809294000733644, 'libraryName': 'pyAgrum'}]}, 'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.18727699993178248, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.14901409996673465, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.18566689995350316, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.19351600005757064, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.22903829999268055, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.2472371999756433, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.26009600004181266, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.25786329997936264, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.3149058999842964, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.3698747000307776, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.48030799999833107, 'libraryName': 'pyAgrum'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.10989419999532402, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.12730399996507913, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.1464521999587305, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.1698178999358788, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.21336180000798777, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.21773519995622337, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.2334206000668928, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.23374519997742027, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.29070240003056824, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.38326420000521466, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.45283410005504265, 'libraryName': 'pyAgrum'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -146,18 +146,18 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="LearningBestMethod.html"><h2>LearningBestMethod</h2></a>
-        <div id="LearningBestMethod"></div>
+        <a href="Learning_best_method.html"><h2>Learning_best_method</h2></a>
+        <div id="Learning_best_method"></div>
     </div>
     
     <div class="card">
-        <a href="LearningOtherMethod.html"><h2>LearningOtherMethod</h2></a>
-        <div id="LearningOtherMethod"></div>
+        <a href="Learning_exaustive_search_BIC.html"><h2>Learning_exaustive_search_BIC</h2></a>
+        <div id="Learning_exaustive_search_BIC"></div>
     </div>
     
     <div class="card">
-        <a href="LearningOtherMethodTwo.html"><h2>LearningOtherMethodTwo</h2></a>
-        <div id="LearningOtherMethodTwo"></div>
+        <a href="Learning_hill_climb_BIC.html"><h2>Learning_hill_climb_BIC</h2></a>
+        <div id="Learning_hill_climb_BIC"></div>
     </div>
     
 </div></body>

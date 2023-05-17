@@ -62,15 +62,15 @@
         <ul class="subMenu collapse">
             
                 <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIFExploiting.html' id='BIFExploiting-nav'>BIFExploiting</a></button>
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='LearningBestMethod.html' id='LearningBestMethod-nav'>LearningBestMethod</a>
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning_best_method</a>
                     
-                        <a href='LearningOtherMethod.html' id='LearningOtherMethod-nav'>LearningOtherMethod</a>
+                        <a href='Learning_exaustive_search_BIC.html' id='Learning_exaustive_search_BIC-nav'>Learning_exaustive_search_BIC</a>
                     
-                        <a href='LearningOtherMethodTwo.html' id='LearningOtherMethodTwo-nav'>LearningOtherMethodTwo</a>
+                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning_hill_climb_BIC</a>
                     
                 </ul>
                 </li>
@@ -116,12 +116,12 @@
 <!-- Rank Bar  -->
 <div id="rank-bar">
     <div id="rank-str"></div>
-    <div>2023-05-15 16:21:12</div>
+    <div>2023-05-17 10:52:16</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 1}
+    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -134,7 +134,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'LearningBestMethod': {'display': 'plot', 'status': 'NotRun', 'data': []}, 'LearningOtherMethod': {'display': 'plot', 'status': 'NotRun', 'data': []}, 'LearningOtherMethodTwo': {'display': 'plot', 'status': 'NotRun', 'data': []}};</script>
+</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 1.8844221999752335, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 25.296758600044996, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 28.684329899959266, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 29.41676270001335, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 33.52676530001918, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 43.92934219999006, 'libraryName': 'pgmpy'}]}, 'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Error', 'data': []}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 17.375852899975143, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 15.795863899984397, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 25.48459340003319, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 31.059892999997828, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 36.34221279999474, 'libraryName': 'pgmpy'}, {'arguments': 3500.0, 'resultElement': 41.80542469996726, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 48.04973820003215, 'libraryName': 'pgmpy'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -146,18 +146,18 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="LearningBestMethod.html"><h2>LearningBestMethod</h2></a>
-        <div id="LearningBestMethod"></div>
+        <a href="Learning_best_method.html"><h2>Learning_best_method</h2></a>
+        <div id="Learning_best_method"></div>
     </div>
     
     <div class="card">
-        <a href="LearningOtherMethod.html"><h2>LearningOtherMethod</h2></a>
-        <div id="LearningOtherMethod"></div>
+        <a href="Learning_exaustive_search_BIC.html"><h2>Learning_exaustive_search_BIC</h2></a>
+        <div id="Learning_exaustive_search_BIC"></div>
     </div>
     
     <div class="card">
-        <a href="LearningOtherMethodTwo.html"><h2>LearningOtherMethodTwo</h2></a>
-        <div id="LearningOtherMethodTwo"></div>
+        <a href="Learning_hill_climb_BIC.html"><h2>Learning_hill_climb_BIC</h2></a>
+        <div id="Learning_hill_climb_BIC"></div>
     </div>
     
 </div></body>

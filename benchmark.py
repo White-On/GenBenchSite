@@ -41,6 +41,7 @@ class Benchmark:
     DEFAULT_VALUE = "Infinity"
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
+    DEFAULT_NB_RUNS = 1
 
     def __init__(self, pathToInfrastructure: str) -> None:
         """
@@ -189,7 +190,7 @@ class Benchmark:
             logger.info(f"No before task command/script for {taskName}")
 
 
-    # def RunProcess(self, command, printOut, timeout):
+    # def RunProcess(self, command, printOut, timeout, getOutput=False):
 
     #     start = time.perf_counter()
 
@@ -213,7 +214,7 @@ class Benchmark:
     #     if process.poll() is None:
     #         # The subprocess is still running, so we need to kill it
     #         process.kill()
-    #         return Benchmark.TIMEOUT_VALUE
+    #         return Benchmark.TIMEOUT_VALUEpa
 
     #     # Cancel the timer
     #     timer.cancel()
@@ -228,6 +229,8 @@ class Benchmark:
     #         # print(f"\nCan't run this task because the library doesn't support it")
     #         # print(process.stderr)
     #         return Benchmark.NOT_RUN_VALUE
+        # if getOutput:
+        #     return process.stdout
 
     #     if printOut:
     #         print(process.stdout)
@@ -258,12 +261,14 @@ class Benchmark:
             # print(f"\nError in the {command} command")
             # print(process.stderr)
             logger.warning(f"Error in the command")
+            logger.debug(f"{process.stderr = }")
             return Benchmark.ERROR_VALUE
 
         elif process.returncode == 2:
             # print(f"\nCan't run this task because the library doesn't support it")
             # print(process.stderr)
             logger.warning(f"Can't run this command")
+            logger.debug(f"{process.stderr = }")
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
@@ -325,7 +330,7 @@ class Benchmark:
                 arg: (Benchmark.NOT_RUN_VALUE, None) for arg in arguments
             }
             self.progressBar.update(
-                int(self.taskConfig[taskName].get('nb_runs')) * len(arguments) * 2
+                int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS)) * len(arguments) * 2
             )  # *2 because we have before and after run script
             return
 
@@ -349,7 +354,7 @@ class Benchmark:
             if beforeRunScriptExist:
                 beforeRunListTime = []
 
-            numberRun = int(self.taskConfig[taskName].get('nb_runs'))
+            numberRun = int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS))
 
             for nb_run in range(numberRun):
                 # Before run script
@@ -432,7 +437,7 @@ class Benchmark:
         nbIteration = 0
         for taskName in self.taskConfig.keys():
             nbIteration += (
-                int(self.taskConfig[taskName].get('nb_runs'))
+                int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS))
                 * len(self.taskConfig[taskName].get("arguments").split(","))
                 * 2
                 * len(self.libraryNames)
