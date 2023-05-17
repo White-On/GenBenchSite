@@ -292,6 +292,12 @@ class BenchSite:
             )
         )
 
+        # GOOGLEANALYTICS
+        HTMLGoogleAnalytics = staticSiteGenerator.CreateHTMLComponent(
+            "googleAnalytics.html",
+            googleAnalyticsID=self.siteConfig.get("googleAnalyticsID", ""),
+        )
+
         # HEADER
         HTMLHeader = staticSiteGenerator.CreateHTMLComponent(
             "header.html",
@@ -377,6 +383,7 @@ class BenchSite:
                 HTMLNavigation,
                 HTMLGlobalRankingBar,
                 HTMLMainContainer,
+                HTMLGoogleAnalytics,
                 HTMLFooter,
             ],
             "index.html",
@@ -525,6 +532,7 @@ class BenchSite:
                     HTMLNavigation,
                     HTMLTaskRankingBar,
                     HTMLTaskRanking,
+                    HTMLGoogleAnalytics,
                     HTMLFooter,
                 ],
                 f"{taskName}.html",
@@ -610,6 +618,7 @@ class BenchSite:
                     HTMLNavigation,
                     HTMLThemeRankingBar,
                     HTMLThemeRanking,
+                    HTMLGoogleAnalytics,
                     HTMLFooter,
                 ],
                 f"{themeName}.html",
@@ -685,6 +694,7 @@ class BenchSite:
                     HTMLNavigation,
                     HTMLGlobalRankingBar,
                     HTMLLibraryRanking,
+                    HTMLGoogleAnalytics,
                     HTMLFooter,
                 ],
                 f"{libraryName}.html",

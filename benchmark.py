@@ -134,11 +134,11 @@ class Benchmark:
             )
 
             if process.returncode != 0:
-                print(f"Error in the beforeBuild command of {libraryName}")
-                print(process.stderr)
+                logger.error(f"Error in the beforeBuild command of {libraryName}")
+                logger.debug(f"{process.stderr = }")
                 sys.exit(1)
             else:
-                print(f"Before build of {libraryName} done")
+                logger.info(f"Before build of {libraryName} done")
 
     def BeforeTask(self, taskPath: str, taskName: str):
         """
@@ -189,8 +189,33 @@ class Benchmark:
         else:
             logger.info(f"No before task command/script for {taskName}")
 
+    def EvaluationAfterTask(self, moduleEvaluation, taskName: str, taskPath: str, *funcEvaluation, **kwargs):
+        valueEvaluation = []
+        for funcName in funcEvaluation:
+            # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
+            if len(funcEvaluation)  == 0:
+                logger.warning(f"No evaluation function for {taskName}")
+                return []
+            
+            logger.debug(f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}")
+            relativePath = os.path.relpath(taskPath, os.path.dirname(os.path.abspath(__file__))).replace(os.sep, ".")
+            logger.debug(f"{relativePath = }")
+            module = __import__(f"{relativePath}.{moduleEvaluation}", fromlist=[funcName])
+            logger.debug(f"{module = }")
+            func = getattr(module, funcName)
+            logger.debug(f"{func = }")
+            try :
+                output = func(**kwargs) 
+            except Exception as e:
+                logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
+                logger.debug(f"{e = }")
+                output = Benchmark.ERROR_VALUE
+            
+            valueEvaluation.append(output)
+        
+        return valueEvaluation
 
-    # def RunProcess(self, command, printOut, timeout, getOutput=False):
+    # def RunProcess(self, commandout, getOutput=False):
 
     #     start = time.perf_counter()
 
@@ -232,12 +257,11 @@ class Benchmark:
         # if getOutput:
         #     return process.stdout
 
-    #     if printOut:
-    #         print(process.stdout)
+    #     i#         print(process.stdout)
 
     #     return end-start
 
-    def RunProcess(self, command, printOut, timeout, getOutput=False):
+    def RunProcess(self, command, timeout, getOutput=False):
         logger.info(f"RunProcess {command = }")
         start = time.perf_counter()
         try:
@@ -252,10 +276,6 @@ class Benchmark:
         logger.debug(f"{process.stdout = }")
         logger.debug(f"{process.stderr = }")
         logger.debug(f"{process.returncode = }")
-
-        if printOut:
-            print(process.stdout)
-            print(process.stderr)
 
         if process.returncode == 1:
             # print(f"\nError in the {command} command")
@@ -344,8 +364,6 @@ class Benchmark:
         # we check if there is a after run script
         
         afterRunScript = self.taskConfig[taskName].get('evaluation_script', None)
-        if afterRunScript is not None:
-            afterRunScript = afterRunScript.split(",")
 
         for arg in arguments:
             # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
@@ -361,7 +379,7 @@ class Benchmark:
                 if beforeRunScriptExist:
                     command = f"{self.libraryConfig[libraryName].get('language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
                     resultProcess = self.RunProcess(
-                        command=command, printOut=False, timeout=timeout
+                        command=command, timeout=timeout
                     )
                     beforeRunListTime.append(resultProcess)
                     self.progressBar.update(1)
@@ -377,7 +395,7 @@ class Benchmark:
                 command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
 
                 resultProcess = self.RunProcess(
-                    command=command, printOut=False, timeout=timeout
+                    command=command, timeout=timeout
                 )
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
@@ -386,24 +404,17 @@ class Benchmark:
                     break
 
             valueEvaluation = None
+
             # After run script
             if afterRunScript is not None:
                 # if the script is not None, then it should be a script name or a list of script name
-                valueEvaluation = []
-                for script in afterRunScript:
-                    command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-                    output = self.RunProcess(
-                        command=command, printOut=False, timeout=20, getOutput=True
-                    )
-                    if output in [
-                        Benchmark.NOT_RUN_VALUE,
-                        Benchmark.ERROR_VALUE,
-                        Benchmark.DEFAULT_VALUE,
-                        Benchmark.TIMEOUT_VALUE,
-                    ]:
-                        output = "None"
-                    valueEvaluation.append(ast.literal_eval(output))
-
+                functionEvaluation = self.taskConfig[taskName].get('evaluation_function', None)
+                if functionEvaluation is not None:
+                    functionEvaluation = functionEvaluation.split(" ")
+                else :
+                    functionEvaluation = []
+                valueEvaluation = self.EvaluationAfterTask(afterRunScript, taskName, taskPath, *functionEvaluation, libraryName=libraryName, filenameBif=self.taskConfig[taskName].get('file_used',''), arg=arg)
+                logger.debug(f"{valueEvaluation = }")
             # we remove the error and timeout values to calculate the mean
             filteredListTime = [
                 x for x in listTime if isinstance(x, float) or isinstance(x, int)
