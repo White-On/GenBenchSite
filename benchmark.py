@@ -152,54 +152,48 @@ class Benchmark:
             name of the task
 
         """
-        # We check if the before task command/script exist if not we do nothing
-        beforeTaskCommand = self.taskConfig[taskName].get("before_task", None)
-        if beforeTaskCommand is not None:
-            logger.info(f"Before task of {taskName}")
-            # the beforetask might have some arguments
-            before_task_arguments = self.taskConfig[taskName].get(
-                "before_task_arguments", None
-            )
-            if before_task_arguments is None:
-                logger.warning("No arguments for the before task command/script for {taskName}")
-                before_task_arguments = ""
-            # We split the command/script and the arguments in oder
-            beforeTaskCommand = beforeTaskCommand.split(" ")
+        beforeTaskModule = self.taskConfig[taskName].get("before_script", None)
+        
+        logger.info(f"Before task of {taskName}")
+        # the beforetask might have some arguments
+        kwargs = self.taskConfig[taskName].get("before_task_arguments", "{}")
+        kwargs = ast.literal_eval(kwargs)
+        logger.debug(f"{kwargs = }")
+        if len(kwargs) == 0:
+            logger.warning(f"No arguments for the before task command/script for {taskName}")
+        
+        
+        funcName = self.taskConfig[taskName].get("before_function", None)
+        logger.debug(f"{funcName = }")
+        if funcName is None:
+            logger.error(f"No function for the before task command/script for {taskName}")
+            return 
 
-            process = subprocess.run(
-                [
-                    beforeTaskCommand[0],
-                    os.path.join(taskPath, beforeTaskCommand[1]),
-                    before_task_arguments,
-                ],
-                shell=True,
-                capture_output=True,
-            )
-            if process.returncode != 0:
-                logger.error(
-                    f"Error in the beforeBuild command of {taskName}\n{process.stderr}"
-                )
-                logger.debug(f"{process.stdout = }")
-                sys.exit(1)
-            else:
-                logger.info(f"Before task of {taskName} done")
-                logger.debug(f"{process.stdout = }")
-                # read the config file again because it can be modified by the before task command/script
-                self.taskConfig = self.GetTaskConfig()
-        else:
-            logger.info(f"No before task command/script for {taskName}")
+        relativePath = os.path.relpath(taskPath, os.path.dirname(os.path.abspath(__file__))).replace(os.sep, ".")
+        module = __import__(f"{relativePath}.{beforeTaskModule}", fromlist=[funcName])
+        logger.debug(f"{module = }")
+        func = getattr(module, funcName)
+        logger.debug(f"{func = }")
+        try :
+            func(**kwargs) 
+        except Exception as e:
+            logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
+            logger.debug(f"{e = }")
+        
+            
 
     def EvaluationAfterTask(self, moduleEvaluation, taskName: str, taskPath: str, *funcEvaluation, **kwargs):
         valueEvaluation = []
+    
+        if len(funcEvaluation)  == 0:
+                logger.warning(f"No evaluation function for {taskName}")
+                return valueEvaluation
+        
         for funcName in funcEvaluation:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-            if len(funcEvaluation)  == 0:
-                logger.warning(f"No evaluation function for {taskName}")
-                return []
             
             logger.debug(f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}")
             relativePath = os.path.relpath(taskPath, os.path.dirname(os.path.abspath(__file__))).replace(os.sep, ".")
-            logger.debug(f"{relativePath = }")
             module = __import__(f"{relativePath}.{moduleEvaluation}", fromlist=[funcName])
             logger.debug(f"{module = }")
             func = getattr(module, funcName)
@@ -320,7 +314,13 @@ class Benchmark:
             taskName,
         )
 
-        self.BeforeTask(path, taskName)
+        #    We check if the before task command/script exist if not we do nothing
+        beforeTaskModule = self.taskConfig[taskName].get("before_script", None)
+        if beforeTaskModule is not None:
+            self.BeforeTask(path, taskName)
+        else:
+            logger.info(f"No before task command/script for {taskName}")
+            
 
         # The timeout of the task is the timeout in the config file or the default timeout
         # the timeout is in seconds
