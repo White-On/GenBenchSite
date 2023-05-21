@@ -266,7 +266,9 @@ class BenchSite:
     def GenerateStaticSite(self):
         staticSiteGenerator = self.staticSiteGenerator
 
+        # ==================================================
         # HOME PAGE
+        # ==================================================
         styleFilePath = "indexStyle.css"
         scriptFilePath = ""
         contentFilePath = os.path.basename(staticSiteGenerator.contentFilePath) + "/"
@@ -389,8 +391,9 @@ class BenchSite:
             "index.html",
             manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
         )
-
+        # ==================================================        
         # TACHES PAGES
+        # ==================================================
 
         styleFilePath = "taskStyle.css"
         scriptFilePath = "taskScript.js"
@@ -538,7 +541,9 @@ class BenchSite:
                 f"{taskName}.html",
             )
 
+        # ==================================================
         # THEME PAGES
+        # ==================================================
 
         styleFilePath = "themeStyle.css"
         scriptFilePath = "themeScript.js"
@@ -624,7 +629,10 @@ class BenchSite:
                 f"{themeName}.html",
             )
 
+        # ==================================================
         # LIBRAIRIES PAGES
+        # ==================================================
+        
         styleFilePath = "libraryStyle.css"
         scriptFilePath = "libraryScript.js"
 
@@ -700,7 +708,9 @@ class BenchSite:
                 f"{libraryName}.html",
             )
 
+        # ==================================================
         # ABOUT PAGE
+        # ==================================================
 
         # HEADER
         HTMLHeader = staticSiteGenerator.CreateHTMLComponent(

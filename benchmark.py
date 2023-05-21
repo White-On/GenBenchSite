@@ -1,4 +1,3 @@
-from configparser import ConfigParser
 import os
 import sys
 import subprocess
@@ -263,7 +262,7 @@ class Benchmark:
                 command, shell=True, capture_output=True, text=True, timeout=timeout
             )
         except subprocess.TimeoutExpired:
-            # print(f"\nTimeout expired for the {command} command")
+            logger.warning(f"Timeout expired for the {command} command")
             return Benchmark.TIMEOUT_VALUE
         end = time.perf_counter()
 
