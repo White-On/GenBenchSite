@@ -18,6 +18,7 @@ chart = HeatMap(importedData, {
     height: height,
 
     margin: { top: 30, right: 0, bottom: 0, left: 250 },
+    yLabel: "Task",
     
 });
 

@@ -25,9 +25,18 @@ let height = 500;
 
 let chart;
 // check if the arguments are numbers or not to sort the data if needed
-if (isNaN(importedData[0].arguments)){
+if(typeof importedData[0].arguments === "number"){
+    // if the arguments are numbers we sort the data by the arguments
+    let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
+    importedData.sort(orderingFunction);
+    console.log("arguments are numbers");
+    // console.log(typeof importedData[0].arguments);
+}
+else{
+    // if the arguments are not numbers we sort the data by the arguments
     let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
     importedData.sort(orderingFunction);
+    console.log("arguments are not numbers");
 }
 
 console.log(importedData);

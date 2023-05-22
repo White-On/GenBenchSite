@@ -2,6 +2,7 @@ import numpy as np
 from static_site_generator import StaticSiteGenerator
 from structure_test import StructureTest
 import os
+from pathlib import Path
 
 # Here you can import you're own FileReader if the format of the Json/file is different
 from logger import logger
@@ -11,6 +12,8 @@ from task import Task
 import ranking as rk
 from configparser import ConfigParser
 import shutil
+
+RemoveUnderscoreAndDash  = lambda string : string.replace("_", " ").replace("-", " ")
 
 
 class BenchSite:
@@ -168,7 +171,7 @@ class BenchSite:
             for k, v in sorted(rankLibraryInTheme.items(), key=lambda item: item[0])
         }
         for themeName in rankLibraryInTheme.keys():
-            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>(made of <b>{' '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</b></p>"
+            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>(made of <b>{', '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</b></p>"
             highLightedLibrary = rankLibraryInTheme[themeName][0]
             HTMLBestTheme += f"<p><b>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</b></p></div>"
         HTMLBestTheme += "</div></div>"
@@ -245,7 +248,7 @@ class BenchSite:
     def MakeLink(nameElement: str, strElement=None, a_balise_id=None) -> str:
         strElement = nameElement if strElement is None else strElement
         a_balise_id = f"id='{a_balise_id}'" if a_balise_id is not None else ""
-        return f"<a href='{nameElement}.html' {a_balise_id}>{strElement}</a>"
+        return f"<a href='{nameElement}.html' {a_balise_id}>{RemoveUnderscoreAndDash(strElement)}</a>"
 
     @staticmethod
     def RankSubTitle(rank: float) -> str:
@@ -409,7 +412,7 @@ class BenchSite:
             "navigation.html",
             TaskClassifiedByTheme={
                 BenchSite.MakeLink(theme, theme, f"{theme}-nav"): [
-                    BenchSite.MakeLink(taskName, a_balise_id=f"{taskName}-nav")
+                    BenchSite.MakeLink(taskName, taskName, a_balise_id=f"{taskName}-nav")
                     for taskName in Task.GetTaskNameByThemeName(theme)
                 ]
                 for theme in Task.GetAllThemeName()
@@ -456,7 +459,7 @@ class BenchSite:
                 [
                     [
                         {
-                            "arguments": arg,
+                            "arguments": int(arg) if arg.isnumeric() else arg,
                             "runTime": res if res > 0 else 0,
                             "libraryName": library.name,
                         }
@@ -529,12 +532,19 @@ class BenchSite:
                 ),
             )
 
+            HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
+            if HTMLExtra is not None:
+                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[0].read_text()
+            else:
+                HTMLExtra = ""
+
             staticSiteGenerator.CreateHTMLPage(
                 [
                     HTMLHeader,
                     HTMLNavigation,
                     HTMLTaskRankingBar,
                     HTMLTaskRanking,
+                    HTMLExtra,
                     HTMLGoogleAnalytics,
                     HTMLFooter,
                 ],
@@ -591,6 +601,7 @@ class BenchSite:
             )
             summaryData = [
                 {
+                    # we need to consider the theme name as a task name
                     "taskName": themeName,
                     "libraryName": libraryName,
                     "results": themeRankDico[themeName][libraryName],
@@ -603,7 +614,7 @@ class BenchSite:
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(
                 "theme.html",
                 themeName=themeName,
-                taskNameList=" ".join(
+                taskNameList=", ".join(
                     BenchSite.MakeLink(taskName)
                     for taskName in Task.GetTaskNameByThemeName(themeName)
                 ),
