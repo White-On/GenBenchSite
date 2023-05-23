@@ -3,7 +3,7 @@ export function GroupedBarChart(data,{
     categories = ([, categories]) => categories, 
     inerClass = ([, , inerClass]) => inerClass,
 
-    title,
+    title = "Grouped Bar Chart",
 
     width = width,
     height = height,
@@ -103,9 +103,9 @@ export function GroupedBarChart(data,{
             return "translate(" + xScaleCategory(Categories[d]) + ",0)"
         });
     
-    console.log(I);
-    console.log(InerClass);
-    console.log(Values);
+    // console.log(I);
+    // console.log(InerClass);
+    // console.log(Values);
     
     rect
         .append("rect")
@@ -152,16 +152,14 @@ export function GroupedBarChart(data,{
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
+        .call(g => g.selectAll("text")
         .attr("text-anchor", "end")
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .call(g => g.select(".domain").remove());
-        
-    svg
+            .attr("transform", "rotate(-45)"))
+        .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
             .attr("font-size", labelFontSize)
             .attr("x", width - margin.right)
-            .attr("y", height -(10 + labelFontSize/2))
+            .attr("y", + margin.bottom/2)
             .attr("text-anchor", "end")
             .attr("fill", "currentColor")
             .text(xLabel));
@@ -179,6 +177,17 @@ export function GroupedBarChart(data,{
             .attr("text-anchor", "start")
             .attr("fill", "currentColor")
             .text(yLabel));
+
+    
+    // add the title to the chart.
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 10 + titleFontSize)
+        .attr("text-anchor", "middle")
+        .attr("fill", "currentColor")
+        .attr("font-size", titleFontSize)
+        .text(title);
+
 
     
     const swatches = svg.append("g")

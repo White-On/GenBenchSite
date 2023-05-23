@@ -12,13 +12,20 @@
 <div>{{taskDescritpion}}</div>
 
 <div id="compare-tool">
-    <div class="graphics" id="{{taskName}}"></div>
+    <div id="head_elements">
+        
+        <div class="graphics" id="{{taskName}}"></div>
+        {% if extra_html_element != "" %}
+        <div id="extra_html_element">{{extra_html_element}}</div>
+        {% else %}
 
-    <!-- <div>{{libraryOrdered}}</div> -->
-    <div id="code">
-        <!-- <div id="codeLib1" class="hidden"></div>
-        <div id="codeLib2" class="hidden"></div> -->
-        {{code}}
+        {% endif %}
+    </div>
+
+    <div id="code-menu">
+        <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
+        <div id="codeSelector"></div>
+        <div id="code">{{code}}</div>
     </div>
 </div>
 

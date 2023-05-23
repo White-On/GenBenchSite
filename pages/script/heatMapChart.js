@@ -93,31 +93,29 @@ export function HeatMap(data,{
         .call(yAxis)
         .call(g => g.select(".domain").remove())
         .call(g => g.selectAll(".tick line").remove())
-        .selectAll("g")
-        .select("text")
+        .selectAll("text")
         // the text lenght need to shrink to fit the label if it is too long
         .attr('textLength', function(d) {
-            console.log(d);
             if (d.length*10 > margin.left -10) {
                 return margin.left -10;
             }
             return d.length*10;
         })
         .attr('lengthAdjust', 'spacingAndGlyphs')
+        // we remote the underscore from the label
         .text(function(d) {
-            return d.replaceAll("_", "\n");
+            return d.replaceAll("_", " ");
         })
         .attr("font-size", labelFontSize)
         
         
-        // we remote the underscore from the label
+        
         .on('click', function(d) {
             window.location.href = d.srcElement.innerHTML.replaceAll(" ", "_")+ ".html";
             
         })
         .style("cursor", "pointer");
-        
-        
+
             
     return svg.node(); 
   }

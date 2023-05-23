@@ -495,14 +495,22 @@ class BenchSite:
                 [],
             )
 
+            chartData = {'runtime':{'data':importedData,'display':'groupedBar', 'title':'Runtime'}, 'eval':{'data':importedResults,'display':'groupedBar','title':'Evaluation'}}
+
+            HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
+            if HTMLExtra is not None:
+                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[0].read_text()
+            else:
+                HTMLExtra = ""
+
             # print(importedResults)
             # create the template for the code
             templateTask = ""
             for library in Library.GetAllLibrary():
-                templateTask += f" <div id='{library.name}'>"
+                templateTask += f" <code id='{library.name}'>"
                 templateTask += f" <h2>{library.name}</h2>"
                 templateTask += f" {library.code[taskName]}"
-                templateTask += f" </div>"
+                templateTask += f" </code>"
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
@@ -517,26 +525,26 @@ class BenchSite:
                     ]
                 ),
                 scriptData=BenchSite.CreateScriptBalise(
-                    content=f"const importedData = {importedData};"
+                    content=f"const importedData = {chartData};"
                 ),
-                scriptResults=BenchSite.CreateScriptBalise(
-                    content=f"const importedResults = {importedResults};"
-                ),
+                # scriptData=BenchSite.CreateScriptBalise(
+                #     content=f"const importedData = {importedData};"
+                # ),
+                # scriptResults=BenchSite.CreateScriptBalise(
+                #     content=f"const importedResults = {importedResults};"
+                # ),
                 code=templateTask,
                 taskDescritpion=taskConfig[taskName].get("description", "No description"),
                 argumentsDescription=BenchSite.CreateScriptBalise(
-                    content=f"const argDescription = '{taskConfig[taskName].get('argument_description', 'No description')}';"
+                    content=f"const argDescription = '{taskConfig[taskName].get('arguments_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
                     content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
+                extra_html_element = HTMLExtra,
             )
 
-            HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
-            if HTMLExtra is not None:
-                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[0].read_text()
-            else:
-                HTMLExtra = ""
+            
 
             staticSiteGenerator.CreateHTMLPage(
                 [
@@ -544,7 +552,6 @@ class BenchSite:
                     HTMLNavigation,
                     HTMLTaskRankingBar,
                     HTMLTaskRanking,
-                    HTMLExtra,
                     HTMLGoogleAnalytics,
                     HTMLFooter,
                 ],

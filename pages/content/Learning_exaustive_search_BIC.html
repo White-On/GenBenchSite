@@ -134,9 +134,9 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = [{'arguments': 1000, 'runTime': 0.18727699993178248, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 0.14901409996673465, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 0.18566689995350316, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 0.19351600005757064, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0.22903829999268055, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0.2472371999756433, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 0.26009600004181266, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0.25786329997936264, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 0.3149058999842964, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 0.3698747000307776, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 0.48030799999833107, 'libraryName': 'pyAgrum'}];</script>
-<script defer  >const importedResults = [{'arguments': '1000', 'runTime': 0.6117647058823529, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.5111111111111111, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.5714285714285713, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.6813186813186812, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.5806451612903226, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.6021505376344086, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.6236559139784946, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.6236559139784946, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.7608695652173914, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.631578947368421, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.7446808510638298, 'libraryName': 'pyAgrum'}];</script>
-<script defer  >const argDescription = 'No description';</script>
+</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 1000, 'runTime': 0.18727699993178248, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 0.14901409996673465, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 0.18566689995350316, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 0.19351600005757064, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0.22903829999268055, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0.2472371999756433, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 0.26009600004181266, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0.25786329997936264, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 0.3149058999842964, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 0.3698747000307776, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 0.48030799999833107, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Runtime'}, 'eval': {'data': [{'arguments': '1000', 'runTime': 0.6117647058823529, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.5111111111111111, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.5714285714285713, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.6813186813186812, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.5806451612903226, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.6021505376344086, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.6236559139784946, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.6236559139784946, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.7608695652173914, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.631578947368421, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.7446808510638298, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Evaluation'}};</script>
+
+<script defer  >const argDescription = 'Number of samples';</script>
 <script defer  >const displayScale = 'linear';</script>
 <script defer type='module' src ='../script/taskScript.js'></script>
 
@@ -148,13 +148,18 @@
 <div>Learning a Bayesian network refers to the process of automatically constructing a Bayesian network model from data, without specifying the network structure or conditional probability distributions beforehand. The goal of learning a Bayesian network is to identify the causal relationships among a set of variables and to estimate the conditional probabilities that describe these relationships.</div>
 
 <div id="compare-tool">
-    <div class="graphics" id="Learning_exaustive_search_BIC"></div>
+    <div id="head_elements">
+        
+        <div class="graphics" id="Learning_exaustive_search_BIC"></div>
+        
 
-    <!-- <div>pyAgrum&gt;bnlearn&gt;pgmpy</div> -->
-    <div id="code">
-        <!-- <div id="codeLib1" class="hidden"></div>
-        <div id="codeLib2" class="hidden"></div> -->
-         <div id='bnlearn'> <h2>bnlearn</h2> None </div> <div id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
+        
+    </div>
+
+    <div id="code-menu">
+        <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
+        <div id="codeSelector"></div>
+        <div id="code"> <code id='bnlearn'> <h2>bnlearn</h2> None </code> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
@@ -198,7 +203,7 @@
 <span style="color: #7f9f7f; font-style: italic"># Save the model</span>
 <span style="color: #dcdccc">best_model</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">save</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/pgmpy_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">,</span><span style="color: #dcdccc">filetype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;bif&quot;</span><span style="color: #f0efd0">)</span>
 </pre></div></td></tr></table></div>
- </div> <div id='pyAgrum'> <h2>pyAgrum</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
+ </code> <code id='pyAgrum'> <h2>pyAgrum</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
@@ -238,7 +243,7 @@
 <span style="color: #7f9f7f; font-style: italic"># Save the model</span>
 <span style="color: #dcdccc">gum</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">saveBN</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">bnlearned</span><span style="color: #f0efd0">,</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/pyAgrum_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
 </pre></div></td></tr></table></div>
- </div>
+ </code></div>
     </div>
 </div>
 
