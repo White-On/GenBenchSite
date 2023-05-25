@@ -24,7 +24,8 @@ chart = HeatMap(importedData, {
 
 document.body.appendChild(chart);
 
-let themeName = document.getElementById('entry-title').innerHTML;
+// let themeName = document.getElementById('entry-title').innerHTML;
+console.log(themeName);
 //we want to make the navActive class active on the library page 
 let navActive = document.getElementById(themeName + "-nav");
 

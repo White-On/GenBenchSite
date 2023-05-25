@@ -63,6 +63,8 @@ header nav a{
     text-decoration: none;
     margin-inline: 8px;
     padding: 8px;
+    border-radius: 10px;
+    transition: background-color 0.5s ease-in-out;
 }
 
 #link-description{
@@ -73,7 +75,8 @@ header nav a{
 header nav a:hover{
     border-radius: 10px;
     background-color: var(--primary-color);
-    transition: background-color 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
 
 @media screen and (max-width: 950px){

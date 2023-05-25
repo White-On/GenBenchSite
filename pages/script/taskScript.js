@@ -15,9 +15,9 @@ import {ViolonsChart} from './violonsChart.js';
 // console.log( page );
 
 //3. get the task name from the title of the page
-let TaskName = document.getElementById('entry-title').innerHTML;
+// let TaskName = document.getElementById('entry-title').innerHTML;
 
-let htmlComponent = document.getElementById(TaskName);
+let htmlComponent = document.getElementById("graphics");
 
 // we're adding a dropdown to choose the chart we want to display
 let dropdown = document.createElement("select");
@@ -31,8 +31,9 @@ let height = 500;
 
 let possibleplot = {"line": LineChart, "histo": Histogram, "groupedBar": GroupedBarChart, "violons": ViolonsChart};
 
-const timeBackgroundColor = "#48cae4";
-const evaluationBackgroundcolor = "#06d6a0";
+const timeBackgroundColor = "#ffffaa";
+const evaluationBackgroundcolor = "#aaffff";
+const defaultBackgroundcolor = "#aaffff";
 
 let chartList = [];
 let titleList = [];

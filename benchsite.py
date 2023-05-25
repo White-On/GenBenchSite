@@ -1,4 +1,3 @@
-import numpy as np
 from static_site_generator import StaticSiteGenerator
 from structure_test import StructureTest
 import os
@@ -10,8 +9,7 @@ from json_to_python_object import FileReaderJson, GetMachineData
 from library import Library
 from task import Task
 import ranking as rk
-from configparser import ConfigParser
-import shutil
+from shutil import copyfile
 
 RemoveUnderscoreAndDash  = lambda string : string.replace("_", " ").replace("-", " ")
 
@@ -71,7 +69,7 @@ class BenchSite:
             if os.path.exists(
                 os.path.join(self.structureTestPath, "targets", libraryName, "logo.png")
             ):
-                shutil.copyfile(
+                copyfile(
                     os.path.join(
                         self.structureTestPath, "targets", libraryName, "logo.png"
                     ),
@@ -514,7 +512,10 @@ class BenchSite:
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
-                taskName=taskName,
+                taskName=RemoveUnderscoreAndDash(taskName),
+                taskNamePage = BenchSite.CreateScriptBalise(
+                    content=f"const TaskName = '{taskName}';"
+                ),
                 scriptFilePath=BenchSite.CreateScriptBalise(
                     scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",
                     module=True,
@@ -527,12 +528,6 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {chartData};"
                 ),
-                # scriptData=BenchSite.CreateScriptBalise(
-                #     content=f"const importedData = {importedData};"
-                # ),
-                # scriptResults=BenchSite.CreateScriptBalise(
-                #     content=f"const importedResults = {importedResults};"
-                # ),
                 code=templateTask,
                 taskDescritpion=taskConfig[taskName].get("description", "No description"),
                 argumentsDescription=BenchSite.CreateScriptBalise(
@@ -620,7 +615,10 @@ class BenchSite:
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(
                 "theme.html",
-                themeName=themeName,
+                themeName=RemoveUnderscoreAndDash(themeName),
+                themeNamePage = BenchSite.CreateScriptBalise(
+                    content=f"const themeName = '{themeName}';"
+                ),
                 taskNameList=", ".join(
                     BenchSite.MakeLink(taskName)
                     for taskName in Task.GetTaskNameByThemeName(themeName)
@@ -700,7 +698,7 @@ class BenchSite:
             HTMLLibraryRanking = staticSiteGenerator.CreateHTMLComponent(
                 "library.html",
                 libraryName=libraryName,
-                taskNameList=[taskName for taskName in Task.GetAllTaskName()],
+                taskNameList=[(taskName, RemoveUnderscoreAndDash(taskName)) for taskName in Task.GetAllTaskName()],
                 scriptFilePath=BenchSite.CreateScriptBalise(
                     scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",
                     module=True,
@@ -729,6 +727,7 @@ class BenchSite:
         # ==================================================
         # ABOUT PAGE
         # ==================================================
+        styleFilePath = "aboutStyle.css"
 
         # HEADER
         HTMLHeader = staticSiteGenerator.CreateHTMLComponent(
@@ -741,7 +740,7 @@ class BenchSite:
         )
         # ABOUT
 
-        HTMLAbout = staticSiteGenerator.CreateHTMLComponent("aboutContent.html")
+        HTMLAbout = staticSiteGenerator.CreateHTMLComponent("aboutContent.html", assetFolder=f'../{staticSiteGenerator.assetsFilePath}',)
 
         staticSiteGenerator.CreateHTMLPage(
             [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"
