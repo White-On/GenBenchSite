@@ -111,6 +111,14 @@ h1{
     width: 100%;
 }
 
+#show_more_button{
+    font-weight: bold; 
+}
+
+.show_more{
+    display: none;
+}
+
 /* DEBUG TOOLS */
 /* you can see more clearly the box model with this */
 /* div{

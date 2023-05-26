@@ -52,17 +52,16 @@ class StructureTest:
         else:
             logger.error(f"Path {path} doesn't exist")
             return False
-    
+
     def findConfigFile(self, path):
         config_files = []
 
         for root, _, files in os.walk(path):
             for file in files:
-                if file == 'config.ini':
-                    config_files.append(root.replace('\\', '/'))
+                if file == "config.ini":
+                    config_files.append(root.replace("\\", "/"))
 
         return config_files
-    
 
 
 if __name__ == "__main__":
@@ -77,4 +76,3 @@ if __name__ == "__main__":
 
     test = StructureTest()
     test.readConfig(*listPathConfig)
-

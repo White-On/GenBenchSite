@@ -10,8 +10,9 @@ from library import Library
 from task import Task
 import ranking as rk
 from shutil import copyfile
+from collectCode import CollectCode
 
-RemoveUnderscoreAndDash  = lambda string : string.replace("_", " ").replace("-", " ")
+RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 
 
 class BenchSite:
@@ -46,19 +47,25 @@ class BenchSite:
 
     def GetLibraryConfig(self):
         strtest = StructureTest()
-        libraryConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.structureTestPath, "targets")))
+        libraryConfig = strtest.readConfig(
+            *strtest.findConfigFile(os.path.join(self.structureTestPath, "targets"))
+        )
         return libraryConfig
 
     def GetTaskConfig(self):
         listTaskpath = []
         strTest = StructureTest()
-        listTaskpath = strTest.findConfigFile(os.path.join(self.structureTestPath, "themes"))
+        listTaskpath = strTest.findConfigFile(
+            os.path.join(self.structureTestPath, "themes")
+        )
         taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
 
     def GetSiteConfig(self):
         strtest = StructureTest()
-        siteConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.structureTestPath, "site")))
+        siteConfig = strtest.readConfig(
+            *strtest.findConfigFile(os.path.join(self.structureTestPath, "site"))
+        )
         return siteConfig
 
     def GetLibraryLogo(self):
@@ -295,6 +302,9 @@ class BenchSite:
             )
         )
 
+        codeLibrary = CollectCode(pathToInfrastructure=self.structureTestPath)
+        codeLibrary = codeLibrary.CodeHTML
+
         # GOOGLEANALYTICS
         HTMLGoogleAnalytics = staticSiteGenerator.CreateHTMLComponent(
             "googleAnalytics.html",
@@ -392,7 +402,7 @@ class BenchSite:
             "index.html",
             manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
         )
-        # ==================================================        
+        # ==================================================
         # TACHES PAGES
         # ==================================================
 
@@ -410,7 +420,9 @@ class BenchSite:
             "navigation.html",
             TaskClassifiedByTheme={
                 BenchSite.MakeLink(theme, theme, f"{theme}-nav"): [
-                    BenchSite.MakeLink(taskName, taskName, a_balise_id=f"{taskName}-nav")
+                    BenchSite.MakeLink(
+                        taskName, taskName, a_balise_id=f"{taskName}-nav"
+                    )
                     for taskName in Task.GetTaskNameByThemeName(theme)
                 ]
                 for theme in Task.GetAllThemeName()
@@ -458,7 +470,7 @@ class BenchSite:
                     [
                         {
                             "arguments": int(arg) if arg.isnumeric() else arg,
-                            "runTime": res if res > 0 else 0,
+                            "runTime": res if res > 0 and res != "Error" else 0,
                             "libraryName": library.name,
                         }
                         for arg, res in zip(
@@ -473,12 +485,16 @@ class BenchSite:
                 [],
             )
 
+            logger.debug(importedData)
+
             importedResults = sum(
                 [
                     [
                         {
                             "arguments": arg,
-                            "runTime": res[0] if res[0] != None else 0,
+                            "runTime": 0
+                            if res[0] == None or res[0] == "Error"
+                            else res[0],
                             "libraryName": library.name,
                         }
                         for arg, res in zip(
@@ -493,11 +509,32 @@ class BenchSite:
                 [],
             )
 
-            chartData = {'runtime':{'data':importedData,'display':'groupedBar', 'title':'Runtime'}, 'eval':{'data':importedResults,'display':'groupedBar','title':'Evaluation'}}
+            logger.debug(importedResults)
+
+            chartData = {
+                "runtime": {
+                    "data": importedData,
+                    "display": "groupedBar",
+                    "title": "Runtime",
+                    "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
+                    "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
+                    "scale": taskConfig[taskName].get("task_scale", "auto")
+                },
+                "eval": {
+                    "data": importedResults,
+                    "display": "groupedBar",
+                    "title": "Evaluation",
+                    "XLabel": taskConfig[taskName].get("post_task_xlabel", "X-axis"),
+                    "YLabel": taskConfig[taskName].get("post_task_ylabel", "Y-axis"),
+                    "scale": taskConfig[taskName].get("post_task_scale", "auto")
+                },
+            }
 
             HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
             if HTMLExtra is not None:
-                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[0].read_text()
+                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[
+                    0
+                ].read_text()
             else:
                 HTMLExtra = ""
 
@@ -507,13 +544,13 @@ class BenchSite:
             for library in Library.GetAllLibrary():
                 templateTask += f" <code id='{library.name}'>"
                 templateTask += f" <h2>{library.name}</h2>"
-                templateTask += f" {library.code[taskName]}"
+                templateTask += f" {codeLibrary[library.name][taskName]}"
                 templateTask += f" </code>"
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
                 taskName=RemoveUnderscoreAndDash(taskName),
-                taskNamePage = BenchSite.CreateScriptBalise(
+                taskNamePage=BenchSite.CreateScriptBalise(
                     content=f"const TaskName = '{taskName}';"
                 ),
                 scriptFilePath=BenchSite.CreateScriptBalise(
@@ -529,17 +566,20 @@ class BenchSite:
                     content=f"const importedData = {chartData};"
                 ),
                 code=templateTask,
-                taskDescritpion=taskConfig[taskName].get("description", "No description"),
+                taskDescritpion=taskConfig[taskName].get(
+                    "description", "No description"
+                ),
                 argumentsDescription=BenchSite.CreateScriptBalise(
                     content=f"const argDescription = '{taskConfig[taskName].get('arguments_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
                     content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
-                extra_html_element = HTMLExtra,
+                extra_html_element=HTMLExtra,
+                show_more_description=taskConfig[taskName].get(
+                    "show_more_description", ""
+                ),
             )
-
-            
 
             staticSiteGenerator.CreateHTMLPage(
                 [
@@ -616,7 +656,7 @@ class BenchSite:
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(
                 "theme.html",
                 themeName=RemoveUnderscoreAndDash(themeName),
-                themeNamePage = BenchSite.CreateScriptBalise(
+                themeNamePage=BenchSite.CreateScriptBalise(
                     content=f"const themeName = '{themeName}';"
                 ),
                 taskNameList=", ".join(
@@ -648,7 +688,7 @@ class BenchSite:
         # ==================================================
         # LIBRAIRIES PAGES
         # ==================================================
-        
+
         styleFilePath = "libraryStyle.css"
         scriptFilePath = "libraryScript.js"
 
@@ -698,7 +738,10 @@ class BenchSite:
             HTMLLibraryRanking = staticSiteGenerator.CreateHTMLComponent(
                 "library.html",
                 libraryName=libraryName,
-                taskNameList=[(taskName, RemoveUnderscoreAndDash(taskName)) for taskName in Task.GetAllTaskName()],
+                taskNameList=[
+                    (taskName, RemoveUnderscoreAndDash(taskName))
+                    for taskName in Task.GetAllTaskName()
+                ],
                 scriptFilePath=BenchSite.CreateScriptBalise(
                     scriptName=f"../{staticSiteGenerator.scriptFilePath}/{scriptFilePath}",
                     module=True,
@@ -706,7 +749,9 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedData};"
                 ),
-                taskDescription = libraryConfig[libraryName].get("description", "No Description Attributed"),
+                taskDescription=libraryConfig[libraryName].get(
+                    "description", "No Description Attributed"
+                ),
                 logoLibrary=f"<img src='../{logoLibrary[libraryName]}' alt='{libraryName}' width='50' height='50'>"
                 if logoLibrary[libraryName] != None
                 else "",
@@ -740,7 +785,10 @@ class BenchSite:
         )
         # ABOUT
 
-        HTMLAbout = staticSiteGenerator.CreateHTMLComponent("aboutContent.html", assetFolder=f'../{staticSiteGenerator.assetsFilePath}',)
+        HTMLAbout = staticSiteGenerator.CreateHTMLComponent(
+            "aboutContent.html",
+            assetFolder=f"../{staticSiteGenerator.assetsFilePath}",
+        )
 
         staticSiteGenerator.CreateHTMLPage(
             [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"

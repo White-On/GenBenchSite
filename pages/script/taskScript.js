@@ -3,6 +3,11 @@ import {Histogram} from './histogram.js';
 import {GroupedBarChart} from './groupedBarChart.js';
 import {ViolonsChart} from './violonsChart.js';
 
+function dataSpread(data){
+    let min = Math.min.apply(Math, data)
+    let max = Math.max.apply(Math, data)
+    return max - min;
+}
 // to get the Task Name that we want to plot we have 3 options:
 
 // 1. get the task name from an element in the html page
@@ -16,6 +21,22 @@ import {ViolonsChart} from './violonsChart.js';
 
 //3. get the task name from the title of the page
 // let TaskName = document.getElementById('entry-title').innerHTML;
+
+let show_more_button = document.getElementById("show_more_button");
+if (show_more_button != null) {
+    show_more_button.addEventListener("click", function(){
+        let show_more = document.getElementsByClassName("show_more");
+        for(let show_more_elements of show_more){ 
+            if (show_more_elements.style.display === "none" || getComputedStyle(show_more_elements)['display'] === "none") {
+                show_more_elements.style.display = "block";
+                show_more_button.innerHTML = "Show less <-";
+            } else {
+                show_more_elements.style.display = "none";
+                show_more_button.innerHTML = "Show more ->";
+            }
+        }
+    });
+}
 
 let htmlComponent = document.getElementById("graphics");
 
@@ -33,7 +54,7 @@ let possibleplot = {"line": LineChart, "histo": Histogram, "groupedBar": Grouped
 
 const timeBackgroundColor = "#ffffaa";
 const evaluationBackgroundcolor = "#aaffff";
-const defaultBackgroundcolor = "#aaffff";
+// const defaultBackgroundcolor = "#aaffff";
 
 let chartList = [];
 let titleList = [];
@@ -43,6 +64,15 @@ for(let element in importedData){
     let chart;
     let chartdata = importedData[element].data;
     titleList.push(importedData[element].title);
+    
+    // console.log(chartdata);
+    // console.log(importedData[element]);
+    if (chartdata.length == 0){
+        chart = document.createElement("p");
+        chart.innerHTML = "No data to display";
+        chartList.push(chart);
+        continue;
+    }
 
     // need a better way to get all the libraries
     allLibraries = chartdata.map(d => d.libraryName);
@@ -62,6 +92,31 @@ for(let element in importedData){
         console.log("arguments are not numbers");
     }
 
+    if (importedData[element].scale == "auto"){
+        // we're getting the local min and max from each library
+        let local_spread = [];
+        for(let library of allLibraries){
+            let data = chartdata.filter(d => d.libraryName == library);
+            local_spread.push(dataSpread(data.map(d => d.runTime)));
+        }
+        // we remove the eventual 0 from the local spread -> error in the data
+        local_spread = local_spread.filter(d => d != 0);
+        let global_spread = dataSpread(chartdata.map(d => d.runTime));
+        // default scale is linear
+        importedData[element].scale = 'linear'
+        // factor of comparison between the local spread and the global spread
+        let factor = 0.2;
+        for(let spread of local_spread){
+            if (spread < global_spread * factor){
+                importedData[element].scale = 'log'
+                break;
+            }
+        }
+
+
+
+    }
+
     chart = possibleplot[importedData[element].display](chartdata, {
         values: d => d.runTime,
         categories: d => d.arguments,
@@ -70,10 +125,17 @@ for(let element in importedData){
         width: width,
         height: height,
 
-        xLabel: argDescription + " →",
-        yLabel: "Run Time (ms) ↑",
+        // xLabel: argDescription + " →",
+        // yLabel: "Run Time (ms) ↑",
+        xLabel: importedData[element].XLabel + " →",
+        yLabel: importedData[element].YLabel + " ↑",
+
+        labelFontSize: 12,
+        titleFontSize: 16,
 
         margin: { top: 40, right: 10, bottom: 100, left: 50 },
+
+        scale: importedData[element].scale,
 
     });
 

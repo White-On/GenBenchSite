@@ -49,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
-            
                 <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -66,11 +66,23 @@
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
-                    
                         <a href='Learning_exaustive_search_BIC.html' id='Learning_exaustive_search_BIC-nav'>Learning exaustive search BIC</a>
                     
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
+                    
                         <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
                     
                 </ul>
                 </li>
@@ -121,7 +133,7 @@
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 2}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -134,7 +146,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.503945600008592, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.5726219999487512, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 1.05842809996102, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.6587654000031762, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.8908201999147423, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.9302589999861084, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 1.0126238000229932, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 1.0743198999552988, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 1.1789592999848537, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 1.5582691000308841, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 2.4809294000733644, 'libraryName': 'pyAgrum'}]}, 'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.18727699993178248, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.14901409996673465, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.18566689995350316, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.19351600005757064, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.22903829999268055, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.2472371999756433, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.26009600004181266, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.25786329997936264, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.3149058999842964, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.3698747000307776, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.48030799999833107, 'libraryName': 'pyAgrum'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.10989419999532402, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.12730399996507913, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.1464521999587305, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.1698178999358788, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.21336180000798777, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.21773519995622337, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.2334206000668928, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.23374519997742027, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.29070240003056824, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.38326420000521466, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.45283410005504265, 'libraryName': 'pyAgrum'}]}};</script>
+</script><script defer  >const importedData = {'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.10950091285631061, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.09946868179831653, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.10240590674802658, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.12758838683366774, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.14618242622818794, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.13043355382978916, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.14927987041883173, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.17068235476035623, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.15868480470962826, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.22175429072231057, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.27442095831502233, 'libraryName': 'pyAgrum'}]}, 'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.31734567526727914, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.3160034500528127, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.39957788803149014, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.4469851192086935, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.4530394308967516, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.49684203728102144, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.5383385522756725, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.5520575132686645, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.6065258581191302, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.8730995403602718, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 1.131383578549139, 'libraryName': 'pyAgrum'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.09584625305142253, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.08149649316910654, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.11109893186949193, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.12578722375910728, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.11559489576611667, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.14104467649012803, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.140753878490068, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.1453906524227932, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.16683148485608398, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.20836065046023577, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.2525019760709256, 'libraryName': 'pyAgrum'}]}, 'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 0.032167618395760655, 'libraryName': 'pyAgrum'}, {'arguments': 'water.bif', 'resultElement': 0.05070322258397936, 'libraryName': 'pyAgrum'}, {'arguments': 'munin.bif', 'resultElement': 0.20743127537425607, 'libraryName': 'pyAgrum'}, {'arguments': 'mildew.bif', 'resultElement': 0.7260769603541121, 'libraryName': 'pyAgrum'}, {'arguments': 'link.bif', 'resultElement': 0.07476946262177078, 'libraryName': 'pyAgrum'}, {'arguments': 'insurance.bif', 'resultElement': 0.004837176064029336, 'libraryName': 'pyAgrum'}, {'arguments': 'hepar2.bif', 'resultElement': 0.003276833007112151, 'libraryName': 'pyAgrum'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.008671734388917662, 'libraryName': 'pyAgrum'}, {'arguments': 'earthquake.bif', 'resultElement': 0.004033213318325568, 'libraryName': 'pyAgrum'}, {'arguments': 'diabetes.bif', 'resultElement': 0.7392748933052644, 'libraryName': 'pyAgrum'}, {'arguments': 'cancer.bif', 'resultElement': 0.003724365984089678, 'libraryName': 'pyAgrum'}, {'arguments': 'barley.bif', 'resultElement': 0.29545636270195247, 'libraryName': 'pyAgrum'}, {'arguments': 'andes.bif', 'resultElement': 0.020300745661370467, 'libraryName': 'pyAgrum'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'BN_16_1.5_3.bif', 'resultElement': 0.007081440743058914, 'libraryName': 'pyAgrum'}, {'arguments': 'BN_17_1.5_3.bif', 'resultElement': 5.958979018033661e-05, 'libraryName': 'pyAgrum'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -146,18 +158,28 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="Learning_best_method.html"><h2>Learning best method</h2></a>
-        <div id="Learning_best_method"></div>
-    </div>
-    
-    <div class="card">
         <a href="Learning_exaustive_search_BIC.html"><h2>Learning exaustive search BIC</h2></a>
         <div id="Learning_exaustive_search_BIC"></div>
     </div>
     
     <div class="card">
+        <a href="Learning_best_method.html"><h2>Learning best method</h2></a>
+        <div id="Learning_best_method"></div>
+    </div>
+    
+    <div class="card">
         <a href="Learning_hill_climb_BIC.html"><h2>Learning hill climb BIC</h2></a>
         <div id="Learning_hill_climb_BIC"></div>
+    </div>
+    
+    <div class="card">
+        <a href="BIFReading.html"><h2>BIFReading</h2></a>
+        <div id="BIFReading"></div>
+    </div>
+    
+    <div class="card">
+        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
+        <div id="InferenceRandomBN"></div>
     </div>
     
 </div><!-- Google tag (gtag.js) -->

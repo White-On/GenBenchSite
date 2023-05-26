@@ -21,8 +21,11 @@ export function GroupedBarChart(data,{
     yLabel, // label of the y-axis
     xLabel, // label of the x-axis
 
-    xLegend = width*0.1, // x-axis legend
-    yLegend = height*0.1, // y-axis legend
+    // xLegend = width*0.1, // x-axis legend
+    // yLegend = height*0.1, // y-axis legend
+
+    xLegend = margin.left + 15, // x-axis legend
+    yLegend = 0, // y-axis legend
     legendColorBoxSize = [10, 10], // size of the color box in the legend
     legendColorBoxGap = 5, // margin of the color box in the legend
     legendFontSize = 8, // font size of the legend
@@ -220,15 +223,17 @@ export function GroupedBarChart(data,{
 
     function handleClick(clickedElement) {
         let innerClassSelected;
-        // console.log(clickedElement.srcElement.__data__);
-        // console.log(clickedElement.srcElement.nodeName);
         if (clickedElement.srcElement.nodeName == "rect"){
-            innerClassSelected = InerClass[clickedElement.srcElement.__data__];
+            if (typeof clickedElement.srcElement.__data__ == "number"){
+                innerClassSelected = InerClass[clickedElement.srcElement.__data__];
+            }
+            else{
+                innerClassSelected = clickedElement.srcElement.__data__;
+            }
         }
         else{
             innerClassSelected = clickedElement.srcElement.__data__;
-        }
-        
+        }        
 
         // If the clicked element is already active, remove it from the active list
         if(activeElement.includes(innerClassSelected)){

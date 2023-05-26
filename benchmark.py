@@ -99,23 +99,24 @@ class Benchmark:
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
 
-        
-
         logger.info(f"Library config {self.libraryConfig}")
         logger.info(f"Task config {self.taskConfig}")
-    
+
     def GetLibraryConfig(self):
         strtest = StructureTest()
-        libraryConfig = strtest.readConfig(*strtest.findConfigFile(os.path.join(self.pathToInfrastructure, "targets")))
+        libraryConfig = strtest.readConfig(
+            *strtest.findConfigFile(os.path.join(self.pathToInfrastructure, "targets"))
+        )
         return libraryConfig
 
     def GetTaskConfig(self):
         listTaskpath = []
         strTest = StructureTest()
-        listTaskpath = strTest.findConfigFile(os.path.join(self.pathToInfrastructure, "themes"))
+        listTaskpath = strTest.findConfigFile(
+            os.path.join(self.pathToInfrastructure, "themes")
+        )
         taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
-
 
     def BeforeBuildLibrary(self):
         """
@@ -152,60 +153,73 @@ class Benchmark:
 
         """
         beforeTaskModule = self.taskConfig[taskName].get("before_script", None)
-        
+
         logger.info(f"Before task of {taskName}")
         # the beforetask might have some arguments
         kwargs = self.taskConfig[taskName].get("before_task_arguments", "{}")
         kwargs = ast.literal_eval(kwargs)
         logger.debug(f"{kwargs = }")
         if len(kwargs) == 0:
-            logger.warning(f"No arguments for the before task command/script for {taskName}")
-        
-        
+            logger.warning(
+                f"No arguments for the before task command/script for {taskName}"
+            )
+
         funcName = self.taskConfig[taskName].get("before_function", None)
         logger.debug(f"{funcName = }")
         if funcName is None:
-            logger.error(f"No function for the before task command/script for {taskName}")
-            return 
+            logger.error(
+                f"No function for the before task command/script for {taskName}"
+            )
+            return
 
-        relativePath = os.path.relpath(taskPath, os.path.dirname(os.path.abspath(__file__))).replace(os.sep, ".")
+        relativePath = os.path.relpath(
+            taskPath, os.path.dirname(os.path.abspath(__file__))
+        ).replace(os.sep, ".")
         module = __import__(f"{relativePath}.{beforeTaskModule}", fromlist=[funcName])
         logger.debug(f"{module = }")
         func = getattr(module, funcName)
         logger.debug(f"{func = }")
-        try :
-            func(**kwargs) 
+        try:
+            func(**kwargs)
         except Exception as e:
             logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
             logger.debug(f"{e = }")
-        
-            
 
-    def EvaluationAfterTask(self, moduleEvaluation, taskName: str, taskPath: str, *funcEvaluation, **kwargs):
+    def EvaluationAfterTask(
+        self, moduleEvaluation, taskName: str, taskPath: str, *funcEvaluation, **kwargs
+    ):
         valueEvaluation = []
-    
-        if len(funcEvaluation)  == 0:
-                logger.warning(f"No evaluation function for {taskName}")
-                return valueEvaluation
-        
+
+        if len(funcEvaluation) == 0:
+            logger.warning(f"No evaluation function for {taskName}")
+            return valueEvaluation
+
         for funcName in funcEvaluation:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-            
-            logger.debug(f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}")
-            relativePath = os.path.relpath(taskPath, os.path.dirname(os.path.abspath(__file__))).replace(os.sep, ".")
-            module = __import__(f"{relativePath}.{moduleEvaluation}", fromlist=[funcName])
+
+            logger.debug(
+                f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}"
+            )
+            relativePath = os.path.relpath(
+                taskPath, os.path.dirname(os.path.abspath(__file__))
+            ).replace(os.sep, ".")
+            module = __import__(
+                f"{relativePath}.{moduleEvaluation}", fromlist=[funcName]
+            )
             logger.debug(f"{module = }")
             func = getattr(module, funcName)
             logger.debug(f"{func = }")
-            try :
-                output = func(**kwargs) 
+            try:
+                output = func(**kwargs)
             except Exception as e:
-                logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
+                logger.warning(
+                    f"Error in the evaluation function {funcName} of {taskName}"
+                )
                 logger.debug(f"{e = }")
                 output = Benchmark.ERROR_VALUE
-            
+
             valueEvaluation.append(output)
-        
+
         return valueEvaluation
 
     # def RunProcess(self, commandout, getOutput=False):
@@ -247,8 +261,8 @@ class Benchmark:
     #         # print(f"\nCan't run this task because the library doesn't support it")
     #         # print(process.stderr)
     #         return Benchmark.NOT_RUN_VALUE
-        # if getOutput:
-        #     return process.stdout
+    # if getOutput:
+    #     return process.stdout
 
     #     i#         print(process.stdout)
 
@@ -319,11 +333,12 @@ class Benchmark:
             self.BeforeTask(path, taskName)
         else:
             logger.info(f"No before task command/script for {taskName}")
-            
 
         # The timeout of the task is the timeout in the config file or the default timeout
         # the timeout is in seconds
-        taskTimeout = int(self.taskConfig[taskName].get("timeout", Benchmark.DEFAULT_TIMEOUT))
+        taskTimeout = int(
+            self.taskConfig[taskName].get("timeout", Benchmark.DEFAULT_TIMEOUT)
+        )
 
         for libraryName in self.libraryNames:
             self.results[libraryName][taskName] = {}
@@ -341,7 +356,7 @@ class Benchmark:
     def RunTaskForLibrary(
         self, libraryName: str, taskName: str, taskPath: str, timeout: int
     ):
-        arguments = self.taskConfig[taskName].get('arguments').split(",")
+        arguments = self.taskConfig[taskName].get("arguments").split(",")
 
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
@@ -349,7 +364,9 @@ class Benchmark:
                 arg: (Benchmark.NOT_RUN_VALUE, None) for arg in arguments
             }
             self.progressBar.update(
-                int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS)) * len(arguments) * 2
+                int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
+                * len(arguments)
+                * 2
             )  # *2 because we have before and after run script
             return
 
@@ -361,8 +378,8 @@ class Benchmark:
             beforeRunListTime = [0]
 
         # we check if there is a after run script
-        
-        afterRunScript = self.taskConfig[taskName].get('evaluation_script', None)
+
+        afterRunScript = self.taskConfig[taskName].get("evaluation_script", None)
 
         for arg in arguments:
             # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
@@ -371,15 +388,15 @@ class Benchmark:
             if beforeRunScriptExist:
                 beforeRunListTime = []
 
-            numberRun = int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS))
+            numberRun = int(
+                self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
+            )
 
             for nb_run in range(numberRun):
                 # Before run script
                 if beforeRunScriptExist:
                     command = f"{self.libraryConfig[libraryName].get('language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
-                    resultProcess = self.RunProcess(
-                        command=command, timeout=timeout
-                    )
+                    resultProcess = self.RunProcess(command=command, timeout=timeout)
                     beforeRunListTime.append(resultProcess)
                     self.progressBar.update(1)
                     if isinstance(resultProcess, str):
@@ -389,13 +406,11 @@ class Benchmark:
 
                 # Run script
                 scriptName = self.CreateScriptName(libraryName, "_run")
-                language = self.libraryConfig[libraryName].get('language')
+                language = self.libraryConfig[libraryName].get("language")
 
                 command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
 
-                resultProcess = self.RunProcess(
-                    command=command, timeout=timeout
-                )
+                resultProcess = self.RunProcess(command=command, timeout=timeout)
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
                 if isinstance(resultProcess, str):
@@ -407,12 +422,22 @@ class Benchmark:
             # After run script
             if afterRunScript is not None:
                 # if the script is not None, then it should be a script name or a list of script name
-                functionEvaluation = self.taskConfig[taskName].get('evaluation_function', None)
+                functionEvaluation = self.taskConfig[taskName].get(
+                    "evaluation_function", None
+                )
                 if functionEvaluation is not None:
                     functionEvaluation = functionEvaluation.split(" ")
-                else :
+                else:
                     functionEvaluation = []
-                valueEvaluation = self.EvaluationAfterTask(afterRunScript, taskName, taskPath, *functionEvaluation, libraryName=libraryName, filenameBif=self.taskConfig[taskName].get('file_used',''), arg=arg)
+                valueEvaluation = self.EvaluationAfterTask(
+                    afterRunScript,
+                    taskName,
+                    taskPath,
+                    *functionEvaluation,
+                    libraryName=libraryName,
+                    filenameBif=self.taskConfig[taskName].get("file_used", ""),
+                    arg=arg,
+                )
                 logger.debug(f"{valueEvaluation = }")
             # we remove the error and timeout values to calculate the mean
             filteredListTime = [
@@ -447,7 +472,7 @@ class Benchmark:
         nbIteration = 0
         for taskName in self.taskConfig.keys():
             nbIteration += (
-                int(self.taskConfig[taskName].get('nb_runs',Benchmark.DEFAULT_NB_RUNS))
+                int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
                 * len(self.taskConfig[taskName].get("arguments").split(","))
                 * 2
                 * len(self.libraryNames)

@@ -49,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
-            
                 <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -66,11 +66,23 @@
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
-                    
                         <a href='Learning_exaustive_search_BIC.html' id='Learning_exaustive_search_BIC-nav'>Learning exaustive search BIC</a>
                     
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
+                    
                         <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
                     
                 </ul>
                 </li>
@@ -121,7 +133,7 @@
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 2}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -134,7 +146,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 1.8844221999752335, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 25.296758600044996, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 28.684329899959266, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 29.41676270001335, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 33.52676530001918, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 43.92934219999006, 'libraryName': 'pgmpy'}]}, 'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Error', 'data': []}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 17.375852899975143, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 15.795863899984397, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 25.48459340003319, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 31.059892999997828, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 36.34221279999474, 'libraryName': 'pgmpy'}, {'arguments': 3500.0, 'resultElement': 41.80542469996726, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 48.04973820003215, 'libraryName': 'pgmpy'}]}};</script>
+</script><script defer  >const importedData = {'Learning_exaustive_search_BIC': {'display': 'plot', 'status': 'Timeout', 'data': []}, 'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 2000.0, 'resultElement': 27.634864050825126, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 26.10764752402902, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 39.94850033032708, 'libraryName': 'pgmpy'}, {'arguments': 3500.0, 'resultElement': 34.804971167747865, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 34.24921870594844, 'libraryName': 'pgmpy'}, {'arguments': 4500.0, 'resultElement': 41.75774415589403, 'libraryName': 'pgmpy'}, {'arguments': 5000.0, 'resultElement': 36.94165608501062, 'libraryName': 'pgmpy'}, {'arguments': 7500.0, 'resultElement': 48.92025554686376, 'libraryName': 'pgmpy'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 14.01073920384515, 'libraryName': 'pgmpy'}, {'arguments': 1500.0, 'resultElement': 18.900460550026036, 'libraryName': 'pgmpy'}, {'arguments': 2000.0, 'resultElement': 23.512801394448616, 'libraryName': 'pgmpy'}, {'arguments': 2500.0, 'resultElement': 28.43027400188148, 'libraryName': 'pgmpy'}, {'arguments': 3000.0, 'resultElement': 32.8044998672558, 'libraryName': 'pgmpy'}, {'arguments': 3500.0, 'resultElement': 38.13186231919099, 'libraryName': 'pgmpy'}, {'arguments': 4000.0, 'resultElement': 42.693815727089536, 'libraryName': 'pgmpy'}, {'arguments': 4500.0, 'resultElement': 47.92568505071104, 'libraryName': 'pgmpy'}, {'arguments': 5000.0, 'resultElement': 50.65751849860784, 'libraryName': 'pgmpy'}]}, 'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 6.14159650991205, 'libraryName': 'pgmpy'}, {'arguments': 'water.bif', 'resultElement': 5.872861052560619, 'libraryName': 'pgmpy'}, {'arguments': 'munin.bif', 'resultElement': 8.35810899476055, 'libraryName': 'pgmpy'}, {'arguments': 'mildew.bif', 'resultElement': 18.03158228599932, 'libraryName': 'pgmpy'}, {'arguments': 'link.bif', 'resultElement': 6.7389108511619265, 'libraryName': 'pgmpy'}, {'arguments': 'insurance.bif', 'resultElement': 5.585194463864901, 'libraryName': 'pgmpy'}, {'arguments': 'hepar2.bif', 'resultElement': 5.805923296557739, 'libraryName': 'pgmpy'}, {'arguments': 'hailfinder.bif', 'resultElement': 5.749091297201813, 'libraryName': 'pgmpy'}, {'arguments': 'earthquake.bif', 'resultElement': 3.373797370865941, 'libraryName': 'pgmpy'}, {'arguments': 'diabetes.bif', 'resultElement': 12.577593928179704, 'libraryName': 'pgmpy'}, {'arguments': 'child.bif', 'resultElement': 5.341312915785239, 'libraryName': 'pgmpy'}, {'arguments': 'cancer.bif', 'resultElement': 3.397300995560363, 'libraryName': 'pgmpy'}, {'arguments': 'barley.bif', 'resultElement': 8.637723963172174, 'libraryName': 'pgmpy'}, {'arguments': 'asia.bif', 'resultElement': 3.7443632015259936, 'libraryName': 'pgmpy'}, {'arguments': 'andes.bif', 'resultElement': 5.955464723985642, 'libraryName': 'pgmpy'}, {'arguments': 'alarm.bif', 'resultElement': 5.693596412846818, 'libraryName': 'pgmpy'}]}, 'InferenceRandomBN': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'BN_16_1.5_3.bif', 'resultElement': 0.39308945513330507, 'libraryName': 'pgmpy'}, {'arguments': 'BN_17_1.5_3.bif', 'resultElement': 0.37012055858503956, 'libraryName': 'pgmpy'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->
@@ -146,18 +158,28 @@
 <div class ="grid">
     
     <div class="card">
-        <a href="Learning_best_method.html"><h2>Learning best method</h2></a>
-        <div id="Learning_best_method"></div>
-    </div>
-    
-    <div class="card">
         <a href="Learning_exaustive_search_BIC.html"><h2>Learning exaustive search BIC</h2></a>
         <div id="Learning_exaustive_search_BIC"></div>
     </div>
     
     <div class="card">
+        <a href="Learning_best_method.html"><h2>Learning best method</h2></a>
+        <div id="Learning_best_method"></div>
+    </div>
+    
+    <div class="card">
         <a href="Learning_hill_climb_BIC.html"><h2>Learning hill climb BIC</h2></a>
         <div id="Learning_hill_climb_BIC"></div>
+    </div>
+    
+    <div class="card">
+        <a href="BIFReading.html"><h2>BIFReading</h2></a>
+        <div id="BIFReading"></div>
+    </div>
+    
+    <div class="card">
+        <a href="InferenceRandomBN.html"><h2>InferenceRandomBN</h2></a>
+        <div id="InferenceRandomBN"></div>
     </div>
     
 </div><!-- Google tag (gtag.js) -->

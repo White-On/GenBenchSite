@@ -9,14 +9,22 @@
 <div>
 <h1 id="entry-title">{{taskName}}</h1>
 <!-- <div id="menu"></div> -->
-<div>{{taskDescritpion}}</div>
+<div>
+    {{taskDescritpion}}
+    {% if show_more_description != "" or extra_html_element != "" %}
+    <a id="show_more_button">Show more -></a>
+    <div class="show_more">{{show_more_description}}</div>
+    {% else %}
+
+    {% endif %}
+</div>
 
 <div id="compare-tool">
     <div id="head_elements">
         
         <div id="graphics"></div>
         {% if extra_html_element != "" %}
-        <div id="extra_html_element">{{extra_html_element}}</div>
+        <div id="extra_html_element" class="show_more">{{extra_html_element}}</div>
         {% else %}
 
         {% endif %}
