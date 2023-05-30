@@ -5,8 +5,8 @@ export function GroupedBarChart(data,{
 
     title = "Grouped Bar Chart",
 
-    width = width,
-    height = height,
+    width,
+    height,
 
     margin = { top: 20, right: 20, bottom: 30, left: 40 },
 
@@ -32,7 +32,7 @@ export function GroupedBarChart(data,{
 
     activationFunction = null,
 
-    scale = "linear", // "linear" or "log"
+    yType = d3.scaleLinear, // "linear" or "log"
 
 } = {}) {
 
@@ -78,13 +78,13 @@ export function GroupedBarChart(data,{
 
     let yDomain;
     let yScale;
-    if (scale == "log") {
+    if (yType == d3.scaleLog) {
         yDomain = [yMinMaxValue[0] <= 0 ? 0.0001 : yMinMaxValue[0], yMinMaxValue[1]];
         yScale = d3.scaleLog(yDomain, yRange)
     }
     else {
         yDomain = [0, yMinMaxValue[1]];
-        yScale = d3.scaleLinear(yDomain, yRange);
+        yScale = yType(yDomain, yRange);
     }
 
     let xAxis = d3.axisBottom(xScaleCategory);

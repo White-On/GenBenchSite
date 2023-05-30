@@ -2,18 +2,18 @@ export  function LineChart(data, {
     x = ([x]) => x, // given d in data, returns the (temporal) x-value
     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
     z = () => 1, // given d in data, returns the (categorical) z-value
-    title, // given d in data, returns the title text
+
+    title = "Plot", // title of the chart
+    titleFontSize = 20, // font size of the title
+
     defined, // for gaps in data
 
     curve = d3.curveBumpX, // method of interpolation between points
 
-    marginTop = 20, // top margin, in pixels
-    marginRight = 30, // right margin, in pixels
-    marginBottom = 30, // bottom margin, in pixels
-    marginLeft = 50, // left margin, in pixels
-
     width = 640, // outer width, in pixels
     height = 400, // outer height, in pixels
+
+    margin = { top: 20, right: 30, bottom: 30, left: 50 },
 
     xType = d3.scaleLinear, // type of x-scale
     yType = d3.scaleLinear, // type of y-scale
@@ -21,8 +21,8 @@ export  function LineChart(data, {
     xDomain, // [xmin, xmax]
     yDomain, // [ymin, ymax]
 
-    xRange = [marginLeft, width - marginRight], // [left, right]
-    yRange = [height - marginBottom, marginTop], // [bottom, top]
+    xRange = [margin.left, width - margin.right], // [left, right]
+    yRange = [height - margin.bottom, margin.top], // [bottom, top]
 
     yFormat, // a format specifier string for the y-axis
     xFormat = d3.format(".0s"), // a format specifier string for the x-axis
@@ -90,9 +90,6 @@ export  function LineChart(data, {
     const xAxis = d3.axisBottom(xScale).ticks(width / 80, xFormat).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
 
-    // Compute titles.
-    const T = title === undefined ? Z : title === null ? null : d3.map(data, title);
-
     // Construct a line generator.
     // Take the data point by point, and draw a line between them acording to the curve specified.
     const line = d3.line()
@@ -126,7 +123,7 @@ export  function LineChart(data, {
     
     // add the x-axis to the chart.
     svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
+        .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
         .attr("font-size", labelFontSize)
         // change orientation of x-axis labels.
@@ -135,24 +132,33 @@ export  function LineChart(data, {
         // .attr("transform", "rotate(-45)")
         .call(g => g.select(".domain").remove())
         .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-            .attr("y2", marginTop + marginBottom - height)
+            .attr("y2", margin.top + margin.bottom - height)
             .attr("stroke-opacity", 0.1));
 
     // add the y-axis to the chart.
     svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
+        .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
         .attr("font-size", labelFontSize)
         .call(g => g.select(".domain").remove())
         .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-            .attr("x2", width - marginLeft - marginRight)
+            .attr("x2", width - margin.left - margin.right)
             .attr("stroke-opacity", 0.1))
         .call(g => g.append("text")
-            .attr("x", -marginLeft)
+            .attr("x", -margin.left)
             .attr("y", 10 + labelFontSize/2)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
             .text(yLabel));
+        
+    // add the title to the chart.
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 10 + titleFontSize)
+        .attr("text-anchor", "middle")
+        .attr("fill", "currentColor")
+        .attr("font-size", titleFontSize)
+        .text(title);
     
     // add circles to the chart where the datapoints are
     const circles = svg.append("g");
@@ -251,7 +257,6 @@ export  function LineChart(data, {
         // dot.style("fill", color(Z[i]));
         dot.style("fill", typeof color === "string" ? color : color(Z[i]));
         circles.selectAll('circle').style("fill", "#ddd");
-        // TODO fix the Titles
         if (T) dot.select("text").text(Y[i].toFixed(2));
         svg.property("value", O[i]).dispatch("input", {bubbles: true});
     }

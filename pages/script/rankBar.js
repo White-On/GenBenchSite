@@ -81,12 +81,12 @@ export function rankBar(data, {
         group.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", xScale(textBoxSize).toFixed(vrb))
+            .attr("width", xScale(textBoxSize + 1).toFixed(vrb))
             .attr("height", yScale(50))
             .attr("fill", (d,i) => colorScale(order[val[i]]));
 
         let lastrect = group.append("rect")
-            .attr("x", xScale(textBoxSize).toFixed(vrb))
+            .attr("x", xScale(textBoxSize + 1).toFixed(vrb))
             .attr("y", 0)
             .attr("width", xScale(arrowSize).toFixed(vrb))
             .attr("height", yScale(50))

@@ -22,22 +22,6 @@ function dataSpread(data){
 //3. get the task name from the title of the page
 // let TaskName = document.getElementById('entry-title').innerHTML;
 
-let show_more_button = document.getElementById("show_more_button");
-if (show_more_button != null) {
-    show_more_button.addEventListener("click", function(){
-        let show_more = document.getElementsByClassName("show_more");
-        for(let show_more_elements of show_more){ 
-            if (show_more_elements.style.display === "none" || getComputedStyle(show_more_elements)['display'] === "none") {
-                show_more_elements.style.display = "block";
-                show_more_button.innerHTML = "Show less <-";
-            } else {
-                show_more_elements.style.display = "none";
-                show_more_button.innerHTML = "Show more ->";
-            }
-        }
-    });
-}
-
 let htmlComponent = document.getElementById("graphics");
 
 // we're adding a dropdown to choose the chart we want to display
@@ -135,7 +119,7 @@ for(let element in importedData){
 
         margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
-        scale: importedData[element].scale,
+        yType: (importedData[element].scale == 'log')?d3.scaleLog:d3.scaleLinear ,
 
     });
 

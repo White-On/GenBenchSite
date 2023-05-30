@@ -12,12 +12,14 @@
     
 } */
 
-body{
-
+.main-content{
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 /* GRAPHICS */
@@ -111,12 +113,28 @@ h1{
     width: 100%;
 }
 
-#show_more_button{
-    font-weight: bold; 
+details{
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    margin-block: 1rem;
+    margin-right: 1em;
+    background-color: var(--quinary-color);
 }
 
-.show_more{
-    display: none;
+details>div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-block: 1rem;
+}
+
+summary{
+    width: 10em;
+    align-self: center;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /* DEBUG TOOLS */

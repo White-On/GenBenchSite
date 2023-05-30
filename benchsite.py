@@ -510,11 +510,10 @@ class BenchSite:
             )
 
             logger.debug(importedResults)
-
             chartData = {
                 "runtime": {
                     "data": importedData,
-                    "display": "groupedBar",
+                    "display": "line",
                     "title": "Runtime",
                     "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
@@ -576,8 +575,8 @@ class BenchSite:
                     content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
-                show_more_description=taskConfig[taskName].get(
-                    "show_more_description", ""
+                extra_description=taskConfig[taskName].get(
+                    "extra_description", ""
                 ),
             )
 

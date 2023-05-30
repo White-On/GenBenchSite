@@ -127,7 +127,11 @@
 
 <!-- Rank Bar  -->
 <div id="rank-bar">
-    <div id="rank-str"></div>
+    <div id="rank-str">
+        <div id="indication">
+            <svg width="1500" height="50" viewBox="0,0,1500,50" style="max-width: 100%; height: auto;"><g transform="translate(0, 0)"><g transform="translate(0, 0)"><rect x="0" y="0" width="211" height="50" fill="#440154"></rect><rect x="211" y="0" width="52" height="50" fill="#433d84"></rect><path d="M 209 0 L 262 25 L 209 50Z" fill="#440154"></path><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">best</text></g><g transform="translate(262, 0)"><rect x="0" y="0" width="211" height="50" fill="#433d84"></rect><rect x="211" y="0" width="52" height="50" fill="#2e6e8e"></rect><path d="M 209 0 L 262 25 L 209 50Z" fill="#433d84"></path><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">good</text></g><g transform="translate(523, 0)"><rect x="0" y="0" width="211" height="50" fill="#2e6e8e"></rect><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">same</text></g></g><g transform="translate(0, 0)"><g transform="translate(750, 0)"><rect x="0" y="0" width="211" height="50" fill="#2e6e8e"></rect><rect x="211" y="0" width="52" height="50" fill="#1f998a"></rect><path d="M 209 0 L 262 25 L 209 50Z" fill="#2e6e8e"></path><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">equivalent</text></g><g transform="translate(1012, 0)"><rect x="0" y="0" width="211" height="50" fill="#1f998a"></rect><rect x="211" y="0" width="52" height="50" fill="#4ac16d"></rect><path d="M 209 0 L 262 25 L 209 50Z" fill="#1f998a"></path><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">bad</text></g><g transform="translate(1273, 0)"><rect x="0" y="0" width="211" height="50" fill="#4ac16d"></rect><text x="104.65116279069767" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white" style="cursor: pointer;">worst</text></g></g></svg>  
+        </div>
+    </div>
     <div>2023-05-17 10:52:16</div>
 </div>
 <script type="module">
@@ -146,7 +150,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 2000, 'runTime': 27.634864050825126, 'libraryName': 'pgmpy'}, {'arguments': 2500, 'runTime': 26.10764752402902, 'libraryName': 'pgmpy'}, {'arguments': 3000, 'runTime': 39.94850033032708, 'libraryName': 'pgmpy'}, {'arguments': 3500, 'runTime': 34.804971167747865, 'libraryName': 'pgmpy'}, {'arguments': 4000, 'runTime': 34.24921870594844, 'libraryName': 'pgmpy'}, {'arguments': 4500, 'runTime': 41.75774415589403, 'libraryName': 'pgmpy'}, {'arguments': 5000, 'runTime': 36.94165608501062, 'libraryName': 'pgmpy'}, {'arguments': 7500, 'runTime': 48.92025554686376, 'libraryName': 'pgmpy'}, {'arguments': 1000, 'runTime': 19.32043754751794, 'libraryName': 'bnlearn'}, {'arguments': 1500, 'runTime': 25.397825492569247, 'libraryName': 'bnlearn'}, {'arguments': 2000, 'runTime': 30.011500512319614, 'libraryName': 'bnlearn'}, {'arguments': 2500, 'runTime': 34.53302706680261, 'libraryName': 'bnlearn'}, {'arguments': 3000, 'runTime': 40.0157241771929, 'libraryName': 'bnlearn'}, {'arguments': 3500, 'runTime': 44.184960291534665, 'libraryName': 'bnlearn'}, {'arguments': 4000, 'runTime': 49.024974925979045, 'libraryName': 'bnlearn'}, {'arguments': 4500, 'runTime': 54.119529146514836, 'libraryName': 'bnlearn'}, {'arguments': 1000, 'runTime': 0.31734567526727914, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 0.3160034500528127, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 0.39957788803149014, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 0.4469851192086935, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0.4530394308967516, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0.49684203728102144, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 0.5383385522756725, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0.5520575132686645, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 0.6065258581191302, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 0.8730995403602718, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 1.131383578549139, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Runtime', 'XLabel': 'Number of samples', 'YLabel': 'Time (s)', 'scale': 'auto'}, 'eval': {'data': [{'arguments': '1000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1000', 'runTime': 0.6190476190476191, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.6436781609195402, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.7333333333333332, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.7191011235955057, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.6813186813186812, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.7472527472527473, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.8043478260869565, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.782608695652174, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.7912087912087912, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.7391304347826085, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.8210526315789473, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Evaluation', 'XLabel': 'Number of samples', 'YLabel': 'Fscore', 'scale': 'auto'}};</script>
+</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 2000, 'runTime': 27.634864050825126, 'libraryName': 'pgmpy'}, {'arguments': 2500, 'runTime': 26.10764752402902, 'libraryName': 'pgmpy'}, {'arguments': 3000, 'runTime': 39.94850033032708, 'libraryName': 'pgmpy'}, {'arguments': 3500, 'runTime': 34.804971167747865, 'libraryName': 'pgmpy'}, {'arguments': 4000, 'runTime': 34.24921870594844, 'libraryName': 'pgmpy'}, {'arguments': 4500, 'runTime': 41.75774415589403, 'libraryName': 'pgmpy'}, {'arguments': 5000, 'runTime': 36.94165608501062, 'libraryName': 'pgmpy'}, {'arguments': 7500, 'runTime': 48.92025554686376, 'libraryName': 'pgmpy'}, {'arguments': 1000, 'runTime': 19.32043754751794, 'libraryName': 'bnlearn'}, {'arguments': 1500, 'runTime': 25.397825492569247, 'libraryName': 'bnlearn'}, {'arguments': 2000, 'runTime': 30.011500512319614, 'libraryName': 'bnlearn'}, {'arguments': 2500, 'runTime': 34.53302706680261, 'libraryName': 'bnlearn'}, {'arguments': 3000, 'runTime': 40.0157241771929, 'libraryName': 'bnlearn'}, {'arguments': 3500, 'runTime': 44.184960291534665, 'libraryName': 'bnlearn'}, {'arguments': 4000, 'runTime': 49.024974925979045, 'libraryName': 'bnlearn'}, {'arguments': 4500, 'runTime': 54.119529146514836, 'libraryName': 'bnlearn'}, {'arguments': 1000, 'runTime': 0.31734567526727914, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 0.3160034500528127, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 0.39957788803149014, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 0.4469851192086935, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0.4530394308967516, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0.49684203728102144, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 0.5383385522756725, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0.5520575132686645, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 0.6065258581191302, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 0.8730995403602718, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 1.131383578549139, 'libraryName': 'pyAgrum'}], 'display': 'line', 'title': 'Runtime', 'XLabel': 'Number of samples', 'YLabel': 'Time (s)', 'scale': 'auto'}, 'eval': {'data': [{'arguments': '1000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1000', 'runTime': 0.6190476190476191, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.6436781609195402, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.7333333333333332, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.7191011235955057, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.6813186813186812, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.7472527472527473, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.8043478260869565, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.782608695652174, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.7912087912087912, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.7391304347826085, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.8210526315789473, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Evaluation', 'XLabel': 'Number of samples', 'YLabel': 'Fscore', 'scale': 'auto'}};</script>
 <script defer  >const TaskName = 'Learning_best_method';</script>
 <script defer  >const argDescription = 'Number of samples';</script>
 <script defer  >const displayScale = 'linear';</script>
@@ -154,447 +158,42 @@
 
 
 <!-- Task Main Component -->
-<div>
-<h1 id="entry-title">Learning best method</h1>
-<!-- <div id="menu"></div> -->
-<div>
-    Learning a Bayesian network refers to the process of automatically constructing a Bayesian network model from data, without specifying the network structure or conditional probability distributions beforehand. The goal of learning a Bayesian network is to identify the causal relationships among a set of variables and to estimate the conditional probabilities that describe these relationships.
-    
-    <a id="show_more_button">Show more -></a>
-    <div class="show_more"></div>
-    
-</div>
-
-<div id="compare-tool">
-    <div id="head_elements">
+<div class="main-content">
+    <h1 id="entry-title">Learning best method</h1>
+    <!-- <div id="menu"></div> -->
+    <div>
+        Learning a Bayesian network refers to the process of automatically constructing
+a Bayesian network model from data, without specifying the network structure or conditional
+probability distributions beforehand. The goal of this task is to compare the performance of
+the best algorithms for learning the structure of a Bayesian network from data for each target.
         
-        <div id="graphics"></div>
-        
-        <div id="extra_html_element" class="show_more">
-<h2>Graph of the learned Beyesian Network :</h2>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="279pt" viewBox="0.00 0.00 360.00 278.72">
-<g id="graph0" class="graph" transform="scale(0.36482 0.36482) rotate(0) translate(4 760)">
+        <details>
+            <summary>More details</summary>
+            <div>
+                <div>
+                    All our targets have to learn the structure of the Bayesian network
+alarm.bif from data. The learning process is done with the best algorithm for each target.
+We then compare the performance of each algorithm by computing the Fscore of the learned
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="309pt" viewBox="0.00 0.00 360.00 309.21">
+<g id="graph0" class="graph" transform="scale(0.404729 0.404729) rotate(0) translate(4 760)">
 <title>G</title>
-<!-- HISTORY -->
-<g id="node1" class="node">
-<title>HISTORY</title>
-<g id="a_node1"><a xlink:title="(0) HISTORY">
-<ellipse fill="#404040" stroke="black" cx="50.7" cy="-162" rx="50.89" ry="18"/>
-<text text-anchor="middle" x="50.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HISTORY</text>
-</a>
-</g>
-</g>
-<!-- PAP -->
-<g id="node2" class="node">
-<title>PAP</title>
-<g id="a_node2"><a xlink:title="(21) PAP">
-<ellipse fill="#404040" stroke="black" cx="371.7" cy="-522" rx="27.9" ry="18"/>
-<text text-anchor="middle" x="371.7" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PAP</text>
-</a>
-</g>
-</g>
-<!-- HR -->
-<g id="node3" class="node">
-<title>HR</title>
-<g id="a_node3"><a xlink:title="(34) HR">
-<ellipse fill="#404040" stroke="black" cx="646.7" cy="-162" rx="27" ry="18"/>
-<text text-anchor="middle" x="646.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HR</text>
-</a>
-</g>
-</g>
-<!-- CO -->
-<g id="node19" class="node">
-<title>CO</title>
-<g id="a_node19"><a xlink:title="(35) CO">
-<ellipse fill="#404040" stroke="black" cx="459.7" cy="-90" rx="27" ry="18"/>
-<text text-anchor="middle" x="459.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CO</text>
-</a>
-</g>
-</g>
-<!-- HR&#45;&gt;CO -->
-<g id="edge44" class="edge">
-<title>HR-&gt;CO</title>
-<g id="a_edge44"><a xlink:title="34 → 35">
-<path fill="none" stroke="#4a4a4a" d="M625.59,-150.44C620.75,-148.19 615.59,-145.91 610.7,-144 560.81,-124.52 545.58,-127.48 495.7,-108 493.86,-107.28 491.99,-106.52 490.11,-105.72"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="491.36,-102.44 480.8,-101.56 488.51,-108.83 491.36,-102.44"/>
-</a>
-</g>
-</g>
-<!-- HRSAT -->
-<g id="node29" class="node">
-<title>HRSAT</title>
-<g id="a_node29"><a xlink:title="(11) HRSAT">
-<ellipse fill="#404040" stroke="black" cx="545.7" cy="-90" rx="40.89" ry="18"/>
-<text text-anchor="middle" x="545.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HRSAT</text>
-</a>
-</g>
-</g>
-<!-- HR&#45;&gt;HRSAT -->
-<g id="edge37" class="edge">
-<title>HR-&gt;HRSAT</title>
-<g id="a_edge37"><a xlink:title="34 → 11">
-<path fill="none" stroke="#4a4a4a" d="M628.64,-148.49C613.85,-138.24 592.63,-123.53 575.36,-111.56"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="576.95,-108.4 566.74,-105.59 572.96,-114.16 576.95,-108.4"/>
-</a>
-</g>
-</g>
-<!-- HREKG -->
-<g id="node30" class="node">
-<title>HREKG</title>
-<g id="a_node30"><a xlink:title="(9) HREKG">
-<ellipse fill="#404040" stroke="black" cx="646.7" cy="-90" rx="42.49" ry="18"/>
-<text text-anchor="middle" x="646.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HREKG</text>
-</a>
-</g>
-</g>
-<!-- HR&#45;&gt;HREKG -->
-<g id="edge17" class="edge">
-<title>HR-&gt;HREKG</title>
-<g id="a_edge17"><a xlink:title="34 → 9">
-<path fill="none" stroke="#4a4a4a" d="M646.7,-143.7C646.7,-135.98 646.7,-126.71 646.7,-118.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="650.2,-118.1 646.7,-108.1 643.2,-118.1 650.2,-118.1"/>
-</a>
-</g>
-</g>
-<!-- HRBP -->
-<g id="node36" class="node">
-<title>HRBP</title>
-<g id="a_node36"><a xlink:title="(8) HRBP">
-<ellipse fill="#404040" stroke="black" cx="759.7" cy="-90" rx="34.39" ry="18"/>
-<text text-anchor="middle" x="759.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HRBP</text>
-</a>
-</g>
-</g>
-<!-- HR&#45;&gt;HRBP -->
-<g id="edge39" class="edge">
-<title>HR-&gt;HRBP</title>
-<g id="a_edge39"><a xlink:title="34 → 8">
-<path fill="none" stroke="#4a4a4a" d="M665.86,-149.13C683.31,-138.32 709.34,-122.19 729.56,-109.66"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="731.46,-112.61 738.11,-104.37 727.77,-106.66 731.46,-112.61"/>
-</a>
-</g>
-</g>
-<!-- INSUFFANESTH -->
-<g id="node4" class="node">
-<title>INSUFFANESTH</title>
-<g id="a_node4"><a xlink:title="(12) INSUFFANESTH">
-<ellipse fill="#404040" stroke="black" cx="499.7" cy="-306" rx="77.99" ry="18"/>
-<text text-anchor="middle" x="499.7" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">INSUFFANESTH</text>
-</a>
-</g>
-</g>
-<!-- CATECHOL -->
-<g id="node11" class="node">
-<title>CATECHOL</title>
-<g id="a_node11"><a xlink:title="(33) CATECHOL">
-<ellipse fill="#404040" stroke="black" cx="646.7" cy="-234" rx="59.59" ry="18"/>
-<text text-anchor="middle" x="646.7" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CATECHOL</text>
-</a>
-</g>
-</g>
-<!-- INSUFFANESTH&#45;&gt;CATECHOL -->
-<g id="edge26" class="edge">
-<title>INSUFFANESTH-&gt;CATECHOL</title>
-<g id="a_edge26"><a xlink:title="12 → 33">
-<path fill="none" stroke="#4a4a4a" d="M532.32,-289.46C554.32,-278.99 583.5,-265.09 606.87,-253.96"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="608.65,-257 616.17,-249.54 605.64,-250.68 608.65,-257"/>
-</a>
-</g>
-</g>
-<!-- VENTMACH -->
-<g id="node5" class="node">
-<title>VENTMACH</title>
-<g id="a_node5"><a xlink:title="(28) VENTMACH">
-<ellipse fill="#404040" stroke="black" cx="641.7" cy="-666" rx="61.99" ry="18"/>
-<text text-anchor="middle" x="641.7" y="-662.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTMACH</text>
-</a>
-</g>
-</g>
-<!-- VENTTUBE -->
-<g id="node12" class="node">
-<title>VENTTUBE</title>
-<g id="a_node12"><a xlink:title="(29) VENTTUBE">
-<ellipse fill="#404040" stroke="black" cx="715.7" cy="-594" rx="57.69" ry="18"/>
-<text text-anchor="middle" x="715.7" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTTUBE</text>
-</a>
-</g>
-</g>
-<!-- VENTMACH&#45;&gt;VENTTUBE -->
-<g id="edge30" class="edge">
-<title>VENTMACH-&gt;VENTTUBE</title>
-<g id="a_edge30"><a xlink:title="28 → 29">
-<path fill="none" stroke="#4a4a4a" d="M659.23,-648.41C668.79,-639.37 680.78,-628.03 691.24,-618.13"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="693.68,-620.64 698.54,-611.23 688.87,-615.56 693.68,-620.64"/>
-</a>
-</g>
-</g>
-<!-- ANAPHYLAXIS -->
-<g id="node6" class="node">
-<title>ANAPHYLAXIS</title>
-<g id="a_node6"><a xlink:title="(13) ANAPHYLAXIS">
-<ellipse fill="#404040" stroke="black" cx="904.7" cy="-378" rx="74.19" ry="18"/>
-<text text-anchor="middle" x="904.7" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ANAPHYLAXIS</text>
-</a>
-</g>
-</g>
 <!-- TPR -->
-<g id="node17" class="node">
+<g id="node1" class="node">
 <title>TPR</title>
-<g id="a_node17"><a xlink:title="(14) TPR">
-<ellipse fill="#404040" stroke="black" cx="891.7" cy="-306" rx="28.7" ry="18"/>
-<text text-anchor="middle" x="891.7" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">TPR</text>
-</a>
-</g>
-</g>
-<!-- ANAPHYLAXIS&#45;&gt;TPR -->
-<g id="edge11" class="edge">
-<title>ANAPHYLAXIS-&gt;TPR</title>
-<g id="a_edge11"><a xlink:title="13 → 14">
-<path fill="none" stroke="#4a4a4a" d="M901.48,-359.7C900.05,-351.98 898.33,-342.71 896.73,-334.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="900.14,-333.3 894.87,-324.1 893.26,-334.58 900.14,-333.3"/>
-</a>
-</g>
-</g>
-<!-- EXPCO2 -->
-<g id="node7" class="node">
-<title>EXPCO2</title>
-<g id="a_node7"><a xlink:title="(15) EXPCO2">
-<ellipse fill="#404040" stroke="black" cx="794.7" cy="-306" rx="45.49" ry="18"/>
-<text text-anchor="middle" x="794.7" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">EXPCO2</text>
-</a>
-</g>
-</g>
-<!-- LVEDVOLUME -->
-<g id="node8" class="node">
-<title>LVEDVOLUME</title>
-<g id="a_node8"><a xlink:title="(4) LVEDVOLUME">
-<ellipse fill="#404040" stroke="black" cx="191.7" cy="-162" rx="72.29" ry="18"/>
-<text text-anchor="middle" x="191.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">LVEDVOLUME</text>
-</a>
-</g>
-</g>
-<!-- PCWP -->
-<g id="node14" class="node">
-<title>PCWP</title>
-<g id="a_node14"><a xlink:title="(2) PCWP">
-<ellipse fill="#404040" stroke="black" cx="150.7" cy="-90" rx="36.29" ry="18"/>
-<text text-anchor="middle" x="150.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PCWP</text>
-</a>
-</g>
-</g>
-<!-- LVEDVOLUME&#45;&gt;PCWP -->
-<g id="edge15" class="edge">
-<title>LVEDVOLUME-&gt;PCWP</title>
-<g id="a_edge15"><a xlink:title="4 → 2">
-<path fill="none" stroke="#4a4a4a" d="M181.77,-144.05C176.94,-135.8 171.02,-125.7 165.65,-116.54"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="168.6,-114.65 160.53,-107.79 162.56,-118.19 168.6,-114.65"/>
-</a>
-</g>
-</g>
-<!-- CVP -->
-<g id="node28" class="node">
-<title>CVP</title>
-<g id="a_node28"><a xlink:title="(1) CVP">
-<ellipse fill="#404040" stroke="black" cx="233.7" cy="-90" rx="28.7" ry="18"/>
-<text text-anchor="middle" x="233.7" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CVP</text>
-</a>
-</g>
-</g>
-<!-- LVEDVOLUME&#45;&gt;CVP -->
-<g id="edge38" class="edge">
-<title>LVEDVOLUME-&gt;CVP</title>
-<g id="a_edge38"><a xlink:title="4 → 1">
-<path fill="none" stroke="#4a4a4a" d="M201.86,-144.05C206.89,-135.68 213.05,-125.4 218.62,-116.13"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="221.77,-117.68 223.91,-107.31 215.77,-114.08 221.77,-117.68"/>
-</a>
-</g>
-</g>
-<!-- STROKEVOLUME -->
-<g id="node9" class="node">
-<title>STROKEVOLUME</title>
-<g id="a_node9"><a xlink:title="(6) STROKEVOLUME">
-<ellipse fill="#404040" stroke="black" cx="366.7" cy="-162" rx="85.29" ry="18"/>
-<text text-anchor="middle" x="366.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">STROKEVOLUME</text>
-</a>
-</g>
-</g>
-<!-- STROKEVOLUME&#45;&gt;CO -->
-<g id="edge25" class="edge">
-<title>STROKEVOLUME-&gt;CO</title>
-<g id="a_edge25"><a xlink:title="6 → 35">
-<path fill="none" stroke="#4a4a4a" d="M388.74,-144.41C402.35,-134.17 419.87,-120.98 434.09,-110.27"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="436.58,-112.78 442.46,-103.97 432.37,-107.19 436.58,-112.78"/>
-</a>
-</g>
-</g>
-<!-- MINVOLSET -->
-<g id="node10" class="node">
-<title>MINVOLSET</title>
-<g id="a_node10"><a xlink:title="(27) MINVOLSET">
-<ellipse fill="#404040" stroke="black" cx="641.7" cy="-738" rx="63.09" ry="18"/>
-<text text-anchor="middle" x="641.7" y="-734.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">MINVOLSET</text>
-</a>
-</g>
-</g>
-<!-- MINVOLSET&#45;&gt;VENTMACH -->
-<g id="edge9" class="edge">
-<title>MINVOLSET-&gt;VENTMACH</title>
-<g id="a_edge9"><a xlink:title="27 → 28">
-<path fill="none" stroke="#4a4a4a" d="M641.7,-719.7C641.7,-711.98 641.7,-702.71 641.7,-694.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="645.2,-694.1 641.7,-684.1 638.2,-694.1 645.2,-694.1"/>
-</a>
-</g>
-</g>
-<!-- CATECHOL&#45;&gt;HR -->
-<g id="edge34" class="edge">
-<title>CATECHOL-&gt;HR</title>
-<g id="a_edge34"><a xlink:title="33 → 34">
-<path fill="none" stroke="#4a4a4a" d="M646.7,-215.7C646.7,-207.98 646.7,-198.71 646.7,-190.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="650.2,-190.1 646.7,-180.1 643.2,-190.1 650.2,-190.1"/>
-</a>
-</g>
-</g>
-<!-- VENTLUNG -->
-<g id="node33" class="node">
-<title>VENTLUNG</title>
-<g id="a_node33"><a xlink:title="(30) VENTLUNG">
-<ellipse fill="#404040" stroke="black" cx="715.7" cy="-522" rx="59.59" ry="18"/>
-<text text-anchor="middle" x="715.7" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTLUNG</text>
-</a>
-</g>
-</g>
-<!-- VENTTUBE&#45;&gt;VENTLUNG -->
-<g id="edge40" class="edge">
-<title>VENTTUBE-&gt;VENTLUNG</title>
-<g id="a_edge40"><a xlink:title="29 → 30">
-<path fill="none" stroke="#4a4a4a" d="M715.7,-575.7C715.7,-567.98 715.7,-558.71 715.7,-550.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="719.2,-550.1 715.7,-540.1 712.2,-550.1 719.2,-550.1"/>
-</a>
-</g>
-</g>
-<!-- PRESS -->
-<g id="node37" class="node">
-<title>PRESS</title>
-<g id="a_node37"><a xlink:title="(25) PRESS">
-<ellipse fill="#404040" stroke="black" cx="831.7" cy="-522" rx="38.19" ry="18"/>
-<text text-anchor="middle" x="831.7" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PRESS</text>
-</a>
-</g>
-</g>
-<!-- VENTTUBE&#45;&gt;PRESS -->
-<g id="edge18" class="edge">
-<title>VENTTUBE-&gt;PRESS</title>
-<g id="a_edge18"><a xlink:title="29 → 25">
-<path fill="none" stroke="#4a4a4a" d="M741.15,-577.64C758.58,-567.12 781.79,-553.11 800.35,-541.91"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="802.29,-544.83 809.05,-536.67 798.68,-538.84 802.29,-544.83"/>
-</a>
-</g>
-</g>
-<!-- SHUNT -->
-<g id="node13" class="node">
-<title>SHUNT</title>
-<g id="a_node13"><a xlink:title="(23) SHUNT">
-<ellipse fill="#404040" stroke="black" cx="458.7" cy="-522" rx="40.89" ry="18"/>
-<text text-anchor="middle" x="458.7" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">SHUNT</text>
-</a>
-</g>
-</g>
-<!-- SAO2 -->
-<g id="node21" class="node">
-<title>SAO2</title>
-<g id="a_node21"><a xlink:title="(20) SAO2">
-<ellipse fill="#404040" stroke="black" cx="629.7" cy="-306" rx="33.6" ry="18"/>
-<text text-anchor="middle" x="629.7" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">SAO2</text>
-</a>
-</g>
-</g>
-<!-- SHUNT&#45;&gt;SAO2 -->
-<g id="edge42" class="edge">
-<title>SHUNT-&gt;SAO2</title>
-<g id="a_edge42"><a xlink:title="23 → 20">
-<path fill="none" stroke="#4a4a4a" d="M457.33,-503.72C456.63,-484.85 457.93,-454.33 470.7,-432 499.85,-380.99 558.82,-343.26 596.17,-323.24"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="597.93,-326.27 605.17,-318.54 594.69,-320.07 597.93,-326.27"/>
-</a>
-</g>
-</g>
-<!-- ARTCO2 -->
-<g id="node15" class="node">
-<title>ARTCO2</title>
-<g id="a_node15"><a xlink:title="(32) ARTCO2">
-<ellipse fill="#404040" stroke="black" cx="726.7" cy="-378" rx="46.59" ry="18"/>
-<text text-anchor="middle" x="726.7" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ARTCO2</text>
-</a>
-</g>
-</g>
-<!-- ARTCO2&#45;&gt;EXPCO2 -->
-<g id="edge10" class="edge">
-<title>ARTCO2-&gt;EXPCO2</title>
-<g id="a_edge10"><a xlink:title="32 → 15">
-<path fill="none" stroke="#4a4a4a" d="M742.47,-360.76C751.22,-351.75 762.26,-340.39 771.94,-330.43"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="774.55,-332.76 779.01,-323.15 769.53,-327.88 774.55,-332.76"/>
-</a>
-</g>
-</g>
-<!-- ARTCO2&#45;&gt;CATECHOL -->
-<g id="edge14" class="edge">
-<title>ARTCO2-&gt;CATECHOL</title>
-<g id="a_edge14"><a xlink:title="32 → 33">
-<path fill="none" stroke="#4a4a4a" d="M717.2,-360.15C703.37,-335.6 677.55,-289.77 661.29,-260.91"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="664.13,-258.82 656.17,-251.82 658.03,-262.26 664.13,-258.82"/>
-</a>
-</g>
-</g>
-<!-- LVFAILURE -->
-<g id="node16" class="node">
-<title>LVFAILURE</title>
-<g id="a_node16"><a xlink:title="(5) LVFAILURE">
-<ellipse fill="#404040" stroke="black" cx="191.7" cy="-234" rx="60.39" ry="18"/>
-<text text-anchor="middle" x="191.7" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">LVFAILURE</text>
-</a>
-</g>
-</g>
-<!-- LVFAILURE&#45;&gt;HISTORY -->
-<g id="edge23" class="edge">
-<title>LVFAILURE-&gt;HISTORY</title>
-<g id="a_edge23"><a xlink:title="5 → 0">
-<path fill="none" stroke="#4a4a4a" d="M161.79,-218.15C140.34,-207.5 111.27,-193.07 88.25,-181.64"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="89.63,-178.42 79.11,-177.11 86.51,-184.69 89.63,-178.42"/>
-</a>
-</g>
-</g>
-<!-- LVFAILURE&#45;&gt;LVEDVOLUME -->
-<g id="edge4" class="edge">
-<title>LVFAILURE-&gt;LVEDVOLUME</title>
-<g id="a_edge4"><a xlink:title="5 → 4">
-<path fill="none" stroke="#4a4a4a" d="M191.7,-215.7C191.7,-207.98 191.7,-198.71 191.7,-190.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="195.2,-190.1 191.7,-180.1 188.2,-190.1 195.2,-190.1"/>
-</a>
-</g>
-</g>
-<!-- LVFAILURE&#45;&gt;STROKEVOLUME -->
-<g id="edge22" class="edge">
-<title>LVFAILURE-&gt;STROKEVOLUME</title>
-<g id="a_edge22"><a xlink:title="5 → 6">
-<path fill="none" stroke="#4a4a4a" d="M226.27,-219.17C252.85,-208.54 289.87,-193.73 319.22,-181.99"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="320.87,-185.1 328.86,-178.14 318.27,-178.6 320.87,-185.1"/>
-</a>
-</g>
-</g>
-<!-- TPR&#45;&gt;CATECHOL -->
-<g id="edge29" class="edge">
-<title>TPR-&gt;CATECHOL</title>
-<g id="a_edge29"><a xlink:title="14 → 33">
-<path fill="none" stroke="#4a4a4a" d="M868.67,-295.31C862.26,-292.77 855.26,-290.15 848.7,-288 799.99,-272.05 743.49,-257.55 702.65,-247.77"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="703.42,-244.36 692.88,-245.45 701.8,-251.17 703.42,-244.36"/>
+<g id="a_node1"><a xlink:title="(14) TPR">
+<ellipse fill="#404040" stroke="black" cx="79.04" cy="-306" rx="28.7" ry="18"/>
+<text text-anchor="middle" x="79.04" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">TPR</text>
 </a>
 </g>
 </g>
 <!-- BP -->
-<g id="node18" class="node">
+<g id="node10" class="node">
 <title>BP</title>
-<g id="a_node18"><a xlink:title="(36) BP">
-<ellipse fill="#404040" stroke="black" cx="675.7" cy="-18" rx="27" ry="18"/>
-<text text-anchor="middle" x="675.7" y="-14.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">BP</text>
+<g id="a_node10"><a xlink:title="(36) BP">
+<ellipse fill="#404040" stroke="black" cx="271.04" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="271.04" y="-14.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">BP</text>
 </a>
 </g>
 </g>
@@ -602,215 +201,53 @@
 <g id="edge32" class="edge">
 <title>TPR-&gt;BP</title>
 <g id="a_edge32"><a xlink:title="14 → 36">
-<path fill="none" stroke="#4a4a4a" d="M893.17,-287.56C895.02,-256.89 895.56,-192.03 872.7,-144 841.56,-78.62 757.83,-43.59 710.15,-28.41"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="711.15,-25.05 700.56,-25.47 709.09,-31.75 711.15,-25.05"/>
+<path fill="none" stroke="#e9f7fa" d="M63.61,-290.42C35.16,-261.71 -20.14,-196.13 8.04,-144 53.16,-60.55 173.44,-32.28 234.45,-23.13"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="235.01,-26.58 244.42,-21.73 234.03,-19.65 235.01,-26.58"/>
 </a>
 </g>
 </g>
-<!-- CO&#45;&gt;BP -->
-<g id="edge3" class="edge">
-<title>CO-&gt;BP</title>
-<g id="a_edge3"><a xlink:title="35 → 36">
-<path fill="none" stroke="#4a4a4a" d="M480.78,-78.38C485.62,-76.13 490.79,-73.87 495.7,-72 545.09,-53.19 604.18,-36.94 640.83,-27.55"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="641.71,-30.94 650.54,-25.09 639.99,-24.15 641.71,-30.94"/>
+<!-- CATECHOL -->
+<g id="node18" class="node">
+<title>CATECHOL</title>
+<g id="a_node18"><a xlink:title="(33) CATECHOL">
+<ellipse fill="#404040" stroke="black" cx="627.04" cy="-234" rx="59.59" ry="18"/>
+<text text-anchor="middle" x="627.04" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CATECHOL</text>
 </a>
 </g>
 </g>
-<!-- ERRLOWOUTPUT -->
-<g id="node20" class="node">
-<title>ERRLOWOUTPUT</title>
-<g id="a_node20"><a xlink:title="(7) ERRLOWOUTPUT">
-<ellipse fill="#404040" stroke="black" cx="777.7" cy="-162" rx="86.38" ry="18"/>
-<text text-anchor="middle" x="777.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ERRLOWOUTPUT</text>
+<!-- TPR&#45;&gt;CATECHOL -->
+<g id="edge29" class="edge">
+<title>TPR-&gt;CATECHOL</title>
+<g id="a_edge29"><a xlink:title="14 → 33">
+<path fill="none" stroke="#e9f7fa" d="M107.15,-302.07C177.39,-294.66 366.23,-274.16 523.04,-252 537.11,-250.01 552.21,-247.67 566.42,-245.36"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="567.29,-248.77 576.59,-243.7 566.16,-241.86 567.29,-248.77"/>
 </a>
 </g>
 </g>
-<!-- ERRLOWOUTPUT&#45;&gt;HRBP -->
-<g id="edge46" class="edge">
-<title>ERRLOWOUTPUT-&gt;HRBP</title>
-<g id="a_edge46"><a xlink:title="7 → 8">
-<path fill="none" stroke="#4a4a4a" d="M773.25,-143.7C771.24,-135.9 768.83,-126.51 766.59,-117.83"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="769.97,-116.92 764.09,-108.1 763.19,-118.66 769.97,-116.92"/>
+<!-- EXPCO2 -->
+<g id="node2" class="node">
+<title>EXPCO2</title>
+<g id="a_node2"><a xlink:title="(15) EXPCO2">
+<ellipse fill="#404040" stroke="black" cx="380.04" cy="-306" rx="45.49" ry="18"/>
+<text text-anchor="middle" x="380.04" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">EXPCO2</text>
 </a>
 </g>
 </g>
-<!-- SAO2&#45;&gt;CATECHOL -->
-<g id="edge43" class="edge">
-<title>SAO2-&gt;CATECHOL</title>
-<g id="a_edge43"><a xlink:title="20 → 33">
-<path fill="none" stroke="#4a4a4a" d="M633.81,-288.05C635.7,-280.26 638,-270.82 640.12,-262.08"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="643.54,-262.82 642.5,-252.28 636.74,-261.17 643.54,-262.82"/>
+<!-- PAP -->
+<g id="node3" class="node">
+<title>PAP</title>
+<g id="a_node3"><a xlink:title="(21) PAP">
+<ellipse fill="#404040" stroke="black" cx="781.04" cy="-522" rx="27.9" ry="18"/>
+<text text-anchor="middle" x="781.04" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PAP</text>
 </a>
 </g>
 </g>
-<!-- DISCONNECT -->
-<g id="node22" class="node">
-<title>DISCONNECT</title>
-<g id="a_node22"><a xlink:title="(26) DISCONNECT">
-<ellipse fill="#404040" stroke="black" cx="790.7" cy="-666" rx="68.79" ry="18"/>
-<text text-anchor="middle" x="790.7" y="-662.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">DISCONNECT</text>
-</a>
-</g>
-</g>
-<!-- DISCONNECT&#45;&gt;VENTTUBE -->
-<g id="edge20" class="edge">
-<title>DISCONNECT-&gt;VENTTUBE</title>
-<g id="a_edge20"><a xlink:title="26 → 29">
-<path fill="none" stroke="#4a4a4a" d="M772.92,-648.41C763.23,-639.37 751.08,-628.03 740.48,-618.13"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="742.78,-615.49 733.08,-611.23 738.01,-620.61 742.78,-615.49"/>
-</a>
-</g>
-</g>
-<!-- MINVOL -->
-<g id="node23" class="node">
-<title>MINVOL</title>
-<g id="a_node23"><a xlink:title="(17) MINVOL">
-<ellipse fill="#404040" stroke="black" cx="525.7" cy="-450" rx="46.29" ry="18"/>
-<text text-anchor="middle" x="525.7" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">MINVOL</text>
-</a>
-</g>
-</g>
-<!-- VENTALV -->
-<g id="node24" class="node">
-<title>VENTALV</title>
-<g id="a_node24"><a xlink:title="(31) VENTALV">
-<ellipse fill="#404040" stroke="black" cx="721.7" cy="-450" rx="52.79" ry="18"/>
-<text text-anchor="middle" x="721.7" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTALV</text>
-</a>
-</g>
-</g>
-<!-- VENTALV&#45;&gt;ARTCO2 -->
-<g id="edge5" class="edge">
-<title>VENTALV-&gt;ARTCO2</title>
-<g id="a_edge5"><a xlink:title="31 → 32">
-<path fill="none" stroke="#4a4a4a" d="M722.93,-431.7C723.48,-423.98 724.14,-414.71 724.76,-406.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="728.25,-406.33 725.47,-396.1 721.27,-405.83 728.25,-406.33"/>
-</a>
-</g>
-</g>
-<!-- PVSAT -->
-<g id="node27" class="node">
-<title>PVSAT</title>
-<g id="a_node27"><a xlink:title="(19) PVSAT">
-<ellipse fill="#404040" stroke="black" cx="621.7" cy="-378" rx="40.09" ry="18"/>
-<text text-anchor="middle" x="621.7" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PVSAT</text>
-</a>
-</g>
-</g>
-<!-- VENTALV&#45;&gt;PVSAT -->
-<g id="edge21" class="edge">
-<title>VENTALV-&gt;PVSAT</title>
-<g id="a_edge21"><a xlink:title="31 → 19">
-<path fill="none" stroke="#4a4a4a" d="M699.5,-433.46C685.13,-423.41 666.27,-410.2 650.71,-399.31"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="652.66,-396.4 642.46,-393.54 648.65,-402.14 652.66,-396.4"/>
-</a>
-</g>
-</g>
-<!-- FIO2 -->
-<g id="node25" class="node">
-<title>FIO2</title>
-<g id="a_node25"><a xlink:title="(18) FIO2">
-<ellipse fill="#404040" stroke="black" cx="620.7" cy="-450" rx="30.59" ry="18"/>
-<text text-anchor="middle" x="620.7" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">FIO2</text>
-</a>
-</g>
-</g>
-<!-- FIO2&#45;&gt;PVSAT -->
-<g id="edge16" class="edge">
-<title>FIO2-&gt;PVSAT</title>
-<g id="a_edge16"><a xlink:title="18 → 19">
-<path fill="none" stroke="#4a4a4a" d="M620.94,-431.7C621.05,-423.98 621.19,-414.71 621.31,-406.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="624.81,-406.15 621.45,-396.1 617.81,-406.05 624.81,-406.15"/>
-</a>
-</g>
-</g>
-<!-- ERRCAUTER -->
-<g id="node26" class="node">
-<title>ERRCAUTER</title>
-<g id="a_node26"><a xlink:title="(10) ERRCAUTER">
-<ellipse fill="#404040" stroke="black" cx="535.7" cy="-162" rx="65.79" ry="18"/>
-<text text-anchor="middle" x="535.7" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ERRCAUTER</text>
-</a>
-</g>
-</g>
-<!-- ERRCAUTER&#45;&gt;HRSAT -->
-<g id="edge27" class="edge">
-<title>ERRCAUTER-&gt;HRSAT</title>
-<g id="a_edge27"><a xlink:title="10 → 11">
-<path fill="none" stroke="#4a4a4a" d="M538.17,-143.7C539.27,-135.98 540.59,-126.71 541.82,-118.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="545.3,-118.5 543.25,-108.1 538.37,-117.51 545.3,-118.5"/>
-</a>
-</g>
-</g>
-<!-- ERRCAUTER&#45;&gt;HREKG -->
-<g id="edge7" class="edge">
-<title>ERRCAUTER-&gt;HREKG</title>
-<g id="a_edge7"><a xlink:title="10 → 9">
-<path fill="none" stroke="#4a4a4a" d="M560.61,-145.29C576.83,-135.06 598.12,-121.64 615.47,-110.69"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="617.54,-113.52 624.13,-105.23 613.81,-107.6 617.54,-113.52"/>
-</a>
-</g>
-</g>
-<!-- PVSAT&#45;&gt;SAO2 -->
-<g id="edge31" class="edge">
-<title>PVSAT-&gt;SAO2</title>
-<g id="a_edge31"><a xlink:title="19 → 20">
-<path fill="none" stroke="#4a4a4a" d="M623.67,-359.7C624.55,-351.98 625.61,-342.71 626.6,-334.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="630.08,-334.44 627.74,-324.1 623.13,-333.64 630.08,-334.44"/>
-</a>
-</g>
-</g>
-<!-- PULMEMBOLUS -->
-<g id="node31" class="node">
-<title>PULMEMBOLUS</title>
-<g id="a_node31"><a xlink:title="(22) PULMEMBOLUS">
-<ellipse fill="#404040" stroke="black" cx="397.7" cy="-594" rx="78.79" ry="18"/>
-<text text-anchor="middle" x="397.7" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PULMEMBOLUS</text>
-</a>
-</g>
-</g>
-<!-- PULMEMBOLUS&#45;&gt;PAP -->
-<g id="edge41" class="edge">
-<title>PULMEMBOLUS-&gt;PAP</title>
-<g id="a_edge41"><a xlink:title="22 → 21">
-<path fill="none" stroke="#4a4a4a" d="M391.4,-576.05C388.43,-568.06 384.82,-558.33 381.5,-549.4"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="384.69,-547.94 377.93,-539.79 378.13,-550.38 384.69,-547.94"/>
-</a>
-</g>
-</g>
-<!-- PULMEMBOLUS&#45;&gt;SHUNT -->
-<g id="edge6" class="edge">
-<title>PULMEMBOLUS-&gt;SHUNT</title>
-<g id="a_edge6"><a xlink:title="22 → 23">
-<path fill="none" stroke="#4a4a4a" d="M412.46,-576.05C420.06,-567.33 429.46,-556.54 437.8,-546.98"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="440.55,-549.15 444.49,-539.31 435.28,-544.55 440.55,-549.15"/>
-</a>
-</g>
-</g>
-<!-- HYPOVOLEMIA -->
-<g id="node32" class="node">
-<title>HYPOVOLEMIA</title>
-<g id="a_node32"><a xlink:title="(3) HYPOVOLEMIA">
-<ellipse fill="#404040" stroke="black" cx="356.7" cy="-234" rx="76.89" ry="18"/>
-<text text-anchor="middle" x="356.7" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HYPOVOLEMIA</text>
-</a>
-</g>
-</g>
-<!-- HYPOVOLEMIA&#45;&gt;LVEDVOLUME -->
-<g id="edge2" class="edge">
-<title>HYPOVOLEMIA-&gt;LVEDVOLUME</title>
-<g id="a_edge2"><a xlink:title="3 → 4">
-<path fill="none" stroke="#4a4a4a" d="M321.3,-217.98C296.42,-207.43 262.95,-193.23 236.25,-181.9"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="237.32,-178.56 226.75,-177.87 234.59,-185 237.32,-178.56"/>
-</a>
-</g>
-</g>
-<!-- HYPOVOLEMIA&#45;&gt;STROKEVOLUME -->
-<g id="edge24" class="edge">
-<title>HYPOVOLEMIA-&gt;STROKEVOLUME</title>
-<g id="a_edge24"><a xlink:title="3 → 6">
-<path fill="none" stroke="#4a4a4a" d="M359.17,-215.7C360.27,-207.98 361.59,-198.71 362.82,-190.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="366.3,-190.5 364.25,-180.1 359.37,-189.51 366.3,-190.5"/>
+<!-- VENTLUNG -->
+<g id="node4" class="node">
+<title>VENTLUNG</title>
+<g id="a_node4"><a xlink:title="(30) VENTLUNG">
+<ellipse fill="#404040" stroke="black" cx="450.04" cy="-522" rx="59.59" ry="18"/>
+<text text-anchor="middle" x="450.04" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTLUNG</text>
 </a>
 </g>
 </g>
@@ -818,8 +255,17 @@
 <g id="edge8" class="edge">
 <title>VENTLUNG-&gt;EXPCO2</title>
 <g id="a_edge8"><a xlink:title="30 → 15">
-<path fill="none" stroke="#4a4a4a" d="M744.69,-506.11C759.02,-497.13 775.06,-484.26 783.7,-468 806.24,-425.58 803.52,-367.77 799.27,-334.21"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="802.72,-333.63 797.86,-324.21 795.79,-334.6 802.72,-333.63"/>
+<path fill="none" stroke="#e9f7fa" d="M429.01,-504.9C418.19,-495.4 405.87,-482.43 399.04,-468 378.61,-424.8 376.92,-368.07 378.1,-334.77"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="381.62,-334.58 378.59,-324.43 374.62,-334.25 381.62,-334.58"/>
+</a>
+</g>
+</g>
+<!-- MINVOL -->
+<g id="node12" class="node">
+<title>MINVOL</title>
+<g id="a_node12"><a xlink:title="(17) MINVOL">
+<ellipse fill="#404040" stroke="black" cx="454.04" cy="-450" rx="46.29" ry="18"/>
+<text text-anchor="middle" x="454.04" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">MINVOL</text>
 </a>
 </g>
 </g>
@@ -827,8 +273,17 @@
 <g id="edge28" class="edge">
 <title>VENTLUNG-&gt;MINVOL</title>
 <g id="a_edge28"><a xlink:title="30 → 17">
-<path fill="none" stroke="#4a4a4a" d="M679.51,-507.67C647.56,-495.9 600.99,-478.74 567.47,-466.39"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="568.54,-463.06 557.95,-462.88 566.12,-469.62 568.54,-463.06"/>
+<path fill="none" stroke="#e9f7fa" d="M451.03,-503.7C451.47,-495.98 452,-486.71 452.49,-478.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="455.99,-478.29 453.06,-468.1 449,-477.89 455.99,-478.29"/>
+</a>
+</g>
+</g>
+<!-- VENTALV -->
+<g id="node37" class="node">
+<title>VENTALV</title>
+<g id="a_node37"><a xlink:title="(31) VENTALV">
+<ellipse fill="#404040" stroke="black" cx="571.04" cy="-450" rx="52.79" ry="18"/>
+<text text-anchor="middle" x="571.04" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTALV</text>
 </a>
 </g>
 </g>
@@ -836,17 +291,431 @@
 <g id="edge45" class="edge">
 <title>VENTLUNG-&gt;VENTALV</title>
 <g id="a_edge45"><a xlink:title="30 → 31">
-<path fill="none" stroke="#4a4a4a" d="M717.18,-503.7C717.84,-495.98 718.63,-486.71 719.37,-478.11"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="722.86,-478.37 720.23,-468.1 715.89,-477.77 722.86,-478.37"/>
+<path fill="none" stroke="#e9f7fa" d="M476.3,-505.81C493.94,-495.61 517.37,-482.05 536.52,-470.97"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="538.35,-473.96 545.25,-465.92 534.84,-467.9 538.35,-473.96"/>
+</a>
+</g>
+</g>
+<!-- ERRCAUTER -->
+<g id="node5" class="node">
+<title>ERRCAUTER</title>
+<g id="a_node5"><a xlink:title="(10) ERRCAUTER">
+<ellipse fill="#404040" stroke="black" cx="365.04" cy="-162" rx="65.79" ry="18"/>
+<text text-anchor="middle" x="365.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ERRCAUTER</text>
+</a>
+</g>
+</g>
+<!-- HREKG -->
+<g id="node21" class="node">
+<title>HREKG</title>
+<g id="a_node21"><a xlink:title="(9) HREKG">
+<ellipse fill="#404040" stroke="black" cx="466.04" cy="-90" rx="42.49" ry="18"/>
+<text text-anchor="middle" x="466.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HREKG</text>
+</a>
+</g>
+</g>
+<!-- ERRCAUTER&#45;&gt;HREKG -->
+<g id="edge7" class="edge">
+<title>ERRCAUTER-&gt;HREKG</title>
+<g id="a_edge7"><a xlink:title="10 → 9">
+<path fill="none" stroke="#e9f7fa" d="M387.96,-145.12C402.4,-135.11 421.17,-122.1 436.7,-111.34"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="438.71,-114.2 444.94,-105.63 434.72,-108.45 438.71,-114.2"/>
+</a>
+</g>
+</g>
+<!-- HRSAT -->
+<g id="node26" class="node">
+<title>HRSAT</title>
+<g id="a_node26"><a xlink:title="(11) HRSAT">
+<ellipse fill="#404040" stroke="black" cx="365.04" cy="-90" rx="40.89" ry="18"/>
+<text text-anchor="middle" x="365.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HRSAT</text>
+</a>
+</g>
+</g>
+<!-- ERRCAUTER&#45;&gt;HRSAT -->
+<g id="edge27" class="edge">
+<title>ERRCAUTER-&gt;HRSAT</title>
+<g id="a_edge27"><a xlink:title="10 → 11">
+<path fill="none" stroke="#e9f7fa" d="M365.04,-143.7C365.04,-135.98 365.04,-126.71 365.04,-118.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="368.54,-118.1 365.04,-108.1 361.54,-118.1 368.54,-118.1"/>
+</a>
+</g>
+</g>
+<!-- ARTCO2 -->
+<g id="node6" class="node">
+<title>ARTCO2</title>
+<g id="a_node6"><a xlink:title="(32) ARTCO2">
+<ellipse fill="#404040" stroke="black" cx="562.04" cy="-378" rx="46.59" ry="18"/>
+<text text-anchor="middle" x="562.04" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ARTCO2</text>
+</a>
+</g>
+</g>
+<!-- ARTCO2&#45;&gt;EXPCO2 -->
+<g id="edge10" class="edge">
+<title>ARTCO2-&gt;EXPCO2</title>
+<g id="a_edge10"><a xlink:title="32 → 15">
+<path fill="none" stroke="#e9f7fa" d="M529.92,-364.65C499.55,-352.97 453.84,-335.39 420.89,-322.71"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="422.12,-319.44 411.53,-319.11 419.61,-325.97 422.12,-319.44"/>
+</a>
+</g>
+</g>
+<!-- ARTCO2&#45;&gt;CATECHOL -->
+<g id="edge14" class="edge">
+<title>ARTCO2-&gt;CATECHOL</title>
+<g id="a_edge14"><a xlink:title="32 → 33">
+<path fill="none" stroke="#e9f7fa" d="M579.82,-360.97C589.58,-351.21 601.08,-337.96 608.04,-324 617.71,-304.62 622.47,-280.47 624.81,-262.22"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="628.29,-262.56 625.92,-252.24 621.33,-261.79 628.29,-262.56"/>
+</a>
+</g>
+</g>
+<!-- STROKEVOLUME -->
+<g id="node7" class="node">
+<title>STROKEVOLUME</title>
+<g id="a_node7"><a xlink:title="(6) STROKEVOLUME">
+<ellipse fill="#404040" stroke="black" cx="534.04" cy="-162" rx="85.29" ry="18"/>
+<text text-anchor="middle" x="534.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">STROKEVOLUME</text>
+</a>
+</g>
+</g>
+<!-- CO -->
+<g id="node25" class="node">
+<title>CO</title>
+<g id="a_node25"><a xlink:title="(35) CO">
+<ellipse fill="#404040" stroke="black" cx="553.04" cy="-90" rx="27" ry="18"/>
+<text text-anchor="middle" x="553.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CO</text>
+</a>
+</g>
+</g>
+<!-- STROKEVOLUME&#45;&gt;CO -->
+<g id="edge25" class="edge">
+<title>STROKEVOLUME-&gt;CO</title>
+<g id="a_edge25"><a xlink:title="6 → 35">
+<path fill="none" stroke="#e9f7fa" d="M538.74,-143.7C540.85,-135.9 543.4,-126.51 545.76,-117.83"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="549.16,-118.67 548.4,-108.1 542.4,-116.84 549.16,-118.67"/>
+</a>
+</g>
+</g>
+<!-- PVSAT -->
+<g id="node8" class="node">
+<title>PVSAT</title>
+<g id="a_node8"><a xlink:title="(19) PVSAT">
+<ellipse fill="#404040" stroke="black" cx="667.04" cy="-378" rx="40.09" ry="18"/>
+<text text-anchor="middle" x="667.04" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PVSAT</text>
+</a>
+</g>
+</g>
+<!-- SAO2 -->
+<g id="node31" class="node">
+<title>SAO2</title>
+<g id="a_node31"><a xlink:title="(20) SAO2">
+<ellipse fill="#404040" stroke="black" cx="689.04" cy="-306" rx="33.6" ry="18"/>
+<text text-anchor="middle" x="689.04" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">SAO2</text>
+</a>
+</g>
+</g>
+<!-- PVSAT&#45;&gt;SAO2 -->
+<g id="edge31" class="edge">
+<title>PVSAT-&gt;SAO2</title>
+<g id="a_edge31"><a xlink:title="19 → 20">
+<path fill="none" stroke="#e9f7fa" d="M672.37,-360.05C674.88,-352.06 677.94,-342.33 680.74,-333.4"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="684.11,-334.38 683.76,-323.79 677.43,-332.28 684.11,-334.38"/>
+</a>
+</g>
+</g>
+<!-- HR -->
+<g id="node9" class="node">
+<title>HR</title>
+<g id="a_node9"><a xlink:title="(34) HR">
+<ellipse fill="#404040" stroke="black" cx="664.04" cy="-162" rx="27" ry="18"/>
+<text text-anchor="middle" x="664.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HR</text>
+</a>
+</g>
+</g>
+<!-- HR&#45;&gt;HREKG -->
+<g id="edge17" class="edge">
+<title>HR-&gt;HREKG</title>
+<g id="a_edge17"><a xlink:title="34 → 9">
+<path fill="none" stroke="#e9f7fa" d="M642.92,-150.48C638.08,-148.22 632.92,-145.94 628.04,-144 579.83,-124.89 566.31,-124.2 517.04,-108 513.98,-106.99 510.82,-105.95 507.64,-104.9"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="508.72,-101.57 498.13,-101.74 506.52,-108.21 508.72,-101.57"/>
+</a>
+</g>
+</g>
+<!-- HR&#45;&gt;CO -->
+<g id="edge44" class="edge">
+<title>HR-&gt;CO</title>
+<g id="a_edge44"><a xlink:title="34 → 35">
+<path fill="none" stroke="#e9f7fa" d="M644.96,-148.97C627.33,-137.85 600.92,-121.19 580.93,-108.58"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="582.57,-105.48 572.25,-103.11 578.84,-111.41 582.57,-105.48"/>
+</a>
+</g>
+</g>
+<!-- HR&#45;&gt;HRSAT -->
+<g id="edge37" class="edge">
+<title>HR-&gt;HRSAT</title>
+<g id="a_edge37"><a xlink:title="34 → 11">
+<path fill="none" stroke="#e9f7fa" d="M643.49,-150.12C638.54,-147.82 633.18,-145.62 628.04,-144 536.44,-115.23 508.12,-131.53 415.04,-108 411.84,-107.19 408.55,-106.27 405.26,-105.29"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="406.07,-101.88 395.48,-102.22 403.97,-108.56 406.07,-101.88"/>
+</a>
+</g>
+</g>
+<!-- HRBP -->
+<g id="node36" class="node">
+<title>HRBP</title>
+<g id="a_node36"><a xlink:title="(8) HRBP">
+<ellipse fill="#404040" stroke="black" cx="729.04" cy="-90" rx="34.39" ry="18"/>
+<text text-anchor="middle" x="729.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HRBP</text>
+</a>
+</g>
+</g>
+<!-- HR&#45;&gt;HRBP -->
+<g id="edge39" class="edge">
+<title>HR-&gt;HRBP</title>
+<g id="a_edge39"><a xlink:title="34 → 8">
+<path fill="none" stroke="#e9f7fa" d="M677.83,-146.15C686.38,-136.94 697.55,-124.91 707.28,-114.43"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="710.13,-116.51 714.37,-106.8 705,-111.74 710.13,-116.51"/>
+</a>
+</g>
+</g>
+<!-- LVFAILURE -->
+<g id="node11" class="node">
+<title>LVFAILURE</title>
+<g id="a_node11"><a xlink:title="(5) LVFAILURE">
+<ellipse fill="#404040" stroke="black" cx="209.04" cy="-234" rx="60.39" ry="18"/>
+<text text-anchor="middle" x="209.04" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">LVFAILURE</text>
+</a>
+</g>
+</g>
+<!-- LVFAILURE&#45;&gt;STROKEVOLUME -->
+<g id="edge22" class="edge">
+<title>LVFAILURE-&gt;STROKEVOLUME</title>
+<g id="a_edge22"><a xlink:title="5 → 6">
+<path fill="none" stroke="#e9f7fa" d="M256.65,-222.75C312.13,-210.8 404.19,-190.97 466.91,-177.46"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="467.68,-180.87 476.71,-175.35 466.2,-174.03 467.68,-180.87"/>
+</a>
+</g>
+</g>
+<!-- LVEDVOLUME -->
+<g id="node13" class="node">
+<title>LVEDVOLUME</title>
+<g id="a_node13"><a xlink:title="(4) LVEDVOLUME">
+<ellipse fill="#404040" stroke="black" cx="209.04" cy="-162" rx="72.29" ry="18"/>
+<text text-anchor="middle" x="209.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">LVEDVOLUME</text>
+</a>
+</g>
+</g>
+<!-- LVFAILURE&#45;&gt;LVEDVOLUME -->
+<g id="edge4" class="edge">
+<title>LVFAILURE-&gt;LVEDVOLUME</title>
+<g id="a_edge4"><a xlink:title="5 → 4">
+<path fill="none" stroke="#e9f7fa" d="M209.04,-215.7C209.04,-207.98 209.04,-198.71 209.04,-190.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="212.54,-190.1 209.04,-180.1 205.54,-190.1 212.54,-190.1"/>
+</a>
+</g>
+</g>
+<!-- HISTORY -->
+<g id="node22" class="node">
+<title>HISTORY</title>
+<g id="a_node22"><a xlink:title="(0) HISTORY">
+<ellipse fill="#404040" stroke="black" cx="68.04" cy="-162" rx="50.89" ry="18"/>
+<text text-anchor="middle" x="68.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HISTORY</text>
+</a>
+</g>
+</g>
+<!-- LVFAILURE&#45;&gt;HISTORY -->
+<g id="edge23" class="edge">
+<title>LVFAILURE-&gt;HISTORY</title>
+<g id="a_edge23"><a xlink:title="5 → 0">
+<path fill="none" stroke="#e9f7fa" d="M179.14,-218.15C157.68,-207.5 128.61,-193.07 105.59,-181.64"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="106.97,-178.42 96.46,-177.11 103.86,-184.69 106.97,-178.42"/>
+</a>
+</g>
+</g>
+<!-- CVP -->
+<g id="node16" class="node">
+<title>CVP</title>
+<g id="a_node16"><a xlink:title="(1) CVP">
+<ellipse fill="#404040" stroke="black" cx="156.04" cy="-90" rx="28.7" ry="18"/>
+<text text-anchor="middle" x="156.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">CVP</text>
+</a>
+</g>
+</g>
+<!-- LVEDVOLUME&#45;&gt;CVP -->
+<g id="edge38" class="edge">
+<title>LVEDVOLUME-&gt;CVP</title>
+<g id="a_edge38"><a xlink:title="4 → 1">
+<path fill="none" stroke="#e9f7fa" d="M196.21,-144.05C189.58,-135.29 181.37,-124.45 174.1,-114.86"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="176.85,-112.69 168.03,-106.83 171.27,-116.91 176.85,-112.69"/>
+</a>
+</g>
+</g>
+<!-- PCWP -->
+<g id="node23" class="node">
+<title>PCWP</title>
+<g id="a_node23"><a xlink:title="(2) PCWP">
+<ellipse fill="#404040" stroke="black" cx="239.04" cy="-90" rx="36.29" ry="18"/>
+<text text-anchor="middle" x="239.04" y="-86.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PCWP</text>
+</a>
+</g>
+</g>
+<!-- LVEDVOLUME&#45;&gt;PCWP -->
+<g id="edge15" class="edge">
+<title>LVEDVOLUME-&gt;PCWP</title>
+<g id="a_edge15"><a xlink:title="4 → 2">
+<path fill="none" stroke="#e9f7fa" d="M216.3,-144.05C219.77,-135.97 223.99,-126.12 227.85,-117.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="231.12,-118.36 231.85,-107.79 224.69,-115.6 231.12,-118.36"/>
+</a>
+</g>
+</g>
+<!-- INSUFFANESTH -->
+<g id="node14" class="node">
+<title>INSUFFANESTH</title>
+<g id="a_node14"><a xlink:title="(12) INSUFFANESTH">
+<ellipse fill="#404040" stroke="black" cx="521.04" cy="-306" rx="77.99" ry="18"/>
+<text text-anchor="middle" x="521.04" y="-302.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">INSUFFANESTH</text>
+</a>
+</g>
+</g>
+<!-- INSUFFANESTH&#45;&gt;CATECHOL -->
+<g id="edge26" class="edge">
+<title>INSUFFANESTH-&gt;CATECHOL</title>
+<g id="a_edge26"><a xlink:title="12 → 33">
+<path fill="none" stroke="#e9f7fa" d="M545.63,-288.76C560.28,-279.09 579.05,-266.69 594.88,-256.24"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="596.9,-259.1 603.32,-250.67 593.05,-253.26 596.9,-259.1"/>
+</a>
+</g>
+</g>
+<!-- VENTTUBE -->
+<g id="node15" class="node">
+<title>VENTTUBE</title>
+<g id="a_node15"><a xlink:title="(29) VENTTUBE">
+<ellipse fill="#404040" stroke="black" cx="281.04" cy="-594" rx="57.69" ry="18"/>
+<text text-anchor="middle" x="281.04" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTTUBE</text>
+</a>
+</g>
+</g>
+<!-- VENTTUBE&#45;&gt;VENTLUNG -->
+<g id="edge40" class="edge">
+<title>VENTTUBE-&gt;VENTLUNG</title>
+<g id="a_edge40"><a xlink:title="29 → 30">
+<path fill="none" stroke="#e9f7fa" d="M314.43,-579.17C340.96,-568.18 378.26,-552.73 407.03,-540.81"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="408.53,-543.98 416.43,-536.92 405.85,-537.51 408.53,-543.98"/>
+</a>
+</g>
+</g>
+<!-- PRESS -->
+<g id="node35" class="node">
+<title>PRESS</title>
+<g id="a_node35"><a xlink:title="(25) PRESS">
+<ellipse fill="#404040" stroke="black" cx="334.04" cy="-522" rx="38.19" ry="18"/>
+<text text-anchor="middle" x="334.04" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PRESS</text>
+</a>
+</g>
+</g>
+<!-- VENTTUBE&#45;&gt;PRESS -->
+<g id="edge18" class="edge">
+<title>VENTTUBE-&gt;PRESS</title>
+<g id="a_edge18"><a xlink:title="29 → 25">
+<path fill="none" stroke="#e9f7fa" d="M293.6,-576.41C300.14,-567.78 308.25,-557.06 315.49,-547.5"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="318.33,-549.56 321.57,-539.47 312.74,-545.33 318.33,-549.56"/>
+</a>
+</g>
+</g>
+<!-- ANAPHYLAXIS -->
+<g id="node17" class="node">
+<title>ANAPHYLAXIS</title>
+<g id="a_node17"><a xlink:title="(13) ANAPHYLAXIS">
+<ellipse fill="#404040" stroke="black" cx="79.04" cy="-378" rx="74.19" ry="18"/>
+<text text-anchor="middle" x="79.04" y="-374.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ANAPHYLAXIS</text>
+</a>
+</g>
+</g>
+<!-- ANAPHYLAXIS&#45;&gt;TPR -->
+<g id="edge11" class="edge">
+<title>ANAPHYLAXIS-&gt;TPR</title>
+<g id="a_edge11"><a xlink:title="13 → 14">
+<path fill="none" stroke="#e9f7fa" d="M79.04,-359.7C79.04,-351.98 79.04,-342.71 79.04,-334.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="82.54,-334.1 79.04,-324.1 75.54,-334.1 82.54,-334.1"/>
+</a>
+</g>
+</g>
+<!-- CATECHOL&#45;&gt;HR -->
+<g id="edge34" class="edge">
+<title>CATECHOL-&gt;HR</title>
+<g id="a_edge34"><a xlink:title="33 → 34">
+<path fill="none" stroke="#e9f7fa" d="M636,-216.05C640.38,-207.77 645.74,-197.62 650.6,-188.42"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="653.84,-189.78 655.42,-179.31 647.65,-186.51 653.84,-189.78"/>
+</a>
+</g>
+</g>
+<!-- HYPOVOLEMIA -->
+<g id="node19" class="node">
+<title>HYPOVOLEMIA</title>
+<g id="a_node19"><a xlink:title="(3) HYPOVOLEMIA">
+<ellipse fill="#404040" stroke="black" cx="437.04" cy="-234" rx="76.89" ry="18"/>
+<text text-anchor="middle" x="437.04" y="-230.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">HYPOVOLEMIA</text>
+</a>
+</g>
+</g>
+<!-- HYPOVOLEMIA&#45;&gt;STROKEVOLUME -->
+<g id="edge24" class="edge">
+<title>HYPOVOLEMIA-&gt;STROKEVOLUME</title>
+<g id="a_edge24"><a xlink:title="3 → 6">
+<path fill="none" stroke="#e9f7fa" d="M459.54,-216.76C472.42,-207.47 488.78,-195.66 502.89,-185.48"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="505.27,-188.08 511.33,-179.39 501.17,-182.4 505.27,-188.08"/>
+</a>
+</g>
+</g>
+<!-- HYPOVOLEMIA&#45;&gt;LVEDVOLUME -->
+<g id="edge2" class="edge">
+<title>HYPOVOLEMIA-&gt;LVEDVOLUME</title>
+<g id="a_edge2"><a xlink:title="3 → 4">
+<path fill="none" stroke="#e9f7fa" d="M392.54,-219.34C355.26,-207.89 301.96,-191.53 262.4,-179.38"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="263.24,-175.98 252.66,-176.39 261.19,-182.67 263.24,-175.98"/>
+</a>
+</g>
+</g>
+<!-- PULMEMBOLUS -->
+<g id="node20" class="node">
+<title>PULMEMBOLUS</title>
+<g id="a_node20"><a xlink:title="(22) PULMEMBOLUS">
+<ellipse fill="#404040" stroke="black" cx="760.04" cy="-594" rx="78.79" ry="18"/>
+<text text-anchor="middle" x="760.04" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">PULMEMBOLUS</text>
+</a>
+</g>
+</g>
+<!-- PULMEMBOLUS&#45;&gt;PAP -->
+<g id="edge41" class="edge">
+<title>PULMEMBOLUS-&gt;PAP</title>
+<g id="a_edge41"><a xlink:title="22 → 21">
+<path fill="none" stroke="#e9f7fa" d="M765.23,-575.7C767.57,-567.9 770.39,-558.51 772.99,-549.83"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="776.39,-550.69 775.91,-540.1 769.68,-548.68 776.39,-550.69"/>
+</a>
+</g>
+</g>
+<!-- SHUNT -->
+<g id="node32" class="node">
+<title>SHUNT</title>
+<g id="a_node32"><a xlink:title="(23) SHUNT">
+<ellipse fill="#404040" stroke="black" cx="694.04" cy="-522" rx="40.89" ry="18"/>
+<text text-anchor="middle" x="694.04" y="-518.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">SHUNT</text>
+</a>
+</g>
+</g>
+<!-- PULMEMBOLUS&#45;&gt;SHUNT -->
+<g id="edge6" class="edge">
+<title>PULMEMBOLUS-&gt;SHUNT</title>
+<g id="a_edge6"><a xlink:title="22 → 23">
+<path fill="none" stroke="#e9f7fa" d="M744.06,-576.05C735.64,-567.12 725.17,-556.01 715.99,-546.28"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="718.37,-543.7 708.97,-538.83 713.28,-548.51 718.37,-543.7"/>
 </a>
 </g>
 </g>
 <!-- KINKEDTUBE -->
-<g id="node34" class="node">
+<g id="node24" class="node">
 <title>KINKEDTUBE</title>
-<g id="a_node34"><a xlink:title="(16) KINKEDTUBE">
-<ellipse fill="#404040" stroke="black" cx="858.7" cy="-594" rx="67.69" ry="18"/>
-<text text-anchor="middle" x="858.7" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">KINKEDTUBE</text>
+<g id="a_node24"><a xlink:title="(16) KINKEDTUBE">
+<ellipse fill="#404040" stroke="black" cx="424.04" cy="-594" rx="67.69" ry="18"/>
+<text text-anchor="middle" x="424.04" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">KINKEDTUBE</text>
 </a>
 </g>
 </g>
@@ -854,8 +723,8 @@
 <g id="edge36" class="edge">
 <title>KINKEDTUBE-&gt;VENTLUNG</title>
 <g id="a_edge36"><a xlink:title="16 → 30">
-<path fill="none" stroke="#4a4a4a" d="M827.67,-577.81C806.3,-567.35 777.73,-553.37 754.81,-542.15"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="756.2,-538.93 745.68,-537.68 753.13,-545.22 756.2,-538.93"/>
+<path fill="none" stroke="#e9f7fa" d="M430.34,-576.05C433.26,-568.18 436.81,-558.62 440.09,-549.79"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="443.42,-550.87 443.62,-540.28 436.86,-548.43 443.42,-550.87"/>
 </a>
 </g>
 </g>
@@ -863,44 +732,134 @@
 <g id="edge19" class="edge">
 <title>KINKEDTUBE-&gt;PRESS</title>
 <g id="a_edge19"><a xlink:title="16 → 25">
-<path fill="none" stroke="#4a4a4a" d="M852.16,-576.05C849.08,-568.06 845.32,-558.33 841.88,-549.4"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="845.04,-547.86 838.17,-539.79 838.5,-550.38 845.04,-547.86"/>
+<path fill="none" stroke="#e9f7fa" d="M403.17,-576.76C390.61,-567 374.5,-554.46 360.98,-543.96"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="363.01,-541.09 352.96,-537.72 358.71,-546.62 363.01,-541.09"/>
+</a>
+</g>
+</g>
+<!-- CO&#45;&gt;BP -->
+<g id="edge3" class="edge">
+<title>CO-&gt;BP</title>
+<g id="a_edge3"><a xlink:title="35 → 36">
+<path fill="none" stroke="#e9f7fa" d="M532.44,-78.28C527.48,-75.98 522.15,-73.73 517.04,-72 444.57,-47.44 356.11,-31.68 307.47,-24.17"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="307.84,-20.69 297.43,-22.65 306.79,-27.61 307.84,-20.69"/>
+</a>
+</g>
+</g>
+<!-- DISCONNECT -->
+<g id="node27" class="node">
+<title>DISCONNECT</title>
+<g id="a_node27"><a xlink:title="(26) DISCONNECT">
+<ellipse fill="#404040" stroke="black" cx="207.04" cy="-666" rx="68.79" ry="18"/>
+<text text-anchor="middle" x="207.04" y="-662.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">DISCONNECT</text>
+</a>
+</g>
+</g>
+<!-- DISCONNECT&#45;&gt;VENTTUBE -->
+<g id="edge20" class="edge">
+<title>DISCONNECT-&gt;VENTTUBE</title>
+<g id="a_edge20"><a xlink:title="26 → 29">
+<path fill="none" stroke="#e9f7fa" d="M224.58,-648.41C234.14,-639.37 246.12,-628.03 256.59,-618.13"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="259.03,-620.64 263.89,-611.23 254.22,-615.56 259.03,-620.64"/>
+</a>
+</g>
+</g>
+<!-- ERRLOWOUTPUT -->
+<g id="node28" class="node">
+<title>ERRLOWOUTPUT</title>
+<g id="a_node28"><a xlink:title="(7) ERRLOWOUTPUT">
+<ellipse fill="#404040" stroke="black" cx="795.04" cy="-162" rx="86.38" ry="18"/>
+<text text-anchor="middle" x="795.04" y="-158.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">ERRLOWOUTPUT</text>
+</a>
+</g>
+</g>
+<!-- ERRLOWOUTPUT&#45;&gt;HRBP -->
+<g id="edge46" class="edge">
+<title>ERRLOWOUTPUT-&gt;HRBP</title>
+<g id="a_edge46"><a xlink:title="7 → 8">
+<path fill="none" stroke="#e9f7fa" d="M779.06,-144.05C770.52,-134.99 759.87,-123.69 750.59,-113.86"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="752.93,-111.23 743.52,-106.36 747.83,-116.03 752.93,-111.23"/>
+</a>
+</g>
+</g>
+<!-- FIO2 -->
+<g id="node29" class="node">
+<title>FIO2</title>
+<g id="a_node29"><a xlink:title="(18) FIO2">
+<ellipse fill="#404040" stroke="black" cx="672.04" cy="-450" rx="30.59" ry="18"/>
+<text text-anchor="middle" x="672.04" y="-446.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">FIO2</text>
+</a>
+</g>
+</g>
+<!-- FIO2&#45;&gt;PVSAT -->
+<g id="edge16" class="edge">
+<title>FIO2-&gt;PVSAT</title>
+<g id="a_edge16"><a xlink:title="18 → 19">
+<path fill="none" stroke="#e9f7fa" d="M670.81,-431.7C670.25,-423.98 669.59,-414.71 668.98,-406.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="672.47,-405.83 668.26,-396.1 665.48,-406.33 672.47,-405.83"/>
+</a>
+</g>
+</g>
+<!-- MINVOLSET -->
+<g id="node30" class="node">
+<title>MINVOLSET</title>
+<g id="a_node30"><a xlink:title="(27) MINVOLSET">
+<ellipse fill="#404040" stroke="black" cx="356.04" cy="-738" rx="63.09" ry="18"/>
+<text text-anchor="middle" x="356.04" y="-734.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">MINVOLSET</text>
+</a>
+</g>
+</g>
+<!-- VENTMACH -->
+<g id="node33" class="node">
+<title>VENTMACH</title>
+<g id="a_node33"><a xlink:title="(28) VENTMACH">
+<ellipse fill="#404040" stroke="black" cx="356.04" cy="-666" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="356.04" y="-662.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">VENTMACH</text>
+</a>
+</g>
+</g>
+<!-- MINVOLSET&#45;&gt;VENTMACH -->
+<g id="edge9" class="edge">
+<title>MINVOLSET-&gt;VENTMACH</title>
+<g id="a_edge9"><a xlink:title="27 → 28">
+<path fill="none" stroke="#e9f7fa" d="M356.04,-719.7C356.04,-711.98 356.04,-702.71 356.04,-694.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="359.54,-694.1 356.04,-684.1 352.54,-694.1 359.54,-694.1"/>
+</a>
+</g>
+</g>
+<!-- SAO2&#45;&gt;CATECHOL -->
+<g id="edge43" class="edge">
+<title>SAO2-&gt;CATECHOL</title>
+<g id="a_edge43"><a xlink:title="20 → 33">
+<path fill="none" stroke="#e9f7fa" d="M675.28,-289.46C667.4,-280.57 657.34,-269.21 648.44,-259.16"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="650.88,-256.63 641.63,-251.47 645.64,-261.27 650.88,-256.63"/>
+</a>
+</g>
+</g>
+<!-- SHUNT&#45;&gt;SAO2 -->
+<g id="edge42" class="edge">
+<title>SHUNT-&gt;SAO2</title>
+<g id="a_edge42"><a xlink:title="23 → 20">
+<path fill="none" stroke="#e9f7fa" d="M701.08,-504.13C705.03,-493.88 709.64,-480.4 712.04,-468 721.18,-420.84 727.25,-406.71 716.04,-360 713.76,-350.52 709.49,-340.82 705.01,-332.35"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="707.91,-330.38 699.95,-323.39 701.82,-333.82 707.91,-330.38"/>
+</a>
+</g>
+</g>
+<!-- VENTMACH&#45;&gt;VENTTUBE -->
+<g id="edge30" class="edge">
+<title>VENTMACH-&gt;VENTTUBE</title>
+<g id="a_edge30"><a xlink:title="28 → 29">
+<path fill="none" stroke="#e9f7fa" d="M338.27,-648.41C328.58,-639.37 316.43,-628.03 305.82,-618.13"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="308.13,-615.49 298.43,-611.23 303.35,-620.61 308.13,-615.49"/>
 </a>
 </g>
 </g>
 <!-- INTUBATION -->
-<g id="node35" class="node">
+<g id="node34" class="node">
 <title>INTUBATION</title>
-<g id="a_node35"><a xlink:title="(24) INTUBATION">
-<ellipse fill="#404040" stroke="black" cx="573.7" cy="-594" rx="66.09" ry="18"/>
-<text text-anchor="middle" x="573.7" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">INTUBATION</text>
-</a>
-</g>
-</g>
-<!-- INTUBATION&#45;&gt;SHUNT -->
-<g id="edge13" class="edge">
-<title>INTUBATION-&gt;SHUNT</title>
-<g id="a_edge13"><a xlink:title="24 → 23">
-<path fill="none" stroke="#4a4a4a" d="M547.89,-577.29C530.97,-566.99 508.73,-553.46 490.69,-542.47"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="492.05,-539.21 481.69,-537 488.41,-545.19 492.05,-539.21"/>
-</a>
-</g>
-</g>
-<!-- INTUBATION&#45;&gt;MINVOL -->
-<g id="edge12" class="edge">
-<title>INTUBATION-&gt;MINVOL</title>
-<g id="a_edge12"><a xlink:title="24 → 17">
-<path fill="none" stroke="#4a4a4a" d="M567.91,-575.87C559.69,-551.56 544.56,-506.82 534.83,-478.01"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="538.02,-476.54 531.51,-468.19 531.39,-478.78 538.02,-476.54"/>
-</a>
-</g>
-</g>
-<!-- INTUBATION&#45;&gt;VENTALV -->
-<g id="edge35" class="edge">
-<title>INTUBATION-&gt;VENTALV</title>
-<g id="a_edge35"><a xlink:title="24 → 31">
-<path fill="none" stroke="#4a4a4a" d="M585.41,-576.11C598.93,-557.31 622.41,-526.6 646.7,-504 659.43,-492.15 674.93,-480.77 688.53,-471.62"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="690.72,-474.37 697.14,-465.94 686.87,-468.52 690.72,-474.37"/>
+<g id="a_node34"><a xlink:title="(24) INTUBATION">
+<ellipse fill="#404040" stroke="black" cx="576.04" cy="-594" rx="66.09" ry="18"/>
+<text text-anchor="middle" x="576.04" y="-590.3" font-family="Times New Roman,serif" font-size="14.00" fill="white">INTUBATION</text>
 </a>
 </g>
 </g>
@@ -908,8 +867,26 @@
 <g id="edge1" class="edge">
 <title>INTUBATION-&gt;VENTLUNG</title>
 <g id="a_edge1"><a xlink:title="24 → 30">
-<path fill="none" stroke="#4a4a4a" d="M604.16,-577.98C625.36,-567.53 653.81,-553.51 676.67,-542.24"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="678.35,-545.31 685.77,-537.75 675.25,-539.03 678.35,-545.31"/>
+<path fill="none" stroke="#e9f7fa" d="M548.39,-577.64C530.05,-567.45 505.79,-553.97 485.96,-542.95"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="487.64,-539.88 477.19,-538.09 484.24,-546 487.64,-539.88"/>
+</a>
+</g>
+</g>
+<!-- INTUBATION&#45;&gt;MINVOL -->
+<g id="edge12" class="edge">
+<title>INTUBATION-&gt;MINVOL</title>
+<g id="a_edge12"><a xlink:title="24 → 17">
+<path fill="none" stroke="#e9f7fa" d="M567.19,-575.82C557.04,-557.04 539.19,-526.6 519.04,-504 508.67,-492.37 495.61,-481.2 483.92,-472.14"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="485.8,-469.17 475.71,-465.94 481.58,-474.76 485.8,-469.17"/>
+</a>
+</g>
+</g>
+<!-- INTUBATION&#45;&gt;SHUNT -->
+<g id="edge13" class="edge">
+<title>INTUBATION-&gt;SHUNT</title>
+<g id="a_edge13"><a xlink:title="24 → 23">
+<path fill="none" stroke="#e9f7fa" d="M602.52,-577.29C620.04,-566.9 643.12,-553.21 661.72,-542.17"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="663.63,-545.11 670.45,-537 660.06,-539.09 663.63,-545.11"/>
 </a>
 </g>
 </g>
@@ -917,20 +894,56 @@
 <g id="edge33" class="edge">
 <title>INTUBATION-&gt;PRESS</title>
 <g id="a_edge33"><a xlink:title="24 → 25">
-<path fill="none" stroke="#4a4a4a" d="M622.01,-581.47C674.41,-568.84 754.62,-549.19 784.7,-540 787.46,-539.16 790.3,-538.24 793.14,-537.3"/>
-<polygon fill="#4a4a4a" stroke="#4a4a4a" points="794.45,-540.55 802.77,-533.98 792.17,-533.93 794.45,-540.55"/>
+<path fill="none" stroke="#e9f7fa" d="M528.84,-581.32C489.15,-571.23 431.05,-555.81 381.04,-540 378.29,-539.13 375.46,-538.2 372.61,-537.24"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="373.59,-533.87 363,-533.89 371.29,-540.48 373.59,-533.87"/>
+</a>
+</g>
+</g>
+<!-- INTUBATION&#45;&gt;VENTALV -->
+<g id="edge35" class="edge">
+<title>INTUBATION-&gt;VENTALV</title>
+<g id="a_edge35"><a xlink:title="24 → 31">
+<path fill="none" stroke="#e9f7fa" d="M575.44,-575.87C574.59,-551.67 573.02,-507.21 572.01,-478.39"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="575.5,-478.06 571.65,-468.19 568.5,-478.31 575.5,-478.06"/>
+</a>
+</g>
+</g>
+<!-- VENTALV&#45;&gt;ARTCO2 -->
+<g id="edge5" class="edge">
+<title>VENTALV-&gt;ARTCO2</title>
+<g id="a_edge5"><a xlink:title="31 → 32">
+<path fill="none" stroke="#e9f7fa" d="M568.82,-431.7C567.82,-423.98 566.63,-414.71 565.53,-406.11"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="568.99,-405.58 564.24,-396.1 562.04,-406.47 568.99,-405.58"/>
+</a>
+</g>
+</g>
+<!-- VENTALV&#45;&gt;PVSAT -->
+<g id="edge21" class="edge">
+<title>VENTALV-&gt;PVSAT</title>
+<g id="a_edge21"><a xlink:title="31 → 19">
+<path fill="none" stroke="#e9f7fa" d="M592.35,-433.46C605.92,-423.57 623.68,-410.62 638.47,-399.83"/>
+<polygon fill="#e9f7fa" stroke="#e9f7fa" points="640.76,-402.49 646.78,-393.77 636.64,-396.84 640.76,-402.49"/>
 </a>
 </g>
 </g>
 </g>
-</svg></div>
+</svg>
+                </div>
+            </div>
+        </details>
         
     </div>
 
-    <div id="code-menu">
-        <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
-        <div id="codeSelector"></div>
-        <div id="code"> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
+    <div id="compare-tool">
+        <div id="head_elements">
+            
+            <div id="graphics"></div>
+        </div>
+
+        <div id="code-menu">
+            <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
+            <div id="codeSelector"></div>
+            <div id="code"> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
@@ -1059,8 +1072,8 @@
 <span style="color: #dcdccc">gum</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">saveBN</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">bnlearned</span><span style="color: #f0efd0">,</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/pyAgrum_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
 </pre></div></td></tr></table></div>
  </code></div>
+        </div>
     </div>
-</div>
 
 </div><!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id="></script>

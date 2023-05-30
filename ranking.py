@@ -8,6 +8,7 @@ import numpy as np
 
 from task import Task
 from library import Library
+from logger import logger
 
 
 def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str : list[str]]:
@@ -61,7 +62,6 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str : list[st
             dictionaryTaskLibraryResults[taskName] = list(
                 dictionaryTaskLibraryResults[taskName].keys()
             )
-
     return dictionaryTaskLibraryResults
 
 
@@ -216,7 +216,6 @@ def LexMax(dictionnary: dict[str, list[float]]) -> list[str]:
             and sortedListRank[i][1] != sortedListRank[i + 1][1]
         ):
             rk += 1
-
     return elementRank
 
 
