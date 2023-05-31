@@ -1,6 +1,6 @@
 {
     "pgmpy": {
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
                 "1000": [
@@ -325,7 +325,7 @@
         }
     },
     "bnlearn": {
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
                 "1000": [
@@ -650,7 +650,7 @@
         }
     },
     "pyAgrum": {
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
                 "1000": [
