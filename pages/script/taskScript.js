@@ -49,11 +49,11 @@ for(let element in importedData){
     let chartdata = importedData[element].data;
     titleList.push(importedData[element].title);
     
-    // console.log(chartdata);
+    console.log(chartdata);
     // console.log(importedData[element]);
     if (chartdata.length == 0){
         chart = document.createElement("p");
-        chart.innerHTML = "No data to display";
+        chart.innerHTML = "No data to display 😯";
         chartList.push(chart);
         continue;
     }
@@ -63,18 +63,21 @@ for(let element in importedData){
     allLibraries = [...new Set(allLibraries)];
 
     // check if the arguments are numbers or not to sort the data if needed
-    if(typeof chartdata[0].arguments === "number"){
-        // if the arguments are numbers we sort the data by the arguments
-        let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
-        chartdata.sort(orderingFunction);
-        console.log("arguments are numbers");
-    }
-    else{
-        // if the arguments are not numbers we sort the data by the arguments
-        let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
-        chartdata.sort(orderingFunction);
-        console.log("arguments are not numbers");
-    }
+    // if(typeof chartdata[0].arguments === "number"){
+    //     // if the arguments are numbers we sort the data by the arguments
+    //     let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
+    //     chartdata.sort(orderingFunction);
+    //     console.log("arguments are numbers");
+    // }
+    // else{
+    //     // if the arguments are not numbers we sort the data by the arguments
+    //     let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
+    //     chartdata.sort(orderingFunction);
+    //     console.log("arguments are not numbers");
+    // }
+
+    let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
+    chartdata.sort(orderingFunction);
 
     if (importedData[element].scale == "auto"){
         // we're getting the local min and max from each library
@@ -97,33 +100,41 @@ for(let element in importedData){
             }
         }
 
-
-
     }
 
-    chart = possibleplot[importedData[element].display](chartdata, {
-        values: d => d.runTime,
-        categories: d => d.arguments,
-        inerClass: d => d.libraryName,
+    try{
+        chart = possibleplot[importedData[element].display](chartdata, {
+            values: d => d.runTime,
+            categories: d => d.arguments,
+            inerClass: d => d.libraryName,
 
-        width: width,
-        height: height,
+            width: width,
+            height: height,
 
-        // xLabel: argDescription + " →",
-        // yLabel: "Run Time (ms) ↑",
-        xLabel: importedData[element].XLabel + " →",
-        yLabel: importedData[element].YLabel + " ↑",
+            // xLabel: argDescription + " →",
+            // yLabel: "Run Time (ms) ↑",
+            xLabel: importedData[element].XLabel + " →",
+            yLabel: importedData[element].YLabel + " ↑",
 
-        labelFontSize: 12,
-        titleFontSize: 16,
+            labelFontSize: 12,
+            titleFontSize: 16,
 
-        margin: { top: 40, right: 10, bottom: 100, left: 50 },
+            margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
-        yType: (importedData[element].scale == 'log')?d3.scaleLog:d3.scaleLinear ,
+            // yType: (importedData[element].scale == 'log')?d3.scaleLog:d3.scaleLinear ,
+            yType: d3.scaleLinear,
 
-    });
+            tooltipFontSize: 12,
 
-    chartList.push(chart);
+        });
+
+        chartList.push(chart);
+    } catch(e){
+        console.log(e);
+        chart = document.createElement("p");
+        chart.innerHTML = "Error Occured in the display of the chart 😥";
+        chartList.push(chart);
+    }
 }
 
 

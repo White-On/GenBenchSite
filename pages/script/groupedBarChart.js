@@ -1,7 +1,7 @@
 export function GroupedBarChart(data,{
-    values = ([value]) => value, 
-    categories = ([, categories]) => categories, 
-    inerClass = ([, , inerClass]) => inerClass,
+    values = ([value]) => value, // given d in data, returns the (quantitative) x-value
+    categories = ([, categories]) => categories,  // given d in data, returns the (temporal) y-value
+    inerClass = ([, , inerClass]) => inerClass, // given d in data, returns the (categorical) z-value
 
     title = "Grouped Bar Chart",
 
@@ -13,7 +13,7 @@ export function GroupedBarChart(data,{
     color = d3.scaleOrdinal(d3.schemeCategory10),
 
     labelFontSize = 8, // font size of the labels
-    titleFontSize =12, // font size of the title
+    tooltipFontSize = 12, // font size of the title
 
     yRange = [height - margin.bottom, margin.top], // [bottom, top]
     yFormat, // format of the y-axis
@@ -28,9 +28,11 @@ export function GroupedBarChart(data,{
     yLegend = 0, // y-axis legend
     legendColorBoxSize = [10, 10], // size of the color box in the legend
     legendColorBoxGap = 5, // margin of the color box in the legend
-    legendFontSize = 8, // font size of the legend
+    legendFontSize = 12, // font size of the legend
 
     activationFunction = null,
+
+    displayLegend = true,
 
     yType = d3.scaleLinear, // "linear" or "log"
 
@@ -135,7 +137,7 @@ export function GroupedBarChart(data,{
         .append("text")
         .join("text")
         .attr("opacity", 0)
-        .attr("font-size", titleFontSize)
+        .attr("font-size", tooltipFontSize)
         .attr("text-anchor", "middle")
         .attr("fill", "black")
         .attr("x", function (d) {
@@ -185,10 +187,10 @@ export function GroupedBarChart(data,{
     // add the title to the chart.
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", 10 + titleFontSize)
+        .attr("y", 10 + tooltipFontSize)
         .attr("text-anchor", "middle")
         .attr("fill", "currentColor")
-        .attr("font-size", titleFontSize)
+        .attr("font-size", tooltipFontSize)
         .text(title);
 
 

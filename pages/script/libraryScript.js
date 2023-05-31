@@ -76,9 +76,9 @@ for (let taskName of AllTaskName) {
     }
     else{
         chart =  LineChart(intermediateData["data"], {
-            x: d => d.arguments,
-            y: d => d.resultElement,
-            z: d => d.libraryName,
+            values: d => d.resultElement,
+            categories: d => d.arguments,
+            inerClass: d => d.libraryName,
             yLabel: "Run Time (s) ↑",
             width: width,
             height: height,
@@ -91,7 +91,7 @@ for (let taskName of AllTaskName) {
             marginTop: 40,
             
 
-            legend: false,
+            displayLegend: false,
             legendColorBoxGap: 10,
             legendColorBoxSize: [40,40],
         });

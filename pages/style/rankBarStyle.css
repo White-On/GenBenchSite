@@ -55,7 +55,12 @@
     visibility: hidden;
     transition: all 0.3s ease-in-out;
     /* for some reason the block size is not right if not manually calculated */
-    block-size: 20px;
+    /* block-size: 20px; */
+}
+
+#indication a{
+    margin: 0;
+    padding: 0;
 }
 
 #indication::after {

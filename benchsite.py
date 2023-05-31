@@ -513,7 +513,7 @@ class BenchSite:
             chartData = {
                 "runtime": {
                     "data": importedData,
-                    "display": "line",
+                    "display": taskConfig[taskName].get("task_display", "groupedBar"),
                     "title": "Runtime",
                     "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
@@ -521,7 +521,7 @@ class BenchSite:
                 },
                 "eval": {
                     "data": importedResults,
-                    "display": "groupedBar",
+                    "display": taskConfig[taskName].get("post_task_display", "groupedBar"),
                     "title": "Evaluation",
                     "XLabel": taskConfig[taskName].get("post_task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("post_task_ylabel", "Y-axis"),
