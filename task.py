@@ -2,7 +2,6 @@
 
 This module contains the class Task and the differents function to manipulate the Task class.
 
-
 """
 
 from dataclasses import dataclass, field
