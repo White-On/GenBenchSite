@@ -1,0 +1,2159 @@
+{
+    "bnlearn": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            52,
+                            66
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            92,
+                            89
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            33,
+                            80
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            80,
+                            29
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            20,
+                            86
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            51,
+                            79
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            5,
+                            89
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            17,
+                            35
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            11,
+                            9
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            13,
+                            47
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            27,
+                            50
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            86,
+                            46
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            63,
+                            38
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            47,
+                            19
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            82,
+                            29
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            30,
+                            97
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            15,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                }
+            }
+        },
+        "InferenceRandomBN": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "BN_18_1.5_2.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_13_1.5_2.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_10_1.5_3.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_17_1.5_3.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_12_1.5_3.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_16_1.5_3.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_16_1.5_2.bif": [
+                    "NotRun",
+                    null
+                ],
+                "BN_18_1.5_3.bif": [
+                    "NotRun",
+                    null
+                ]
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            37,
+                            76
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            50,
+                            7
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            28,
+                            72
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            50,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            19,
+                            60
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            93,
+                            93
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            91,
+                            66
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            18,
+                            93
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            66,
+                            16
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            32,
+                            50
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            61,
+                            80
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            61,
+                            82
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            74,
+                            99
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            91,
+                            84
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            64,
+                            34
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            25,
+                            98
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            26,
+                            64
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            82,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            30,
+                            83
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            30,
+                            78
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            71,
+                            27
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            54,
+                            53
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            27,
+                            79
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            55,
+                            66
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            82,
+                            7
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            67,
+                            42
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            31,
+                            28
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            38,
+                            17
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            28,
+                            12
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            99,
+                            68
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            41,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            97,
+                            21
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            58,
+                            78
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        }
+    },
+    "pgmpy": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            97,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            30,
+                            66
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            81,
+                            0
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            42,
+                            79
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            48,
+                            89
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            94,
+                            7
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            21,
+                            84
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            21,
+                            15
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            28,
+                            72
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            43,
+                            85
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            61,
+                            21
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            18,
+                            71
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            37,
+                            10
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            39,
+                            67
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            92,
+                            69
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            65,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            92,
+                            10
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                }
+            }
+        },
+        "InferenceRandomBN": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "BN_18_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            77,
+                            35
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_13_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            57,
+                            59
+                        ],
+                        [
+                            96,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        null,
+                        null
+                    ]
+                },
+                "BN_10_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            31,
+                            66
+                        ],
+                        [
+                            68,
+                            90
+                        ]
+                    ],
+                    "evaluation": [
+                        null,
+                        null
+                    ]
+                },
+                "BN_17_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            38,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_12_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            63,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_16_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            77,
+                            14
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_16_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            28,
+                            36
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_18_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            88,
+                            73
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                }
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            89,
+                            15
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            45,
+                            40
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            70,
+                            75
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            89,
+                            33
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            68,
+                            58
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            88,
+                            46
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            43,
+                            85
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            21,
+                            85
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            55,
+                            98
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            21,
+                            7
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            61,
+                            46
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            68,
+                            37
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            73,
+                            5
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            73,
+                            37
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            98,
+                            35
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            25,
+                            71
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            45,
+                            81
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            26,
+                            75
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            61,
+                            92
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            10,
+                            78
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            4,
+                            23
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            44,
+                            33
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            65,
+                            36
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            89,
+                            49
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            34,
+                            88
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            34,
+                            95
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            96,
+                            5
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            88,
+                            84
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            56,
+                            38
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            77,
+                            57
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            69,
+                            50
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            97,
+                            62
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            93,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        }
+    },
+    "pyAgrum": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            4,
+                            81
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            70,
+                            13
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            44,
+                            65
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            64,
+                            14
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            27,
+                            8
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            48,
+                            70
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            34,
+                            50
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            96,
+                            47
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            74,
+                            28
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            33,
+                            88
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            19,
+                            32
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            52,
+                            24
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            85,
+                            7
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            20,
+                            59
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            69,
+                            3
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            86,
+                            59
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            97,
+                            17
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                }
+            }
+        },
+        "InferenceRandomBN": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "BN_18_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            89,
+                            63
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_13_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            26,
+                            11
+                        ],
+                        [
+                            33,
+                            34
+                        ]
+                    ],
+                    "evaluation": [
+                        null,
+                        null
+                    ]
+                },
+                "BN_10_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            66,
+                            91
+                        ],
+                        [
+                            93,
+                            61
+                        ]
+                    ],
+                    "evaluation": [
+                        null,
+                        null
+                    ]
+                },
+                "BN_17_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            21,
+                            78
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_12_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            10,
+                            41
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_16_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            63,
+                            22
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_16_1.5_2.bif": {
+                    "runtime": [
+                        [
+                            40,
+                            83
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                },
+                "BN_18_1.5_3.bif": {
+                    "runtime": [
+                        [
+                            45,
+                            67
+                        ]
+                    ],
+                    "evaluation": [
+                        null
+                    ]
+                }
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            7,
+                            85
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            93,
+                            9
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            91,
+                            8
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            94,
+                            54
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            73,
+                            59
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            82,
+                            32
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            67,
+                            79
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            91,
+                            77
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            35,
+                            15
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            92,
+                            65
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            60,
+                            52
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            97,
+                            66
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            40,
+                            88
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            63,
+                            69
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            97,
+                            93
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            94,
+                            10
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            84,
+                            77
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            74,
+                            90
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            48,
+                            28
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            76,
+                            61
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            5,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            45,
+                            74
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            95,
+                            52
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            31,
+                            11
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            15,
+                            35
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            57,
+                            57
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            50,
+                            50
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            91,
+                            42
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            73,
+                            45
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            64,
+                            19
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            96,
+                            12
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            57,
+                            64
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            82,
+                            94
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        }
+    }
+}

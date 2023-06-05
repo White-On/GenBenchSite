@@ -8,6 +8,7 @@ import ast
 from tqdm import tqdm
 from logger import logger
 from structure_test import StructureTest
+from pathlib import Path
 
 
 class Benchmark:
@@ -43,7 +44,7 @@ class Benchmark:
     DEFAULT_NB_RUNS = 1
     DEBUG = True
 
-    def __init__(self, pathToInfrastructure: str) -> None:
+    def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
         We initialize the class by reading the config file and getting the list of library and task.
         We also initialize the results dictionary and keep the path to the infrastructure
@@ -83,8 +84,6 @@ class Benchmark:
             if os.path.isdir(os.path.join(themeDirectory, f))
         ]
 
-        self.results = {libraryName: {} for libraryName in self.libraryNames}
-
         self.taskNames = []
         self.dictionaryTaskInTheme = {}
         self.dictonaryThemeInTask = {}
@@ -99,9 +98,40 @@ class Benchmark:
             )
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
+        
+        if baseResult is None:
+            self.results = self.create_base_json()
+        else:
+            self.results = self.get_result_from_json(baseResult)
+        
+        logger.debug(f"{self.dictionaryTaskInTheme = }")
+        logger.debug(f"{self.dictonaryThemeInTask = }")
+
+        logger.debug(f"{self.results = }")
+        logger.debug(f"{self.create_base_json() = }")
 
         logger.info(f"Library config {self.libraryConfig}")
         logger.info(f"Task config {self.taskConfig}")
+    
+    def get_result_from_json(self, json_file):
+        path_json = Path(json_file)
+        if not path_json.exists():
+            logger.error(f"File {json_file} does not exist")
+            return self.create_base_json()
+        
+        # check suffix
+        if path_json.suffix != ".json":
+            logger.error(f"File {json_file} is not a json file")
+            return self.create_base_json()
+        
+        with open(json_file, "r") as f:
+            results = json.load(f)
+        
+        return results
+    
+    def create_base_json(self):
+        return {libraryName: {taskName:{"theme":self.dictonaryThemeInTask[taskName], "results":{arg:{"runtime":[],"evaluation":[]}for arg in self.taskConfig[taskName].get("arguments").split(",")}} for taskName in self.taskNames} for libraryName in self.libraryNames}
+
 
     def GetLibraryConfig(self):
         strtest = StructureTest()
@@ -272,7 +302,7 @@ class Benchmark:
     def RunProcess(self, command, timeout, getOutput=False):
         logger.info(f"RunProcess {command = }")
         if Benchmark.DEBUG:
-            return np.random.randint(0, 100)
+            return np.random.randint(100)
 
         start = time.perf_counter()
         try:
@@ -345,11 +375,11 @@ class Benchmark:
         )
 
         for libraryName in self.libraryNames:
-            self.results[libraryName][taskName] = {}
-            self.results[libraryName][taskName]["theme"] = self.dictonaryThemeInTask[
-                taskName
-            ]
-            self.results[libraryName][taskName]["results"] = {}
+            # self.results[libraryName][taskName] = {}
+            # self.results[libraryName][taskName]["theme"] = self.dictonaryThemeInTask[
+            #     taskName
+            # ]
+            # self.results[libraryName][taskName]["results"] = {}
 
             self.progressBar.set_description(
                 f"Run task {taskName} for library {libraryName}"
@@ -388,10 +418,9 @@ class Benchmark:
         for arg in arguments:
             # print(f"Run task {conf.get('task_properties','name')} of library {libraryName} with argument {arg}")
 
+            beforeRunListTime = []
             listTime = []
-            if beforeRunScriptExist:
-                beforeRunListTime = []
-
+            
             numberRun = int(
                 self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
             )
@@ -415,6 +444,7 @@ class Benchmark:
                 command = f"{language} {os.path.join(taskPath,scriptName)} {arg}"
 
                 resultProcess = self.RunProcess(command=command, timeout=timeout)
+                logger.debug(f"{resultProcess = }")
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
                 if isinstance(resultProcess, str):
@@ -443,31 +473,32 @@ class Benchmark:
                     arg=arg,
                 )
                 logger.debug(f"{valueEvaluation = }")
-            # we remove the error and timeout values to calculate the mean
-            filteredListTime = [
-                x for x in listTime if isinstance(x, float) or isinstance(x, int)
-            ]
-            filteredListBeforeRunTime = [
-                x
-                for x in beforeRunListTime
-                if isinstance(x, float) or isinstance(x, int)
-            ]
-            # If there is no value in the list, we take the first value even if it is an error or a timeout
-            if len(filteredListTime) != 0:
-                # TEMPORAIRE
-                self.results[libraryName][taskName]["results"][arg] = (
-                    np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime),
-                    valueEvaluation,
-                )
-                # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
-            else:
-                self.results[libraryName][taskName]["results"][arg] = (
-                    listTime[0],
-                    valueEvaluation,
-                )
+            
+            self.results[libraryName][taskName]["results"][arg]["runtime"].extend([b,t] for b,t in zip(beforeRunListTime, listTime))
+            self.results[libraryName][taskName]["results"][arg]["evaluation"].append(valueEvaluation)
 
-            # # print(f"{valueResult = }")
-            # # print(f"{valueBeforeRun = }")
+            # we remove the error and timeout values to calculate the mean
+            # filteredListTime = [
+            #     x for x in listTime if isinstance(x, float) or isinstance(x, int)
+            # ]
+            # filteredListBeforeRunTime = [
+            #     x
+            #     for x in beforeRunListTime
+            #     if isinstance(x, float) or isinstance(x, int)
+            # ]
+            # # If there is no value in the list, we take the first value even if it is an error or a timeout
+            # if len(filteredListTime) != 0:
+            #     # TEMPORAIRE
+            #     self.results[libraryName][taskName]["results"][arg] = (
+            #         np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime),
+            #         valueEvaluation,
+            #     )
+            #     # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
+            # else:
+            #     self.results[libraryName][taskName]["results"][arg] = (
+            #         listTime[0],
+            #         valueEvaluation,
+            #     )
 
     def CalculNumberIteration(self):
         """
@@ -498,7 +529,7 @@ class Benchmark:
         self.BeforeBuildLibrary()
 
         self.progressBar = tqdm(
-            total=self.CalculNumberIteration(), desc="Initialization", ncols=100
+            total=self.CalculNumberIteration(), desc="Initialization", ncols=150
         )
         for taskName in self.taskNames:
             self.RunTask(taskName)
@@ -507,7 +538,8 @@ class Benchmark:
 if __name__ == "__main__":
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     outputPath = currentDirectory
-    run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
+    run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"), baseResult="results.json")
+    # run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
     run.StartAllProcedure()
 
     print(run.results)

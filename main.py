@@ -16,6 +16,7 @@ def delete_directory(dir_path):
 
     :param dir_path: The path to the directory to clear.
     """
+    logger.info(f"Deleting directory: {dir_path}")
     path = Path(dir_path)
     if path.exists() and path.is_dir():
         shutil.rmtree(path)
@@ -35,15 +36,16 @@ def repository_is_local(repository):
     return Path(repository)
 
 def repository_is_github(repository):
-    logger.info("Github repository")
+    default_repository_name = "repository"
 
     # we create a local repository
     path = Path(default_repository_name)
-    if not os.path.exists(default_repository_name):
-        os.mkdir(default_repository_name)
+    if not path.exists():
+        logger.debug(f"Creating the local repository {path}")
+        path.mkdir()
     else:
         # we clear the local repository
-        delete_directory(path)
+        delete_directory(path.absolute().__str__())
 
     # we clone the repository in the local repository
     command = f"git clone {repository} {path}"
@@ -127,6 +129,9 @@ if __name__ == "__main__":
     logger.info("Starting the main script")
 
     possible_access_folder = {"local":repository_is_local, "github":repository_is_github}
+    
+    logger.info(f"Access folder: {args.access_folder}")
+    logger.info(f"Repository: {args.repository}")
 
     working_directory = possible_access_folder[args.access_folder](args.repository)
 
