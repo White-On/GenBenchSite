@@ -41,6 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
+    DEBUG = True
 
     def __init__(self, pathToInfrastructure: str) -> None:
         """
@@ -246,7 +247,7 @@ class Benchmark:
     #     if process.poll() is None:
     #         # The subprocess is still running, so we need to kill it
     #         process.kill()
-    #         return Benchmark.TIMEOUT_VALUEpa
+    #         return Benchmark.TIMEOUT_VALUE
 
     #     # Cancel the timer
     #     timer.cancel()
@@ -270,6 +271,9 @@ class Benchmark:
 
     def RunProcess(self, command, timeout, getOutput=False):
         logger.info(f"RunProcess {command = }")
+        if Benchmark.DEBUG:
+            return np.random.randint(0, 100)
+
         start = time.perf_counter()
         try:
             process = subprocess.run(
@@ -482,14 +486,11 @@ class Benchmark:
         return nbIteration
 
     def ConvertResultToJson(
-        self, outputPath: str = None, outputFileName: str = "results"
+        self, outputFileName: str = "results.json"
     ):
         """
         convert the result to a json file
         """
-        if outputPath is None:
-            outputPath = self.pathToInfrastructure
-
         with open(outputFileName, "w") as file:
             json.dump(self.results, file, indent=4)
 
@@ -510,4 +511,4 @@ if __name__ == "__main__":
     run.StartAllProcedure()
 
     print(run.results)
-    run.ConvertResultToJson(outputPath=outputPath)
+    run.ConvertResultToJson()

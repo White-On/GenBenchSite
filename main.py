@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+from pathlib import Path
 
 from benchmark import Benchmark
 from benchsite import BenchSite
@@ -9,18 +10,50 @@ from getMachineData import SaveMachineDataInJson
 from logger import logger
 
 
-def clear_directory(dir_path):
-    for filename in os.listdir(dir_path):
-        file_path = os.path.join(dir_path, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.remove(file_path)
-            elif os.path.isdir(file_path):
-                clear_directory(file_path)
-                os.remove(file_path)
-        except Exception as e:
-            print(f"Failed to delete {file_path}. Reason: {e}")
+def delete_directory(dir_path):
+    """
+    Clears the contents of a directory.
 
+    :param dir_path: The path to the directory to clear.
+    """
+    path = Path(dir_path)
+    if path.exists() and path.is_dir():
+        shutil.rmtree(path)
+        logger.info(f"Deleted directory: {path}")
+    else:
+        logger.warning(f"Directory not found: {path}")
+    
+
+def start_benchmark(structure_test_path:str, resultFilename:str="result.json"):
+    logger.info("Starting the benchmark")
+    benchmark = Benchmark(pathToInfrastructure=structure_test_path)
+    benchmark.StartAllProcedure()
+
+    benchmark.ConvertResultToJson(outputFileName=resultFilename)
+
+def repository_is_local(repository):
+    return Path(repository)
+
+def repository_is_github(repository):
+    logger.info("Github repository")
+
+    # we create a local repository
+    path = Path(default_repository_name)
+    if not os.path.exists(default_repository_name):
+        os.mkdir(default_repository_name)
+    else:
+        # we clear the local repository
+        delete_directory(path)
+
+    # we clone the repository in the local repository
+    command = f"git clone {repository} {path}"
+    try:
+        os.system(command)
+    except:
+        logger.error(f"Error when cloning the repository {repository}")
+        raise Exception(f"Error when cloning the repository {repository}")
+
+    return path
 
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository
@@ -34,10 +67,10 @@ if __name__ == "__main__":
     # output_folder = the path of the folder where the user want to save the HTML page
     # publish = True if the user want to deploy the HTML page, False otherwise
 
-    curentPath = os.path.dirname(os.path.abspath(__file__))
+    current_dir = os.path.dirname(os.path.abspath(__file__))
 
     parser = argparse.ArgumentParser(
-        description="Generate a static website of a benchamrk of library."
+        description="Generate a static website of a benchmark of libraries."
     )
 
     parser.add_argument(
@@ -70,75 +103,70 @@ if __name__ == "__main__":
         action=argparse.BooleanOptionalAction,
     )
 
+    parser.add_argument(
+        "-B",
+        "--benchmark",
+        help="True if the user want to run the benchmark, False otherwise.\
+            If set to False, the user must provide the result.json file in the repository",
+        default=True,
+        action=argparse.BooleanOptionalAction,
+    )
+
+    parser.add_argument(
+        "-R",
+        "--re_use_result",
+        help="True if the user want to re-use the result.json file in the repository, False otherwise",
+        default=False,
+        action=argparse.BooleanOptionalAction,
+    )
+
     args = parser.parse_args()
-    # print(args)
-    online_repository = None
+    logger.info(f"args: {args}")
+    default_repository_name = "repository"
 
     logger.info("Starting the main script")
 
-    if args.access_folder == "github":
-        logger.info("Github repository")
-        # we create a local repository
-        tmpPath = os.path.join(curentPath, "repository")
-        if not os.path.exists(tmpPath):
-            os.mkdir(tmpPath)
+    possible_access_folder = {"local":repository_is_local, "github":repository_is_github}
 
-        # # we clear the local repository
-        # clear_directory(tmpPath)
-        # os.removedirs(tmpPath)
+    working_directory = possible_access_folder[args.access_folder](args.repository)
 
-        # we clone the repository in the local repository
-        command = f"git clone {args.repository} {tmpPath}"
-        try:
-            os.system(command)
-        except:
-            logger.error(f"Error when cloning the repository {args.repository}")
-            raise Exception(f"Error when cloning the repository {args.repository}")
-            exit(1)
-
-        online_repository = args.repository
-        args.repository = tmpPath
-
-    if not os.path.exists(args.repository):
-        logger.error(f"Path {args.repository} does not exist")
-        raise Exception(f"Path {args.repository} does not exist")
+    if not working_directory.exists():
+        logger.error(f"Path {working_directory.absolute()} does not exist")
+        raise Exception(f"Path {working_directory.absolute()} does not exist")
 
     # Test the repository
-    resultFilename = "result.json"
-    codeFilename = "code.json"
-    machineFilename = "machine.json"
+    resultFilename = Path("result.json")
+    codeFilename = Path("code.json")
+    machineFilename = Path("machine.json")
 
-    logger.info("Starting the benchmark")
-    benchmark = Benchmark(pathToInfrastructure=args.repository)
-    benchmark.StartAllProcedure()
-
-    benchmark.ConvertResultToJson(outputPath=curentPath, outputFileName=resultFilename)
+    if args.benchmark:
+        start_benchmark(working_directory.absolute().__str__(), resultFilename.absolute().__str__())
 
     # we want to create two additional files :
     # - a file that contains the machine information/metadata
     # - a file that contains the code of the tests done on the test repository
 
-    CollectCode(pathToInfrastructure=args.repository, outputPath=curentPath)
+    CollectCode(pathToInfrastructure=working_directory.absolute().__str__(), outputPath=current_dir)
 
-    SaveMachineDataInJson(outputFile=os.path.join(curentPath, machineFilename))
+    SaveMachineDataInJson(outputFile=os.path.join(current_dir, machineFilename))
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
 
-    benchsite = BenchSite(inputFilename=resultFilename, outputPath=args.output_folder)
+    benchsite = BenchSite(inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder)
     benchsite.GenerateStaticSite()
 
     # we copy the result.json file in the output folder
     shutil.copyfile(
-        os.path.join(curentPath, resultFilename),
+        resultFilename.absolute(),
         os.path.join(args.output_folder, resultFilename),
     )
 
     # we delete the result.json,code.json and machine.json files
-    # os.remove(os.path.join(curentPath, resultFilename))
-    # os.remove(os.path.join(curentPath, codeFilename))
-    # os.remove(os.path.join(curentPath, machineFilename))
+    os.remove(resultFilename.absolute())
+    os.remove(codeFilename.absolute())
+    os.remove(machineFilename.absolute())
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
@@ -162,5 +190,4 @@ if __name__ == "__main__":
         print("HTML page deployed on the github page")
 
         # we remove the local repository
-        os.chdir(curentPath)
-        # shutil.rmtree(args.repository)
+        shutil.rmtree(working_directory.absolute())
