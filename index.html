@@ -5,20 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="about_page/about.css">
+    <script defer src="about_page/code_in_clipbord.js"></script>
     <title>About</title>
 </head>
 <body>
     <div class="card">
         <div class="card-text">
             <h2>What is GeneratedVelocity ▶️</h2>
-            <p>GeneratedVelocity is a platform designed to <b>compare the performance of different libraries and frameworks</b>. It
+            <p>
+                GeneratedVelocity is a platform designed to <b>compare the performance of different libraries and frameworks</b>. It
                 provides a detailed report of each library's speed, precision, and other parameters, making it easier for
                 developers to choose the best library for their project.
             </p>
         </div>
     </div>
 
-    <div class="card">
+    <!-- <div class="card">
         <div class="card-text">
             <h2>Why Creating this tool</h2>
             <p>GeneratedVelocity was initiated to address the need for a reliable and unbiased way of <b>
@@ -29,15 +31,16 @@
                 standardized benchmarking methodology for all libraries.
             </p>
         </div>
-    </div>
+    </div> -->
 
     <div class="card right">
         <div class="card-text">
-            <h2>GeneratedVelocity Brief explanation 📰</h2>
-            <p>GeneratedVelocity is designed to automate the process of comparing and testing different libraries. To
-                achieve this, test are writen in configuration files, then given to GeneratedVelocity. The tests are executed in a
+            <h2>GeneratedVelocity Brief explained 📰</h2>
+            <p>
+                GeneratedVelocity is designed to automate the process of comparing and testing different libraries. To
+                achieve this, the test are written in configuration files, then given to GeneratedVelocity. The tests are executed in a
                 controlled environment, and the results are then analyzed and compiled into easy-to-read reports. These reports
-                are published on dedicated GitHub pages, where users can access them and see how the different libraries perform
+                are output as HTML files structured and then published on dedicated GitHub pages, where users can access them and see how the different libraries perform
                 in a variety of scenarios. By automating the testing process, the website enables developers to save time and
                 effort when evaluating libraries, and helps them make informed decisions.
             </p>
@@ -49,7 +52,7 @@
 
     <div class="card">
         <div class="card-text">
-            <h2>First steps</h2>
+            <h2>First steps 👣</h2>
             <p>
                 First of all, you'll need to get the project on your computer. To do so, you can either download the project
                 directly from GitHub, or clone it using the following command:
@@ -75,8 +78,8 @@
     <div class="card">
         <div class="card-text">
             <h2>Setup and Launch 🚀</h2>
-            <p>Once you've install the project and create your benchmark, we're going to need to install all the required
-                libraries. We recommand to use a virtual environment.
+            <p>Once you've installed the project and create your benchmark, we're going to need to install all the required
+                libraries. We recommend to use a virtual environment.
             </p>
                 <details>
                     <summary>Create a virtual environment 📦</summary>
@@ -125,7 +128,7 @@
                     </code>
                     <br><br>
                     You're now ready to launch your benchmark. Depending on where your benchmark is located, either locally or
-                    online on a github repository, or if you want to publish the results on a github page, you'll need to run a
+                    online, on a github repository, or if you want to publish the results on a github page, you'll need to run a
                     different command. To see available commands run:
                     <br><br>
                     <code>
@@ -140,32 +143,34 @@
     <div class="card">
         <div class="card-text">
             <h2>How we compare the targets 🤔</h2>
-            <p>For the time being, we we decided to compare results base on the <b>Lexicographic Maximal Ordering Algorithm (LexMax)</b>.
-                Each ranking is based on the number of wins, ties, and losses of each library. The library with the highest
+            <p>
+                For the time being, we decided to compare results base on the <b>Lexicographic Maximal Ordering Algorithm (LexMax)</b>.
+                Each ranking is based on the number of wins, ties, and losses of each library. The target with the highest
                 number of wins is ranked first, followed by the library with the second-highest number of wins, and so on. In
                 the case of a tie, both libraries are ranked equally. The algorithm does not take into account the magnitude of the wins or losses, only the number of them.<br><br>
             </p>
         </div>
-        <div class="card left">
-            <div class="card-text">
-                    We use it to compare all the data generated by the benchmarking process. For exemple, we run a task on a set of
-                    libraries, and we get the results. Each result is compare to the other result with the same argument and we get a
-                    score for each arguments. On the entire task, we get a vector of score for each library. We use the LexMax
-                    algorithm to compare the vector of score of each library and we get a ranking of the libraries for that task.
-                    We do this for each task and repeat for the theme and the global ranking.
-                </p>
-            </div>
-            <div class="media">
-                <video controls autoplay muted loop width="100%">
-                    <source src="about_page/explanation.mp4" type="video/mp4">
-                    <p>Your browser does not support the video tag.</p>
-                </video>
-            </div>
+    </div>
+
+    <div class="card left">
+        <div class="card-text">
+                We use it to compare all the data generated by the benchmarking process. For example, we run a task on a set of
+                libraries, and we get the results. Each result is compared to the other result with the same argument, and we get a
+                score for each argument. On the entire task, we get a vector of score for each library. We use the LexMax
+                algorithm to compare the vector of score for each library and we get a ranking of the libraries for that task.
+                We do this for each task and repeat it for the theme and the global ranking.
+            </p>
+        </div>
+        <div class="media">
+            <video controls autoplay muted loop width="100%">
+                <source src="about_page/explanation.mp4" type="video/mp4">
+                <p>Your browser does not support the video tag.</p>
+            </video>
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-text tiny">
+    <div class="card tiny">
+        <div class="card-text">
             <h2>How to contribute ✍️</h2>
             <p>The benchmark website is an open-source project, and contributions from the community are welcome. To contribute,
                 users can fork the project on GitHub, make changes to the code, and submit a pull request. Users can also
