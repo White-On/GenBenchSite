@@ -3,7 +3,7 @@
 :root{
     font-family: 'Poppins', sans-serif;
     font-weight: 200;
-    font-size: clamp(1rem, 1.5rem, 2rem);
+    font-size: 1.5rem;
 
     --primary: #F4EEFF;
     --secondary: #DCD6F7;
@@ -17,7 +17,8 @@
 body{
     background-color: var(--primary);
     color: #333;
-    margin-block: 10vh;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
     margin-inline: 5vw;
     display: flex;
     flex-direction: column;
@@ -45,8 +46,7 @@ h1{
     align-items: center;
     padding: 1rem;
     gap: 1rem;
-    margin-block: 30vh;
-    margin-inline: 1rem;
+    margin-block: 10vh;
 }
 
 .left{
@@ -61,6 +61,8 @@ h1{
     max-width: 30vw;
     min-width: 30vw;
 }
+
+
 
 .card-text{
     display: flex;
@@ -139,4 +141,38 @@ code{
     visibility: collapse;
     opacity: 0;
     transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 1200px) {
+    .left, .right, .tiny{
+        flex-direction: column;
+    }
+
+    .right .card-text, .left .card-text, .tiny .card-text{
+        max-width: 70vw;
+        min-width: 70vw;
+    }
+}
+
+@media screen  and (max-width: 425px){
+    :root{
+        font-size: small;
+    }
+
+    h1{
+        font-size: x-large;
+    }
+
+    body{
+        margin-inline: 2vw;
+        margin-block: 2vh;
+    }
+
+    .card{
+        margin-block: 3vh;
+    }
+
+    .card-text{
+        padding-block: 0.5rem;
+    }
 }
