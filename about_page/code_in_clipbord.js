@@ -22,7 +22,41 @@ for (let i = 0; i < codeElements.length; i++) {
         // make the message fadeout after 1 second
         setTimeout(function () {
             div.style.opacity = 0;
+            div.style.visibility = "collapse";
         }, 1000);
         
     }
 }
+
+// we create a element when we hover over the code section
+let span = document.createElement("span");
+// we add a class to the span element
+span.classList.add("tooltiptext_clipboard");
+// we add the span element to the body
+document.body.appendChild(span);
+// we add the message to the span element
+span.innerText = "📌";
+
+// we add onmouseover event to each code section
+for (let i = 0; i < codeElements.length; i++) {
+    codeElements[i].onmouseover = function () {
+        // change the position of the message
+        span.style.top = codeElements[i].offsetTop - 5 + "px";
+        span.style.right = codeElements[i].offsetLeft - 40 + "px";
+        // make the message visible
+        span.style.visibility = "visible";
+        span.style.opacity = 1;
+    }
+}
+
+// we add onmouseout event to each code section
+for (let i = 0; i < codeElements.length; i++) {
+    codeElements[i].onmouseout = function () {
+        // make the message invisible
+        span.style.visibility = "collapse";
+        span.style.opacity = 0;
+        
+    }
+}
+
+

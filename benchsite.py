@@ -14,6 +14,8 @@ from collectCode import CollectCode
 
 RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 
+ABOUT_URL = "https://white-on.github.io/BenchSite/"
+
 
 class BenchSite:
     LEXMAX_THRESHOLD = 0
@@ -282,7 +284,8 @@ class BenchSite:
         contentFilePath = os.path.basename(staticSiteGenerator.contentFilePath) + "/"
         linkTo = {
             "home": "index.html",
-            "about": f"{contentFilePath}about.html",
+            # "about": f"{contentFilePath}about.html",
+            "about": ABOUT_URL,
             "download": "result.json",
         }
 
@@ -410,7 +413,7 @@ class BenchSite:
         scriptFilePath = "taskScript.js"
         linkTo = {
             "home": "../index.html",
-            "about": "about.html",
+            "about": ABOUT_URL,
             "download": "../result.json",
         }
         contentFilePath = "./"
