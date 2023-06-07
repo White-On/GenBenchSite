@@ -23,6 +23,7 @@ body{
 
 .card{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
@@ -39,6 +40,14 @@ body{
     flex-direction: row-reverse;
 }
 
+.right .card-text, .left .card-text{
+    max-width: clamp(20vw, 30vw, 40vw);
+}
+
+.tiny{
+    max-width: clamp(20vw, 30vw, 40vw);
+}
+
 .card-text{
     display: flex;
     flex-direction: column;
@@ -47,7 +56,6 @@ body{
     border-radius: 1rem;
     text-align: center;
     padding: 1rem;
-    max-width: clamp(20vw, 30vw, 40vw);
     background: var(--tertiary);
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
@@ -58,4 +66,35 @@ video{
     object-fit: cover;
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+img{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-block: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+details{
+    border-radius: 1rem;
+    padding: 1rem;
+    background: var(--quaternary);
+    color : var(--primary);
+}
+
+summary{
+    font-weight: bold;
+    cursor: pointer;
+    
+}
+
+a{
+    text-decoration: none;
+}
+
+code{
+    padding-inline: 0.5rem;
+    padding-block: 0.2rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
