@@ -83,6 +83,7 @@ def GetMachineData(filename: str):
 if __name__ == "__main__":
     from json_to_python_object import FileReaderJson
 
-    _ = FileReaderJson("data.json")
+    libraryList, taskList = FileReaderJson("results.json")
 
-    print(list(Task.GetTaskNameByThemeName("Theme1")))
+    print(f'{libraryList = }')
+    print(f'{taskList = }')

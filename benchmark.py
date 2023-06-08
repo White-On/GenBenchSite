@@ -463,6 +463,7 @@ class Benchmark:
                     functionEvaluation = functionEvaluation.split(" ")
                 else:
                     functionEvaluation = []
+                    
                 valueEvaluation = self.EvaluationAfterTask(
                     afterRunScript,
                     taskName,
