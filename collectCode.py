@@ -3,55 +3,55 @@ from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 import json
+from pathlib import Path
+from logger import logger
 
 
 class CollectCode:
     def __init__(self, pathToInfrastructure: str, outputPath=None):
-        self.pathToInfrastructure = pathToInfrastructure
+        logger.info("Collecting the code")
+        logger.debug(f"Path to infrastructure : {pathToInfrastructure}")
+        self.pathToInfrastructure = Path(pathToInfrastructure)
 
         self.taskNames = []
 
-        self.themeNames = os.listdir(os.path.join(self.pathToInfrastructure, "themes"))
-        self.targets = os.listdir(os.path.join(self.pathToInfrastructure, "targets"))
+        self.targets = [path.name for path in self.pathToInfrastructure.glob("targets/*")]
 
-        self.taskPath = {target: {} for target in self.targets}
+        self.taskPath = list(self.pathToInfrastructure.glob("**/*_run.py"))
+        
+        
+        logger.debug(f"Task path : {self.taskPath}")
+        logger.debug(f"Targets : {self.targets}")
 
-        self.RetreiveAllPath()
+        self.pure_code_str = self.RetreiveCode(*self.taskPath)
+
 
         self.CodeHTML = {target: {} for target in self.targets}
 
         self.TransfomCodeInHTML()
-        if outputPath is None:
-            outputPath = pathToInfrastructure
+        # if outputPath is None:
+        #     outputPath = pathToInfrastructure
 
-        self.SaveInJson(os.path.join(outputPath, "code.json"))
+        # self.SaveInJson(os.path.join(outputPath, "code.json"))
 
-    def RetreiveAllPath(self):
-        for themeName in self.themeNames:
-            currentTask = os.listdir(
-                os.path.join(self.pathToInfrastructure, "themes", themeName)
-            )
-            self.taskNames += currentTask
-            for task in currentTask:
-                for target in self.targets:
-                    path = None
-                    if os.path.exists(
-                        os.path.join(
-                            self.pathToInfrastructure,
-                            "themes",
-                            themeName,
-                            task,
-                            f"{target}_run.py",
-                        )
-                    ):
-                        path = os.path.join(
-                            self.pathToInfrastructure,
-                            "themes",
-                            themeName,
-                            task,
-                            f"{target}_run.py",
-                        )
-                    self.taskPath[target][task] = path
+    def RetreiveCode(self, *code_path):
+        if len(code_path) == 0:
+            logger.warning("No path given")
+            return {}
+
+        code = {target: {} for target in self.targets}
+        for path in code_path:
+            # we check if there is a before in the pathName
+            # maybe change strategy in the future to be more flexible
+            if path.name.split("_")[1] == "before":
+                continue
+            taskName = path.parent.name
+            targetName =path.name.split("_")[0]
+            logger.debug(f"Reading code file in {path.absolute()}")
+            with open(path.absolute(), "r") as f:
+                code[targetName][taskName] = f.read()
+            
+        return code
 
     def TransfomCodeInHTML(self):
         for target, value in self.taskPath.items():
@@ -73,13 +73,15 @@ class CollectCode:
     def SaveInJson(self, outputPath: str):
         with open(outputPath, "w") as file:
             json.dump(self.CodeHTML, file)
+        
+    def get_code_HTML(self, target, task):
+        return self.CodeHTML[target][task]
 
 
 if __name__ == "__main__":
     # pathToInfrastructure = os.path.dirname(os.path.abspath(__file__))
-    pathToInfrastructure = (
-        "C:/Users/jules/Documents/Git/BenchSite-Experiment/Start_Test/interface"
-    )
+    pathToInfrastructure = "C:/Users/jules/Documents/Git/BenchSite/repository"
+
     collectCode = CollectCode(pathToInfrastructure)
     # collectCode.TransfomCodeInHTML()
     # collectCode.SaveInJson(os.path.join(pathToInfrastructure,"code.json"))

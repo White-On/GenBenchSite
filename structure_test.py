@@ -1,6 +1,5 @@
 from configparser import ConfigParser
-import os
-import sys
+from pathlib import Path
 from logger import logger
 
 
@@ -13,19 +12,16 @@ class StructureTest:
         logger.debug(f"Path config : {pathConfig}")
         if len(pathConfig) == 0:
             logger.warning("No path given")
-
-        for path in pathConfig:
-            if not self.checkPath(path):
-                sys.exit(1)
+            return {}
 
         config = {}
         for path in pathConfig:
-            logger.debug(f"Reading config file in {path}")
+            logger.debug(f"Reading config file in {path.absolute()}")
             configParser = ConfigParser()
-            configParser.read(os.path.join(path, "config.ini"))
+            configParser.read(path.absolute())
             sections = configParser.sections() if len(listSection) == 0 else listSection
             logger.debug(f"Sections : {sections}")
-            refElement = os.path.basename(path)
+            refElement = path.parent.name
             logger.debug(f"Ref element : {refElement}")
             try:
                 config[refElement] = {
@@ -35,44 +31,38 @@ class StructureTest:
                 }
             except Exception as e:
                 logger.error(f"Error while reading config file : {e}")
-                sys.exit(1)
+                raise Exception(f"Error while reading config file : {e}")
+
         if len(pathConfig) == 1:
-            config = config[refElement]
+            config = config[pathConfig[0].parent.name]
 
         logger.info("Config file read")
         logger.debug(f"Config file : {config}")
         return config
 
-    def checkPath(self, path):
-        if os.path.exists(path):
-            logger.info(f"Path {path} exists")
-            if not os.path.exists(os.path.join(path, "config.ini")):
-                logger.warning(f"Config file doesn't exist in {path}")
-            return True
-        else:
-            logger.error(f"Path {path} doesn't exist")
-            return False
-
     def findConfigFile(self, path):
-        config_files = []
-
-        for root, _, files in os.walk(path):
-            for file in files:
-                if file == "config.ini":
-                    config_files.append(root.replace("\\", "/"))
+        path = Path(path)
+        if not path.exists():
+            logger.error(f"Path not found: {path}")
+            raise FileNotFoundError(f"File not found: {path}")
+        
+        config_files = path.glob("**/config.ini")
+        if not config_files:
+            logger.warning(f"Config file not found in {path}")
+            raise FileNotFoundError(f"Config file not found in {path}")
 
         return config_files
 
 
 if __name__ == "__main__":
-    pathConfig = "C:/Users/jules/Documents/Git/BenchSite/repository/site"
-    listPathConfig = [
-        "C:/Users/jules/Documents/Git/BenchSite/repository/targets/bnlearn",
-        "C:/Users/jules/Documents/Git/BenchSite/repository/targets/pgmpy",
-        "C:/Users/jules/Documents/Git/BenchSite/repository/targets/pyAgrum",
-    ]
+    pathSite = "C:/Users/jules/Documents/Git/BenchSite/repository/site"
+    listPathTarget = "C:/Users/jules/Documents/Git/BenchSite/repository/targets"
     test = StructureTest()
-    test.readConfig(pathConfig)
+    file_conf = test.findConfigFile(pathSite)
+    config = test.readConfig(*list(file_conf))
+
 
     test = StructureTest()
-    test.readConfig(*listPathConfig)
+    file_conf = test.findConfigFile(listPathTarget)
+    config = test.readConfig(*list(file_conf))
+

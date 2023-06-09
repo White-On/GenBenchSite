@@ -184,43 +184,6 @@ class BenchSite:
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
 
-    def GenerateHTMLRankingPerTask(self):
-        contentfilePath = (
-            os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
-        )
-        # Classement des Librairies par tâche
-        HTMLTaskRanking = "<div><h1>Task Ranking</h1>"
-        rankLibraryInTask = rk.RankingLibraryByTask(
-            threshold=BenchSite.LEXMAX_THRESHOLD
-        )
-        for taskName in rankLibraryInTask.keys():
-            # On crée le graphique en fonction de tache
-            benchSite.CreateGraphics(
-                taskName, Library.GetLibraryByTaskName(taskName), "img"
-            )
-            # On crée le tableau de classement
-            HTMLTaskRanking += f'<h2>{taskName}</h2><div class="table-graph"><table><tr><th>Library</th><th>Value (Run Time or Rank)</th></tr>'
-            # Les librairies présentes dans la tâche
-            LibraryNameList = rankLibraryInTask[taskName]
-            # On crée un dictionnaire avec comme clé le nom de la librairie et comme valeur le score
-            DictionaryLibraryResult = {}
-            for library in LibraryNameList:
-                DictionaryLibraryResult[library] = (
-                    Library.GetLibraryByName(library).GetTaskByName(taskName).results
-                )
-            HTMLTaskRanking += "".join(
-                [
-                    f"<tr><td>{BenchSite.MakeLink(contentfilePath + library, library)}</td><td>{value:.3f}</td></tr>"
-                    for library, value in DictionaryLibraryResult.items()
-                ]
-            )
-            HTMLTaskRanking += "</table>"
-            HTMLTaskRanking += (
-                f'<img src="../img/{taskName}.png" alt="{taskName}"></img></div>'
-            )
-        HTMLTaskRanking += "</div>"
-
-        return HTMLTaskRanking
 
     def GenerateHTMLMachineInfo(self):
         HTMLMachineInfo = "<div class ='card'><h1>Machine Info</h1>"
