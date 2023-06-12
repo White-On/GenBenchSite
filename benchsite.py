@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Here you can import you're own FileReader if the format of the Json/file is different
 from logger import logger
-from json_to_python_object import FileReaderJson, GetMachineData
+from json_to_python_object import FileReaderJson, readJsonFile
 from library import Library
 from task import Task
 import ranking as rk
@@ -24,7 +24,7 @@ class BenchSite:
         self, inputFilename: str, outputPath="pages", structureTestPath="repository"
     ) -> None:
         # Here to change you'r own FileReader
-        self.libraryList, self.tasksList = FileReaderJson(inputFilename)
+        FileReaderJson(inputFilename)
         self.inputFilename = inputFilename
         self.outputPath = outputPath
         self.structureTestPath = structureTestPath
@@ -44,7 +44,7 @@ class BenchSite:
             os.path.join(outputPath, "style"),
         )
 
-        self.machineData = GetMachineData("machine.json")
+        self.machineData = readJsonFile("machine.json")
         self.siteConfig = self.GetSiteConfig()
 
     def GetLibraryConfig(self):
@@ -269,7 +269,6 @@ class BenchSite:
         )
 
         codeLibrary = CollectCode(pathToInfrastructure=self.structureTestPath)
-        codeLibrary = codeLibrary.CodeHTML
 
         # GOOGLEANALYTICS
         HTMLGoogleAnalytics = staticSiteGenerator.CreateHTMLComponent(
@@ -509,7 +508,7 @@ class BenchSite:
             for library in Library.GetAllLibrary():
                 templateTask += f" <code id='{library.name}'>"
                 templateTask += f" <h2>{library.name}</h2>"
-                templateTask += f" {codeLibrary[library.name][taskName]}"
+                templateTask += f" {codeLibrary.get_code_HTML(library.name, taskName)}"
                 templateTask += f" </code>"
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(

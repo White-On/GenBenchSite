@@ -6,6 +6,8 @@ This module contains the class Task and the differents function to manipulate th
 
 from dataclasses import dataclass, field
 from typing import ClassVar
+import numpy as np 
+from logger import logger
 
 
 @dataclass
@@ -31,17 +33,18 @@ class Task:
     name: str
     theme: str
     arguments: list[float] = field(default_factory=list)
-    results: list[float] = field(default_factory=list)
-    resultsValue: list[float] = field(default_factory=list)
+    runtime: dict[str, list[float]] = field(default_factory=dict)
+    evaluation: dict[str, list[float]] = field(default_factory=dict)
     arguments_label: list[str] = field(default_factory=list)
-    status: str = "NotRun"
+    # extra_data :dict[str,str] = field(default_factory=dict)
     allTasks: ClassVar[list["Task"]] = []
 
     def __post_init__(self) -> None:
-        self.allTasks.append(self)
+        logger.debug(f"Task {self.name} created")
+        Task.allTasks.append(self)
 
     def __repr__(self) -> str:
-        return f"Task({self.name})-> status: {self.status}"
+        return f"Task({self.name})-> arguments: {self.arguments_label}"
 
     @classmethod
     def GetAllTask(cls) -> list["Task"]:
@@ -72,7 +75,7 @@ class Task:
         return listTaskName
 
     @classmethod
-    def GetTaskByName(cls, taskName: str) -> "Task":
+    def GetTaskByName(cls, taskName: str) -> "Task" or None:
         """Getter for a task by its name.
 
         Parameters
@@ -92,7 +95,7 @@ class Task:
         return None
 
     @classmethod
-    def GetAllTaskByName(cls, taskName: str) -> list["Task"]:
+    def GetAllTaskByName(cls, taskName: str):
         """Getter for all the tasks with the same name.
 
         Parameters
@@ -109,7 +112,7 @@ class Task:
         return (task for task in cls.allTasks if task.name == taskName)
 
     @classmethod
-    def GetAllThemeName(cls) -> list[str]:
+    def GetAllThemeName(cls):
         """Getter for all the theme name created.
 
         Returns
@@ -125,7 +128,7 @@ class Task:
         return listThemeName
 
     @classmethod
-    def GetTaskByThemeName(cls, themeName: str) -> list["Task"]:
+    def GetTaskByThemeName(cls, themeName: str):
         """Getter for all the tasks with the same theme name.
 
         Parameters
@@ -161,3 +164,63 @@ class Task:
             if task.name not in listTaskName:
                 listTaskName.append(task.name)
         return listTaskName
+    
+    @staticmethod
+    def transform_str_to_nan(array:np.ndarray) -> np.ndarray:
+        array[np.vectorize(lambda x: not x.isnumeric())(array)] = np.nan
+        array = array.astype(np.float64)
+        return array
+    
+    def get_calculated_runtime(self, target:str) -> list[float]:
+        """Getter for the mean runtime of the task.
+
+        Returns
+        -------
+        mean : float
+            The mean of the runtime of the task.
+
+        """
+        # we trasnform the list into a numpy array 
+        # but we want to transform the string into np.nan
+        runtime = np.array(self.runtime[target])
+        # we first remove all the runtime with error value/message
+        # then we caluculate the mean of the runtime for each argument
+        if not runtime.dtype == np.dtype('float64'):
+            Task.transform_str_to_nan(runtime)
+        # we do the difference between the start and the end of the runtime
+        runtime[:,:,0] = -runtime[:,:,0]
+        runtime = runtime.sum(axis=2)
+        # we calculate the mean of the runtime for each argument
+        runtime = np.nanmean(runtime, axis=1)
+        logger.debug(f"Runtime for {self.name} : {runtime}")
+        return runtime.tolist()
+
+    def get_calculated_evaluation(self, target:str) -> list[float]:
+        """Getter for the mean evaluation of the task.
+
+        Returns
+        -------
+        mean : float
+            The mean of the evaluation of the task.
+
+        """
+        # we trasnform the list into a numpy array 
+        # but we want to transform the string into np.nan
+        evaluation = np.array(self.evaluation[target])
+        # we first remove all the evaluation with error value/message
+        # then we caluculate the mean of the evaluation for each argument
+        if not evaluation.dtype == np.dtype('float64'):
+            Task.transform_str_to_nan(evaluation)
+        # we calculate the mean of the evaluation for each argument
+        evaluation = np.nanmean(evaluation, axis=1)
+        logger.debug(f"Evaluation for {self.name} : {evaluation}")
+        return evaluation.tolist()
+        
+    
+if __name__ == "__main__":
+    from json_to_python_object import FileReaderJson
+    FileReaderJson('results.json')
+
+    print(Task.GetAllTaskName())
+
+

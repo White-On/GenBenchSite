@@ -27,7 +27,6 @@ class Library:
 
     name: str
     tasks: list[Task] = field(default_factory=list)
-    code: dict[str, str] = field(default_factory=dict)
     allLibrary: ClassVar[list["Library"]] = []
 
     def __post_init__(self) -> None:
@@ -48,7 +47,7 @@ class Library:
         return cls.allLibrary
 
     @classmethod
-    def GetAllLibraryName(cls) -> list[str]:
+    def GetAllLibraryName(cls):
         """Getter for all the libraries name created.
 
         Returns
@@ -151,7 +150,7 @@ class Library:
         dico = {}
         for library in cls.GetAllLibrary():
             task = library.GetTaskByName(taskName)
-            dico[library.name] = task.results
+            dico[library.name] = task.get_calculated_runtime(library.name)
         return dico
 
     @classmethod
@@ -173,3 +172,4 @@ class Library:
             task = library.GetTaskByName(taskName)
             dico[library.name] = task.arguments
         return dico
+

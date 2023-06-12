@@ -1,5 +1,4 @@
 import os
-import sys
 import subprocess
 import time
 import json
@@ -167,7 +166,9 @@ class Benchmark:
             if process.returncode != 0:
                 logger.error(f"Error in the beforeBuild command of {libraryName}")
                 logger.debug(f"{process.stderr = }")
-                sys.exit(1)
+                raise Exception(
+                    f"Error in the beforeBuild command of {libraryName} : {process.stderr}"
+                )
             else:
                 logger.info(f"Before build of {libraryName} done")
 
@@ -302,7 +303,7 @@ class Benchmark:
     def RunProcess(self, command, timeout, getOutput=False):
         logger.info(f"RunProcess {command = }")
         if Benchmark.DEBUG:
-            return np.random.randint(100)
+            return np.random.randint(100) * 1.0
 
         start = time.perf_counter()
         try:
@@ -395,7 +396,7 @@ class Benchmark:
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
             self.results[libraryName][taskName]["results"] = {
-                arg: (Benchmark.NOT_RUN_VALUE, None) for arg in arguments
+                arg: {'runtime':Benchmark.NOT_RUN_VALUE, 'evaluation':None }for arg in arguments
             }
             self.progressBar.update(
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))

@@ -151,7 +151,7 @@ if __name__ == "__main__":
     # - a file that contains the machine information/metadata
     # - a file that contains the code of the tests done on the test repository
 
-    CollectCode(pathToInfrastructure=working_directory.absolute().__str__(), outputPath=current_dir)
+    # CollectCode(pathToInfrastructure=working_directory.absolute().__str__(), outputPath=current_dir)
 
     SaveMachineDataInJson(outputFile=os.path.join(current_dir, machineFilename))
 

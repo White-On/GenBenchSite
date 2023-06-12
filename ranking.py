@@ -11,7 +11,7 @@ from library import Library
 from logger import logger
 
 
-def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str : list[str]]:
+def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str]]:
     r"""Rank all the Library by their results for each task.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm
@@ -48,7 +48,7 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str : list[st
         for library in Library.GetLibraryByTaskName(taskName):
             dictionaryTaskLibraryResults[taskName][
                 library.name
-            ] = library.GetTaskByName(taskName).results
+            ] = library.GetTaskByName(taskName).get_calculated_runtime(library.name)
 
     for taskName in dictionaryTaskLibraryResults.keys():
         dictionaryTaskLibraryResults[taskName] = LexMaxWithThreshold(
@@ -65,7 +65,7 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str : list[st
     return dictionaryTaskLibraryResults
 
 
-def RankingLibraryByTheme(threshold=0, isResultList=True) -> dict[str : list[str]]:
+def RankingLibraryByTheme(threshold=0, isResultList=True) -> dict[str, list[str]]:
     """Rank all the Library by their results for each theme.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm
@@ -277,7 +277,7 @@ def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0) ->
 if __name__ == "__main__":
     from json_to_python_object import FileReaderJson
 
-    _ = FileReaderJson("result.json")
+    _ = FileReaderJson("results.json")
 
     print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
     print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")

@@ -25,14 +25,9 @@ class CollectCode:
 
         self.pure_code_str = self.RetreiveCode(*self.taskPath)
 
-
         self.CodeHTML = {target: {} for target in self.targets}
 
         self.TransfomCodeInHTML()
-        # if outputPath is None:
-        #     outputPath = pathToInfrastructure
-
-        # self.SaveInJson(os.path.join(outputPath, "code.json"))
 
     def RetreiveCode(self, *code_path):
         if len(code_path) == 0:
@@ -50,25 +45,28 @@ class CollectCode:
             logger.debug(f"Reading code file in {path.absolute()}")
             with open(path.absolute(), "r") as f:
                 code[targetName][taskName] = f.read()
+        
+        logger.info("Code retreived")
             
         return code
 
     def TransfomCodeInHTML(self):
-        for target, value in self.taskPath.items():
-            for taskName, path in value.items():
-                html = None
-                if path != None:
-                    with open(path, "r") as f:
-                        code = f.read()
-                        formatter = HtmlFormatter(
-                            linenos=True,
-                            cssclass="zenburn",
-                            noclasses=True,
-                            style="zenburn",
-                        )
-                        html = highlight(code, PythonLexer(), formatter)
-
-                self.CodeHTML[target][taskName] = html
+        for target in self.targets:
+            for task in self.pure_code_str[target]:
+                self.CodeHTML[target][task] = self.pure_code_to_html(
+                    self.pure_code_str[target][task]
+                )
+        logger.info("Code transformed in HTML")
+        logger.debug(f"Code HTML : {self.CodeHTML}")
+    
+    def pure_code_to_html(self, code: str):
+        formatter = HtmlFormatter(
+            linenos=True,
+            cssclass="zenburn",
+            noclasses=True,
+            style="zenburn",
+        )
+        return highlight(code, PythonLexer(), formatter)
 
     def SaveInJson(self, outputPath: str):
         with open(outputPath, "w") as file:
@@ -79,9 +77,6 @@ class CollectCode:
 
 
 if __name__ == "__main__":
-    # pathToInfrastructure = os.path.dirname(os.path.abspath(__file__))
     pathToInfrastructure = "C:/Users/jules/Documents/Git/BenchSite/repository"
 
     collectCode = CollectCode(pathToInfrastructure)
-    # collectCode.TransfomCodeInHTML()
-    # collectCode.SaveInJson(os.path.join(pathToInfrastructure,"code.json"))
