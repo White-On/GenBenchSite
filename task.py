@@ -180,6 +180,11 @@ class Task:
             The mean of the runtime of the task.
 
         """
+        if isinstance(self.runtime[target][0], str):
+            # the runtime is a error message
+            runtime = [float("inf")] * len(self.arguments)
+            logger.debug(f"Runtime for {self.name} : {runtime}")
+            return runtime
         # we trasnform the list into a numpy array 
         # but we want to transform the string into np.nan
         runtime = np.array(self.runtime[target])
@@ -204,6 +209,7 @@ class Task:
             The mean of the evaluation of the task.
 
         """
+        
         # we trasnform the list into a numpy array 
         # but we want to transform the string into np.nan
         evaluation = np.array(self.evaluation[target])
@@ -215,6 +221,20 @@ class Task:
         evaluation = np.nanmean(evaluation, axis=1)
         logger.debug(f"Evaluation for {self.name} : {evaluation}")
         return evaluation.tolist()
+
+    def get_status(self, target:str) -> str:
+        """Getter for the status of the task.
+
+        Returns
+        -------
+        status : str
+            The status of the task.
+
+        """
+        if isinstance(self.runtime[target][0], str):
+            # the runtime is a error message
+            return self.runtime[target][0]
+        return "Run"
         
     
 if __name__ == "__main__":

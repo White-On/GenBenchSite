@@ -41,7 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = True
+    DEBUG = False
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -396,7 +396,7 @@ class Benchmark:
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
             self.results[libraryName][taskName]["results"] = {
-                arg: {'runtime':Benchmark.NOT_RUN_VALUE, 'evaluation':None }for arg in arguments
+                arg: {'runtime':Benchmark.NOT_RUN_VALUE, 'evaluation': None} for arg in arguments
             }
             self.progressBar.update(
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
@@ -531,7 +531,7 @@ class Benchmark:
         self.BeforeBuildLibrary()
 
         self.progressBar = tqdm(
-            total=self.CalculNumberIteration(), desc="Initialization", ncols=150
+            total=self.CalculNumberIteration(), desc="Initialization", ncols=150, position=0
         )
         for taskName in self.taskNames:
             self.RunTask(taskName)

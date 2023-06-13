@@ -57,7 +57,7 @@ class CollectCode:
                     self.pure_code_str[target][task]
                 )
         logger.info("Code transformed in HTML")
-        logger.debug(f"Code HTML : {self.CodeHTML}")
+        logger.debug(f"Code HTML : {self.CodeHTML.keys()}")
     
     def pure_code_to_html(self, code: str):
         formatter = HtmlFormatter(
@@ -73,7 +73,7 @@ class CollectCode:
             json.dump(self.CodeHTML, file)
         
     def get_code_HTML(self, target, task):
-        return self.CodeHTML[target][task]
+        return self.CodeHTML[target].get(task,"No code found")
 
 
 if __name__ == "__main__":

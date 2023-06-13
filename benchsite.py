@@ -440,10 +440,9 @@ class BenchSite:
                         }
                         for arg, res in zip(
                             library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).results,
+                            library.GetTaskByName(taskName).get_calculated_runtime(library.name),
                         )
-                        if library.GetTaskByName(taskName).status == "Run"
-                        and res != float("infinity")
+                        if res != float("infinity")
                     ]
                     for library in Library.GetAllLibrary()
                 ],
@@ -457,17 +456,14 @@ class BenchSite:
                     [
                         {
                             "arguments": arg,
-                            "runTime": 0
-                            if res[0] == None or res[0] == "Error"
-                            else res[0],
+                            "runTime": res if res > 0 and res != "Error" else 0,
                             "libraryName": library.name,
                         }
                         for arg, res in zip(
                             library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).resultsValue,
+                            library.GetTaskByName(taskName).get_calculated_runtime(library.name),
                         )
-                        if library.GetTaskByName(taskName).status == "Run"
-                        and res != None
+                        if res != None
                     ]
                     for library in Library.GetAllLibrary()
                 ],
@@ -684,14 +680,14 @@ class BenchSite:
                     "display": "plot"
                     if task.arguments_label[0].isnumeric()
                     else "histo",
-                    "status": task.status,
+                    "status": task.get_status(target=libraryName),
                     "data": [
                         {
                             "arguments": float(arg) if arg.isnumeric() else arg,
                             "resultElement": res,
                             "libraryName": libraryName,
                         }
-                        for arg, res in zip(task.arguments_label, task.results)
+                        for arg, res in zip(task.arguments_label, task.get_calculated_runtime(libraryName))
                         if res >= 0 and res != float("infinity")
                     ],
                 }
@@ -762,7 +758,7 @@ class BenchSite:
 if __name__ == "__main__":
     # création du site statique
     currentPath = os.path.dirname(os.path.realpath(__file__))
-    benchSite = BenchSite(os.path.join(currentPath, "result.json"))
+    benchSite = BenchSite(os.path.join(currentPath, "results.json"))
     pagePath = "pages"
     benchSite.GetLibraryConfig()
     benchSite.GetTaskConfig()

@@ -49,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
-            
                 <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -62,27 +62,37 @@
         <ul class="subMenu collapse">
             
                 <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
-                
-                <ul class="subMenu collapse">
-                    
-                        <a href='Learning_exhaustive_search_BIC.html' id='Learning_exhaustive_search_BIC-nav'>Learning exhaustive search BIC</a>
-                    
-                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
-                    
-                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
-                    
-                </ul>
-                </li>
-            
-                <li class="menu-item has-submenu">
                 <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
                 
                 <ul class="subMenu collapse">
                     
                         <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
                     
-                        <a href='InferenceRandomBN.html' id='InferenceRandomBN-nav'>InferenceRandomBN</a>
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Inference.html' id='Inference-nav'>Inference</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Approx_Inference.html' id='Approx_Inference-nav'>Approx Inference</a>
+                    
+                        <a href='Exact_Inference.html' id='Exact_Inference-nav'>Exact Inference</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
+                    
+                        <a href='Learning_exhaustive_search_BIC.html' id='Learning_exhaustive_search_BIC-nav'>Learning exhaustive search BIC</a>
+                    
+                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
                     
                 </ul>
                 </li>
@@ -140,7 +150,7 @@
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
     // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
-    const cls = {'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}
+    const cls = {'bnlearn': 0, 'pgmpy': 1, 'pyAgrum': 2}
     console.log(cls);
 
     let chart = rankBar(cls, {
@@ -153,7 +163,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 1000, 'runTime': 14.01073920384515, 'libraryName': 'pgmpy'}, {'arguments': 1500, 'runTime': 18.900460550026036, 'libraryName': 'pgmpy'}, {'arguments': 2000, 'runTime': 23.512801394448616, 'libraryName': 'pgmpy'}, {'arguments': 2500, 'runTime': 28.43027400188148, 'libraryName': 'pgmpy'}, {'arguments': 3000, 'runTime': 32.8044998672558, 'libraryName': 'pgmpy'}, {'arguments': 3500, 'runTime': 38.13186231919099, 'libraryName': 'pgmpy'}, {'arguments': 4000, 'runTime': 42.693815727089536, 'libraryName': 'pgmpy'}, {'arguments': 4500, 'runTime': 47.92568505071104, 'libraryName': 'pgmpy'}, {'arguments': 5000, 'runTime': 50.65751849860784, 'libraryName': 'pgmpy'}, {'arguments': 1000, 'runTime': 20.03634437569417, 'libraryName': 'bnlearn'}, {'arguments': 1500, 'runTime': 25.028239913051948, 'libraryName': 'bnlearn'}, {'arguments': 2000, 'runTime': 29.69741149491165, 'libraryName': 'bnlearn'}, {'arguments': 2500, 'runTime': 35.00783656043932, 'libraryName': 'bnlearn'}, {'arguments': 3000, 'runTime': 39.234151682350785, 'libraryName': 'bnlearn'}, {'arguments': 3500, 'runTime': 45.043386224587444, 'libraryName': 'bnlearn'}, {'arguments': 4000, 'runTime': 49.35285318852402, 'libraryName': 'bnlearn'}, {'arguments': 4500, 'runTime': 54.899030148168094, 'libraryName': 'bnlearn'}, {'arguments': 1000, 'runTime': 0.09584625305142253, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 0.08149649316910654, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 0.11109893186949193, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 0.12578722375910728, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0.11559489576611667, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0.14104467649012803, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 0.140753878490068, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0.1453906524227932, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 0.16683148485608398, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 0.20836065046023577, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 0.2525019760709256, 'libraryName': 'pyAgrum'}], 'display': 'line', 'title': 'Runtime', 'XLabel': 'Number of samples', 'YLabel': 'Time (s)', 'scale': 'auto'}, 'eval': {'data': [{'arguments': '1000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '5000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1000', 'runTime': 0.41463414634146345, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 0.5227272727272727, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 0.5, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 0.5652173913043478, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0.5, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0.6021505376344086, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 0.5434782608695652, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0.6170212765957447, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 0.6451612903225806, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 0.5957446808510638, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0.6041666666666666, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Evaluation', 'XLabel': 'Number of samples', 'YLabel': 'Fscore', 'scale': 'auto'}};</script>
+</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 1000, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 1500, 'runTime': 9.666666666666666, 'libraryName': 'bnlearn'}, {'arguments': 2000, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 2500, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 3000, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 3500, 'runTime': 23.333333333333332, 'libraryName': 'bnlearn'}, {'arguments': 4000, 'runTime': 2.6666666666666665, 'libraryName': 'bnlearn'}, {'arguments': 4500, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 5000, 'runTime': 6.666666666666667, 'libraryName': 'bnlearn'}, {'arguments': 7500, 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': 10000, 'runTime': 17.833333333333332, 'libraryName': 'bnlearn'}, {'arguments': 1000, 'runTime': 21.833333333333332, 'libraryName': 'pgmpy'}, {'arguments': 1500, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 2000, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 2500, 'runTime': 13.166666666666666, 'libraryName': 'pgmpy'}, {'arguments': 3000, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 3500, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 4000, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 4500, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 5000, 'runTime': 19.166666666666668, 'libraryName': 'pgmpy'}, {'arguments': 7500, 'runTime': 10.0, 'libraryName': 'pgmpy'}, {'arguments': 10000, 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': 1000, 'runTime': 3.0, 'libraryName': 'pyAgrum'}, {'arguments': 1500, 'runTime': 4.833333333333333, 'libraryName': 'pyAgrum'}, {'arguments': 2000, 'runTime': 13.166666666666666, 'libraryName': 'pyAgrum'}, {'arguments': 2500, 'runTime': 14.833333333333334, 'libraryName': 'pyAgrum'}, {'arguments': 3000, 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 3500, 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 4000, 'runTime': 3.3333333333333335, 'libraryName': 'pyAgrum'}, {'arguments': 4500, 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': 5000, 'runTime': 13.833333333333334, 'libraryName': 'pyAgrum'}, {'arguments': 7500, 'runTime': 15.333333333333334, 'libraryName': 'pyAgrum'}, {'arguments': 10000, 'runTime': 0, 'libraryName': 'pyAgrum'}], 'display': 'line', 'title': 'Runtime', 'XLabel': 'Number of samples', 'YLabel': 'Time (s)', 'scale': 'auto'}, 'eval': {'data': [{'arguments': '1000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '1500', 'runTime': 9.666666666666666, 'libraryName': 'bnlearn'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '2500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '3500', 'runTime': 23.333333333333332, 'libraryName': 'bnlearn'}, {'arguments': '4000', 'runTime': 2.6666666666666665, 'libraryName': 'bnlearn'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '5000', 'runTime': 6.666666666666667, 'libraryName': 'bnlearn'}, {'arguments': '7500', 'runTime': 0, 'libraryName': 'bnlearn'}, {'arguments': '10000', 'runTime': 17.833333333333332, 'libraryName': 'bnlearn'}, {'arguments': '1000', 'runTime': 21.833333333333332, 'libraryName': 'pgmpy'}, {'arguments': '1500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '2500', 'runTime': 13.166666666666666, 'libraryName': 'pgmpy'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '5000', 'runTime': 19.166666666666668, 'libraryName': 'pgmpy'}, {'arguments': '7500', 'runTime': 10.0, 'libraryName': 'pgmpy'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pgmpy'}, {'arguments': '1000', 'runTime': 3.0, 'libraryName': 'pyAgrum'}, {'arguments': '1500', 'runTime': 4.833333333333333, 'libraryName': 'pyAgrum'}, {'arguments': '2000', 'runTime': 13.166666666666666, 'libraryName': 'pyAgrum'}, {'arguments': '2500', 'runTime': 14.833333333333334, 'libraryName': 'pyAgrum'}, {'arguments': '3000', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': '3500', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': '4000', 'runTime': 3.3333333333333335, 'libraryName': 'pyAgrum'}, {'arguments': '4500', 'runTime': 0, 'libraryName': 'pyAgrum'}, {'arguments': '5000', 'runTime': 13.833333333333334, 'libraryName': 'pyAgrum'}, {'arguments': '7500', 'runTime': 15.333333333333334, 'libraryName': 'pyAgrum'}, {'arguments': '10000', 'runTime': 0, 'libraryName': 'pyAgrum'}], 'display': 'groupedBar', 'title': 'Evaluation', 'XLabel': 'Number of samples', 'YLabel': 'Fscore', 'scale': 'auto'}};</script>
 <script defer  >const TaskName = 'Learning_hill_climb_BIC';</script>
 <script defer  >const argDescription = 'Number of samples';</script>
 <script defer  >const displayScale = 'linear';</script>
@@ -180,7 +190,39 @@
         <div id="code-menu">
             <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
             <div id="codeSelector"></div>
-            <div id="code"> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
+            <div id="code"> <code id='bnlearn'> <h2>bnlearn</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 5</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 6</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 7</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 8</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 9</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">10</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">11</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">12</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">13</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">14</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">15</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">bnlearn</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">bn</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">pandas</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">pd</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">os</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">sys</span>
+
+<span style="color: #dcdccc">currentdir</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">dirname</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">realpath</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">__file__</span><span style="color: #f0efd0">))</span>
+
+<span style="color: #7f9f7f; font-style: italic"># Load the BN to compare properly time of learning</span>
+<span style="color: #dcdccc">true_model</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">import_DAG</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
+
+<span style="color: #7f9f7f; font-style: italic"># Load the data</span>
+<span style="color: #dcdccc">df</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">pd</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">read_csv</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/sample_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.csv&quot;</span><span style="color: #f0efd0">)</span>  
+
+<span style="color: #dcdccc">model_learned</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">structure_learning</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">fit</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">df</span><span style="color: #f0efd0">,</span> <span style="color: #dcdccc">methodtype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;hc&quot;</span><span style="color: #f0efd0">,</span><span style="color: #dcdccc">scoretype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;bic&quot;</span><span style="color: #f0efd0">)</span>
+
+<span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">save</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">model_learned</span><span style="color: #f0efd0">,</span> <span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/bnlearn_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
+</pre></div></td></tr></table></div>
+ </code> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
@@ -223,38 +265,6 @@
 
 <span style="color: #7f9f7f; font-style: italic"># Save the model</span>
 <span style="color: #dcdccc">best_model</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">save</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/pgmpy_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">,</span><span style="color: #dcdccc">filetype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;bif&quot;</span><span style="color: #f0efd0">)</span>
-</pre></div></td></tr></table></div>
- </code> <code id='bnlearn'> <h2>bnlearn</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 3</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 4</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 5</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 6</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 7</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 8</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 9</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">10</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">11</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">12</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">13</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">14</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">15</span>
-<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">bnlearn</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">bn</span>
-<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">pandas</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">pd</span>
-<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">os</span>
-<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">sys</span>
-
-<span style="color: #dcdccc">currentdir</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">dirname</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">realpath</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">__file__</span><span style="color: #f0efd0">))</span>
-
-<span style="color: #7f9f7f; font-style: italic"># Load the BN to compare properly time of learning</span>
-<span style="color: #dcdccc">true_model</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">import_DAG</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
-
-<span style="color: #7f9f7f; font-style: italic"># Load the data</span>
-<span style="color: #dcdccc">df</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">pd</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">read_csv</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/sample_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.csv&quot;</span><span style="color: #f0efd0">)</span>  
-
-<span style="color: #dcdccc">model_learned</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">structure_learning</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">fit</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">df</span><span style="color: #f0efd0">,</span> <span style="color: #dcdccc">methodtype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;hc&quot;</span><span style="color: #f0efd0">,</span><span style="color: #dcdccc">scoretype</span><span style="color: #f0efd0">=</span><span style="color: #cc9393">&quot;bic&quot;</span><span style="color: #f0efd0">)</span>
-
-<span style="color: #dcdccc">bn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">save</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">model_learned</span><span style="color: #f0efd0">,</span> <span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/bnlearn_learned_</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">_alarm.bif&quot;</span><span style="color: #f0efd0">)</span>
 </pre></div></td></tr></table></div>
  </code> <code id='pyAgrum'> <h2>pyAgrum</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;"> 2</span>

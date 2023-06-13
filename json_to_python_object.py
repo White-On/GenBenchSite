@@ -37,8 +37,8 @@ def FileReaderJson(filename: str) -> None:
             task.arguments.extend(TokenizeArguments(task.arguments_label))
 
             runtime = [taskInfo['results'].get(argument).get('runtime') for argument in task.arguments_label]
-            evaluation = [taskInfo['results'].get(argument).get('evaluation')for argument in task.arguments_label]
-            
+            evaluation = [taskInfo['results'].get(argument).get('evaluation') for argument in task.arguments_label]
+
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
             
