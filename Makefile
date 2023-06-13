@@ -1,6 +1,6 @@
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
-	@echo "Be careful ! some commands require the installation of dev requirements"')
+	@echo "Be careful ! some commands require the installation of dev requirements"
 	@echo "  install    to install requirements"
 	@echo "  dev        to install dev requirements"
 	@echo "  docs       to generate docs"

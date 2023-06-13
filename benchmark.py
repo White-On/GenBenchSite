@@ -41,7 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = False
+    DEBUG = True
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -535,14 +535,17 @@ class Benchmark:
         )
         for taskName in self.taskNames:
             self.RunTask(taskName)
-
+        logger.info("End of the benchmark")
 
 if __name__ == "__main__":
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     outputPath = currentDirectory
-    run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"), baseResult="results.json")
-    # run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
+    result_file = Path('results.json')
+    if result_file.exists():
+        run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"), baseResult=result_file.absolute())
+    else:
+        run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
     run.StartAllProcedure()
 
-    print(run.results)
+    # print(run.results)
     run.ConvertResultToJson()
