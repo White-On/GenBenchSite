@@ -50,8 +50,12 @@ def TokenizeArguments(arguments: list[str]) -> list[int]:
 
 
 def readJsonFile(filename: str):
-    with open(filename, "r") as file:
-        data = json.load(file)
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        logger.error(f"File {filename} not found")
+        data = None
 
     return data
 

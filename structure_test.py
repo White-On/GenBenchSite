@@ -8,7 +8,7 @@ class StructureTest:
         pass
 
     def readConfig(self, *pathConfig, listSection=[]):
-        logger.info("Reading config file")
+        logger.info("Reading config file(s)")
         logger.debug(f"Path config : {pathConfig}")
         if len(pathConfig) == 0:
             logger.warning("No path given")
@@ -36,7 +36,7 @@ class StructureTest:
         if len(pathConfig) == 1:
             config = config[pathConfig[0].parent.name]
 
-        logger.info("Config file read")
+        logger.info("Config file(s) read: number of section(s) found: " + str(len(config.keys())))
         logger.debug(f"Config file : {config}")
         return config
 

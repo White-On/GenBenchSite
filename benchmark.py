@@ -69,18 +69,16 @@ class Benchmark:
             dictionary that associate a task to a theme
         """
 
-        self.pathToInfrastructure = pathToInfrastructure
+        self.pathToInfrastructure = Path(pathToInfrastructure)
 
         self.libraryConfig = self.GetLibraryConfig()
         self.taskConfig = self.GetTaskConfig()
 
-        themeDirectory = os.path.join(self.pathToInfrastructure, "themes")
+        themeDirectory = self.pathToInfrastructure / "themes"
 
         self.libraryNames = self.libraryConfig.keys()
         self.themeNames = [
-            f
-            for f in os.listdir(themeDirectory)
-            if os.path.isdir(os.path.join(themeDirectory, f))
+            theme.name for theme in themeDirectory.iterdir() if theme.is_dir()
         ]
 
         self.taskNames = []
@@ -89,12 +87,9 @@ class Benchmark:
 
         # create a dictionary that associate a theme to a list of task and a dictionary that associate a task to a theme
         for themeName in self.themeNames:
-            self.taskNames += os.listdir(
-                os.path.join(self.pathToInfrastructure, "themes", themeName)
-            )
-            self.dictionaryTaskInTheme[themeName] = os.listdir(
-                os.path.join(self.pathToInfrastructure, "themes", themeName)
-            )
+            listTask = [task_path.name for task_path in themeDirectory.joinpath(themeName).iterdir()]
+            self.taskNames += listTask
+            self.dictionaryTaskInTheme[themeName] = listTask
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
         
@@ -109,8 +104,8 @@ class Benchmark:
         logger.debug(f"{self.results = }")
         logger.debug(f"{self.create_base_json() = }")
 
-        logger.info(f"Library config {self.libraryConfig}")
-        logger.info(f"Task config {self.taskConfig}")
+        logger.info(f"Library config retrieved: list of library {self.libraryConfig.keys()}")
+        logger.info(f"Task config retrieved: list of task {self.taskConfig.keys()}")
     
     def get_result_from_json(self, json_file):
         path_json = Path(json_file)
@@ -135,7 +130,7 @@ class Benchmark:
     def GetLibraryConfig(self):
         strtest = StructureTest()
         libraryConfig = strtest.readConfig(
-            *strtest.findConfigFile(os.path.join(self.pathToInfrastructure, "targets"))
+            *strtest.findConfigFile(self.pathToInfrastructure / "targets")
         )
         return libraryConfig
 
@@ -143,7 +138,7 @@ class Benchmark:
         listTaskpath = []
         strTest = StructureTest()
         listTaskpath = strTest.findConfigFile(
-            os.path.join(self.pathToInfrastructure, "themes")
+           self.pathToInfrastructure / "themes"
         )
         taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
@@ -155,7 +150,7 @@ class Benchmark:
         """
 
         # print("Before build library")
-        logger.info("Before build library")
+        logger.info("Before build library ( we run the beforeBuild command of each library )")
         for libraryName in self.libraryNames:
             process = subprocess.run(
                 self.libraryConfig[libraryName].get("before_build"),
@@ -254,54 +249,8 @@ class Benchmark:
 
         return valueEvaluation
 
-    # def RunProcess(self, commandout, getOutput=False):
-
-    #     start = time.perf_counter()
-
-    #     process = subprocess.Popen(command,shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    #     # print(f"\nTimeout expired for the {command} command")
-
-    #     # Create an event to signal the timeout
-    #     event = threading.Event()
-
-    #     # Start a timer to set the event after the timeout
-    #     timer = threading.Timer(timeout, event.set)
-    #     timer.start()
-
-    #     # Wait for the subprocess to finish or the timeout to occur
-    #     while process.poll() is None and not event.is_set():
-    #         # The subprocess is still running and the timeout has not occurred
-    #         pass
-
-    #     # Check if the subprocess is still running
-    #     if process.poll() is None:
-    #         # The subprocess is still running, so we need to kill it
-    #         process.kill()
-    #         return Benchmark.TIMEOUT_VALUE
-
-    #     # Cancel the timer
-    #     timer.cancel()
-
-    #     end = time.perf_counter()
-    #     if process.returncode == 1:
-    #         # print(f"\nError in the {command} command")
-    #         # print(process.stderr)
-    #         return Benchmark.ERROR_VALUE
-
-    #     elif process.returncode == 2:
-    #         # print(f"\nCan't run this task because the library doesn't support it")
-    #         # print(process.stderr)
-    #         return Benchmark.NOT_RUN_VALUE
-    # if getOutput:
-    #     return process.stdout
-
-    #     i#         print(process.stdout)
-
-    #     return end-start
-
     def RunProcess(self, command, timeout, getOutput=False):
-        logger.info(f"RunProcess {command = }")
+        logger.debug(f"RunProcess with the command {command}")
         if Benchmark.DEBUG:
             return np.random.randint(100) * 1.0
 
@@ -349,18 +298,14 @@ class Benchmark:
         """
         Check if the script exist in the path
         """
-        return os.path.exists(os.path.join(scriptPath, scriptName))
+        script = Path(scriptPath) / scriptName
+        return script.exists() and script.is_file()
 
     def RunTask(self, taskName: str):
         """
         Run the task for each library and save the results in the results dictionary
         """
-        path = os.path.join(
-            self.pathToInfrastructure,
-            "themes",
-            self.dictonaryThemeInTask[taskName],
-            taskName,
-        )
+        path =  self.pathToInfrastructure/ "themes" / self.dictonaryThemeInTask[taskName] / taskName 
 
         #    We check if the before task command/script exist if not we do nothing
         beforeTaskModule = self.taskConfig[taskName].get("before_script", None)
@@ -404,6 +349,7 @@ class Benchmark:
                 * 2
             )  # *2 because we have before and after run script
             return
+        logger.info(f"Run task {taskName} for library {libraryName}")
 
         # we check if there is a before run script
         beforeRunScriptExist = self.ScriptExist(
@@ -429,7 +375,7 @@ class Benchmark:
             for nb_run in range(numberRun):
                 # Before run script
                 if beforeRunScriptExist:
-                    command = f"{self.libraryConfig[libraryName].get('language')} {os.path.join(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
+                    command = f"{self.libraryConfig[libraryName].get('language')} {Path(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
                     resultProcess = self.RunProcess(command=command, timeout=timeout)
                     beforeRunListTime.append(resultProcess)
                     self.progressBar.update(1)
@@ -501,6 +447,7 @@ class Benchmark:
             #         listTime[0],
             #         valueEvaluation,
             #     )
+        logger.info(f"End task {taskName} for library {libraryName}")
 
     def CalculNumberIteration(self):
         """
@@ -515,7 +462,7 @@ class Benchmark:
                 * len(self.libraryNames)
             )  # Nb runs * nb arguments * 2 (before run and after run) * nb libraries
 
-        logger.info(f"Number of iteration for the progress bar: {nbIteration}")
+        logger.info(f"Number of commands : {nbIteration}")
         return nbIteration
 
     def ConvertResultToJson(
@@ -533,18 +480,19 @@ class Benchmark:
         self.progressBar = tqdm(
             total=self.CalculNumberIteration(), desc="Initialization", ncols=150, position=0
         )
+        logger.info("=======Begining of the benchmark=======")
         for taskName in self.taskNames:
             self.RunTask(taskName)
-        logger.info("End of the benchmark")
+        logger.info("=======End of the benchmark=======")
 
 if __name__ == "__main__":
-    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    currentDirectory = Path(__file__).parent.absolute()
     outputPath = currentDirectory
     result_file = Path('results.json')
     if result_file.exists():
-        run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"), baseResult=result_file.absolute())
+        run = Benchmark(pathToInfrastructure= currentDirectory / "repository", baseResult=result_file.absolute())
     else:
-        run = Benchmark(pathToInfrastructure=os.path.join(currentDirectory, "repository"))
+        run = Benchmark(pathToInfrastructure= currentDirectory / "repository")
     run.StartAllProcedure()
 
     # print(run.results)
