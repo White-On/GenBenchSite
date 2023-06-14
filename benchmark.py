@@ -244,7 +244,7 @@ class Benchmark:
                 )
                 logger.debug(f"{e = }")
                 output = Benchmark.ERROR_VALUE
-
+            logger.debug(f"{output = }")
             valueEvaluation.append(output)
 
         return valueEvaluation
@@ -398,7 +398,7 @@ class Benchmark:
                     self.progressBar.update((numberRun - nb_run - 1) * 2)
                     break
 
-            valueEvaluation = None
+            valueEvaluation = [None]
 
             # After run script
             if afterRunScript is not None:
@@ -421,32 +421,11 @@ class Benchmark:
                     arg=arg,
                 )
                 logger.debug(f"{valueEvaluation = }")
+
             
             self.results[libraryName][taskName]["results"][arg]["runtime"].extend([b,t] for b,t in zip(beforeRunListTime, listTime))
             self.results[libraryName][taskName]["results"][arg]["evaluation"].append(valueEvaluation)
 
-            # we remove the error and timeout values to calculate the mean
-            # filteredListTime = [
-            #     x for x in listTime if isinstance(x, float) or isinstance(x, int)
-            # ]
-            # filteredListBeforeRunTime = [
-            #     x
-            #     for x in beforeRunListTime
-            #     if isinstance(x, float) or isinstance(x, int)
-            # ]
-            # # If there is no value in the list, we take the first value even if it is an error or a timeout
-            # if len(filteredListTime) != 0:
-            #     # TEMPORAIRE
-            #     self.results[libraryName][taskName]["results"][arg] = (
-            #         np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime),
-            #         valueEvaluation,
-            #     )
-            #     # self.results[libraryName][taskName]["results"][arg] = np.mean(filteredListTime) - np.mean(filteredListBeforeRunTime)
-            # else:
-            #     self.results[libraryName][taskName]["results"][arg] = (
-            #         listTime[0],
-            #         valueEvaluation,
-            #     )
         logger.info(f"End task {taskName} for library {libraryName}")
 
     def CalculNumberIteration(self):

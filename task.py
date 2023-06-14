@@ -36,7 +36,8 @@ class Task:
     runtime: dict[str, list[float]] = field(default_factory=dict)
     evaluation: dict[str, list[float]] = field(default_factory=dict)
     arguments_label: list[str] = field(default_factory=list)
-    # extra_data :dict[str,str] = field(default_factory=dict)
+    cache_runtime: dict[str, list[float]] = field(default_factory=dict)
+    cache_evaluation: dict[str, list[float]] = field(default_factory=dict)
     allTasks: ClassVar[list["Task"]] = []
 
     def __post_init__(self) -> None:
@@ -180,6 +181,11 @@ class Task:
             The mean of the runtime of the task.
 
         """
+        # if the runtime hase already been calculated we return it
+        if target in self.cache_runtime:
+            logger.debug(f"Runtime for {self.name} : {self.cache_runtime[target]}")
+            return self.cache_runtime[target]
+        # if the runtime is a error message we return a list of inf
         if isinstance(self.runtime[target][0], str):
             # the runtime is a error message
             runtime = [float("inf")] * len(self.arguments)
@@ -198,6 +204,8 @@ class Task:
         # we calculate the mean of the runtime for each argument
         runtime = np.nanmean(runtime, axis=1)
         logger.debug(f"Runtime for {self.name} : {runtime}")
+        # we save the runtime in the cache
+        self.cache_runtime[target] = runtime.tolist()
         return runtime.tolist()
 
     def get_calculated_evaluation(self, target:str) -> list[float]:
