@@ -172,4 +172,3 @@ class Library:
             task = library.GetTaskByName(taskName)
             dico[library.name] = task.arguments
         return dico
-

@@ -9,6 +9,7 @@ from library import Library
 from task import Task
 from logger import logger
 
+
 def FileReaderJson(filename: str) -> None:
     """Read a json file and create the python object.
 
@@ -28,7 +29,11 @@ def FileReaderJson(filename: str) -> None:
     for libName, libInfo in data.items():
         library = Library(libName)
         for taskName, taskInfo in libInfo.items():
-            task = Task(taskName, taskInfo["theme"]) if taskName not in Task.GetAllTaskName() else Task.GetTaskByName(taskName)
+            task = (
+                Task(taskName, taskInfo["theme"])
+                if taskName not in Task.GetAllTaskName()
+                else Task.GetTaskByName(taskName)
+            )
             logger.info(f"Task {taskName} with {libName} library")
             logger.debug(f"arguments: {len(taskInfo['results'].keys())}")
 
@@ -36,12 +41,18 @@ def FileReaderJson(filename: str) -> None:
             # transform the argument label into a list of index to be able to use the LexMax algorithm
             task.arguments.extend(TokenizeArguments(task.arguments_label))
 
-            runtime = [taskInfo['results'].get(argument).get('runtime') for argument in task.arguments_label]
-            evaluation = [taskInfo['results'].get(argument).get('evaluation') for argument in task.arguments_label]
+            runtime = [
+                taskInfo["results"].get(argument).get("runtime")
+                for argument in task.arguments_label
+            ]
+            evaluation = [
+                taskInfo["results"].get(argument).get("evaluation")
+                for argument in task.arguments_label
+            ]
 
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
-            
+
             library.tasks.append(task)
 
 
@@ -61,7 +72,6 @@ def readJsonFile(filename: str):
 
 
 if __name__ == "__main__":
-
     FileReaderJson("results.json")
 
     print(Task.GetAllTaskName())
@@ -69,6 +79,5 @@ if __name__ == "__main__":
     print(list(Library.GetAllLibraryName()))
 
     task = Task.allTasks[0]
-    print(task.name)    
+    print(task.name)
     print(task.get_calculated_runtime("pyAgrum"))
-   

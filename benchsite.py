@@ -11,6 +11,7 @@ from task import Task
 import ranking as rk
 from shutil import copyfile
 from collectCode import CollectCode
+from getMachineData import GetRunMachineMetadata
 
 RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 
@@ -23,13 +24,13 @@ class BenchSite:
     def __init__(
         self, inputFilename: str, outputPath="pages", structureTestPath="repository"
     ) -> None:
+        logger.info("=======Creating BenchSite=======")
         # Here to change you'r own FileReader
         FileReaderJson(inputFilename)
         self.inputFilename = inputFilename
         self.outputPath = outputPath
         self.structureTestPath = structureTestPath
 
-        logger.info("BenchSite created")
         logger.debug(f"inputFilename : {inputFilename}")
         logger.debug(f"outputPath : {outputPath}")
         logger.debug(f"structureTestPath : {structureTestPath}")
@@ -44,7 +45,7 @@ class BenchSite:
             os.path.join(outputPath, "style"),
         )
 
-        self.machineData = readJsonFile("machine.json")
+        self.machineData = GetRunMachineMetadata()
         self.siteConfig = self.GetSiteConfig()
 
     def GetLibraryConfig(self):
@@ -183,7 +184,6 @@ class BenchSite:
             HTMLBestTheme += f"<p><b>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</b></p></div>"
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
-
 
     def GenerateHTMLMachineInfo(self):
         HTMLMachineInfo = "<div class ='card'><h1>Machine Info</h1>"
@@ -440,7 +440,9 @@ class BenchSite:
                         }
                         for arg, res in zip(
                             library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).get_calculated_runtime(library.name),
+                            library.GetTaskByName(taskName).get_calculated_runtime(
+                                library.name
+                            ),
                         )
                         if res != float("infinity")
                     ]
@@ -461,7 +463,9 @@ class BenchSite:
                         }
                         for arg, res in zip(
                             library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).get_calculated_runtime(library.name),
+                            library.GetTaskByName(taskName).get_calculated_runtime(
+                                library.name
+                            ),
                         )
                         if res != None
                     ]
@@ -478,15 +482,17 @@ class BenchSite:
                     "title": "Runtime",
                     "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
-                    "scale": taskConfig[taskName].get("task_scale", "auto")
+                    "scale": taskConfig[taskName].get("task_scale", "auto"),
                 },
                 "eval": {
                     "data": importedResults,
-                    "display": taskConfig[taskName].get("post_task_display", "groupedBar"),
+                    "display": taskConfig[taskName].get(
+                        "post_task_display", "groupedBar"
+                    ),
                     "title": "Evaluation",
                     "XLabel": taskConfig[taskName].get("post_task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("post_task_ylabel", "Y-axis"),
-                    "scale": taskConfig[taskName].get("post_task_scale", "auto")
+                    "scale": taskConfig[taskName].get("post_task_scale", "auto"),
                 },
             }
 
@@ -536,9 +542,7 @@ class BenchSite:
                     content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
-                extra_description=taskConfig[taskName].get(
-                    "extra_description", ""
-                ),
+                extra_description=taskConfig[taskName].get("extra_description", ""),
             )
 
             staticSiteGenerator.CreateHTMLPage(
@@ -687,7 +691,10 @@ class BenchSite:
                             "resultElement": res,
                             "libraryName": libraryName,
                         }
-                        for arg, res in zip(task.arguments_label, task.get_calculated_runtime(libraryName))
+                        for arg, res in zip(
+                            task.arguments_label,
+                            task.get_calculated_runtime(libraryName),
+                        )
                         if res >= 0 and res != float("infinity")
                     ],
                 }
@@ -753,6 +760,8 @@ class BenchSite:
         staticSiteGenerator.CreateHTMLPage(
             [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"
         )
+
+        logger.info("=======Static site generated successfully=======")
 
 
 if __name__ == "__main__":

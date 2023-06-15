@@ -87,45 +87,61 @@ class Benchmark:
 
         # create a dictionary that associate a theme to a list of task and a dictionary that associate a task to a theme
         for themeName in self.themeNames:
-            listTask = [task_path.name for task_path in themeDirectory.joinpath(themeName).iterdir()]
+            listTask = [
+                task_path.name
+                for task_path in themeDirectory.joinpath(themeName).iterdir()
+            ]
             self.taskNames += listTask
             self.dictionaryTaskInTheme[themeName] = listTask
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
-        
+
         if baseResult is None:
             self.results = self.create_base_json()
         else:
             self.results = self.get_result_from_json(baseResult)
-        
+
         logger.debug(f"{self.dictionaryTaskInTheme = }")
         logger.debug(f"{self.dictonaryThemeInTask = }")
 
         logger.debug(f"{self.results = }")
         logger.debug(f"{self.create_base_json() = }")
 
-        logger.info(f"Library config retrieved: list of library {self.libraryConfig.keys()}")
+        logger.info(
+            f"Library config retrieved: list of library {self.libraryConfig.keys()}"
+        )
         logger.info(f"Task config retrieved: list of task {self.taskConfig.keys()}")
-    
+
     def get_result_from_json(self, json_file):
         path_json = Path(json_file)
         if not path_json.exists():
             logger.error(f"File {json_file} does not exist")
             return self.create_base_json()
-        
+
         # check suffix
         if path_json.suffix != ".json":
             logger.error(f"File {json_file} is not a json file")
             return self.create_base_json()
-        
+
         with open(json_file, "r") as f:
             results = json.load(f)
-        
-        return results
-    
-    def create_base_json(self):
-        return {libraryName: {taskName:{"theme":self.dictonaryThemeInTask[taskName], "results":{arg:{"runtime":[],"evaluation":[]}for arg in self.taskConfig[taskName].get("arguments").split(",")}} for taskName in self.taskNames} for libraryName in self.libraryNames}
 
+        return results
+
+    def create_base_json(self):
+        return {
+            libraryName: {
+                taskName: {
+                    "theme": self.dictonaryThemeInTask[taskName],
+                    "results": {
+                        arg: {"runtime": [], "evaluation": []}
+                        for arg in self.taskConfig[taskName].get("arguments").split(",")
+                    },
+                }
+                for taskName in self.taskNames
+            }
+            for libraryName in self.libraryNames
+        }
 
     def GetLibraryConfig(self):
         strtest = StructureTest()
@@ -137,9 +153,7 @@ class Benchmark:
     def GetTaskConfig(self):
         listTaskpath = []
         strTest = StructureTest()
-        listTaskpath = strTest.findConfigFile(
-           self.pathToInfrastructure / "themes"
-        )
+        listTaskpath = strTest.findConfigFile(self.pathToInfrastructure / "themes")
         taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
 
@@ -150,7 +164,9 @@ class Benchmark:
         """
 
         # print("Before build library")
-        logger.info("Before build library ( we run the beforeBuild command of each library )")
+        logger.info(
+            "Before build library ( we run the beforeBuild command of each library )"
+        )
         for libraryName in self.libraryNames:
             process = subprocess.run(
                 self.libraryConfig[libraryName].get("before_build"),
@@ -305,7 +321,12 @@ class Benchmark:
         """
         Run the task for each library and save the results in the results dictionary
         """
-        path =  self.pathToInfrastructure/ "themes" / self.dictonaryThemeInTask[taskName] / taskName 
+        path = (
+            self.pathToInfrastructure
+            / "themes"
+            / self.dictonaryThemeInTask[taskName]
+            / taskName
+        )
 
         #    We check if the before task command/script exist if not we do nothing
         beforeTaskModule = self.taskConfig[taskName].get("before_script", None)
@@ -341,7 +362,8 @@ class Benchmark:
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
             self.results[libraryName][taskName]["results"] = {
-                arg: {'runtime':Benchmark.NOT_RUN_VALUE, 'evaluation': None} for arg in arguments
+                arg: {"runtime": Benchmark.NOT_RUN_VALUE, "evaluation": None}
+                for arg in arguments
             }
             self.progressBar.update(
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
@@ -367,7 +389,7 @@ class Benchmark:
 
             beforeRunListTime = []
             listTime = []
-            
+
             numberRun = int(
                 self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
             )
@@ -410,7 +432,7 @@ class Benchmark:
                     functionEvaluation = functionEvaluation.split(" ")
                 else:
                     functionEvaluation = []
-                    
+
                 valueEvaluation = self.EvaluationAfterTask(
                     afterRunScript,
                     taskName,
@@ -422,9 +444,12 @@ class Benchmark:
                 )
                 logger.debug(f"{valueEvaluation = }")
 
-            
-            self.results[libraryName][taskName]["results"][arg]["runtime"].extend([b,t] for b,t in zip(beforeRunListTime, listTime))
-            self.results[libraryName][taskName]["results"][arg]["evaluation"].append(valueEvaluation)
+            self.results[libraryName][taskName]["results"][arg]["runtime"].extend(
+                [b, t] for b, t in zip(beforeRunListTime, listTime)
+            )
+            self.results[libraryName][taskName]["results"][arg]["evaluation"].append(
+                valueEvaluation
+            )
 
         logger.info(f"End task {taskName} for library {libraryName}")
 
@@ -444,35 +469,41 @@ class Benchmark:
         logger.info(f"Number of commands : {nbIteration}")
         return nbIteration
 
-    def ConvertResultToJson(
-        self, outputFileName: str = "results.json"
-    ):
+    def ConvertResultToJson(self, outputFileName="results.json"):
         """
         convert the result to a json file
         """
         with open(outputFileName, "w") as file:
             json.dump(self.results, file, indent=4)
+        logger.info(f"Result saved in {outputFileName}")
 
     def StartAllProcedure(self):
         self.BeforeBuildLibrary()
 
         self.progressBar = tqdm(
-            total=self.CalculNumberIteration(), desc="Initialization", ncols=150, position=0
+            total=self.CalculNumberIteration(),
+            desc="Initialization",
+            ncols=150,
+            position=0,
         )
         logger.info("=======Begining of the benchmark=======")
         for taskName in self.taskNames:
             self.RunTask(taskName)
         logger.info("=======End of the benchmark=======")
 
+
 if __name__ == "__main__":
     currentDirectory = Path(__file__).parent.absolute()
     outputPath = currentDirectory
-    result_file = Path('results.json')
+    result_file = currentDirectory / "results.json"
     if result_file.exists():
-        run = Benchmark(pathToInfrastructure= currentDirectory / "repository", baseResult=result_file.absolute())
+        run = Benchmark(
+            pathToInfrastructure=currentDirectory / "repository",
+            baseResult=result_file.absolute(),
+        )
     else:
-        run = Benchmark(pathToInfrastructure= currentDirectory / "repository")
+        run = Benchmark(pathToInfrastructure=currentDirectory / "repository")
     run.StartAllProcedure()
 
     # print(run.results)
-    run.ConvertResultToJson()
+    run.ConvertResultToJson(result_file.absolute())

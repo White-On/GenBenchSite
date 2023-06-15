@@ -15,11 +15,12 @@ class CollectCode:
 
         self.taskNames = []
 
-        self.targets = [path.name for path in self.pathToInfrastructure.glob("targets/*")]
+        self.targets = [
+            path.name for path in self.pathToInfrastructure.glob("targets/*")
+        ]
 
         self.taskPath = list(self.pathToInfrastructure.glob("**/*_run.py"))
-        
-        
+
         logger.debug(f"Task path : {self.taskPath}")
         logger.debug(f"Targets : {self.targets}")
 
@@ -28,6 +29,7 @@ class CollectCode:
         self.CodeHTML = {target: {} for target in self.targets}
 
         self.TransfomCodeInHTML()
+        logger.info("=======Code collected=======")
 
     def RetreiveCode(self, *code_path):
         if len(code_path) == 0:
@@ -41,13 +43,13 @@ class CollectCode:
             if path.name.split("_")[1] == "before":
                 continue
             taskName = path.parent.name
-            targetName =path.name.split("_")[0]
+            targetName = path.name.split("_")[0]
             logger.debug(f"Reading code file in {path.absolute()}")
             with open(path.absolute(), "r") as f:
                 code[targetName][taskName] = f.read()
-        
+
         logger.info("Code retreived")
-            
+
         return code
 
     def TransfomCodeInHTML(self):
@@ -58,7 +60,7 @@ class CollectCode:
                 )
         logger.info("Code transformed in HTML")
         logger.debug(f"Code HTML : {self.CodeHTML.keys()}")
-    
+
     def pure_code_to_html(self, code: str):
         formatter = HtmlFormatter(
             linenos=True,
@@ -71,9 +73,9 @@ class CollectCode:
     def SaveInJson(self, outputPath: str):
         with open(outputPath, "w") as file:
             json.dump(self.CodeHTML, file)
-        
+
     def get_code_HTML(self, target, task):
-        return self.CodeHTML[target].get(task,"No code found")
+        return self.CodeHTML[target].get(task, "No code found")
 
 
 if __name__ == "__main__":

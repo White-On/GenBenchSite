@@ -1,580 +1,3133 @@
 {
     "bnlearn": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            74.0,
+                            65.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            83.0,
+                            76.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            57.0,
+                            78.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            50.0,
+                            58.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            14.0,
+                            79.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            45.0,
+                            70.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            92.0,
+                            79.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            61.0,
+                            68.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            49.0,
+                            11.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            24.0,
+                            64.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            90.0,
+                            57.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            84.0,
+                            6.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            93.0,
+                            76.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            26.0,
+                            85.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            14.0,
+                            71.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            65.0,
+                            64.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            43.0,
+                            61.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "water.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "pathfinder.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "munin.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "mildew.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "link.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "insurance.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "hepar2.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "hailfinder.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "earthquake.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "diabetes.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "child.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "cancer.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "barley.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "asia.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "andes.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "alarm.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            59.0,
+                            8.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            40.0,
+                            97.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            80.0,
+                            76.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            70.0,
+                            4.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            98.0,
+                            81.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            63.0,
+                            80.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            38.0,
+                            58.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            19.0,
+                            55.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            98.0,
+                            81.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            90.0,
+                            78.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            53.0,
+                            69.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            46.0,
+                            57.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            57.0,
+                            25.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            60.0,
+                            61.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            7.0,
+                            27.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            9.0,
+                            73.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            51.0,
+                            21.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
         "Learning_best_method": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    "NotRun",
-                    null
-                ],
-                "1500": [
-                    "NotRun",
-                    null
-                ],
-                "2000": [
-                    "NotRun",
-                    null
-                ],
-                "2500": [
-                    "NotRun",
-                    null
-                ],
-                "3000": [
-                    "NotRun",
-                    null
-                ],
-                "3500": [
-                    "NotRun",
-                    null
-                ],
-                "4000": [
-                    "NotRun",
-                    null
-                ],
-                "4500": [
-                    "NotRun",
-                    null
-                ],
-                "5000": [
-                    "NotRun",
-                    null
-                ],
-                "7500": [
-                    "NotRun",
-                    null
-                ],
-                "10000": [
-                    "NotRun",
-                    null
-                ]
+                "1000": {
+                    "runtime": [
+                        [
+                            96.0,
+                            8.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            20.0,
+                            67.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            43.0,
+                            93.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            19.0,
+                            52.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            15.0,
+                            98.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            96.0,
+                            48.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            69.0,
+                            29.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            39.0,
+                            88.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            63.0,
+                            72.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            89.0,
+                            49.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            98.0,
+                            22.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
+                    ]
+                }
             }
         },
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    "NotRun",
-                    null
-                ],
-                "1500": [
-                    "NotRun",
-                    null
-                ],
-                "2000": [
-                    "NotRun",
-                    null
-                ],
-                "2500": [
-                    "NotRun",
-                    null
-                ],
-                "3000": [
-                    "NotRun",
-                    null
-                ],
-                "3500": [
-                    "NotRun",
-                    null
-                ],
-                "4000": [
-                    "NotRun",
-                    null
-                ],
-                "4500": [
-                    "NotRun",
-                    null
-                ],
-                "5000": [
-                    "NotRun",
-                    null
-                ],
-                "7500": [
-                    "NotRun",
-                    null
-                ],
-                "10000": [
-                    "NotRun",
-                    null
-                ]
+                "1000": {
+                    "runtime": [
+                        [
+                            12.0,
+                            50.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            19.0,
+                            56.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            88.0,
+                            14.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            9.0,
+                            58.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            14.0,
+                            19.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            49.0,
+                            97.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            19.0,
+                            58.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            55.0,
+                            7.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            45.0,
+                            10.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            21.0,
+                            26.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            18.0,
+                            22.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
             }
         },
         "Learning_hill_climb_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    "NotRun",
-                    null
-                ],
-                "1500": [
-                    "NotRun",
-                    null
-                ],
-                "2000": [
-                    "NotRun",
-                    null
-                ],
-                "2500": [
-                    "NotRun",
-                    null
-                ],
-                "3000": [
-                    "NotRun",
-                    null
-                ],
-                "3500": [
-                    "NotRun",
-                    null
-                ],
-                "4000": [
-                    "NotRun",
-                    null
-                ],
-                "4500": [
-                    "NotRun",
-                    null
-                ],
-                "5000": [
-                    "NotRun",
-                    null
-                ],
-                "7500": [
-                    "NotRun",
-                    null
-                ],
-                "10000": [
-                    "NotRun",
-                    null
-                ]
+                "1000": {
+                    "runtime": [
+                        [
+                            40.0,
+                            92.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            54.0,
+                            41.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            43.0,
+                            79.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            39.0,
+                            93.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            85.0,
+                            5.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            35.0,
+                            9.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            32.0,
+                            53.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            81.0,
+                            40.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            66.0,
+                            83.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            96.0,
+                            73.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            23.0,
+                            50.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
             }
         }
     },
     "pgmpy": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            94.0,
+                            92.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            36.0,
+                            33.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            88.0,
+                            47.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            44.0,
+                            95.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            18.0,
+                            47.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            20.0,
+                            35.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            41.0,
+                            68.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            14.0,
+                            36.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            39.0,
+                            4.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            88.0,
+                            92.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            84.0,
+                            75.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            38.0,
+                            44.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            65.0,
+                            53.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            61.0,
+                            56.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            74.0,
+                            48.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            22.0,
+                            39.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            78.0,
+                            50.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "water.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "pathfinder.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "munin.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "mildew.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "link.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "insurance.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "hepar2.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "hailfinder.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "earthquake.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "diabetes.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "child.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "cancer.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "barley.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "asia.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "andes.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                },
+                "alarm.bif": {
+                    "runtime": "NotRun",
+                    "evaluation": null
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            13.0,
+                            3.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            33.0,
+                            57.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            46.0,
+                            59.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            86.0,
+                            63.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            15.0,
+                            10.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            40.0,
+                            46.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            4.0,
+                            67.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            26.0,
+                            67.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            37.0,
+                            7.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            62.0,
+                            18.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            91.0,
+                            25.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            16.0,
+                            11.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            21.0,
+                            66.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            73.0,
+                            91.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            77.0,
+                            37.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            92.0,
+                            12.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            70.0,
+                            33.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
         "Learning_best_method": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    1.8844221999752335,
-                    [
-                        null
+                "1000": {
+                    "runtime": [
+                        [
+                            3.0,
+                            48.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    25.296758600044996,
-                    [
-                        null
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            76.0,
+                            96.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    28.684329899959266,
-                    [
-                        null
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            96.0,
+                            8.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    29.41676270001335,
-                    [
-                        null
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            61.0,
+                            76.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    33.52676530001918,
-                    [
-                        null
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            13.0,
+                            11.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            8.0,
+                            83.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    43.92934219999006,
-                    [
-                        null
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            88.0,
+                            2.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    "Error",
-                    [
-                        null
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            33.0,
+                            19.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            26.0,
+                            70.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            42.0,
+                            89.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            49.0,
+                            26.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         },
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    "Error",
-                    [
-                        null
+                "1000": {
+                    "runtime": [
+                        [
+                            25.0,
+                            1.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    "Error",
-                    [
-                        null
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            7.0,
+                            14.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    "Error",
-                    [
-                        null
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            52.0,
+                            60.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    "Error",
-                    [
-                        null
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            27.0,
+                            97.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    "Error",
-                    [
-                        null
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            70.0,
+                            79.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    "Error",
-                    [
-                        null
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            32.0,
+                            96.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    "Error",
-                    [
-                        null
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            59.0,
+                            32.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    "Error",
-                    [
-                        null
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            28.0,
+                            81.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    "Error",
-                    [
-                        null
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            6.0,
+                            26.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    "Error",
-                    [
-                        null
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            51.0,
+                            67.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    "Error",
-                    [
-                        null
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            5.0,
+                            31.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         },
         "Learning_hill_climb_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    17.375852899975143,
-                    [
-                        null
+                "1000": {
+                    "runtime": [
+                        [
+                            27.0,
+                            99.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    15.795863899984397,
-                    [
-                        null
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            82.0,
+                            23.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    25.48459340003319,
-                    [
-                        null
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            15.0,
+                            35.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    31.059892999997828,
-                    [
-                        0.6105263157894736
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            12.0,
+                            39.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    36.34221279999474,
-                    [
-                        null
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            75.0,
+                            89.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    41.80542469996726,
-                    [
-                        null
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            55.0,
+                            91.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    48.04973820003215,
-                    [
-                        null
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            12.0,
+                            67.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            80.0,
+                            60.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            42.0,
+                            63.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            11.0,
+                            44.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    "Timeout",
-                    [
-                        null
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            16.0,
+                            94.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         }
     },
     "pyAgrum": {
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            59.0,
+                            6.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            4.0,
+                            31.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            80.0,
+                            2.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            26.0,
+                            13.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            79.0,
+                            40.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            62.0,
+                            5.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            76.0,
+                            0.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            7.0,
+                            9.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            79.0,
+                            39.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            55.0,
+                            96.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            28.0,
+                            65.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            74.0,
+                            68.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            80.0,
+                            53.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            54.0,
+                            88.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            95.0,
+                            58.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            85.0,
+                            77.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            47.0,
+                            82.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            55.0,
+                            9.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            49.0,
+                            2.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            1.0,
+                            41.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            54.0,
+                            17.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            18.0,
+                            49.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            22.0,
+                            7.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            46.0,
+                            93.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            50.0,
+                            53.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            41.0,
+                            70.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            81.0,
+                            96.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            32.0,
+                            92.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            95.0,
+                            47.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            69.0,
+                            90.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            77.0,
+                            32.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            40.0,
+                            1.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            1.0,
+                            70.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            55.0,
+                            7.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            16.0,
+                            2.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            87.0,
+                            86.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            87.0,
+                            13.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            39.0,
+                            40.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            96.0,
+                            27.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            72.0,
+                            77.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            1.0,
+                            99.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            80.0,
+                            54.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            74.0,
+                            64.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            13.0,
+                            73.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            39.0,
+                            35.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            39.0,
+                            17.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            86.0,
+                            71.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            81.0,
+                            64.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            21.0,
+                            48.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            10.0,
+                            33.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            75.0,
+                            15.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
+                    ]
+                }
+            }
+        },
         "Learning_best_method": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    0.503945600008592,
-                    [
-                        0.6818181818181819
+                "1000": {
+                    "runtime": [
+                        [
+                            9.0,
+                            69.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    0.5726219999487512,
-                    [
-                        0.6966292134831461
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            56.0,
+                            88.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    1.05842809996102,
-                    [
-                        0.7252747252747253
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            75.0,
+                            35.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    0.6587654000031762,
-                    [
-                        0.7191011235955057
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            22.0,
+                            14.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    0.8908201999147423,
-                    [
-                        0.6373626373626373
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            78.0,
+                            75.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    0.9302589999861084,
-                    [
-                        0.7555555555555555
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            79.0,
+                            51.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    1.0126238000229932,
-                    [
-                        0.7472527472527473
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            95.0,
+                            30.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    1.0743198999552988,
-                    [
-                        0.7912087912087912
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            18.0,
+                            74.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    1.1789592999848537,
-                    [
-                        0.795698924731183
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            65.0,
+                            81.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    1.5582691000308841,
-                    [
-                        0.7391304347826085
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            54.0,
+                            88.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    2.4809294000733644,
-                    [
-                        0.7789473684210526
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            56.0,
+                            49.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null,
+                            null,
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         },
-        "Learning_exaustive_search_BIC": {
+        "Learning_exhaustive_search_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    0.18727699993178248,
-                    [
-                        0.6117647058823529
+                "1000": {
+                    "runtime": [
+                        [
+                            15.0,
+                            6.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    0.14901409996673465,
-                    [
-                        0.5111111111111111
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            45.0,
+                            84.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    0.18566689995350316,
-                    [
-                        0.5714285714285713
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            74.0,
+                            73.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    0.19351600005757064,
-                    [
-                        0.6813186813186812
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            28.0,
+                            39.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    0.22903829999268055,
-                    [
-                        0.5806451612903226
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            54.0,
+                            47.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    0.2472371999756433,
-                    [
-                        0.6021505376344086
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            59.0,
+                            32.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    0.26009600004181266,
-                    [
-                        0.6236559139784946
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            93.0,
+                            98.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    0.25786329997936264,
-                    [
-                        0.6236559139784946
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            84.0,
+                            12.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    0.3149058999842964,
-                    [
-                        0.7608695652173914
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            35.0,
+                            63.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    0.3698747000307776,
-                    [
-                        0.631578947368421
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            57.0,
+                            68.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    0.48030799999833107,
-                    [
-                        0.7446808510638298
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            91.0,
+                            46.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         },
         "Learning_hill_climb_BIC": {
             "theme": "Learning",
             "results": {
-                "1000": [
-                    0.10989419999532402,
-                    [
-                        0.5783132530120482
+                "1000": {
+                    "runtime": [
+                        [
+                            27.0,
+                            16.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "1500": [
-                    0.12730399996507913,
-                    [
-                        0.4888888888888889
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            26.0,
+                            19.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2000": [
-                    0.1464521999587305,
-                    [
-                        0.5494505494505495
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            66.0,
+                            24.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "2500": [
-                    0.1698178999358788,
-                    [
-                        0.5274725274725275
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            23.0,
+                            52.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3000": [
-                    0.21336180000798777,
-                    [
-                        0.5217391304347826
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            86.0,
+                            88.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "3500": [
-                    0.21773519995622337,
-                    [
-                        0.5
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            36.0,
+                            89.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4000": [
-                    0.2334206000668928,
-                    [
-                        0.5869565217391305
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            33.0,
+                            72.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "4500": [
-                    0.23374519997742027,
-                    [
-                        0.5591397849462365
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            45.0,
+                            8.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "5000": [
-                    0.29070240003056824,
-                    [
-                        0.6451612903225806
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            10.0,
+                            54.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "7500": [
-                    0.38326420000521466,
-                    [
-                        0.6808510638297872
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            23.0,
+                            8.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ],
-                "10000": [
-                    0.45283410005504265,
-                    [
-                        0.5894736842105263
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            89.0,
+                            41.0
+                        ]
+                    ],
+                    "evaluation": [
+                        [
+                            null
+                        ]
                     ]
-                ]
+                }
             }
         }
     }

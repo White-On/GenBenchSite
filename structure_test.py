@@ -36,7 +36,10 @@ class StructureTest:
         if len(pathConfig) == 1:
             config = config[pathConfig[0].parent.name]
 
-        logger.info("Config file(s) read: number of section(s) found: " + str(len(config.keys())))
+        logger.info(
+            "=======Config file(s) read=======\nnumber of section(s) found: "
+            + str(len(config.keys()))
+        )
         logger.debug(f"Config file : {config}")
         return config
 
@@ -45,7 +48,7 @@ class StructureTest:
         if not path.exists():
             logger.error(f"Path not found: {path}")
             raise FileNotFoundError(f"File not found: {path}")
-        
+
         config_files = path.glob("**/config.ini")
         if not config_files:
             logger.warning(f"Config file not found in {path}")
@@ -61,8 +64,6 @@ if __name__ == "__main__":
     file_conf = test.findConfigFile(pathSite)
     config = test.readConfig(*list(file_conf))
 
-
     test = StructureTest()
     file_conf = test.findConfigFile(listPathTarget)
     config = test.readConfig(*list(file_conf))
-
