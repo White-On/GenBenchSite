@@ -5,8 +5,6 @@ from pathlib import Path
 
 from benchmark import Benchmark
 from benchsite import BenchSite
-from collectCode import CollectCode
-from getMachineData import SaveMachineDataInJson
 from logger import logger
 
 
@@ -23,17 +21,17 @@ def delete_directory(dir_path):
         logger.info(f"Deleted directory: {path}")
     else:
         logger.warning(f"Directory not found: {path}")
-    
 
-def start_benchmark(structure_test_path:str, resultFilename:str="result.json"):
-    logger.info("Starting the benchmark")
+
+def start_benchmark(structure_test_path: str, resultFilename: str = "result.json"):
     benchmark = Benchmark(pathToInfrastructure=structure_test_path)
     benchmark.StartAllProcedure()
-
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
+
 
 def repository_is_local(repository):
     return Path(repository)
+
 
 def repository_is_github(repository):
     default_repository_name = "repository"
@@ -57,12 +55,13 @@ def repository_is_github(repository):
 
     return path
 
+
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository
     # inputed by the user. This repository may be a github repository or a local repository.
 
     # usage :
-    # python main.py {access_folder} {repository} {output_folder} {publish}
+    # python main.py <repository> [-A <access_folder>] [-O <output_folder>] [-P <publish>] [-B <benchmark>]
 
     # access_folder = the way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github
     # repository = the path of the repository if isLocal is True, the name of the repository if isLocal is False
@@ -123,13 +122,16 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    logger.info(f"args: {args}")
+    logger.info(f"Arguments: {args}")
     default_repository_name = "repository"
 
-    logger.info("Starting the main script")
+    logger.info("=======Starting the main script=======")
 
-    possible_access_folder = {"local":repository_is_local, "github":repository_is_github}
-    
+    possible_access_folder = {
+        "local": repository_is_local,
+        "github": repository_is_github,
+    }
+
     logger.info(f"Access folder: {args.access_folder}")
     logger.info(f"Repository: {args.repository}")
 
@@ -141,25 +143,20 @@ if __name__ == "__main__":
 
     # Test the repository
     resultFilename = Path("result.json")
-    codeFilename = Path("code.json")
     machineFilename = Path("machine.json")
 
     if args.benchmark:
-        start_benchmark(working_directory.absolute().__str__(), resultFilename.absolute().__str__())
-
-    # we want to create two additional files :
-    # - a file that contains the machine information/metadata
-    # - a file that contains the code of the tests done on the test repository
-
-    # CollectCode(pathToInfrastructure=working_directory.absolute().__str__(), outputPath=current_dir)
-
-    SaveMachineDataInJson(outputFile=os.path.join(current_dir, machineFilename))
+        start_benchmark(
+            working_directory.absolute().__str__(), resultFilename.absolute().__str__()
+        )
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
 
-    benchsite = BenchSite(inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder)
+    benchsite = BenchSite(
+        inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder
+    )
     benchsite.GenerateStaticSite()
 
     # we copy the result.json file in the output folder
@@ -170,8 +167,6 @@ if __name__ == "__main__":
 
     # we delete the result.json,code.json and machine.json files
     os.remove(resultFilename.absolute())
-    os.remove(codeFilename.absolute())
-    os.remove(machineFilename.absolute())
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
@@ -190,7 +185,7 @@ if __name__ == "__main__":
         print("Deploying the HTML page on the github page")
         os.chdir(args.repository)
         os.system(f"git add {args.output_folder}")
-        os.system(f'git commit -m "Update the HTML page"')
+        os.system(f'git commit -m "Updating the HTML page"')
         os.system(f"git push")
         print("HTML page deployed on the github page")
 
