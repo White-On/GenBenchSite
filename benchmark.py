@@ -134,7 +134,7 @@ class Benchmark:
                 taskName: {
                     "theme": self.dictonaryThemeInTask[taskName],
                     "results": {
-                        arg: {"runtime": [], "evaluation": []}
+                        arg: {"runtime": []}
                         for arg in self.taskConfig[taskName].get("arguments").split(",")
                     },
                 }
@@ -362,8 +362,7 @@ class Benchmark:
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
             self.results[libraryName][taskName]["results"] = {
-                arg: {"runtime": Benchmark.NOT_RUN_VALUE, "evaluation": None}
-                for arg in arguments
+                arg: {"runtime": Benchmark.NOT_RUN_VALUE} for arg in arguments
             }
             self.progressBar.update(
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
@@ -433,6 +432,8 @@ class Benchmark:
                 else:
                     functionEvaluation = []
 
+                logger.debug(f"{functionEvaluation = }")
+
                 valueEvaluation = self.EvaluationAfterTask(
                     afterRunScript,
                     taskName,
@@ -443,12 +444,16 @@ class Benchmark:
                     arg=arg,
                 )
                 logger.debug(f"{valueEvaluation = }")
+                eval = self.results[libraryName][taskName]["results"][arg].get(
+                    "evaluation", {}
+                )
+                for i, function in enumerate(functionEvaluation):
+                    element = eval.get(function, [])
+                    eval = {**eval, function: element + [valueEvaluation[i]]}
+                self.results[libraryName][taskName]["results"][arg]["evaluation"] = eval
 
             self.results[libraryName][taskName]["results"][arg]["runtime"].extend(
                 [b, t] for b, t in zip(beforeRunListTime, listTime)
-            )
-            self.results[libraryName][taskName]["results"][arg]["evaluation"].append(
-                valueEvaluation
             )
 
         logger.info(f"End task {taskName} for library {libraryName}")
@@ -478,7 +483,8 @@ class Benchmark:
         logger.info(f"Result saved in {outputFileName}")
 
     def StartAllProcedure(self):
-        self.BeforeBuildLibrary()
+        if not Benchmark.DEBUG:
+            self.BeforeBuildLibrary()
 
         self.progressBar = tqdm(
             total=self.CalculNumberIteration(),
@@ -503,6 +509,8 @@ if __name__ == "__main__":
         )
     else:
         run = Benchmark(pathToInfrastructure=currentDirectory / "repository")
+
+    # run = Benchmark(pathToInfrastructure=currentDirectory / "repository")
     run.StartAllProcedure()
 
     # print(run.results)

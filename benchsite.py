@@ -430,7 +430,7 @@ class BenchSite:
 
             # importedData = [task for task in Task.GetAllTaskByName(taskName)]
             # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
-            importedData = sum(
+            importedRuntime = sum(
                 [
                     [
                         {
@@ -444,57 +444,68 @@ class BenchSite:
                                 library.name
                             ),
                         )
-                        if res != float("infinity")
+                        if res != float("inf")
                     ]
                     for library in Library.GetAllLibrary()
                 ],
                 [],
             )
 
-            logger.debug(importedData)
+            logger.debug(f"{importedRuntime = }")
 
-            importedResults = sum(
-                [
+            functionEvaluation = taskConfig[taskName].get("evaluation_function", None)
+            if functionEvaluation is not None:
+                functionEvaluation = functionEvaluation.split(" ")
+            else:
+                functionEvaluation = []
+
+            importedEvaluation = {
+                function: sum(
                     [
-                        {
-                            "arguments": arg,
-                            "runTime": res if res > 0 and res != "Error" else 0,
-                            "libraryName": library.name,
-                        }
-                        for arg, res in zip(
-                            library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).get_calculated_runtime(
-                                library.name
-                            ),
-                        )
-                        if res != None
-                    ]
-                    for library in Library.GetAllLibrary()
-                ],
-                [],
-            )
+                        [
+                            {
+                                "arguments": arg,
+                                "runTime": res.get(function, 0)
+                                if res.get(function) != float("inf")
+                                else 0,
+                                "libraryName": library.name,
+                            }
+                            for arg, res in zip(
+                                library.GetTaskByName(taskName).arguments_label,
+                                library.GetTaskByName(
+                                    taskName
+                                ).get_calculated_evaluation(library.name),
+                            )
+                        ]
+                        for library in Library.GetAllLibrary()
+                    ],
+                    [],
+                )
+                for function in functionEvaluation
+            }
 
-            logger.debug(importedResults)
-            chartData = {
-                "runtime": {
-                    "data": importedData,
-                    "display": taskConfig[taskName].get("task_display", "groupedBar"),
-                    "title": "Runtime",
-                    "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
-                    "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
-                    "scale": taskConfig[taskName].get("task_scale", "auto"),
-                },
-                "eval": {
-                    "data": importedResults,
+            logger.debug(f"{importedEvaluation = }")
+
+            chartData = {}
+            chartData["runtime"] = {
+                "data": importedRuntime,
+                "display": taskConfig[taskName].get("task_display", "groupedBar"),
+                "title": "Runtime",
+                "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
+                "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
+                "scale": taskConfig[taskName].get("task_scale", "auto"),
+            }
+            for function in functionEvaluation:
+                chartData[function] = {
+                    "data": importedEvaluation[function],
                     "display": taskConfig[taskName].get(
                         "post_task_display", "groupedBar"
                     ),
-                    "title": "Evaluation",
+                    "title": function.capitalize(),
                     "XLabel": taskConfig[taskName].get("post_task_xlabel", "X-axis"),
                     "YLabel": taskConfig[taskName].get("post_task_ylabel", "Y-axis"),
                     "scale": taskConfig[taskName].get("post_task_scale", "auto"),
-                },
-            }
+                }
 
             HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
             if HTMLExtra is not None:
@@ -587,7 +598,7 @@ class BenchSite:
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/rankBar.js",
             )
 
-            importedData = sum(
+            importedRuntime = sum(
                 [
                     [
                         {
@@ -614,7 +625,7 @@ class BenchSite:
                 }
                 for libraryName in themeRankDico[themeName].keys()
             ]
-            importedData = summaryData + importedData
+            importedRuntime = summaryData + importedRuntime
 
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(
@@ -633,7 +644,7 @@ class BenchSite:
                     module=True,
                 ),
                 scriptData=BenchSite.CreateScriptBalise(
-                    content=f"const importedData = {importedData};"
+                    content=f"const importedData = {importedRuntime};"
                 ),
             )
 
@@ -679,7 +690,7 @@ class BenchSite:
                 socialMediaList=social_media,
             )
 
-            importedData = {
+            importedRuntime = {
                 task.name: {
                     "display": "plot"
                     if task.arguments_label[0].isnumeric()
@@ -714,7 +725,7 @@ class BenchSite:
                     module=True,
                 ),
                 scriptData=BenchSite.CreateScriptBalise(
-                    content=f"const importedData = {importedData};"
+                    content=f"const importedData = {importedRuntime};"
                 ),
                 taskDescription=libraryConfig[libraryName].get(
                     "description", "No Description Attributed"

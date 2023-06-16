@@ -39,7 +39,9 @@ for (let taskName of AllTaskName) {
     // let intermediateData = FormatedData({[libraryName]:data[libraryName]}, AllTaskName[i]);
     let intermediateData = importedData[taskName];
     // console.log(intermediateData);
+    console.log(intermediateData["status"]);
     if ( intermediateData["status"] != "Run") {
+        
         const dictionary = {
             "Error": "A Error occured during the execution of the task" + taskName, 
             "NotRun": "The task " + taskName + " is not available for the library " + libraryName,
@@ -65,9 +67,7 @@ for (let taskName of AllTaskName) {
             height: height,
             yLabel: "Run Time (s) ↑",
             labelFontSize: 20,
-            marginLeft: 80,
-            marginTop: 40,
-            marginBottom: 80,
+            margin : { top: 40, right: 30, bottom: 80, left: 80 },
 
             legend: false,
 
@@ -87,8 +87,7 @@ for (let taskName of AllTaskName) {
             legendFontSize: 30,
             tooltipFontSize: 30,
             
-            marginLeft: 80,
-            marginTop: 40,
+            margin : { top: 40, right: 30, bottom: 50, left: 80 },
             
 
             displayLegend: false,

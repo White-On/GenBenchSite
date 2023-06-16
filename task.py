@@ -188,16 +188,16 @@ class Task:
             The mean of the runtime of the task.
 
         """
-        # if the runtime hase already been calculated we return it
+        # if the runtime has already been calculated we return it
         if target in self.cache_runtime:
             logger.debug(
-                f"Runtime already calculated for {target} in {self.name}, using the cache value"
+                f"Runtime already calculated for {target} in {self.name}, using the cached value"
             )
             return self.cache_runtime[target]
         # if the runtime is a error message we return a list of inf
         if isinstance(self.runtime[target][0], str):
             # the runtime is a error message
-            runtime = [float("inf")] * len(self.arguments)
+            runtime = [float("inf")] * len(self.arguments_label)
             self.cache_runtime[target] = runtime
             logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
             return runtime
@@ -211,7 +211,7 @@ class Task:
         # if the runtime is only nan we return a list of inf
         if np.isnan(runtime).all():
             # the runtime is a error message
-            runtime = [float("inf")] * len(self.arguments)
+            runtime = [float("inf")] * len(self.arguments_label)
             self.cache_runtime[target] = runtime
             logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
             return runtime
@@ -236,18 +236,35 @@ class Task:
             The mean of the evaluation of the task.
 
         """
+        logger.debug(
+            f"Getting evaluation for {target} in {self.name} : {self.evaluation[target]}"
+        )
+        # if the evaluation has already been calculated we return it
+        if target in self.cache_evaluation:
+            logger.debug(
+                f"Evaluation already calculated for {target} in {self.name}, using the cached value"
+            )
+            return self.cache_evaluation[target]
+        # if the evaluation is a error message we return a list of inf
+        if self.evaluation[target] is None:
+            # the evaluation is a error message
+            evaluation = [float("inf")] * len(self.arguments_label)
+            self.cache_evaluation[target] = evaluation
+            logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
+            return evaluation
 
-        # we trasnform the list into a numpy array
-        # but we want to transform the string into np.nan
-        evaluation = np.array(self.evaluation[target])
-        # we first remove all the evaluation with error value/message
-        # then we caluculate the mean of the evaluation for each argument
-        if not evaluation.dtype == np.dtype("float64"):
-            Task.transform_str_to_nan(evaluation)
+        evaluation = self.evaluation[target]
         # we calculate the mean of the evaluation for each argument
-        evaluation = np.nanmean(evaluation, axis=1)
-        logger.debug(f"Evaluation for {self.name} : {evaluation}")
-        return evaluation.tolist()
+        for i in range(len(evaluation)):
+            for function in evaluation[i].keys():
+                if (np.array(evaluation[i][function]) == None).all():
+                    evaluation[i][function] = float("inf")
+                evaluation[i][function] = np.mean(evaluation[i][function]).tolist()
+
+        logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
+        # we save the evaluation in the cache
+        self.cache_evaluation[target] = evaluation
+        return evaluation
 
     def get_status(self, target: str) -> str:
         """Getter for the status of the task.
@@ -258,12 +275,14 @@ class Task:
             The status of the task.
 
         """
-        mean = np.mean(self.get_calculated_runtime(target))
+        mean = np.array(self.get_calculated_runtime(target))
         if (mean == float("inf")).all():
             if isinstance(self.runtime[target][0], str):
                 # the runtime is a error message
                 return self.runtime[target][0]
             else:
+                # we want to find the first error message
+
                 return self.runtime[target][0][0][1]
         return "Run"
 

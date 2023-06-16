@@ -49,6 +49,8 @@ def FileReaderJson(filename: str) -> None:
                 taskInfo["results"].get(argument).get("evaluation")
                 for argument in task.arguments_label
             ]
+            if evaluation[0] is None:
+                evaluation = None
 
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
@@ -73,11 +75,13 @@ def readJsonFile(filename: str):
 
 if __name__ == "__main__":
     FileReaderJson("results.json")
+    # FileReaderJson("essais.json")
 
-    print(Task.GetAllTaskName())
+    # print(Task.GetAllTaskName())
 
-    print(list(Library.GetAllLibraryName()))
+    # print(list(Library.GetAllLibraryName()))
 
-    task = Task.allTasks[0]
+    task = Task.allTasks[3]
     print(task.name)
     print(task.get_calculated_runtime("pyAgrum"))
+    print(task.get_calculated_evaluation("pyAgrum"))

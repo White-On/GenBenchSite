@@ -181,33 +181,41 @@ codeSelector.id = "codeSelector";
 
 // by default we display two libraries's code
 let elementsToDisplay = [];
-elementsToDisplay.push(allLibraries[0]);
-elementsToDisplay.push(allLibraries[1]);
-handleClickToPrintCode(elementsToDisplay);
+try{
+    elementsToDisplay.push(allLibraries[0]);
+    elementsToDisplay.push(allLibraries[1]);
+    handleClickToPrintCode(elementsToDisplay);
 
-for(let library of allLibraries){
-    let button = document.createElement("button");
-    button.type = "button";
-    button.id = library + "-button";
-    button.innerHTML = library;
-    
-    // we manage the click on the button
-    // if the element is already in the list we remove it
-    // if the element is not in the list we add it
-    // we can only have two elements in the list
-    button.onclick = function(){
-        if(elementsToDisplay.includes(library)){
-            elementsToDisplay.splice(elementsToDisplay.indexOf(library), 1);
-        }else{
-            elementsToDisplay.push(library);
-        }
-        if(elementsToDisplay.length > 2){
-            elementsToDisplay.shift();
-        }
-        handleClickToPrintCode(elementsToDisplay);
-    }
+    for(let library of allLibraries){
+        let button = document.createElement("button");
+        button.type = "button";
+        button.id = library + "-button";
+        button.innerHTML = library;
         
-    codeSelector.appendChild(button);
+        // we manage the click on the button
+        // if the element is already in the list we remove it
+        // if the element is not in the list we add it
+        // we can only have two elements in the list
+        button.onclick = function(){
+            if(elementsToDisplay.includes(library)){
+                elementsToDisplay.splice(elementsToDisplay.indexOf(library), 1);
+            }else{
+                elementsToDisplay.push(library);
+            }
+            if(elementsToDisplay.length > 2){
+                elementsToDisplay.shift();
+            }
+            handleClickToPrintCode(elementsToDisplay);
+        }
+            
+        codeSelector.appendChild(button);
+    }
+}catch(e){
+    console.log("No data imported")
+    console.log(e);
+    
+    let code_menu = document.getElementById("code-menu");
+    code_menu.style.display = "none";
 }
 
 
