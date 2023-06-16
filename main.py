@@ -21,15 +21,17 @@ def delete_directory(dir_path):
         logger.info(f"Deleted directory: {path}")
     else:
         logger.warning(f"Directory not found: {path}")
-    
 
-def start_benchmark(structure_test_path:str, resultFilename:str="results.json"):
+
+def start_benchmark(structure_test_path: str, resultFilename: str = "results.json"):
     benchmark = Benchmark(pathToInfrastructure=structure_test_path)
     benchmark.StartAllProcedure()
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
+
 def repository_is_local(repository):
     return Path(repository)
+
 
 def repository_is_github(repository):
     default_repository_name = "repository"
@@ -52,6 +54,7 @@ def repository_is_github(repository):
         raise Exception(f"Error when cloning the repository {repository}")
 
     return path
+
 
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository
@@ -124,8 +127,11 @@ if __name__ == "__main__":
 
     logger.info("=======Starting the main script=======")
 
-    possible_access_folder = {"local":repository_is_local, "github":repository_is_github}
-    
+    possible_access_folder = {
+        "local": repository_is_local,
+        "github": repository_is_github,
+    }
+
     logger.info(f"Access folder: {args.access_folder}")
     logger.info(f"Repository: {args.repository}")
 
@@ -140,13 +146,17 @@ if __name__ == "__main__":
     machineFilename = Path("machine.json")
 
     if args.benchmark:
-        start_benchmark(working_directory.absolute().__str__(), resultFilename.absolute().__str__())
+        start_benchmark(
+            working_directory.absolute().__str__(), resultFilename.absolute().__str__()
+        )
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
 
-    benchsite = BenchSite(inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder)
+    benchsite = BenchSite(
+        inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder
+    )
     benchsite.GenerateStaticSite()
 
     # we copy the result.json file in the output folder
