@@ -208,16 +208,19 @@ class Task:
         # then we caluculate the mean of the runtime for each argument
         if not runtime.dtype == np.dtype("float64"):
             runtime = Task.transform_str_to_nan(runtime)
+        
+        # we do the difference between the start and the end of the runtime
+        runtime[:, :, 0] = -runtime[:, :, 0]
+        runtime = runtime.sum(axis=2)
         # if the runtime is only nan we return a list of inf
+        
         if np.isnan(runtime).all():
             # the runtime is a error message
             runtime = [float("inf")] * len(self.arguments_label)
             self.cache_runtime[target] = runtime
             logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
             return runtime
-        # we do the difference between the start and the end of the runtime
-        runtime[:, :, 0] = -runtime[:, :, 0]
-        runtime = runtime.sum(axis=2)
+        logger.debug(f"before for {target} in {self.name} : {runtime}")
         # we calculate the mean of the runtime for each argument
         runtime = np.nanmean(runtime, axis=1)
         # we filter any np.nan value and convert it to inf
@@ -259,7 +262,22 @@ class Task:
             for function in evaluation[i].keys():
                 if (np.array(evaluation[i][function]) == None).all():
                     evaluation[i][function] = float("inf")
-                evaluation[i][function] = np.mean(evaluation[i][function]).tolist()
+                    continue
+                else:
+                    evaluation[i][function] = [x for x in evaluation[i][function] if x is not None]
+                # we transform the strings into np.nan
+                evaluation[i][function] = self.transform_str_to_nan(np.array(evaluation[i][function]))  
+                # if the evaluation is only nan we return a list of inf
+                if np.isnan(evaluation[i][function]).all():
+                    # the evaluation is a error message
+                    evaluation[i][function] = float("inf")
+                    continue
+                evaluation[i][function] = np.nanmean(evaluation[i][function]).tolist()
+                # if the evaluation is only nan we return a list of inf
+                if np.isnan(evaluation[i][function]):
+                    # the evaluation is a error message
+                    evaluation[i][function] = float("inf")
+                
 
         logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
         # we save the evaluation in the cache

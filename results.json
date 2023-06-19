@@ -1,0 +1,2637 @@
+{
+    "pgmpy": {
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            8.75365389399849,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            8.740332364001006,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            8.536880547000692,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            8.663316461001159,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            8.706968382000923,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            8.744019986001149,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            8.787661981999918,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            8.812780162001218,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            8.709281555000416,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            8.783159611999508,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            8.818382628000109,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            8.786997659000917,
+                            23.737915092999174
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            8.786270503000196,
+                            "Error"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            8.661358952000228,
+                            36.90511973100001
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            8.677112813000349,
+                            33.85597324400078
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            8.553040161999888,
+                            36.01524380400042
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            8.560318589999952,
+                            43.57488368200029
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            8.762281319999602,
+                            42.19968508000056
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            8.476039045999642,
+                            44.941779752
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            8.811070701000062,
+                            46.480189244999565
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            8.619894093999392,
+                            55.67615588099943
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ],
+                        "evaluatePrecision": [
+                            "Error"
+                        ],
+                        "evaluateRecall": [
+                            "Error"
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            8.782085216000269,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            8.569898013998682,
+                            22.450942805000523
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            8.773369859000013,
+                            26.818463747998976
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            8.559543383998971,
+                            33.36966893399949
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            8.636302461000014,
+                            38.0873372799997
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.44897959183673475
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            8.675164178999694,
+                            41.98215358200105
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            8.572257558000274,
+                            47.97221576799893
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            8.695690931999707,
+                            51.674688293000145
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.49484536082474223
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            8.888551874000768,
+                            54.493712894000055
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            8.512025603999064,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            "Error"
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            8.708077856001182,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            8.580005024999991,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": "NotRun"
+                },
+                "water.bif": {
+                    "runtime": "NotRun"
+                },
+                "pathfinder.bif": {
+                    "runtime": "NotRun"
+                },
+                "munin.bif": {
+                    "runtime": "NotRun"
+                },
+                "mildew.bif": {
+                    "runtime": "NotRun"
+                },
+                "link.bif": {
+                    "runtime": "NotRun"
+                },
+                "insurance.bif": {
+                    "runtime": "NotRun"
+                },
+                "hepar2.bif": {
+                    "runtime": "NotRun"
+                },
+                "hailfinder.bif": {
+                    "runtime": "NotRun"
+                },
+                "earthquake.bif": {
+                    "runtime": "NotRun"
+                },
+                "diabetes.bif": {
+                    "runtime": "NotRun"
+                },
+                "child.bif": {
+                    "runtime": "NotRun"
+                },
+                "cancer.bif": {
+                    "runtime": "NotRun"
+                },
+                "barley.bif": {
+                    "runtime": "NotRun"
+                },
+                "asia.bif": {
+                    "runtime": "NotRun"
+                },
+                "andes.bif": {
+                    "runtime": "NotRun"
+                },
+                "alarm.bif": {
+                    "runtime": "NotRun"
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            9.40399829099988,
+                            9.011009280000508
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            8.77915458499956,
+                            8.998338205999971
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            "Error",
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            11.944430864999958,
+                            11.267256802999327
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            20.900155479001114,
+                            21.055363891000525
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            9.822236343999975,
+                            9.70452051400025
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            8.493695191998995,
+                            8.786658938999608
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            8.940456415999506,
+                            8.817131587999029
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            8.93251416899875,
+                            8.725314983999851
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            6.258020467001188,
+                            6.415674638999917
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            15.513691024001673,
+                            15.571620189999521
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            8.478012759000194,
+                            8.485891815000286
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            6.418966166000246,
+                            6.5323037919988565
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            11.71187959800045,
+                            11.526764191999973
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            7.048288309999407,
+                            6.797734097999637
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            9.273127494998334,
+                            8.908278625000094
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            9.01089097699878,
+                            8.53193375599949
+                        ]
+                    ]
+                }
+            }
+        },
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            2.5522038549988793,
+                            8.965724663999936
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            2.830246837998857,
+                            8.538234927998928
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            2.7328942700005427,
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            2.5507892730001913,
+                            10.644207393001125
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            2.819837301998632,
+                            20.888823564999257
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            2.819890425000267,
+                            9.51138833799996
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            2.547522229999231,
+                            8.275872239999444
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            2.5687045519989624,
+                            8.381784338998841
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            2.7598679600014293,
+                            8.56927331100087
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            2.838009394999972,
+                            6.098301681000521
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            2.820053667999673,
+                            15.359830303999843
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            2.7025876349998725,
+                            8.136076294000304
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            2.8637902369991934,
+                            6.097388238000349
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            2.8103354800005036,
+                            11.353999794000629
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            2.8736968849989353,
+                            6.432117319000099
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            2.83358670799862,
+                            8.685815997998361
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            2.770833741000388,
+                            8.301919309000368
+                        ]
+                    ]
+                }
+            }
+        }
+    },
+    "bnlearn": {
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            3.4800990290004847,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            3.3715618109999923,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            3.1211320140009775,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            3.408240119999391,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            3.545148720000725,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            3.4657638789994962,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            3.447225643998536,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            3.3136401990013837,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            3.17121919300007,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            3.2415602569999464,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            3.515065183999468,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            3.4994088690000353,
+                            23.473832810001113
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            3.366939634999653,
+                            27.464698445999602
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            3.4194688520001364,
+                            32.432938288000514
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            3.1824223000003258,
+                            37.35688398400089
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            3.244924077000178,
+                            41.48384239799998
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            3.199907340998834,
+                            47.17016095600047
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            3.4992224050001823,
+                            52.77234243999919
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            3.239144031000251,
+                            56.15199799199945
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            3.3480822309993528,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            3.443755044001591,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            3.3754923380001856,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ],
+                        "evaluatePrecision": [
+                            null
+                        ],
+                        "evaluateRecall": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            3.222123024999746,
+                            23.051810924000165
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            3.225869268000679,
+                            27.58669816800102
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            3.363062857000841,
+                            32.98297319700032
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            3.36729225199997,
+                            39.17245589199956
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            3.330023350999909,
+                            43.4157946689993
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            3.4205349949988886,
+                            49.338199366999106
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            3.388250103000246,
+                            55.676482027998645
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            3.2027693250001903,
+                            57.956039536999015
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            3.4922931990004145,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            3.4005821860009746,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            3.387840112000049,
+                            "Timeout"
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            null
+                        ]
+                    }
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": "NotRun"
+                },
+                "water.bif": {
+                    "runtime": "NotRun"
+                },
+                "pathfinder.bif": {
+                    "runtime": "NotRun"
+                },
+                "munin.bif": {
+                    "runtime": "NotRun"
+                },
+                "mildew.bif": {
+                    "runtime": "NotRun"
+                },
+                "link.bif": {
+                    "runtime": "NotRun"
+                },
+                "insurance.bif": {
+                    "runtime": "NotRun"
+                },
+                "hepar2.bif": {
+                    "runtime": "NotRun"
+                },
+                "hailfinder.bif": {
+                    "runtime": "NotRun"
+                },
+                "earthquake.bif": {
+                    "runtime": "NotRun"
+                },
+                "diabetes.bif": {
+                    "runtime": "NotRun"
+                },
+                "child.bif": {
+                    "runtime": "NotRun"
+                },
+                "cancer.bif": {
+                    "runtime": "NotRun"
+                },
+                "barley.bif": {
+                    "runtime": "NotRun"
+                },
+                "asia.bif": {
+                    "runtime": "NotRun"
+                },
+                "andes.bif": {
+                    "runtime": "NotRun"
+                },
+                "alarm.bif": {
+                    "runtime": "NotRun"
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            3.1610738420004054,
+                            "Error"
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            3.340281901000708,
+                            "Error"
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            3.4353679029991326,
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            3.2595626930014987,
+                            "Error"
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            3.206691999999748,
+                            "Error"
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            3.4795519090002927,
+                            "Error"
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            3.4521866089999094,
+                            "Error"
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            3.441919767001309,
+                            "Error"
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            3.3737690010002552,
+                            "Error"
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            3.378117405998637,
+                            "Error"
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            3.371006043000307,
+                            "Error"
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            3.5257319310003368,
+                            "Error"
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            3.3923203370013653,
+                            "Error"
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            3.2346792930002266,
+                            "Error"
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            3.308174780000627,
+                            "Error"
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            3.4558336019999842,
+                            "Error"
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            3.423846781000975,
+                            "Error"
+                        ]
+                    ]
+                }
+            }
+        },
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            3.225022794000324,
+                            3.2494015940010286
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            3.375067389999458,
+                            3.315961751000941
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            3.3907942449986876,
+                            3.389297624000392
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            3.331069509998997,
+                            3.4517092280002544
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            3.2414154589987447,
+                            3.496752753999317
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            3.404503312000088,
+                            3.150885983999615
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            3.4230752889998257,
+                            3.1699387910011865
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            3.418888154999877,
+                            3.2049291580005956
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            3.2800324430008914,
+                            3.369660615999237
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            3.4862595169997803,
+                            3.4039617340004042
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            3.366568539999207,
+                            3.3168032339999627
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            3.414934330001415,
+                            3.4053386770010547
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            3.353696715999831,
+                            3.3600236590009445
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            3.2311547879999125,
+                            3.4470985970001493
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            3.4346520750004856,
+                            3.425824736999857
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            3.387560230001327,
+                            3.366609218999656
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            3.3441349860004266,
+                            3.32714797799963
+                        ]
+                    ]
+                }
+            }
+        }
+    },
+    "pyAgrum": {
+        "Learning_exhaustive_search_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            0.21327444600137824,
+                            0.364665163000609
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5909090909090909
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            0.2447926290005853,
+                            0.3281090110012883
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6153846153846154
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            0.2473915249993297,
+                            0.3530659759999253
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5494505494505495
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            0.2124815259994648,
+                            0.34182668100038427
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5054945054945055
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            0.25903795500016713,
+                            0.36192702900007134
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5052631578947369
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            0.23451804800060927,
+                            0.3863086250003107
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6021505376344086
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            0.2111517350003851,
+                            0.4307569049997255
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5591397849462365
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            0.26107920899994497,
+                            0.40992556600031094
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5894736842105263
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            0.2214317959987966,
+                            0.4311566649994347
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5894736842105263
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            0.20791530200040143,
+                            0.42230880799979786
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7526881720430109
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            0.2474477650011977,
+                            0.4485330640000029
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6041666666666666
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_best_method": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            0.2108095229996252,
+                            0.604862778000097
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6741573033707865
+                        ],
+                        "evaluatePrecision": [
+                            0.6976744186046512
+                        ],
+                        "evaluateRecall": [
+                            0.6521739130434783
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            0.20458729799975117,
+                            0.6309636949990818
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6206896551724138
+                        ],
+                        "evaluatePrecision": [
+                            0.6585365853658537
+                        ],
+                        "evaluateRecall": [
+                            0.5869565217391305
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            0.1995920980007213,
+                            0.6034611639988725
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6666666666666667
+                        ],
+                        "evaluatePrecision": [
+                            0.7073170731707317
+                        ],
+                        "evaluateRecall": [
+                            0.6304347826086957
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            0.2123717669983307,
+                            0.637426293000317
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7333333333333332
+                        ],
+                        "evaluatePrecision": [
+                            0.75
+                        ],
+                        "evaluateRecall": [
+                            0.717391304347826
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            0.21477131099891267,
+                            0.6759425190011825
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.711111111111111
+                        ],
+                        "evaluatePrecision": [
+                            0.7272727272727273
+                        ],
+                        "evaluateRecall": [
+                            0.6956521739130435
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            0.19967169600022316,
+                            0.7147539809993759
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7472527472527473
+                        ],
+                        "evaluatePrecision": [
+                            0.7555555555555555
+                        ],
+                        "evaluateRecall": [
+                            0.7391304347826086
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            0.22912237099990307,
+                            0.733927033999862
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7912087912087912
+                        ],
+                        "evaluatePrecision": [
+                            0.8
+                        ],
+                        "evaluateRecall": [
+                            0.782608695652174
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            0.20888006699897232,
+                            0.8887679600011325
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7252747252747253
+                        ],
+                        "evaluatePrecision": [
+                            0.7333333333333333
+                        ],
+                        "evaluateRecall": [
+                            0.717391304347826
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            0.22124665999945137,
+                            0.7790360959988902
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.782608695652174
+                        ],
+                        "evaluatePrecision": [
+                            0.782608695652174
+                        ],
+                        "evaluateRecall": [
+                            0.782608695652174
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            0.20754798500092875,
+                            0.9459540909992938
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7526881720430109
+                        ],
+                        "evaluatePrecision": [
+                            0.7446808510638298
+                        ],
+                        "evaluateRecall": [
+                            0.7608695652173914
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            0.20055808300094213,
+                            1.4190261359999568
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.7872340425531915
+                        ],
+                        "evaluatePrecision": [
+                            0.7708333333333334
+                        ],
+                        "evaluateRecall": [
+                            0.8043478260869565
+                        ]
+                    }
+                }
+            }
+        },
+        "Learning_hill_climb_BIC": {
+            "theme": "Learning",
+            "results": {
+                "1000": {
+                    "runtime": [
+                        [
+                            0.2474941279997438,
+                            0.2932286529994599
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.49411764705882355
+                        ]
+                    }
+                },
+                "1500": {
+                    "runtime": [
+                        [
+                            0.2524110329995892,
+                            0.31612646899884567
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5555555555555556
+                        ]
+                    }
+                },
+                "2000": {
+                    "runtime": [
+                        [
+                            0.2245831679992989,
+                            0.35766831299952173
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5434782608695652
+                        ]
+                    }
+                },
+                "2500": {
+                    "runtime": [
+                        [
+                            0.2314660020001611,
+                            0.35324545799994667
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5934065934065934
+                        ]
+                    }
+                },
+                "3000": {
+                    "runtime": [
+                        [
+                            0.22882283700164407,
+                            0.34340424800029723
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5652173913043478
+                        ]
+                    }
+                },
+                "3500": {
+                    "runtime": [
+                        [
+                            0.23548517400013225,
+                            0.3619286760003888
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5591397849462365
+                        ]
+                    }
+                },
+                "4000": {
+                    "runtime": [
+                        [
+                            0.21771039200029918,
+                            0.3560291079993476
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5376344086021505
+                        ]
+                    }
+                },
+                "4500": {
+                    "runtime": [
+                        [
+                            0.23208509899995988,
+                            0.3725665959991602
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5591397849462365
+                        ]
+                    }
+                },
+                "5000": {
+                    "runtime": [
+                        [
+                            0.20532312399882358,
+                            0.3884869029989204
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6451612903225806
+                        ]
+                    }
+                },
+                "7500": {
+                    "runtime": [
+                        [
+                            0.25347141699967324,
+                            0.41426561499974923
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.5744680851063831
+                        ]
+                    }
+                },
+                "10000": {
+                    "runtime": [
+                        [
+                            0.21790771699852485,
+                            0.48456183599955693
+                        ]
+                    ],
+                    "evaluation": {
+                        "evaluateFscore": [
+                            0.6666666666666666
+                        ]
+                    }
+                }
+            }
+        },
+        "Approx_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            0.2274815659984597,
+                            8.160237464999227
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            0.265851083000598,
+                            0.3885447809989273
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            "Error",
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            0.3975377030001255,
+                            44.29754898600004
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            0.9515172920000623,
+                            1.0213676700004726
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            0.2901228849987092,
+                            21.310273717999735
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            0.21164459600004193,
+                            0.2881377759986208
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            0.24779136699908122,
+                            0.5525309160002507
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            0.24937031300032686,
+                            0.4053313460008212
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            0.21649418200104265,
+                            0.2221245689997886
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            0.9763123440006893,
+                            8.267187755000123
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            "Error",
+                            "Error"
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            0.20746870800030592,
+                            0.2093445159989642
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            0.49204914000074496,
+                            0.7023747990006086
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            0.19867360299940628,
+                            0.23685965300137468
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            0.20263173900093534,
+                            2.396834396000486
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            0.23751338600050076,
+                            0.33556834000046365
+                        ]
+                    ]
+                }
+            }
+        },
+        "Exact_Inference": {
+            "theme": "Inference",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            0.24564440200083482,
+                            "Error"
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            0.229734094999003,
+                            "Error"
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            "Error",
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            0.44919179499993334,
+                            "Error"
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            0.9094495070003177,
+                            "Error"
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            0.2989030589997128,
+                            "Error"
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            0.23184023100111517,
+                            "Error"
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            0.2205154040002526,
+                            "Error"
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            0.22814978700080246,
+                            "Error"
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            0.20443364700076927,
+                            "Error"
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            0.9300968879997527,
+                            "Error"
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            "Error",
+                            "Error"
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            0.21227345799889008,
+                            "Error"
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            0.46607251100067515,
+                            "Error"
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            0.18835688400031358,
+                            "Error"
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            0.2016792769991298,
+                            "Error"
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            0.24443907100067008,
+                            "Error"
+                        ]
+                    ]
+                }
+            }
+        },
+        "BIFReading": {
+            "theme": "BIF_manipulation",
+            "results": {
+                "pigs.bif": {
+                    "runtime": [
+                        [
+                            0.247915700001613,
+                            0.21900410800117243
+                        ]
+                    ]
+                },
+                "water.bif": {
+                    "runtime": [
+                        [
+                            0.19966162599848758,
+                            0.2392281880001974
+                        ]
+                    ]
+                },
+                "pathfinder.bif": {
+                    "runtime": [
+                        [
+                            0.18746727200050373,
+                            "Error"
+                        ]
+                    ]
+                },
+                "munin.bif": {
+                    "runtime": [
+                        [
+                            0.22922126000048593,
+                            0.4316483809998317
+                        ]
+                    ]
+                },
+                "mildew.bif": {
+                    "runtime": [
+                        [
+                            0.18756076499994379,
+                            0.9429096889998618
+                        ]
+                    ]
+                },
+                "link.bif": {
+                    "runtime": [
+                        [
+                            0.21555456100031734,
+                            0.2598068620009144
+                        ]
+                    ]
+                },
+                "insurance.bif": {
+                    "runtime": [
+                        [
+                            0.18904232599925308,
+                            0.20990488399911555
+                        ]
+                    ]
+                },
+                "hepar2.bif": {
+                    "runtime": [
+                        [
+                            0.1958359410000412,
+                            0.21743870200043602
+                        ]
+                    ]
+                },
+                "hailfinder.bif": {
+                    "runtime": [
+                        [
+                            0.19245012700048392,
+                            0.23419192000073963
+                        ]
+                    ]
+                },
+                "earthquake.bif": {
+                    "runtime": [
+                        [
+                            0.1877309219999006,
+                            0.23133146699910867
+                        ]
+                    ]
+                },
+                "diabetes.bif": {
+                    "runtime": [
+                        [
+                            0.20390961700104526,
+                            0.9212060360005125
+                        ]
+                    ]
+                },
+                "child.bif": {
+                    "runtime": [
+                        [
+                            0.19658389700089174,
+                            "Error"
+                        ]
+                    ]
+                },
+                "cancer.bif": {
+                    "runtime": [
+                        [
+                            0.20226069599993934,
+                            0.21358697399955417
+                        ]
+                    ]
+                },
+                "barley.bif": {
+                    "runtime": [
+                        [
+                            0.19891184200059797,
+                            0.49222852300044906
+                        ]
+                    ]
+                },
+                "asia.bif": {
+                    "runtime": [
+                        [
+                            0.2009570479985996,
+                            0.21268443999906594
+                        ]
+                    ]
+                },
+                "andes.bif": {
+                    "runtime": [
+                        [
+                            0.21292040000116685,
+                            0.21015149599952565
+                        ]
+                    ]
+                },
+                "alarm.bif": {
+                    "runtime": [
+                        [
+                            0.2215842329987936,
+                            0.19412011399981566
+                        ]
+                    ]
+                }
+            }
+        }
+    }
+}

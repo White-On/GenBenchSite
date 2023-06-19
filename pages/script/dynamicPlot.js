@@ -98,7 +98,17 @@ export  function LineChart(data, {
 
     // Construct scales and axes.
     const xScale = xType(xDomain, xRange);
-    const yScale = yType(yDomain, yRange);
+    // const yScale = yType(yDomain, yRange);
+
+    let yScale;
+    if (yType == d3.scaleLog) {
+        yDomain = [yMinMaxValue[0] <= 0 ? 0.0001 : yMinMaxValue[0], yMinMaxValue[1]];
+        yScale = d3.scaleLog(yDomain, yRange)
+    }
+    else {
+        yScale = yType(yDomain, yRange);
+    }
+
     const xAxis = d3.axisBottom(xScale).ticks(width / 80, xFormat).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
 

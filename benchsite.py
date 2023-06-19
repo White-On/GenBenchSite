@@ -464,10 +464,8 @@ class BenchSite:
                     [
                         [
                             {
-                                "arguments": arg,
-                                "runTime": res.get(function, 0)
-                                if res.get(function) != float("inf")
-                                else 0,
+                                "arguments": int(arg) if arg.isnumeric() else arg,
+                                "runTime": res.get(function, 0),
                                 "libraryName": library.name,
                             }
                             for arg, res in zip(
@@ -476,6 +474,7 @@ class BenchSite:
                                     taskName
                                 ).get_calculated_evaluation(library.name),
                             )
+                            if res.get(function) != float("inf")
                         ]
                         for library in Library.GetAllLibrary()
                     ],
@@ -495,16 +494,20 @@ class BenchSite:
                 "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
                 "scale": taskConfig[taskName].get("task_scale", "auto"),
             }
-            for function in functionEvaluation:
+            for i, function in enumerate(functionEvaluation):
+                xlabel = taskConfig[taskName].get("post_task_xlabel", "X-axis")
+                ylabel = taskConfig[taskName].get("post_task_ylabel", "Y-axis").split(" ")
+                scale = taskConfig[taskName].get("post_task_scale", "auto").split(" ")
+                # title = taskConfig[taskName].get("post_task_title", "Title").split(",")
                 chartData[function] = {
                     "data": importedEvaluation[function],
                     "display": taskConfig[taskName].get(
                         "post_task_display", "groupedBar"
                     ),
                     "title": function.capitalize(),
-                    "XLabel": taskConfig[taskName].get("post_task_xlabel", "X-axis"),
-                    "YLabel": taskConfig[taskName].get("post_task_ylabel", "Y-axis"),
-                    "scale": taskConfig[taskName].get("post_task_scale", "auto"),
+                    "XLabel": xlabel,
+                    "YLabel": ylabel[i] if i < len(ylabel) else ylabel[0],
+                    "scale": scale[i] if i < len(scale) else scale[0],
                 }
 
             HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
@@ -706,7 +709,7 @@ class BenchSite:
                             task.arguments_label,
                             task.get_calculated_runtime(libraryName),
                         )
-                        if res >= 0 and res != float("infinity")
+                        if res >= 0 and res != float("inf")
                     ],
                 }
                 for task in Library.GetLibraryByName(libraryName).tasks
