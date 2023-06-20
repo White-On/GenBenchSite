@@ -44,14 +44,20 @@ def repository_is_github(repository):
         path.mkdir()
     else:
         # we check if a python file has changed since the last pull
-        os.chdir(path.absolute().__str__())
-        if has_python_file_changed():
+        if has_python_file_changed(path.absolute().__str__()):
             logger.debug(f"Python file has changed since the last pull")
             # we clear the local repository and the results file needed for the benchmark
             delete_directory(path.absolute().__str__())
-
-        # we clear the local repository
-        delete_directory(path.absolute().__str__())
+        else:
+            logger.debug(f"No python file has changed since the last pull")
+            # we merge the remote repository with the local repository
+            command = f"git -C {path} pull"
+            try:
+                os.system(command)
+            except:
+                logger.error(f"Error when merging the remote repository with the local repository {repository}")
+                raise Exception(f"Error when merging the remote repository with the local repository {repository}")
+            return path
 
     # we clone the repository in the local repository
     command = f"git clone {repository} {path}"
@@ -63,16 +69,25 @@ def repository_is_github(repository):
 
     return path
 
-def has_python_file_changed():
-    """Check if the Python file has changed in the GitHub repository since the last pull."""
-    # get the SHA of the latest commit on the branch
-    latest_sha = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
-    
-    # get the SHA of the commit that was last pulled
-    last_sha = subprocess.check_output(["git", "rev-parse", "@{0}"]).strip()
-    
+def has_python_file_changed(repository_name:str):
+    # we memorize the current directory
+    current_dir = os.getcwd()
+    # we check if a python file has changed since the last pull
+    # we go to the repository
+    os.chdir(repository_name)
+    # we get the last commit
+    fetch = subprocess.Popen(["git", "fetch"], stdout=subprocess.PIPE)
+    fetch.wait()
+    # we get the last commit of the remote repository
+    last_commit = subprocess.check_output(["git", "rev-parse", "FETCH_HEAD"]).strip()
+    # we get the last commit of the local repository
+    local_last_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
+    # we compare the two commits
     # compare the SHAs to see if the Python file has changed
-    files_changed = subprocess.check_output(["git", "diff", "--name-only", last_sha, latest_sha]).splitlines()
+    files_changed = subprocess.check_output(["git", "diff", "--name-only", last_commit, local_last_commit],encoding='utf-8').splitlines()
+    logger.debug(f"Files changed : {files_changed}")
+    # we go back to the current directory
+    os.chdir(current_dir)
     for file in files_changed:
         if file.endswith(".py"):
             return True
@@ -162,6 +177,8 @@ if __name__ == "__main__":
     if not working_directory.exists():
         logger.error(f"Path {working_directory.absolute()} does not exist")
         raise Exception(f"Path {working_directory.absolute()} does not exist")
+
+    exit(0)
 
     # Test the repository
     resultFilename = Path("results.json")
