@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 from benchmark import Benchmark
@@ -42,6 +43,13 @@ def repository_is_github(repository):
         logger.debug(f"Creating the local repository {path}")
         path.mkdir()
     else:
+        # we check if a python file has changed since the last pull
+        os.chdir(path.absolute().__str__())
+        if has_python_file_changed():
+            logger.debug(f"Python file has changed since the last pull")
+            # we clear the local repository
+            delete_directory(path.absolute().__str__())
+
         # we clear the local repository
         delete_directory(path.absolute().__str__())
 
@@ -55,6 +63,20 @@ def repository_is_github(repository):
 
     return path
 
+def has_python_file_changed():
+    """Check if the Python file has changed in the GitHub repository since the last pull."""
+    # get the SHA of the latest commit on the branch
+    latest_sha = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
+    
+    # get the SHA of the commit that was last pulled
+    last_sha = subprocess.check_output(["git", "rev-parse", "@{0}"]).strip()
+    
+    # compare the SHAs to see if the Python file has changed
+    files_changed = subprocess.check_output(["git", "diff", "--name-only", last_sha, latest_sha]).splitlines()
+    for file in files_changed:
+        if file.endswith(".py"):
+            return True
+    return False
 
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository
