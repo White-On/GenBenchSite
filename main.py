@@ -178,8 +178,6 @@ if __name__ == "__main__":
         logger.error(f"Path {working_directory.absolute()} does not exist")
         raise Exception(f"Path {working_directory.absolute()} does not exist")
 
-    exit(0)
-
     # Test the repository
     resultFilename = Path("results.json")
     machineFilename = Path("machine.json")
