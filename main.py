@@ -47,7 +47,7 @@ def repository_is_github(repository):
         os.chdir(path.absolute().__str__())
         if has_python_file_changed():
             logger.debug(f"Python file has changed since the last pull")
-            # we clear the local repository
+            # we clear the local repository and the results file needed for the benchmark
             delete_directory(path.absolute().__str__())
 
         # we clear the local repository
