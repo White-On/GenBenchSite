@@ -440,7 +440,7 @@ class BenchSite:
                         }
                         for arg, res in zip(
                             library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).get_calculated_runtime(
+                            library.GetTaskByName(taskName).mean_runtime(
                                 library.name
                             ),
                         )
@@ -472,7 +472,7 @@ class BenchSite:
                                 library.GetTaskByName(taskName).arguments_label,
                                 library.GetTaskByName(
                                     taskName
-                                ).get_calculated_evaluation(library.name),
+                                ).mean_evaluation(library.name),
                             )
                             if res.get(function) != float("inf")
                         ]
@@ -707,7 +707,7 @@ class BenchSite:
                         }
                         for arg, res in zip(
                             task.arguments_label,
-                            task.get_calculated_runtime(libraryName),
+                            task.mean_runtime(libraryName),
                         )
                         if res >= 0 and res != float("inf")
                     ],

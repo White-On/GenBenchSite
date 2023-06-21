@@ -48,7 +48,7 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str
         for library in Library.GetLibraryByTaskName(taskName):
             dictionaryTaskLibraryResults[taskName][
                 library.name
-            ] = library.GetTaskByName(taskName).get_calculated_runtime(library.name)
+            ] = library.GetTaskByName(taskName).mean_runtime(library.name)
 
     for taskName in dictionaryTaskLibraryResults.keys():
         dictionaryTaskLibraryResults[taskName] = LexMaxWithThreshold(

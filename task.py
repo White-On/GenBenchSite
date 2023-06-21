@@ -166,123 +166,93 @@ class Task:
                 listTaskName.append(task.name)
         return listTaskName
 
+    # @staticmethod
+    # def transform_str_to_nan(array: np.ndarray) -> np.ndarray:
+    #     def is_float(string: str):
+    #         try:
+    #             float(string)
+    #             return True
+    #         except ValueError:
+    #             return False
+
+    #     array[np.vectorize(lambda x: not is_float(x))(array)] = np.nan
+    #     array = array.astype(np.float64)
+    #     return array
+
     @staticmethod
-    def transform_str_to_nan(array: np.ndarray) -> np.ndarray:
+    def str_and_none_to_nan(array: np.ndarray) -> np.ndarray:
+        """ transform the string and None into np.nan and transform the array into float64 """
         def is_float(string: str):
+            """ return True if the string is a float, False otherwise"""
             try:
                 float(string)
                 return True
             except ValueError:
                 return False
+        return np.where(np.vectorize(lambda x : x is None or not is_float(x))(array), np.nan, array).astype(np.float64)
+    
+    def get_runtime(self, target: str) -> list[float]:
+        # we transform the string and None into np.nan and transform the array into float64
+        runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
+        # if there is no runtime for the target, we return a list of np.nan with the same size as the arguments
+        if (np.isnan(runtime)).all():
+            return np.vstack(runtime).tolist()
+        # we inverse the runtime to have the difference between the end and the start
+        runtime = np.hstack(np.diff(runtime, axis=2)).T
+        # runtime[:, :, 0] = -runtime[:, :, 0]
+        # runtime = runtime.sum(axis=2)
+        logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
+        return runtime.tolist()
 
-        array[np.vectorize(lambda x: not is_float(x))(array)] = np.nan
-        array = array.astype(np.float64)
-        return array
-
-    def get_calculated_runtime(self, target: str) -> list[float]:
-        """Getter for the mean runtime of the task.
-
-        Returns
-        -------
-        mean : float
-            The mean of the runtime of the task.
-
-        """
-        # if the runtime has already been calculated we return it
+    def mean_runtime(self, target: str) -> list[float]:
         if target in self.cache_runtime:
             logger.debug(
-                f"Runtime already calculated for {target} in {self.name}, using the cached value"
+                f"Evaluation already calculated for {target} in {self.name}, using the cached value"
             )
             return self.cache_runtime[target]
-        # if the runtime is a error message we return a list of inf
-        if isinstance(self.runtime[target][0], str):
-            # the runtime is a error message
-            runtime = [float("inf")] * len(self.arguments_label)
-            self.cache_runtime[target] = runtime
-            logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
-            return runtime
-        # we transform the list into a numpy array
-        # but we want to transform the strings into np.nan
-        runtime = np.array(self.runtime[target])
-        # we first remove all the runtime with error value/message
-        # then we caluculate the mean of the runtime for each argument
-        if not runtime.dtype == np.dtype("float64"):
-            runtime = Task.transform_str_to_nan(runtime)
-        
-        # we do the difference between the start and the end of the runtime
-        runtime[:, :, 0] = -runtime[:, :, 0]
-        runtime = runtime.sum(axis=2)
-        # if the runtime is only nan we return a list of inf
-        
-        if np.isnan(runtime).all():
-            # the runtime is a error message
-            runtime = [float("inf")] * len(self.arguments_label)
-            self.cache_runtime[target] = runtime
-            logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
-            return runtime
-        logger.debug(f"before for {target} in {self.name} : {runtime}")
-        # we calculate the mean of the runtime for each argument
+        runtime = self.get_runtime(target)
         runtime = np.nanmean(runtime, axis=1)
-        # we filter any np.nan value and convert it to inf
         runtime[np.isnan(runtime)] = float("inf")
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         # we save the runtime in the cache
         self.cache_runtime[target] = runtime.tolist()
         return runtime.tolist()
-
-    def get_calculated_evaluation(self, target: str) -> list[float]:
-        """Getter for the mean evaluation of the task.
-
-        Returns
-        -------
-        mean : float
-            The mean of the evaluation of the task.
-
-        """
-        logger.debug(
-            f"Getting evaluation for {target} in {self.name} : {self.evaluation[target]}"
-        )
-        # if the evaluation has already been calculated we return it
+    
+    def mean_evaluation(self, target: str) -> list[float]:
+         # if the evaluation has already been calculated we return it
         if target in self.cache_evaluation:
             logger.debug(
                 f"Evaluation already calculated for {target} in {self.name}, using the cached value"
             )
             return self.cache_evaluation[target]
-        # if the evaluation is a error message we return a list of inf
+        
+        evaluation = self.evaluation[target]
         if self.evaluation[target] is None:
             # the evaluation is a error message
             evaluation = [float("inf")] * len(self.arguments_label)
             self.cache_evaluation[target] = evaluation
             logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
             return evaluation
-
-        evaluation = self.evaluation[target]
-        # we calculate the mean of the evaluation for each argument
         for i in range(len(evaluation)):
             for function in evaluation[i].keys():
-                if (np.array(evaluation[i][function]) == None).all():
-                    evaluation[i][function] = float("inf")
-                    continue
-                else:
-                    evaluation[i][function] = [x for x in evaluation[i][function] if x is not None]
-                # we transform the strings into np.nan
-                evaluation[i][function] = self.transform_str_to_nan(np.array(evaluation[i][function]))  
-                # if the evaluation is only nan we return a list of inf
+                evaluation[i][function] = Task.str_and_none_to_nan(evaluation[i][function])
                 if np.isnan(evaluation[i][function]).all():
-                    # the evaluation is a error message
                     evaluation[i][function] = float("inf")
                     continue
                 evaluation[i][function] = np.nanmean(evaluation[i][function]).tolist()
-                # if the evaluation is only nan we return a list of inf
                 if np.isnan(evaluation[i][function]):
-                    # the evaluation is a error message
                     evaluation[i][function] = float("inf")
-                
-
         logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
         # we save the evaluation in the cache
         self.cache_evaluation[target] = evaluation
         return evaluation
+
+    def standard_deviation(self, list_element) -> list[float]:
+        return np.nanstd(list_element, axis=1).tolist()
+    
+    def variance(self, list_element) -> list[float]:
+        return np.nanvar(list_element, axis=1).tolist()
+    
 
     def get_status(self, target: str) -> str:
         """Getter for the status of the task.
@@ -293,7 +263,7 @@ class Task:
             The status of the task.
 
         """
-        mean = np.array(self.get_calculated_runtime(target))
+        mean = np.array(self.mean_runtime(target))
         if (mean == float("inf")).all():
             if isinstance(self.runtime[target][0], str):
                 # the runtime is a error message
@@ -303,6 +273,7 @@ class Task:
 
                 return self.runtime[target][0][0][1]
         return "Run"
+    
 
 
 if __name__ == "__main__":

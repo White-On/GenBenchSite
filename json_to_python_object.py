@@ -81,7 +81,17 @@ if __name__ == "__main__":
 
     # print(list(Library.GetAllLibraryName()))
 
-    task = Task.allTasks[3]
-    print(task.name)
-    print(task.get_calculated_runtime("pyAgrum"))
-    print(task.get_calculated_evaluation("pyAgrum"))
+    tasks = Task.allTasks
+    for task in tasks:
+        # print(task.name)
+        # print(task.get_calculated_runtime("pgmpy"))
+        # print(task.mean_runtime('pgmpy'))
+        # print(task.get_calculated_evaluation("pyAgrum"))
+        # print(task.get_calculated_evaluation("pgmpy"))
+        # print(task.get_standard_deviation(task.runtime["pgmpy"]))
+        # print(task.get_runtime("pgmpy"))
+        # print(task.standard_deviation(task.get_runtime("pgmpy")))
+        
+        # task.mean_runtime('pyAgrum')
+        # print(task.mean_evaluation("pgmpy"))
+        pass

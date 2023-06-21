@@ -23,6 +23,20 @@ def delete_directory(dir_path):
     else:
         logger.warning(f"Directory not found: {path}")
 
+def delete_file(file_path):
+    """
+    Clears the contents of a file.
+
+    :param file_path: The path to the file to clear.
+    """
+    logger.info(f"Deleting file: {file_path}")
+    path = Path(file_path)
+    if path.exists() and path.is_file():
+        os.remove(path)
+        logger.info(f"Deleted file: {path}")
+    else:
+        logger.warning(f"File not found: {path}")
+
 
 def start_benchmark(structure_test_path: str, resultFilename: str = "results.json"):
     benchmark = Benchmark(pathToInfrastructure=structure_test_path)
@@ -30,11 +44,11 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
 
-def repository_is_local(repository):
+def repository_is_local(repository, **kargs):
     return Path(repository)
 
 
-def repository_is_github(repository):
+def repository_is_github(repository, **kargs):
     default_repository_name = "repository"
 
     # we create a local repository
@@ -47,7 +61,10 @@ def repository_is_github(repository):
         if has_python_file_changed(path.absolute().__str__()):
             logger.debug(f"Python file has changed since the last pull")
             # we clear the local repository and the results file needed for the benchmark
+            # as the old test are now deprecated we delete the old results
             delete_directory(path.absolute().__str__())
+            delete_file(kargs["resultFilename"])
+
         else:
             logger.debug(f"No python file has changed since the last pull")
             # we merge the remote repository with the local repository
@@ -164,6 +181,9 @@ if __name__ == "__main__":
 
     logger.info("=======Starting the main script=======")
 
+    # Test the repository
+    resultFilename = Path("results.json")
+
     possible_access_folder = {
         "local": repository_is_local,
         "github": repository_is_github,
@@ -172,15 +192,13 @@ if __name__ == "__main__":
     logger.info(f"Access folder: {args.access_folder}")
     logger.info(f"Repository: {args.repository}")
 
-    working_directory = possible_access_folder[args.access_folder](args.repository)
+    working_directory = possible_access_folder[args.access_folder](args.repository, resultFilename=resultFilename.absolute())
 
     if not working_directory.exists():
         logger.error(f"Path {working_directory.absolute()} does not exist")
         raise Exception(f"Path {working_directory.absolute()} does not exist")
 
-    # Test the repository
-    resultFilename = Path("results.json")
-    machineFilename = Path("machine.json")
+    
 
     if args.benchmark:
         start_benchmark(
@@ -201,9 +219,6 @@ if __name__ == "__main__":
         resultFilename.absolute(),
         os.path.join(args.output_folder, resultFilename),
     )
-
-    # we delete the result.json,code.json and machine.json files
-    # os.remove(resultFilename.absolute())
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy

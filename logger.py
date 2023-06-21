@@ -1,13 +1,25 @@
 import logging
+import time
 from pathlib import Path
 
 from rich.logging import RichHandler
 
 logger = logging.getLogger(__name__)
 
-current_path = Path(__file__).parent.absolute()
+logs_path = Path(__file__).parent / "logs"
+logs_path.mkdir(exist_ok=True)
+# logs_path = Path(__file__).parent
 
-shell_file = current_path / "debug.log"
+file_name = f"debug_{time.strftime('%d_%m_%H_%M_%S')}.log"
+# we don't want the logs to over populate the folder
+# so we delete the odler logs
+for file in logs_path.glob("*.log"):
+    # file.unlink()
+    print(file)
+
+# file_name = "debug.log"
+
+shell_file = logs_path / file_name
 
 # the handler determines where the logs go: stdout/file
 shell_handler = RichHandler()
