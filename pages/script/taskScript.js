@@ -41,15 +41,15 @@ const evaluationBackgroundcolor = "#aaffff";
 // const defaultBackgroundcolor = "#aaffff";
 
 let chartList = [];
-let titleList = [];
+let labelList = [];
 let allLibraries;
 
 for(let element in importedData){
     let chart;
     let chartdata = importedData[element].data;
-    titleList.push(importedData[element].title);
+    labelList.push(importedData[element].label);
     
-    console.log(chartdata);
+    // console.log(chartdata);
     // console.log(importedData[element]);
     if (chartdata.length == 0){
         chart = document.createElement("p");
@@ -68,13 +68,13 @@ for(let element in importedData){
         // if the arguments are numbers we sort the data by the arguments
         let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
         chartdata.sort(orderingFunction);
-        console.log("arguments are numbers");
+        // console.log("arguments are numbers");
     }
     else{
         // if the arguments are not numbers we sort the data by the arguments
         let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
         chartdata.sort(orderingFunction);
-        console.log("arguments are not numbers");
+        // console.log("arguments are not numbers");
     }
 
     // let orderingFunction = (a, b) => d3.ascending(a.arguments, b.arguments);
@@ -120,6 +120,7 @@ for(let element in importedData){
 
             labelFontSize: 12,
             titleFontSize: 16,
+            title: importedData[element].title,
 
             margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
@@ -140,7 +141,7 @@ for(let element in importedData){
 }
 
 
-for(let title of titleList){
+for(let title of labelList){
     let option = document.createElement("option");
     option.value = title;
     option.text = title;
@@ -168,7 +169,7 @@ dropdown.onchange = function(){
     for(let chart of chartList){
         chart.style.display = "none";
     }
-    chartList[titleList.indexOf(dropdown.value)].style.display = "block";
+    chartList[labelList.indexOf(dropdown.value)].style.display = "block";
     if (dropdown.value == "Runtime"){
         htmlComponent.style.backgroundColor = timeBackgroundColor;
     }else {

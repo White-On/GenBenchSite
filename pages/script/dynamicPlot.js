@@ -3,12 +3,12 @@ export  function LineChart(data, {
     categories = ([, categories]) => categories,  // given d in data, returns the (temporal) y-value
     inerClass = ([, , inerClass]) => inerClass, // given d in data, returns the (categorical) z-value
 
-    title = "Plot", // title of the chart
+    title = "", // title of the chart
     titleFontSize = 20, // font size of the title
 
     defined, // for gaps in data
 
-    curve = d3.curveBumpX, // method of interpolation between points
+    curve = d3.curveMonotoneX, // method of interpolation between points
 
     width = 640, // outer width, in pixels
     height = 400, // outer height, in pixels
@@ -224,7 +224,7 @@ export  function LineChart(data, {
         .attr("d", ([, I]) => line(I));
     
     // console.log(path);
-    console.log(d3.group(I, i => Z[i]));
+    // console.log(d3.group(I, i => Z[i]));
     // for(let i of I) {
     //     console.log(D[i]);
     // }

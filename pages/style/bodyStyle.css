@@ -4,7 +4,7 @@
 /* GLOBAL PARAMETER */
 
 :root{
-    --navbar-width: 15rem;
+    --navbar-width: 12rem;
     --topMargin: 62px 
 }
 
@@ -23,4 +23,10 @@ body{
 a{
     text-decoration: none;
     color: var(--font-color);
+}
+
+@media screen and (max-width: 800px){
+    body{
+        font-size: 0.1rem;
+    }
 }

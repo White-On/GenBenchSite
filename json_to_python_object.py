@@ -91,7 +91,7 @@ if __name__ == "__main__":
         # print(task.get_standard_deviation(task.runtime["pgmpy"]))
         # print(task.get_runtime("pgmpy"))
         # print(task.standard_deviation(task.get_runtime("pgmpy")))
-        
+
         # task.mean_runtime('pyAgrum')
         # print(task.mean_evaluation("pgmpy"))
         pass

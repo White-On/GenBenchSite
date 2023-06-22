@@ -23,6 +23,7 @@ def delete_directory(dir_path):
     else:
         logger.warning(f"Directory not found: {path}")
 
+
 def delete_file(file_path):
     """
     Clears the contents of a file.
@@ -72,8 +73,12 @@ def repository_is_github(repository, **kargs):
             try:
                 os.system(command)
             except:
-                logger.error(f"Error when merging the remote repository with the local repository {repository}")
-                raise Exception(f"Error when merging the remote repository with the local repository {repository}")
+                logger.error(
+                    f"Error when merging the remote repository with the local repository {repository}"
+                )
+                raise Exception(
+                    f"Error when merging the remote repository with the local repository {repository}"
+                )
             return path
 
     # we clone the repository in the local repository
@@ -86,7 +91,8 @@ def repository_is_github(repository, **kargs):
 
     return path
 
-def has_python_file_changed(repository_name:str):
+
+def has_python_file_changed(repository_name: str):
     # we memorize the current directory
     current_dir = os.getcwd()
     # we check if a python file has changed since the last pull
@@ -101,7 +107,9 @@ def has_python_file_changed(repository_name:str):
     local_last_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
     # we compare the two commits
     # compare the SHAs to see if the Python file has changed
-    files_changed = subprocess.check_output(["git", "diff", "--name-only", last_commit, local_last_commit],encoding='utf-8').splitlines()
+    files_changed = subprocess.check_output(
+        ["git", "diff", "--name-only", last_commit, local_last_commit], encoding="utf-8"
+    ).splitlines()
     logger.debug(f"Files changed : {files_changed}")
     # we go back to the current directory
     os.chdir(current_dir)
@@ -109,6 +117,7 @@ def has_python_file_changed(repository_name:str):
         if file.endswith(".py"):
             return True
     return False
+
 
 if __name__ == "__main__":
     # first step is to Run the tests and evaluate the library based on the repository
@@ -192,13 +201,13 @@ if __name__ == "__main__":
     logger.info(f"Access folder: {args.access_folder}")
     logger.info(f"Repository: {args.repository}")
 
-    working_directory = possible_access_folder[args.access_folder](args.repository, resultFilename=resultFilename.absolute())
+    working_directory = possible_access_folder[args.access_folder](
+        args.repository, resultFilename=resultFilename.absolute()
+    )
 
     if not working_directory.exists():
         logger.error(f"Path {working_directory.absolute()} does not exist")
         raise Exception(f"Path {working_directory.absolute()} does not exist")
-
-    
 
     if args.benchmark:
         start_benchmark(

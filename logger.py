@@ -6,18 +6,27 @@ from rich.logging import RichHandler
 
 logger = logging.getLogger(__name__)
 
-logs_path = Path(__file__).parent / "logs"
-logs_path.mkdir(exist_ok=True)
-# logs_path = Path(__file__).parent
+# logs_path = Path(__file__).parent / "logs"
+# logs_path.mkdir(exist_ok=True)
 
-file_name = f"debug_{time.strftime('%d_%m_%H_%M_%S')}.log"
-# we don't want the logs to over populate the folder
-# so we delete the odler logs
-for file in logs_path.glob("*.log"):
-    # file.unlink()
-    print(file)
+# date_format = "%d_%m_%H_%M_%S"
+# max_logs = 3
+# file_name = f"debug_{time.strftime(date_format)}.log"
 
-# file_name = "debug.log"
+# # we don't want the logs to over populate the folder
+# # so we delete the odler logs
+
+# # we get all the dates of the logs
+# date_files = [file.name[6:-4] for file in logs_path.glob("*.log")]
+# # sort them
+# oldest_files_dates = sorted(date_files)[: -max_logs + 1]
+# # and get the names of the files to delete
+# oldest_files = [f"debug_{date}.log" for date in oldest_files_dates]
+# for file in oldest_files:
+#     (logs_path / file).unlink()
+
+logs_path = Path(__file__).parent
+file_name = "debug.log"
 
 shell_file = logs_path / file_name
 

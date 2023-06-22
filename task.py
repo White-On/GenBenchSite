@@ -181,16 +181,20 @@ class Task:
 
     @staticmethod
     def str_and_none_to_nan(array: np.ndarray) -> np.ndarray:
-        """ transform the string and None into np.nan and transform the array into float64 """
+        """transform the string and None into np.nan and transform the array into float64"""
+
         def is_float(string: str):
-            """ return True if the string is a float, False otherwise"""
+            """return True if the string is a float, False otherwise"""
             try:
                 float(string)
                 return True
             except ValueError:
                 return False
-        return np.where(np.vectorize(lambda x : x is None or not is_float(x))(array), np.nan, array).astype(np.float64)
-    
+
+        return np.where(
+            np.vectorize(lambda x: x is None or not is_float(x))(array), np.nan, array
+        ).astype(np.float64)
+
     def get_runtime(self, target: str) -> list[float]:
         # we transform the string and None into np.nan and transform the array into float64
         runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
@@ -217,15 +221,15 @@ class Task:
         # we save the runtime in the cache
         self.cache_runtime[target] = runtime.tolist()
         return runtime.tolist()
-    
+
     def mean_evaluation(self, target: str) -> list[float]:
-         # if the evaluation has already been calculated we return it
+        # if the evaluation has already been calculated we return it
         if target in self.cache_evaluation:
             logger.debug(
                 f"Evaluation already calculated for {target} in {self.name}, using the cached value"
             )
             return self.cache_evaluation[target]
-        
+
         evaluation = self.evaluation[target]
         if self.evaluation[target] is None:
             # the evaluation is a error message
@@ -235,7 +239,9 @@ class Task:
             return evaluation
         for i in range(len(evaluation)):
             for function in evaluation[i].keys():
-                evaluation[i][function] = Task.str_and_none_to_nan(evaluation[i][function])
+                evaluation[i][function] = Task.str_and_none_to_nan(
+                    evaluation[i][function]
+                )
                 if np.isnan(evaluation[i][function]).all():
                     evaluation[i][function] = float("inf")
                     continue
@@ -249,10 +255,9 @@ class Task:
 
     def standard_deviation(self, list_element) -> list[float]:
         return np.nanstd(list_element, axis=1).tolist()
-    
+
     def variance(self, list_element) -> list[float]:
         return np.nanvar(list_element, axis=1).tolist()
-    
 
     def get_status(self, target: str) -> str:
         """Getter for the status of the task.
@@ -273,7 +278,6 @@ class Task:
 
                 return self.runtime[target][0][0][1]
         return "Run"
-    
 
 
 if __name__ == "__main__":
