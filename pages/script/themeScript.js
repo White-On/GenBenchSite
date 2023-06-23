@@ -41,6 +41,14 @@ while (navActive.tagName != "NAV") {
     navActive = navActive.parentElement;
 }
 
+// we now make the submenu of the active nav element visible
+navActive = document.getElementById(themeName + "-nav");
+let subMenu = navActive.parentElement.parentElement.getElementsByClassName("subMenu")[0];
+if (subMenu.classList.contains("collapse")) {
+    subMenu.classList.replace("collapse", "expand");
+    subMenu.parentElement.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+}
+
 
 
 

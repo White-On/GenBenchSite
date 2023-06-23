@@ -97,7 +97,7 @@ h1{
     box-shadow: 0 0 5px var(--box-shadow-color);
     color: var(--primary-color);
 
-    overflow-x : scroll;
+    /* overflow-x : scroll; */
 }
 
 #compare-tool{
