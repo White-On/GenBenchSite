@@ -40,7 +40,8 @@ def delete_file(file_path):
 
 
 def start_benchmark(structure_test_path: str, resultFilename: str = "results.json"):
-    benchmark = Benchmark(pathToInfrastructure=structure_test_path)
+    baseFilename = resultFilename if Path(resultFilename).exists() else None
+    benchmark = Benchmark(pathToInfrastructure=structure_test_path, baseResult=baseFilename)
     benchmark.StartAllProcedure()
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
@@ -211,7 +212,7 @@ if __name__ == "__main__":
 
     if args.benchmark:
         start_benchmark(
-            working_directory.absolute().__str__(), resultFilename.absolute().__str__()
+            working_directory.absolute().__str__(), resultFilename.absolute().__str__(),
         )
 
     # The second step is to create the HTML page from the test results. This HTML page will be
