@@ -249,10 +249,10 @@ class Benchmark:
             module = __import__(
                 f"{relativePath}.{moduleEvaluation}", fromlist=[funcName]
             )
-            logger.debug(f"{module = }")
-            func = getattr(module, funcName)
-            logger.debug(f"{func = }")
             try:
+                logger.debug(f"{module = }")
+                func = getattr(module, funcName)
+                logger.debug(f"{func = }")
                 output = func(**kwargs)
             except Exception as e:
                 logger.warning(
