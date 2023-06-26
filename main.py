@@ -133,6 +133,8 @@ if __name__ == "__main__":
     # publish = True if the user want to deploy the HTML page, False otherwise
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    # we go to the current directory
+    os.chdir(current_dir)
 
     parser = argparse.ArgumentParser(
         description="Generate a static website of a benchmark of libraries."
@@ -244,12 +246,11 @@ if __name__ == "__main__":
         shutil.copytree(
             args.output_folder, os.path.join(args.repository, args.output_folder)
         )
-        print("Deploying the HTML page on the github page")
         os.chdir(args.repository)
         os.system(f"git add {args.output_folder}")
         os.system(f'git commit -m "Updating the HTML page"')
         os.system(f"git push")
-        print("HTML page deployed on the github page")
+        logger.info("HTML page deployed on the github page")
 
         # we remove the local repository
         shutil.rmtree(working_directory.absolute())

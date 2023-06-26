@@ -2,6 +2,7 @@ import {LineChart} from './dynamicPlot.js';
 import {Histogram} from './histogram.js';
 import {GroupedBarChart} from './groupedBarChart.js';
 import {ViolonsChart} from './violonsChart.js';
+import {ComplexeLineChart} from './complexePlot.js';
 
 function dataSpread(data){
     let min = Math.min.apply(Math, data)

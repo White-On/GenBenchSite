@@ -197,6 +197,9 @@ class Task:
 
     def get_runtime(self, target: str) -> list[float]:
         # we transform the string and None into np.nan and transform the array into float64
+        for element in self.runtime[target]:
+            print(len(element))
+            print(element)
         runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
         # if there is no runtime for the target, we return a list of np.nan with the same size as the arguments
         if (np.isnan(runtime)).all():
