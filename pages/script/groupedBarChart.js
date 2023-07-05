@@ -4,6 +4,7 @@ export function GroupedBarChart(data,{
     inerClass = ([, , inerClass]) => inerClass, // given d in data, returns the (categorical) z-value
 
     title = "",
+    defined, // for gaps in data
 
     width,
     height,
@@ -46,7 +47,10 @@ export function GroupedBarChart(data,{
 
 //  we want to draw the bars from the highest to the lowest value
 //  this wait we wont have issue with the labels
-    const indices = [...Values.keys()].sort((a, b) => Values[b] - Values[a]);
+    let indices = [...Values.keys()].sort((a, b) => Values[b] - Values[a]);
+    if (defined === undefined) defined = (d, i) => !isNaN(Values[i]);
+    const D = d3.map(indices, defined); 
+    indices = indices.filter(i => D[i]);
 
     const I = d3.range(Values.length);
 
@@ -76,7 +80,7 @@ export function GroupedBarChart(data,{
         .domain(InerClass)
         .rangeRound([0, xScaleCategory.bandwidth()]);
   
-    const yMinMaxValue = d3.extent(Values);
+    const yMinMaxValue = d3.extent(Values.filter((d) => !isNaN(d)));
 
     // CAUTION: if the min value is 0, the log scale will not work
 
