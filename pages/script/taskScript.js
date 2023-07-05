@@ -35,7 +35,7 @@ let width = htmlComponent.getBoundingClientRect().width;
 // let height = window.innerHeight * 0.5;
 let height = 500;
 
-let possibleplot = {"line": LineChart, "histo": Histogram, "groupedBar": GroupedBarChart, "violons": ViolonsChart};
+let possibleplot = {"line": ComplexeLineChart, "histo": Histogram, "groupedBar": GroupedBarChart, "violons": ViolonsChart};
 
 const timeBackgroundColor = "#ffffaa";
 const evaluationBackgroundcolor = "#aaffff";
@@ -50,7 +50,7 @@ for(let element in importedData){
     let chartdata = importedData[element].data;
     labelList.push(importedData[element].label);
     
-    // console.log(chartdata);
+    console.log(chartdata);
     // console.log(importedData[element]);
     if (chartdata.length == 0){
         chart = document.createElement("p");
@@ -87,11 +87,15 @@ for(let element in importedData){
         for(let library of allLibraries){
             
             let data = chartdata.filter(d => d.libraryName == library);
+            // we remove the eventual strings from the data -> error in the data
+            data = data.filter(d => typeof d.runTime === "number");
             local_spread.push(dataSpread(data.map(d => d.runTime)));
         }
+        
         // we remove the eventual 0 from the local spread -> error in the data
         local_spread = local_spread.filter(d => d != 0);
-        let global_spread = dataSpread(chartdata.map(d => d.runTime));
+        let data = chartdata.filter(d => typeof d.runTime === "number");
+        let global_spread = dataSpread(data.map(d => d.runTime));
         // default scale is linear
         importedData[element].scale = 'linear'
         // factor of comparison between the local spread and the global spread
@@ -110,6 +114,7 @@ for(let element in importedData){
             values: d => d.runTime,
             categories: d => d.arguments,
             inerClass: d => d.libraryName,
+            std: d => d.std,
 
             width: width,
             height: height,
@@ -234,6 +239,7 @@ function handleClickToPrintCode(elementsToDisplay) {
     }
 }
 
+// NAVIGATION BAR
 // document.body.innerHTML += code["pgmpy"]
 
 //we want to make the navActive class active on the library page

@@ -196,10 +196,10 @@ class Task:
         ).astype(np.float64)
 
     def get_runtime(self, target: str) -> list[float]:
+        # for element in self.runtime[target]:
+        #     print(len(element))
+        #     print(element)
         # we transform the string and None into np.nan and transform the array into float64
-        for element in self.runtime[target]:
-            print(len(element))
-            print(element)
         runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
         # if there is no runtime for the target, we return a list of np.nan with the same size as the arguments
         if (np.isnan(runtime)).all():
@@ -210,6 +210,25 @@ class Task:
         # runtime = runtime.sum(axis=2)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
+    
+    def get_evaluation(self, target: str) -> list[float]:
+        
+        if self.evaluation[target] is None:
+            # the evaluation is a error message
+            evaluation = [float("inf")] * len(self.arguments_label)
+            logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
+            return evaluation
+        evaluation = self.evaluation[target][:]
+        for i in range(len(evaluation)):
+            for function in evaluation[i].keys():
+                evaluation[i][function] = Task.str_and_none_to_nan(
+                    evaluation[i][function]
+                )
+                if np.isnan(evaluation[i][function]).all():
+                    evaluation[i][function] = float("inf")
+                    continue
+                evaluation[i][function] = evaluation[i][function].tolist()
+        return evaluation
 
     def mean_runtime(self, target: str) -> list[float]:
         if target in self.cache_runtime:
@@ -226,28 +245,21 @@ class Task:
         return runtime.tolist()
 
     def mean_evaluation(self, target: str) -> list[float]:
-        # if the evaluation has already been calculated we return it
         if target in self.cache_evaluation:
             logger.debug(
                 f"Evaluation already calculated for {target} in {self.name}, using the cached value"
             )
             return self.cache_evaluation[target]
-
-        evaluation = self.evaluation[target]
-        if self.evaluation[target] is None:
-            # the evaluation is a error message
-            evaluation = [float("inf")] * len(self.arguments_label)
-            self.cache_evaluation[target] = evaluation
-            logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
-            return evaluation
+        evaluation = []
+        for element in self.get_evaluation(target):
+            if element == float("inf"):
+                evaluation.append(element)
+                continue
+            evaluation.append(element.copy())
         for i in range(len(evaluation)):
+            if evaluation[i]  == float("inf"):
+                continue
             for function in evaluation[i].keys():
-                evaluation[i][function] = Task.str_and_none_to_nan(
-                    evaluation[i][function]
-                )
-                if np.isnan(evaluation[i][function]).all():
-                    evaluation[i][function] = float("inf")
-                    continue
                 evaluation[i][function] = np.nanmean(evaluation[i][function]).tolist()
                 if np.isnan(evaluation[i][function]):
                     evaluation[i][function] = float("inf")
@@ -256,11 +268,26 @@ class Task:
         self.cache_evaluation[target] = evaluation
         return evaluation
 
-    def standard_deviation(self, list_element) -> list[float]:
-        return np.nanstd(list_element, axis=1).tolist()
+    def standard_deviation_runtime(self, target) -> list[float]:
+        return np.nanstd(self.get_runtime(target=target), axis=1).tolist()
 
-    def variance(self, list_element) -> list[float]:
-        return np.nanvar(list_element, axis=1).tolist()
+    def standard_deviation_evaluation(self, target) -> list[float]:
+        evaluation = []
+        for element in self.get_evaluation(target):
+            if element == float("inf"):
+                evaluation.append(element)
+                continue
+            evaluation.append(element.copy())
+        # evaluation = self.get_evaluation(target)[:]
+        for i in range(len(evaluation)):
+            if evaluation[i] == float("inf"):
+                continue
+            for function in evaluation[i].keys():
+                evaluation[i][function] = np.nanstd(evaluation[i][function]).tolist()
+        return evaluation
+
+    def variance(self, target) -> list[float]:
+        return np.nanvar(self.get_runtime(target=target), axis=1).tolist()
 
     def get_status(self, target: str) -> str:
         """Getter for the status of the task.

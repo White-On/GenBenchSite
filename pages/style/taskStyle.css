@@ -87,7 +87,8 @@ h1{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    font-size: clamp(6px, 1.5vw, 12px);
+    font-size: 0.8vw;
+    /* font-size: 0.5rem; */
 }
 #code>code{
     display: none;
@@ -98,6 +99,14 @@ h1{
     color: var(--primary-color);
 
     /* overflow-x : scroll; */
+}
+
+@media screen and (max-width: 1300px){
+    #code{
+        font-size: 0.6vw;
+    }
+}
+    
 }
 
 #compare-tool{

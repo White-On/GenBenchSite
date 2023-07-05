@@ -117,7 +117,7 @@ export function ComplexeLineChart(data, {
     // Construct a line generator.
     // Take the data point by point, and draw a line between them acording to the curve specified.
     const line = d3.line()
-        // .defined(i => D[i])
+        .defined(i => D[i])
         .curve(curve)
         .x(i => xScale(X[i]))
         .y(i => yScale(Y[i]));
@@ -213,6 +213,7 @@ export function ComplexeLineChart(data, {
         .selectAll("circle")
         .data(I)
         .join("circle")
+        .filter(i => D[i])
         .attr("cx", (I) => xScale(X[I]))
         .attr("cy", (I) => yScale(Y[I]))
         .attr("r", circlesRadius)
@@ -333,7 +334,7 @@ export function ComplexeLineChart(data, {
         // if (Z) dot.select("text").text(Y[i].toFixed(2));
         if (Z) dot.select("title").text(
             [`${xLabel} : ${xFormat(X[i])}`, 
-            `${yLabel} : ${Y[i].toFixed(2)} sec`,
+            `${yLabel} : ${Y[i].toFixed(2)}`,
             `σ : ${W[i].toFixed(2)}`].join("\n")
         );
 

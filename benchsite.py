@@ -430,19 +430,22 @@ class BenchSite:
 
             # importedData = [task for task in Task.GetAllTaskByName(taskName)]
             # importedData = [[{"arg":r, "res":c} for r,c in zip(task.arguments,task.results)] for task in Task.GetAllTaskByName(taskName)]
+            task = Task.GetTaskByName(taskName)
             importedRuntime = sum(
                 [
                     [
                         {
                             "arguments": int(arg) if arg.isnumeric() else arg,
-                            "runTime": res if res > 0 and res != "Error" else 0,
+                            "runTime": runtime if runtime != float("inf") and runtime > 0 else 'error',
                             "libraryName": library.name,
+                            "std" : std if std != float("inf") and std > 0 else 'error',
                         }
-                        for arg, res in zip(
-                            library.GetTaskByName(taskName).arguments_label,
-                            library.GetTaskByName(taskName).mean_runtime(library.name),
+                        for arg, runtime, std in zip(
+                            task.arguments_label,
+                            task.mean_runtime(library.name),
+                            task.standard_deviation_runtime(library.name),
                         )
-                        if res != float("inf")
+                        # if runtime != float("inf")
                     ]
                     for library in Library.GetAllLibrary()
                 ],
@@ -457,22 +460,23 @@ class BenchSite:
             else:
                 functionEvaluation = []
 
+            task = Task.GetTaskByName(taskName)
             importedEvaluation = {
                 function: sum(
                     [
                         [
                             {
                                 "arguments": int(arg) if arg.isnumeric() else arg,
-                                "runTime": res.get(function, 0),
+                                "runTime": res.get(function, 0) if res.get(function, 0) != float("inf") else 'error',
                                 "libraryName": library.name,
+                                "std": std.get(function, 0) if res.get(function, 0) != float("inf") else 'error',
                             }
-                            for arg, res in zip(
-                                library.GetTaskByName(taskName).arguments_label,
-                                library.GetTaskByName(taskName).mean_evaluation(
-                                    library.name
-                                ),
+                            for arg, res, std in zip(
+                                task.arguments_label,
+                                task.mean_evaluation(library.name),
+                                task.standard_deviation_evaluation(library.name),
                             )
-                            if res.get(function) != float("inf")
+                            # if res.get(function) != float("inf") 
                         ]
                         for library in Library.GetAllLibrary()
                     ],

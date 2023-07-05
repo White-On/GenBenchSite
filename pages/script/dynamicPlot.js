@@ -115,7 +115,7 @@ export  function LineChart(data, {
     // Construct a line generator.
     // Take the data point by point, and draw a line between them acording to the curve specified.
     const line = d3.line()
-        // .defined(i => D[i])
+        .defined(i => D[i])
         .curve(curve)
         .x(i => xScale(X[i]))
         .y(i => yScale(Y[i]));

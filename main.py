@@ -9,11 +9,15 @@ from benchsite import BenchSite
 from logger import logger
 
 
-def delete_directory(dir_path):
+def delete_directory(dir_path: str):
     """
     Clears the contents of a directory.
 
-    :param dir_path: The path to the directory to clear.
+    Arguments
+    ---------
+    dir_path : str
+        The path to the directory to clear.
+    
     """
     logger.info(f"Deleting directory: {dir_path}")
     path = Path(dir_path)
@@ -28,7 +32,10 @@ def delete_file(file_path):
     """
     Clears the contents of a file.
 
-    :param file_path: The path to the file to clear.
+    Arguments
+    ---------
+    file_path : str
+        The path to the file to clear.
     """
     logger.info(f"Deleting file: {file_path}")
     path = Path(file_path)
@@ -40,6 +47,14 @@ def delete_file(file_path):
 
 
 def start_benchmark(structure_test_path: str, resultFilename: str = "results.json"):
+    """
+    Starts the benchmark script with the given parameters.
+
+    Arguments
+    ---------
+    structure_test_path : str
+
+    """
     baseFilename = resultFilename if Path(resultFilename).exists() else None
     benchmark = Benchmark(pathToInfrastructure=structure_test_path, baseResult=baseFilename)
     benchmark.StartAllProcedure()

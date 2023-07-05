@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>GenBenSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/taskStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="../index.html"><b>Home</b></a>
+            <a href="https://white-on.github.io/BenchSite/"><b>About</b></a>
+            <a href="../result.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            
+            <a href="#" class="icon">
+            <img src="../assets/discord.svg" alt="discord-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/github.svg" alt="github-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/gitlab.svg" alt="gitlab-icon">
+            </a>
+            
+        </nav>
+    </header><!-- Navigation Bar -->
+
+<nav id = "leftNavBar">
+    <ul>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
+            
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
+                    
+                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Inference.html' id='Inference-nav'>Inference</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Approx_Inference.html' id='Approx_Inference-nav'>Approx Inference</a>
+                    
+                        <a href='Exact_Inference.html' id='Exact_Inference-nav'>Exact Inference</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                </ul>
+                </li>
+            
+        </ul>
+    </ul>
+</nav>
+
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
+
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
+
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+
+<!-- Rank Bar  -->
+<div id="rank-bar">
+    <div id="rank-str">
+        <div id="indication">
+            <!--  Here we need the link for the global About Page -->
+            <a href="about.html#compare-explanation">
+                <svg width="1000" height="50" viewBox="0,0,1000,50" style="max-width: 100%; height: auto;"><g transform="translate(0, 0)"><g transform="translate(0, 0)"><rect x="0" y="0" width="216" height="50" fill="#440154"></rect><rect x="216" y="0" width="54" height="50" fill="#2e6e8e"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#440154"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">first</text></g><g transform="translate(268, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 1</text></g></g><g transform="translate(0, 0)"><g transform="translate(500, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><rect x="216" y="0" width="54" height="50" fill="#4ac16d"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#2e6e8e"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 2</text></g><g transform="translate(768, 0)"><rect x="0" y="0" width="216" height="50" fill="#4ac16d"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">last</text></g></g></svg>
+            </a>
+        </div>
+    </div>
+    <div>2023-07-05 11:18:55</div>
+</div>
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    const cls = {'bnlearn': 0, 'pyAgrum': 1, 'pgmpy': 2}
+    // console.log(cls);
+
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+        gap : 5,
+
+        contentFolderPath : "",
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
+</script><script defer  >const importedData = {'runtime': {'data': [{'arguments': 'pigs.bif', 'runTime': 6.2457147124611465, 'libraryName': 'pgmpy', 'std': 0.18778155623580042}, {'arguments': 'water.bif', 'runTime': 5.983374077923751, 'libraryName': 'pgmpy', 'std': 0.22198421219659129}, {'arguments': 'pathfinder.bif', 'runTime': 'error', 'libraryName': 'pgmpy', 'std': 'error'}, {'arguments': 'munin.bif', 'runTime': 8.284820055783106, 'libraryName': 'pgmpy', 'std': 0.32824662011055544}, {'arguments': 'mildew.bif', 'runTime': 18.262209640738245, 'libraryName': 'pgmpy', 'std': 0.20029027262727617}, {'arguments': 'link.bif', 'runTime': 6.747937426320277, 'libraryName': 'pgmpy', 'std': 0.23235791646894713}, {'arguments': 'insurance.bif', 'runTime': 5.7358479226822965, 'libraryName': 'pgmpy', 'std': 0.16226710800517952}, {'arguments': 'hepar2.bif', 'runTime': 5.856368526040266, 'libraryName': 'pgmpy', 'std': 0.23649157673014837}, {'arguments': 'hailfinder.bif', 'runTime': 5.761678369094928, 'libraryName': 'pgmpy', 'std': 0.2102805509098151}, {'arguments': 'earthquake.bif', 'runTime': 3.4460448632404828, 'libraryName': 'pgmpy', 'std': 0.22256874209225525}, {'arguments': 'diabetes.bif', 'runTime': 12.504979299245557, 'libraryName': 'pgmpy', 'std': 0.2745844315497622}, {'arguments': 'child.bif', 'runTime': 5.353856948010313, 'libraryName': 'pgmpy', 'std': 0.18524991867905066}, {'arguments': 'cancer.bif', 'runTime': 3.463474624149967, 'libraryName': 'pgmpy', 'std': 0.13505470909989836}, {'arguments': 'barley.bif', 'runTime': 8.756143686148183, 'libraryName': 'pgmpy', 'std': 0.20324439899820623}, {'arguments': 'asia.bif', 'runTime': 3.6570614086425244, 'libraryName': 'pgmpy', 'std': 0.17845528995206703}, {'arguments': 'andes.bif', 'runTime': 6.045206884717724, 'libraryName': 'pgmpy', 'std': 0.20254742212899682}, {'arguments': 'alarm.bif', 'runTime': 5.714386133380079, 'libraryName': 'pgmpy', 'std': 0.20942472083418676}, {'arguments': 'pigs.bif', 'runTime': 0.053418300192182265, 'libraryName': 'bnlearn', 'std': 0.12442136791640912}, {'arguments': 'water.bif', 'runTime': 0.04015719909997036, 'libraryName': 'bnlearn', 'std': 0.15703444932858318}, {'arguments': 'pathfinder.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.07672946900833519}, {'arguments': 'munin.bif', 'runTime': 0.002775092434603721, 'libraryName': 'bnlearn', 'std': 0.12792896012019264}, {'arguments': 'mildew.bif', 'runTime': 0.010679059564912071, 'libraryName': 'bnlearn', 'std': 0.14535013879751044}, {'arguments': 'link.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.1062901740480892}, {'arguments': 'insurance.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.14677970521585593}, {'arguments': 'hepar2.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.19128597033047978}, {'arguments': 'hailfinder.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.2010967782048422}, {'arguments': 'earthquake.bif', 'runTime': 0.12298623146489263, 'libraryName': 'bnlearn', 'std': 0.12563820015718316}, {'arguments': 'diabetes.bif', 'runTime': 0.01163684029597789, 'libraryName': 'bnlearn', 'std': 0.1430212947371523}, {'arguments': 'child.bif', 'runTime': 0.0418191947392188, 'libraryName': 'bnlearn', 'std': 0.16603306830043985}, {'arguments': 'cancer.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.13803756860350877}, {'arguments': 'barley.bif', 'runTime': 0.08101685393679266, 'libraryName': 'bnlearn', 'std': 0.21085236458084333}, {'arguments': 'asia.bif', 'runTime': 0.024253849619223427, 'libraryName': 'bnlearn', 'std': 0.166429950792935}, {'arguments': 'andes.bif', 'runTime': 0.01803410390857607, 'libraryName': 'bnlearn', 'std': 0.08782505957659725}, {'arguments': 'alarm.bif', 'runTime': 'error', 'libraryName': 'bnlearn', 'std': 0.1911048373561277}, {'arguments': 'pigs.bif', 'runTime': 0.030574072695647676, 'libraryName': 'pyAgrum', 'std': 0.021179388763322145}, {'arguments': 'water.bif', 'runTime': 0.027095438466252137, 'libraryName': 'pyAgrum', 'std': 0.04284685463202265}, {'arguments': 'pathfinder.bif', 'runTime': 'error', 'libraryName': 'pyAgrum', 'std': 'error'}, {'arguments': 'munin.bif', 'runTime': 0.2206369559862651, 'libraryName': 'pyAgrum', 'std': 0.02913635037931153}, {'arguments': 'mildew.bif', 'runTime': 0.719482264345667, 'libraryName': 'pyAgrum', 'std': 0.039334949497353826}, {'arguments': 'link.bif', 'runTime': 0.08815600530942902, 'libraryName': 'pyAgrum', 'std': 0.021255973570889087}, {'arguments': 'insurance.bif', 'runTime': 0.020573554929190625, 'libraryName': 'pyAgrum', 'std': 0.018282849107200863}, {'arguments': 'hepar2.bif', 'runTime': 0.021902195042154442, 'libraryName': 'pyAgrum', 'std': 0.026209789089982026}, {'arguments': 'hailfinder.bif', 'runTime': 0.01830627742068221, 'libraryName': 'pyAgrum', 'std': 0.02348866641083547}, {'arguments': 'earthquake.bif', 'runTime': 'error', 'libraryName': 'pyAgrum', 'std': 0.024279454038330095}, {'arguments': 'diabetes.bif', 'runTime': 0.7506997880603498, 'libraryName': 'pyAgrum', 'std': 0.047497874281622394}, {'arguments': 'child.bif', 'runTime': 'error', 'libraryName': 'pyAgrum', 'std': 'error'}, {'arguments': 'cancer.bif', 'runTime': 0.006778793118428439, 'libraryName': 'pyAgrum', 'std': 0.021764120240997616}, {'arguments': 'barley.bif', 'runTime': 0.2974089090324317, 'libraryName': 'pyAgrum', 'std': 0.031518386168573775}, {'arguments': 'asia.bif', 'runTime': 0.002409156586509198, 'libraryName': 'pyAgrum', 'std': 0.026647106778517032}, {'arguments': 'andes.bif', 'runTime': 0.0015505449652361374, 'libraryName': 'pyAgrum', 'std': 0.028301602993756978}, {'arguments': 'alarm.bif', 'runTime': 0.0023718475131317973, 'libraryName': 'pyAgrum', 'std': 0.030784496732562852}], 'display': 'groupedBar', 'label': 'Runtime', 'title': 'Reading time of file in BIF format', 'XLabel': 'Name of the network', 'YLabel': 'Time (s)', 'scale': 'linear'}};</script>
+<script defer  >const TaskName = 'BIFReading';</script>
+<script defer  >const argDescription = 'Bayesian network';</script>
+<script defer  >const displayScale = 'linear';</script>
+<script defer type='module' src ='../script/taskScript.js'></script>
+
+
+<!-- Task Main Component -->
+<div class="main-content">
+    <h1 id="entry-title">BIFReading</h1>
+    <!-- <div id="menu"></div> -->
+    <div>
+        The Bayesian Interchange Format (BIF) is a file format used for storing Bayesian network models,
+which are probabilistic graphical models used for representing uncertain knowledge and reasoning
+about probabilistic relationships among variables.
+        
+        <details>
+            <summary>More details</summary>
+            <div>
+                <div>
+                    The BIF format consists of a plain text file that
+contains a specification of the Bayesian network model. The file is structured as a series of sections
+, each of which begins with a keyword that indicates the type of data in the section.
+The sections include a network definition section, variable definition sections, probability
+definition sections, and comment sections. The network definition section specifies the name
+of the network and any additional information about the network structure, such as its type and whether
+it is acyclic or cyclic. The variable definition sections define the variables used in the Bayesian
+network model. Each variable definition includes the variable's name, a list of its possible values, and
+any additional information about the variable, such as its type or domain. The probability definition
+sections define the conditional probability tables (CPTs) for each variable in the network.
+The CPTs specify the probability distribution for each variable given the values of its parent variables
+in the network. The comment sections are used to include additional information about the model
+or to provide context for the other sections. To read a BIF file, you typically start by
+parsing the file into its component sections and then processing each section in turn.
+The exact details of how to read a BIF file will depend on the programming language and file I/O
+library you are using. It's worth noting that the BIF format is widely used in the field of
+Bayesian networks and probabilistic modeling, and is supported by many software packages and libraries.
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+        </details>
+        
+    </div>
+
+    <div id="compare-tool">
+        <div id="head_elements">
+            
+            <div id="graphics"></div>
+        </div>
+
+        <div id="code-menu">
+            <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
+            <div id="codeSelector"></div>
+            <div id="code"> <code id='pgmpy'> <h2>pgmpy</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">3</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">4</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">5</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">6</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #f0dfaf">from</span> <span style="color: #dcdccc">pgmpy.readwrite</span> <span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">BIFReader</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">sys</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">os</span>
+
+<span style="color: #dcdccc">currentdir</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">dirname</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">realpath</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">__file__</span><span style="color: #f0efd0">))</span>
+
+<span style="color: #dcdccc">reader</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">BIFReader</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">&quot;</span><span style="color: #f0efd0">)</span>
+</pre></div></td></tr></table></div>
+ </code> <code id='bnlearn'> <h2>bnlearn</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">3</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">4</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">5</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">6</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">bnlearn</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">bnlearn</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">os</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">sys</span>
+
+<span style="color: #dcdccc">currentdir</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">dirname</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">realpath</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">__file__</span><span style="color: #f0efd0">))</span>
+
+<span style="color: #dcdccc">bn</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">bnlearn</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">import_DAG</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">&quot;</span><span style="color: #f0efd0">)</span>
+</pre></div></td></tr></table></div>
+ </code> <code id='pyAgrum'> <h2>pyAgrum</h2> <div class="zenburn" style="background: #3f3f3f"><table class="zenburntable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">3</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">4</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">5</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">6</span>
+<span style="color: #5d6262; background-color: #353535; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">sys</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">pyAgrum</span> <span style="color: #efdcbc">as</span> <span style="color: #dcdccc">gum</span>
+<span style="color: #f0dfaf">import</span> <span style="color: #dcdccc">os</span>
+
+<span style="color: #dcdccc">currentdir</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">dirname</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">os</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">path</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">realpath</span><span style="color: #f0efd0">(</span><span style="color: #dcdccc">__file__</span><span style="color: #f0efd0">))</span>
+
+<span style="color: #dcdccc">bn</span> <span style="color: #f0efd0">=</span> <span style="color: #dcdccc">gum</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">loadBN</span><span style="color: #f0efd0">(</span><span style="color: #cc9393">f&quot;</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">currentdir</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">/data/</span><span style="color: #dca3a3; font-weight: bold">{</span><span style="color: #dcdccc">sys</span><span style="color: #f0efd0">.</span><span style="color: #dcdccc">argv</span><span style="color: #f0efd0">[</span><span style="color: #8cd0d3">1</span><span style="color: #f0efd0">]</span><span style="color: #dca3a3; font-weight: bold">}</span><span style="color: #cc9393">&quot;</span><span style="color: #f0efd0">)</span>
+</pre></div></td></tr></table></div>
+ </code></div>
+        </div>
+    </div>
+
+</div><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '');
+</script>
+<!-- End Google Analytics --></body>

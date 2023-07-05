@@ -41,7 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = True
+    DEBUG = False
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -268,7 +268,7 @@ class Benchmark:
     def RunProcess(self, command, timeout, getOutput=False):
         logger.debug(f"RunProcess with the command {command}")
         if Benchmark.DEBUG:
-            return np.random.randint(100) * 1.0
+            return np.random.randint(5) * 1.0
 
         start = time.perf_counter()
         try:
@@ -389,11 +389,11 @@ class Benchmark:
             beforeRunListTime = []
             listTime = []
 
-            numberRun = int(
+            total_run = int(
                 self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
             )
 
-            for nb_run in range(numberRun):
+            for nb_run in range(total_run):
                 # Before run script
                 if beforeRunScriptExist:
                     command = f"{self.libraryConfig[libraryName].get('language')} {Path(taskPath,self.CreateScriptName(libraryName,'_before_run'))} {arg}"
@@ -402,7 +402,7 @@ class Benchmark:
                     self.progressBar.update(1)
                     if isinstance(resultProcess, str):
                         listTime.append(resultProcess)
-                        self.progressBar.update((numberRun - nb_run) * 2 - 1)
+                        self.progressBar.update((total_run - nb_run) * 2 - 1)
                         break
 
                 # Run script
@@ -416,7 +416,7 @@ class Benchmark:
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
                 if isinstance(resultProcess, str):
-                    self.progressBar.update((numberRun - nb_run - 1) * 2)
+                    self.progressBar.update((total_run - nb_run - 1) * 2)
                     break
 
             valueEvaluation = [None]

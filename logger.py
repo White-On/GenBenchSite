@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # logs_path = Path(__file__).parent / "logs"
 # logs_path.mkdir(exist_ok=True)
 
-# date_format = "%d_%m_%H_%M_%S"
+# date_format = "%m_%d_%H_%M_%S"
 # max_logs = 3
 # file_name = f"debug_{time.strftime(date_format)}.log"
 
