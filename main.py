@@ -262,9 +262,9 @@ if __name__ == "__main__":
             args.output_folder, os.path.join(args.repository, args.output_folder)
         )
         os.chdir(args.repository)
-        os.system(f"git add {args.output_folder}")
-        os.system(f'git commit -m "Updating the HTML page"')
-        os.system(f"git push")
+        # os.system(f"git add {args.output_folder}")
+        # os.system(f'git commit -m "Updating the HTML page"')
+        # os.system(f"git push")
         logger.info("HTML page deployed on the github page")
 
         # we remove the local repository

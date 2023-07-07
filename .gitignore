@@ -1,6 +1,6 @@
 .venv
 *.pyc
-*log
+*.log
 __pycache__/
 repository/
 .vscode/
