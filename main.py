@@ -268,4 +268,4 @@ if __name__ == "__main__":
         logger.info("HTML page deployed on the github page")
 
         # we remove the local repository
-        shutil.rmtree(working_directory.absolute())
+        # shutil.rmtree(working_directory.absolute())

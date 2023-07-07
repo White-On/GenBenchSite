@@ -334,8 +334,8 @@ export function ComplexeLineChart(data, {
         // if (Z) dot.select("text").text(Y[i].toFixed(2));
         if (Z) dot.select("title").text(
             [`${xLabel} : ${xFormat(X[i])}`, 
-            `${yLabel} : ${Y[i].toFixed(2)}`,
-            `σ : ${W[i].toFixed(2)}`].join("\n")
+            `${yLabel} : ${Y[i].toFixed(4)}`,
+            `σ : ${W[i].toFixed(4)}`].join("\n")
         );
 
         svg.property("value", O[i]).dispatch("input", {bubbles: true});
