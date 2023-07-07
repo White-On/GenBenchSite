@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>GenBenSite</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../style/libraryStyle.css">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="../index.html"><b>Home</b></a>
+            <a href="https://white-on.github.io/BenchSite/"><b>About</b></a>
+            <a href="../result.json" download="data.json"><b>Download</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            
+            <a href="#" class="icon">
+            <img src="../assets/discord.svg" alt="discord-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/github.svg" alt="github-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/gitlab.svg" alt="gitlab-icon">
+            </a>
+            
+        </nav>
+    </header><!-- Navigation Bar -->
+
+<nav id = "leftNavBar">
+    <ul>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets/pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets/question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets/pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
+            
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
+                    
+                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Inference.html' id='Inference-nav'>Inference</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='Approx_Inference.html' id='Approx_Inference-nav'>Approx Inference</a>
+                    
+                        <a href='Exact_Inference.html' id='Exact_Inference-nav'>Exact Inference</a>
+                    
+                </ul>
+                </li>
+            
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
+                
+                <ul class="subMenu collapse">
+                    
+                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                    
+                </ul>
+                </li>
+            
+        </ul>
+    </ul>
+</nav>
+
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
+
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
+
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+
+<!-- Rank Bar  -->
+<div id="rank-bar">
+    <div id="rank-str">
+        <div id="indication">
+            <!--  Here we need the link for the global About Page -->
+            <a href="about.html#compare-explanation">
+                <svg width="1000" height="50" viewBox="0,0,1000,50" style="max-width: 100%; height: auto;"><g transform="translate(0, 0)"><g transform="translate(0, 0)"><rect x="0" y="0" width="216" height="50" fill="#440154"></rect><rect x="216" y="0" width="54" height="50" fill="#2e6e8e"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#440154"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">first</text></g><g transform="translate(268, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 1</text></g></g><g transform="translate(0, 0)"><g transform="translate(500, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><rect x="216" y="0" width="54" height="50" fill="#4ac16d"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#2e6e8e"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 2</text></g><g transform="translate(768, 0)"><rect x="0" y="0" width="216" height="50" fill="#4ac16d"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">last</text></g></g></svg>
+            </a>
+        </div>
+    </div>
+    <div>2023-07-07 16:13:17</div>
+</div>
+<script type="module">
+    import { rankBar } from "../script/rankBar.js";
+    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
+    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 2}
+    // console.log(cls);
+
+    let chart = rankBar(cls, {
+        width : 400,
+        height : 25,
+        fontSize : 10,
+        gap : 5,
+
+        contentFolderPath : "./",
+    });
+
+    document.getElementById("rank-str").appendChild(chart);
+</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.3240267909311045, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.35419620623071796, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.4217139641300608, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.4416657838289841, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.46223463922237545, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.49530690707839453, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.5508236124430999, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.5948568483432516, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.640923660642539, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.8314850837445985, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 1.0634809328744619, 'libraryName': 'pyAgrum'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 0.07934266617163442, 'libraryName': 'pyAgrum'}, {'arguments': 1500.0, 'resultElement': 0.09534953738180682, 'libraryName': 'pyAgrum'}, {'arguments': 2000.0, 'resultElement': 0.10116936144633935, 'libraryName': 'pyAgrum'}, {'arguments': 2500.0, 'resultElement': 0.11901976245168883, 'libraryName': 'pyAgrum'}, {'arguments': 3000.0, 'resultElement': 0.11390540402573653, 'libraryName': 'pyAgrum'}, {'arguments': 3500.0, 'resultElement': 0.13359066786674353, 'libraryName': 'pyAgrum'}, {'arguments': 4000.0, 'resultElement': 0.1252544606820895, 'libraryName': 'pyAgrum'}, {'arguments': 4500.0, 'resultElement': 0.14412079074491674, 'libraryName': 'pyAgrum'}, {'arguments': 5000.0, 'resultElement': 0.15489534203870556, 'libraryName': 'pyAgrum'}, {'arguments': 7500.0, 'resultElement': 0.20021237331466415, 'libraryName': 'pyAgrum'}, {'arguments': 10000.0, 'resultElement': 0.27159606008074033, 'libraryName': 'pyAgrum'}]}, 'Approx_Inference': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 8.071502751479738, 'libraryName': 'pyAgrum'}, {'arguments': 'water.bif', 'resultElement': 0.11794359597544639, 'libraryName': 'pyAgrum'}, {'arguments': 'munin.bif', 'resultElement': 44.1615515541739, 'libraryName': 'pyAgrum'}, {'arguments': 'mildew.bif', 'resultElement': 0.11710304512570684, 'libraryName': 'pyAgrum'}, {'arguments': 'link.bif', 'resultElement': 21.17312037716142, 'libraryName': 'pyAgrum'}, {'arguments': 'insurance.bif', 'resultElement': 0.07799443324359182, 'libraryName': 'pyAgrum'}, {'arguments': 'hepar2.bif', 'resultElement': 0.3034886164435496, 'libraryName': 'pyAgrum'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.19581264475933635, 'libraryName': 'pyAgrum'}, {'arguments': 'diabetes.bif', 'resultElement': 7.413935980849112, 'libraryName': 'pyAgrum'}, {'arguments': 'cancer.bif', 'resultElement': 0.015837831834617715, 'libraryName': 'pyAgrum'}, {'arguments': 'barley.bif', 'resultElement': 0.18459141597700998, 'libraryName': 'pyAgrum'}, {'arguments': 'asia.bif', 'resultElement': 0.025627389484538864, 'libraryName': 'pyAgrum'}, {'arguments': 'andes.bif', 'resultElement': 2.2452977030561905, 'libraryName': 'pyAgrum'}, {'arguments': 'alarm.bif', 'resultElement': 0.10329004920995197, 'libraryName': 'pyAgrum'}]}, 'Exact_Inference': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'water.bif', 'resultElement': 0.00036193984441268136, 'libraryName': 'pyAgrum'}, {'arguments': 'munin.bif', 'resultElement': 0.002088690504957086, 'libraryName': 'pyAgrum'}, {'arguments': 'link.bif', 'resultElement': 0.011471578899102334, 'libraryName': 'pyAgrum'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.00403056357605144, 'libraryName': 'pyAgrum'}, {'arguments': 'earthquake.bif', 'resultElement': 0.0050157823074513525, 'libraryName': 'pyAgrum'}, {'arguments': 'diabetes.bif', 'resultElement': 0.0009311997474959263, 'libraryName': 'pyAgrum'}, {'arguments': 'cancer.bif', 'resultElement': 0.004209970177796025, 'libraryName': 'pyAgrum'}, {'arguments': 'asia.bif', 'resultElement': 0.00713668286633224, 'libraryName': 'pyAgrum'}, {'arguments': 'alarm.bif', 'resultElement': 0.0021068809422640465, 'libraryName': 'pyAgrum'}]}, 'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 0.027344850769553047, 'libraryName': 'pyAgrum'}, {'arguments': 'water.bif', 'resultElement': 0.04054871089278887, 'libraryName': 'pyAgrum'}, {'arguments': 'munin.bif', 'resultElement': 0.2189857772169396, 'libraryName': 'pyAgrum'}, {'arguments': 'mildew.bif', 'resultElement': 0.7250843736856507, 'libraryName': 'pyAgrum'}, {'arguments': 'link.bif', 'resultElement': 0.0889755422130036, 'libraryName': 'pyAgrum'}, {'arguments': 'insurance.bif', 'resultElement': 0.008838434405147266, 'libraryName': 'pyAgrum'}, {'arguments': 'hepar2.bif', 'resultElement': 0.013813315992219707, 'libraryName': 'pyAgrum'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.013114393384267505, 'libraryName': 'pyAgrum'}, {'arguments': 'earthquake.bif', 'resultElement': 0.002303612866224005, 'libraryName': 'pyAgrum'}, {'arguments': 'diabetes.bif', 'resultElement': 0.7516270906616671, 'libraryName': 'pyAgrum'}, {'arguments': 'cancer.bif', 'resultElement': 0.0040229338889893815, 'libraryName': 'pyAgrum'}, {'arguments': 'barley.bif', 'resultElement': 0.28965464452257716, 'libraryName': 'pyAgrum'}, {'arguments': 'asia.bif', 'resultElement': 0.003932343873505791, 'libraryName': 'pyAgrum'}, {'arguments': 'andes.bif', 'resultElement': 0.009182579833297776, 'libraryName': 'pyAgrum'}, {'arguments': 'alarm.bif', 'resultElement': 0.003386256314861851, 'libraryName': 'pyAgrum'}]}};</script>
+<script defer type='module' src ='../script/libraryScript.js'></script>
+
+<!-- Target main component -->
+<div class="title">
+    <img src='../assets/pyAgrum.png' alt='pyAgrum' width='50' height='50'><h1 id="entry-title">pyAgrum</h1> 
+</div>
+<p class="description">pyAgrum is a scientific C++ and Python library dedicated to Bayesian networks (BN) and other Probabilistic Graphical Models. Based on the C++ aGrUM library, it provides a high-level interface to the C++ part of aGrUM allowing to create, manage and perform efficient computations with Bayesian networks and others probabilistic graphical models : Markov random fields (MRF), influence diagrams (ID) and LIMIDs, credal networks (CN), dynamic BN (dBN), probabilistic relational models (PRM).</p>
+
+<div class ="grid">
+    
+    <div class="card">
+        <a href="Learning_best_method.html"><h2>Learning best method</h2></a>
+        <div id="Learning_best_method"></div>
+    </div>
+    
+    <div class="card">
+        <a href="Learning_hill_climb_BIC.html"><h2>Learning hill climb BIC</h2></a>
+        <div id="Learning_hill_climb_BIC"></div>
+    </div>
+    
+    <div class="card">
+        <a href="Approx_Inference.html"><h2>Approx Inference</h2></a>
+        <div id="Approx_Inference"></div>
+    </div>
+    
+    <div class="card">
+        <a href="Exact_Inference.html"><h2>Exact Inference</h2></a>
+        <div id="Exact_Inference"></div>
+    </div>
+    
+    <div class="card">
+        <a href="BIFReading.html"><h2>BIFReading</h2></a>
+        <div id="BIFReading"></div>
+    </div>
+    
+</div><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '');
+</script>
+<!-- End Google Analytics --></body>

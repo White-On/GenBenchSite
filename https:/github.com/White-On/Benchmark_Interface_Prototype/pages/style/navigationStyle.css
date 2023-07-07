@@ -1,0 +1,106 @@
+@import url('bodyStyle.css');
+
+/* Style for the navigation bar */
+#leftNavBar {
+    height: 100vh;
+    width: var(--navbar-width);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--navBar-color);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin-top: var(--topMargin);
+    font-size: larger;
+
+    overflow-y: scroll;
+    /* overscroll-behavior-block: contain; */
+
+    list-style-type: none;
+}
+
+#leftNavBar::-webkit-scrollbar {
+    display: none;
+    /* color: transparent;
+    background-color: transparent; */
+    /* keep the scrool position even when the page change*/
+    
+}
+
+#leftNavBar .logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+#leftNavBar ul{
+    padding-inline-start: 1.5rem;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+#leftNavBar > ul {
+    padding-inline-start: 0.25em; 
+}
+
+#leftNavBar li{
+    padding: 0.5rem 0;
+}
+
+#leftNavBar a:hover{
+    background-color: var(--navBar-color-hover);
+}
+
+#leftNavBar a{
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+}
+
+#leftNavBar button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-family: 'Poppins', sans-serif;
+
+    padding: 0;
+}
+
+.collapse.subMenu{
+    display: none;
+}
+
+.expand.subMenu{
+    display: block;
+}
+
+
+.arrow{
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(-90deg);
+    transition: all 0.3s cubic-bezier(0.06,-1.07, 0.98, 2.13);
+}
+
+.menu-item{
+    list-style: none;
+    display: block;
+    padding: 1rem 0;
+}
+
+.menu-item a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap : 1rem;
+    color: var(--font-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item .active{
+    background-color: var(--navBar-color-active);
+}

@@ -1,0 +1,43 @@
+:root{
+    /* color segment */
+    --primary-color: var(--green6);
+    --secondary-color: var(--green1);
+    --tertiary-color: var(--green2);
+    --quaternary-color: var(--green3);
+    --quinary-color: var(--green4);
+    --font-color: var(--white);
+    --box-shadow-color: var(--green6);
+
+    --global-rank-color: var(--green5);
+    --theme-rank-color: var(--green2);
+    --task-rank-color: var(--green4);
+
+    --blue: #537FE7;
+    --red: #FF5E5E;
+    --yellow: #FFC700;
+    --orange: #FF8C00;
+    --purple: #A64AC9;
+    --pink: #FF5EAA;
+    --lightblack: #222831;
+    --lightgray: #f2f2f2;
+    --white: #fff;
+    --black: #000;
+
+    --green1: #A8E1A3;
+    --green2: rgb(116, 150, 113);
+    --green3: #6A8C74;
+    --green4: #415643;
+    --green5: #324634;
+    --green6: #222E23;
+
+    /* navBar color */
+
+    --navBar-color: #333;
+    --navBar-under-color: var(--green4);
+    --navBar-over-color: var(--green2);
+    --navBar-font-color-hover: var(--green1);
+    --navBar-color-hover: var(--green1);
+    --navBar-color-active: var(--green2);
+    --navBar-color-under-hover: var(--green2);
+    --navBar-color-under-active: var(--green1);
+}
