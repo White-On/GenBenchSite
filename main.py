@@ -134,7 +134,7 @@ def has_python_file_changed(repository_name: str):
             return True
     return False
 
-def enouth_test_to_publish(resultFilename: str,min_test_required: int = 10):
+def enough_test_to_publish(resultFilename: str,min_test_required: int = 10):
     """
     Checks if there are enough tests to publish the results.
 
@@ -217,6 +217,14 @@ if __name__ == "__main__":
         action=argparse.BooleanOptionalAction,
     )
 
+    parser.add_argument(
+        "-F",
+        "--force_publish",
+        help="True if the user want to publish the HTML page even if there are not enough tests, False otherwise",
+        default=False,
+        action=argparse.BooleanOptionalAction,
+    )
+
     args = parser.parse_args()
     logger.info(f"Arguments: {args}")
     default_repository_name = "repository"
@@ -267,7 +275,10 @@ if __name__ == "__main__":
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.publish and args.access_folder == "github" and enouth_test_to_publish(resultFilename.absolute()):
+    if args.publish and args.access_folder == "github":
+        if not args.force and not enough_test_to_publish(resultFilename.absolute().__str__()):
+            logger.info("Not enough tests to publish the results")
+            exit(0)
         logger.info("Publishing the HTML page on the github page")
         # before copying the output folder in the repository, we need to check if there is not already
         # copy the output folder in the repository
