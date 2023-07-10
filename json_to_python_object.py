@@ -72,6 +72,15 @@ def readJsonFile(filename: str):
 
     return data
 
+def count_test():
+    # we tak a task at random
+    task = Task.allTasks[0]
+    # we take a library at random
+    library = Library.allLibrary[0]
+    # we take the first runtime of the task
+    runtime = task.runtime[library.name][0]
+    return len(runtime)
+
 
 if __name__ == "__main__":
     FileReaderJson("results.json")

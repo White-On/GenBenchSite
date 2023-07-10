@@ -76,14 +76,14 @@ def repository_is_github(repository, **kargs):
     else:
         # we check if a python file has changed since the last pull
         if has_python_file_changed(path.absolute().__str__()):
-            logger.debug(f"Python file has changed since the last pull")
+            logger.info(f"Python file has changed since the last pull")
             # we clear the local repository and the results file needed for the benchmark
             # as the old test are now deprecated we delete the old results
             delete_directory(path.absolute().__str__())
             delete_file(kargs["resultFilename"])
 
         else:
-            logger.debug(f"No python file has changed since the last pull")
+            logger.info(f"No python file has changed since the last pull")
             # we merge the remote repository with the local repository
             command = f"git -C {path} pull"
             try:
@@ -133,6 +133,29 @@ def has_python_file_changed(repository_name: str):
         if file.endswith(".py"):
             return True
     return False
+
+def enouth_test_to_publish(resultFilename: str,min_test_required: int = 10):
+    """
+    Checks if there are enough tests to publish the results.
+
+    Arguments
+    ---------
+    resultFilename : str
+        The path to the file containing the results of the benchmark.
+    """
+    # we check if the file exists
+    if not Path(resultFilename).exists():
+        return False
+    # we check if the file is empty
+    if Path(resultFilename).stat().st_size == 0:
+        return False
+    # we check if there are enough tests
+    return count_test() % min_test_required == 0
+
+def count_test():
+    import json_to_python_object as jtpo
+    return jtpo.count_test()
+    
 
 
 if __name__ == "__main__":
@@ -194,14 +217,6 @@ if __name__ == "__main__":
         action=argparse.BooleanOptionalAction,
     )
 
-    parser.add_argument(
-        "-R",
-        "--re_use_result",
-        help="True if the user want to re-use the result.json file in the repository, False otherwise",
-        default=False,
-        action=argparse.BooleanOptionalAction,
-    )
-
     args = parser.parse_args()
     logger.info(f"Arguments: {args}")
     default_repository_name = "repository"
@@ -246,25 +261,28 @@ if __name__ == "__main__":
         resultFilename.absolute(),
         os.path.join(args.output_folder, resultFilename),
     )
-
+    
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.publish and args.access_folder == "github":
+    if args.publish and args.access_folder == "github" and enouth_test_to_publish(resultFilename.absolute()):
         logger.info("Publishing the HTML page on the github page")
         # before copying the output folder in the repository, we need to check if there is not already
         # copy the output folder in the repository
-        if os.path.exists(os.path.join(args.repository, args.output_folder)):
-            shutil.rmtree(os.path.join(args.repository, args.output_folder))
+        if os.path.exists(os.path.join(working_directory.absolute(), args.output_folder)):
+            logger.info(
+                f"Removing the folder {os.path.join(working_directory.absolute(), args.output_folder)}"
+            )
+            shutil.rmtree(os.path.join(working_directory.absolute(), args.output_folder))
         shutil.copytree(
-            args.output_folder, os.path.join(args.repository, args.output_folder)
+            args.output_folder, os.path.join(working_directory.absolute(), args.output_folder)
         )
-        os.chdir(args.repository)
-        # os.system(f"git add {args.output_folder}")
-        # os.system(f'git commit -m "Updating the HTML page"')
-        # os.system(f"git push")
+        os.chdir(working_directory.absolute())
+        os.system(f"git add {args.output_folder}")
+        os.system(f'git commit -m "Updating the HTML page"')
+        os.system(f"git push")
         logger.info("HTML page deployed on the github page")
 
         # we remove the local repository
