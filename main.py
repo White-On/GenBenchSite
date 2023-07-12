@@ -276,8 +276,9 @@ if __name__ == "__main__":
     # the HTML page will be deployed.
 
     if args.publish and args.access_folder == "github":
-        if not args.force and not enough_test_to_publish(resultFilename.absolute().__str__()):
+        if not args.force_publish and not enough_test_to_publish(resultFilename.absolute().__str__()):
             logger.info("Not enough tests to publish the results")
+            logger.debug(f'Number of tests: {count_test()}')
             exit(0)
         logger.info("Publishing the HTML page on the github page")
         # before copying the output folder in the repository, we need to check if there is not already
