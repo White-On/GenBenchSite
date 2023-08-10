@@ -11,6 +11,8 @@
         --card-color: rgb(16 16 16);
         --font-color: 244, 238, 255;
         --bg-color: 56, 79, 238;
+        /* --card-shadow : 255, 255, 255; */
+        --blur-color: linear-gradient(to right, aquamarine, mediumpurple);
 
         color: rgb(var(--font-color));
     }
@@ -23,6 +25,8 @@
         --card-color: #424874;
         --font-color: 0,0,0;
         --bg-color: 116, 150, 113;
+        --card-shadow : 0, 0, 0;
+        --blur-color: linear-gradient(to right, red, mediumpurple);
 
         color: rgb(var(--font-color));
     }
@@ -42,7 +46,8 @@ body{
     display: flex;
     flex-direction: column;
     gap: 20vh;
-    align-items: center
+    align-items: center;
+    overflow-x: hidden;
 
 }
 
@@ -57,7 +62,7 @@ h1, h2, h3, p {
     background-color: var(--card-color);
     border : 1px solid rgba(var(--font-color),5%);
     border-radius: 1.5rem;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(var(--card-shadow), 0.25) 0px 54px 55px, rgba(var(--card-shadow), 0.12) 0px -12px 30px, rgba(var(--card-shadow), 0.12) 0px 4px 6px, rgba(var(--card-shadow), 0.17) 0px 12px 13px, rgba(var(--card-shadow), 0.09) 0px -3px 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -256,4 +261,35 @@ code{
     margin: 0;
     text-transform: uppercase;
     font-family: " Space Mono", monospace;
+}
+
+
+#blob{
+    position: absolute;
+    height: 500px;
+    left: 50%;
+    top: 50%;
+    translate : -50% -50%;
+    border-radius: 50%;
+    background: var(--blur-color);
+    aspect-ratio: 1;
+    animation: rotate 20s linear infinite;
+    z-index: -2;
+    filter: blur(150px);
+    
+}
+
+
+@keyframes rotate{
+    from {
+        rotate: 0deg;
+    }
+
+    50%{
+        scale: 1 1.5;
+    }
+
+    to{
+        rotate: 360deg;
+    }
 }

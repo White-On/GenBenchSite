@@ -115,3 +115,19 @@ const glitch = id => {
 setInterval(function () {
     glitch("main-title");
 }, 20000);
+
+const blob = document.getElementById("blob");
+
+document.addEventListener('mousemove', (e) => {
+    // blob.style.left = e.pageX + 'px';
+    // blob.style.top = e.pageY + 'px';
+
+    blob.animate({
+        left: `${e.pageX}px`,
+        top: `${e.pageY}px`
+    }, {
+        duration: 10000,
+        fill: "forwards"
+    });
+});
+
