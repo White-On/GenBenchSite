@@ -149,6 +149,9 @@ def enough_test_to_publish(resultFilename: str,min_test_required: int = 10):
     # we check if the file is empty
     if Path(resultFilename).stat().st_size == 0:
         return False
+    # we're not constraint by the number of tests
+    if min_test_required == 0:
+        return True
     # we check if there are enough tests
     return count_test() % min_test_required == 0
 

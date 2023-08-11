@@ -203,7 +203,9 @@ class Task:
         runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
         # if there is no runtime for the target, we return a list of np.nan with the same size as the arguments
         if (np.isnan(runtime)).all():
+            # problem with the shape of the array
             return np.vstack(runtime).tolist()
+            # return np.hstack(runtime).tolist()
         # we inverse the runtime to have the difference between the end and the start
         runtime = np.hstack(np.diff(runtime, axis=2)).T
         # runtime[:, :, 0] = -runtime[:, :, 0]
@@ -237,6 +239,7 @@ class Task:
             )
             return self.cache_runtime[target]
         runtime = self.get_runtime(target)
+        # print(runtime)
         runtime = np.nanmean(runtime, axis=1)
         runtime[np.isnan(runtime)] = float("inf")
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")

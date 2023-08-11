@@ -4,7 +4,7 @@
     <div id="rank-str">
         <div id="indication">
             <!--  Here we need the link for the global About Page -->
-            <a href="about.html#compare-explanation">
+            <a href="https://white-on.github.io/BenchSite/#explications">
                 <svg width="1000" height="50" viewBox="0,0,1000,50" style="max-width: 100%; height: auto;"><g transform="translate(0, 0)"><g transform="translate(0, 0)"><rect x="0" y="0" width="216" height="50" fill="#440154"></rect><rect x="216" y="0" width="54" height="50" fill="#2e6e8e"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#440154"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">first</text></g><g transform="translate(268, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 1</text></g></g><g transform="translate(0, 0)"><g transform="translate(500, 0)"><rect x="0" y="0" width="216" height="50" fill="#2e6e8e"></rect><rect x="216" y="0" width="54" height="50" fill="#4ac16d"></rect><path d="M 214 0 L 268 25 L 214 50Z" fill="#2e6e8e"></path><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">same 2</text></g><g transform="translate(768, 0)"><rect x="0" y="0" width="216" height="50" fill="#4ac16d"></rect><text x="107.14285714285714" y="25" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="400" fill="white">last</text></g></g></svg>
             </a>
         </div>
@@ -13,9 +13,7 @@
 </div>
 <script type="module">
     import { rankBar } from "{{scriptFilePath}}";
-    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
     {{data}}
-    // console.log(cls);
 
     let chart = rankBar(cls, {
         width : 400,

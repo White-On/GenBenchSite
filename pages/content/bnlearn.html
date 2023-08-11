@@ -23,21 +23,13 @@
         <nav class="header-nav">
             <a href="../index.html"><b>Home</b></a>
             <a href="https://white-on.github.io/BenchSite/"><b>About</b></a>
-            <a href="../result.json" download="data.json"><b>Download</b></a>
+            <a href="../results.json" download="data.json"><b>Raw Data</b></a>
         </nav>
         <nav class="header-nav">
             <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
             
-            <a href="#" class="icon">
-            <img src="../assets/discord.svg" alt="discord-icon">
-            </a>
-            
-            <a href="#" class="icon">
+            <a href="https://github.com/White-On/BenchSite/" class="icon">
             <img src="../assets/github.svg" alt="github-icon">
-            </a>
-            
-            <a href="#" class="icon">
-            <img src="../assets/gitlab.svg" alt="gitlab-icon">
             </a>
             
         </nav>
@@ -143,13 +135,11 @@
             </a>
         </div>
     </div>
-    <div>2023-07-10 16:34:59</div>
+    <div>2023-08-11 14:53:30</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
-    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
     const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 2}
-    // console.log(cls);
 
     let chart = rankBar(cls, {
         width : 400,
@@ -161,7 +151,7 @@
     });
 
     document.getElementById("rank-str").appendChild(chart);
-</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 19.915561146607313, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 24.811061212482553, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 29.87905479525216, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 35.20944838346137, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 39.63960822916124, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 45.49737491190899, 'libraryName': 'bnlearn'}, {'arguments': 4000.0, 'resultElement': 49.73198630324226, 'libraryName': 'bnlearn'}, {'arguments': 4500.0, 'resultElement': 54.42727618782859, 'libraryName': 'bnlearn'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 20.049776519532315, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 24.81343160243705, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 29.987087846908253, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 34.8559982070777, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 39.7977552448477, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 46.43697874746673, 'libraryName': 'bnlearn'}, {'arguments': 4000.0, 'resultElement': 49.91936079709558, 'libraryName': 'bnlearn'}, {'arguments': 4500.0, 'resultElement': 54.508293003134895, 'libraryName': 'bnlearn'}]}, 'Approx_Inference': {'display': 'histo', 'status': 'NotRun', 'data': []}, 'Exact_Inference': {'display': 'histo', 'status': 'Error', 'data': []}, 'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 0.053418300192182265, 'libraryName': 'bnlearn'}, {'arguments': 'water.bif', 'resultElement': 0.04015719909997036, 'libraryName': 'bnlearn'}, {'arguments': 'munin.bif', 'resultElement': 0.002775092434603721, 'libraryName': 'bnlearn'}, {'arguments': 'mildew.bif', 'resultElement': 0.010679059564912071, 'libraryName': 'bnlearn'}, {'arguments': 'earthquake.bif', 'resultElement': 0.12298623146489263, 'libraryName': 'bnlearn'}, {'arguments': 'diabetes.bif', 'resultElement': 0.01163684029597789, 'libraryName': 'bnlearn'}, {'arguments': 'child.bif', 'resultElement': 0.0418191947392188, 'libraryName': 'bnlearn'}, {'arguments': 'barley.bif', 'resultElement': 0.08101685393679266, 'libraryName': 'bnlearn'}, {'arguments': 'asia.bif', 'resultElement': 0.024253849619223427, 'libraryName': 'bnlearn'}, {'arguments': 'andes.bif', 'resultElement': 0.01803410390857607, 'libraryName': 'bnlearn'}]}};</script>
+</script><script defer  >const importedData = {'Learning_best_method': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 2.205238694279355, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 2.8279708441945592, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 3.4423987280627313, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 3.99565518394229, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 4.131029453124419, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 4.892575883418821, 'libraryName': 'bnlearn'}, {'arguments': 4000.0, 'resultElement': 5.369836480501485, 'libraryName': 'bnlearn'}, {'arguments': 4500.0, 'resultElement': 5.885065305838777, 'libraryName': 'bnlearn'}, {'arguments': 7500.0, 'resultElement': 0.17, 'libraryName': 'bnlearn'}, {'arguments': 10000.0, 'resultElement': 0.17, 'libraryName': 'bnlearn'}]}, 'Learning_hill_climb_BIC': {'display': 'plot', 'status': 'Run', 'data': [{'arguments': 1000.0, 'resultElement': 2.2285474842356052, 'libraryName': 'bnlearn'}, {'arguments': 1500.0, 'resultElement': 2.524653385975398, 'libraryName': 'bnlearn'}, {'arguments': 2000.0, 'resultElement': 3.052187983597313, 'libraryName': 'bnlearn'}, {'arguments': 2500.0, 'resultElement': 3.4845712364726102, 'libraryName': 'bnlearn'}, {'arguments': 3000.0, 'resultElement': 4.147973776233682, 'libraryName': 'bnlearn'}, {'arguments': 3500.0, 'resultElement': 4.886104865800007, 'libraryName': 'bnlearn'}, {'arguments': 4000.0, 'resultElement': 5.268145799688812, 'libraryName': 'bnlearn'}, {'arguments': 4500.0, 'resultElement': 5.652674250335882, 'libraryName': 'bnlearn'}, {'arguments': 10000.0, 'resultElement': 0.1, 'libraryName': 'bnlearn'}]}, 'Approx_Inference': {'display': 'histo', 'status': 'NotRun', 'data': []}, 'Exact_Inference': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'pigs.bif', 'resultElement': 0.19, 'libraryName': 'bnlearn'}, {'arguments': 'pathfinder.bif', 'resultElement': 0.07, 'libraryName': 'bnlearn'}, {'arguments': 'munin.bif', 'resultElement': 0.0, 'libraryName': 'bnlearn'}, {'arguments': 'mildew.bif', 'resultElement': 0.02, 'libraryName': 'bnlearn'}, {'arguments': 'link.bif', 'resultElement': 0.01, 'libraryName': 'bnlearn'}, {'arguments': 'insurance.bif', 'resultElement': 0.16, 'libraryName': 'bnlearn'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.35, 'libraryName': 'bnlearn'}, {'arguments': 'earthquake.bif', 'resultElement': 0.09, 'libraryName': 'bnlearn'}, {'arguments': 'diabetes.bif', 'resultElement': 0.47, 'libraryName': 'bnlearn'}]}, 'BIFReading': {'display': 'histo', 'status': 'Run', 'data': [{'arguments': 'water.bif', 'resultElement': 0.14715969990356825, 'libraryName': 'bnlearn'}, {'arguments': 'link.bif', 'resultElement': 0.15833386097178195, 'libraryName': 'bnlearn'}, {'arguments': 'hailfinder.bif', 'resultElement': 0.24885359287145548, 'libraryName': 'bnlearn'}, {'arguments': 'asia.bif', 'resultElement': 0.11867005531634536, 'libraryName': 'bnlearn'}, {'arguments': 'andes.bif', 'resultElement': 0.028717939704490294, 'libraryName': 'bnlearn'}]}};</script>
 <script defer type='module' src ='../script/libraryScript.js'></script>
 
 <!-- Target main component -->

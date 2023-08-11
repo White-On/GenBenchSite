@@ -45,6 +45,7 @@
 #indication{
     position: absolute;
     top: calc(100% + 1em);
+    left: 0%;
     width: 150%;
     background-color: var(--quaternary-color);
     border: 3px solid var(--secondary-color);

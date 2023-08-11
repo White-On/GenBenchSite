@@ -249,7 +249,7 @@ class BenchSite:
             "home": "index.html",
             # "about": f"{contentFilePath}about.html",
             "about": ABOUT_URL,
-            "download": "result.json",
+            "download": "results.json",
         }
 
         libraryConfig = self.GetLibraryConfig()
@@ -267,6 +267,7 @@ class BenchSite:
                 self.siteConfig.get("social_media", {}).split(" "),
             )
         )
+        print(social_media)
 
         codeLibrary = CollectCode(pathToInfrastructure=self.structureTestPath)
 
@@ -376,7 +377,7 @@ class BenchSite:
         linkTo = {
             "home": "../index.html",
             "about": ABOUT_URL,
-            "download": "../result.json",
+            "download": "../results.json",
         }
         contentFilePath = "./"
 

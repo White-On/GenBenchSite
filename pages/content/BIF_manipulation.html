@@ -23,21 +23,13 @@
         <nav class="header-nav">
             <a href="../index.html"><b>Home</b></a>
             <a href="https://white-on.github.io/BenchSite/"><b>About</b></a>
-            <a href="../result.json" download="data.json"><b>Download</b></a>
+            <a href="../results.json" download="data.json"><b>Raw Data</b></a>
         </nav>
         <nav class="header-nav">
             <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
             
-            <a href="#" class="icon">
-            <img src="../assets/discord.svg" alt="discord-icon">
-            </a>
-            
-            <a href="#" class="icon">
+            <a href="https://github.com/White-On/BenchSite/" class="icon">
             <img src="../assets/github.svg" alt="github-icon">
-            </a>
-            
-            <a href="#" class="icon">
-            <img src="../assets/gitlab.svg" alt="gitlab-icon">
             </a>
             
         </nav>
@@ -143,13 +135,11 @@
             </a>
         </div>
     </div>
-    <div>2023-07-10 16:34:59</div>
+    <div>2023-08-11 14:53:30</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
-    // let cls = {"pyAgrum":0, "pgmpy":1, "bnlearn":2};
     const cls = {'bnlearn': 0, 'pyAgrum': 1, 'pgmpy': 2}
-    // console.log(cls);
 
     let chart = rankBar(cls, {
         width : 400,

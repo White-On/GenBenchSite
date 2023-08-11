@@ -40,8 +40,8 @@ class Benchmark:
     DEFAULT_VALUE = "Infinity"
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
-    DEFAULT_NB_RUNS = 1
-    DEBUG = False
+    DEFAULT_NB_RUNS = 20
+    DEBUG = True
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -470,38 +470,38 @@ class Benchmark:
                     self.progressBar.update(1)
                     continue
 
-            # After run script
-            valueEvaluation = [None]
+                # After run script
+                valueEvaluation = [None]
 
-            if afterRunScript is not None:
-                # if the script is not None, then it should be a script name or a list of script name
-                functionEvaluation = self.taskConfig[taskName].get(
-                    "evaluation_function", None
-                )
-                if functionEvaluation is not None:
-                    functionEvaluation = functionEvaluation.split(" ")
-                else:
-                    functionEvaluation = []
+                if afterRunScript is not None:
+                    # if the script is not None, then it should be a script name or a list of script name
+                    functionEvaluation = self.taskConfig[taskName].get(
+                        "evaluation_function", None
+                    )
+                    if functionEvaluation is not None:
+                        functionEvaluation = functionEvaluation.split(" ")
+                    else:
+                        functionEvaluation = []
 
-                logger.debug(f"{functionEvaluation = }")
+                    logger.debug(f"{functionEvaluation = }")
 
-                valueEvaluation = self.EvaluationAfterTask(
-                    afterRunScript,
-                    taskName,
-                    taskPath,
-                    *functionEvaluation,
-                    libraryName=libraryName,
-                    filenameBif=self.taskConfig[taskName].get("file_used", ""),
-                    arg=arg,
-                )
-                logger.debug(f"{valueEvaluation = }")
-                eval = self.results[libraryName][taskName]["results"][arg].get(
-                    "evaluation", {}
-                )
-                for i, function in enumerate(functionEvaluation):
-                    element = eval.get(function, [])
-                    eval = {**eval, function: element + [valueEvaluation[i]]}
-                self.results[libraryName][taskName]["results"][arg]["evaluation"] = eval
+                    valueEvaluation = self.EvaluationAfterTask(
+                        afterRunScript,
+                        taskName,
+                        taskPath,
+                        *functionEvaluation,
+                        libraryName=libraryName,
+                        filenameBif=self.taskConfig[taskName].get("file_used", ""),
+                        arg=arg,
+                    )
+                    logger.debug(f"{valueEvaluation = }")
+                    eval = self.results[libraryName][taskName]["results"][arg].get(
+                        "evaluation", {}
+                    )
+                    for i, function in enumerate(functionEvaluation):
+                        element = eval.get(function, [])
+                        eval = {**eval, function: element + [valueEvaluation[i]]}
+                    self.results[libraryName][taskName]["results"][arg]["evaluation"] = eval
 
             self.results[libraryName][taskName]["results"][arg]["runtime"].extend(
                 [b, t] for b, t in zip(beforeRunListTime, listTime)
