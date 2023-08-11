@@ -46,5 +46,28 @@ body{
 }
 
 h2{
-    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    letter-spacing: 1px;
+}
+
+#main_container{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chart{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 2rem;
+}
+
+.chart:nth-child(1){
+    margin-bottom: 1rem;
 }

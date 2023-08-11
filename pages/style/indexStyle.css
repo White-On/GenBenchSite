@@ -50,8 +50,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    text-align: center;
     
-    
+}
+
+#machine_info{
+    text-align: left;
 }
 
 /* BEST TASK GLOBALY SECTION */

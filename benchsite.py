@@ -106,8 +106,8 @@ class BenchSite:
             os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         )
         HTMLGlobalRanking = "<div id='global-rank' class='card'>\
-                                <h1>Library</h1>\
-                                <p>Here is the ranking of the best library for each task.</p>\
+                                <h1>Libraries</h1>\
+                                <p>Current order for all libraries with all tasks take into account</p>\
                             <div class='grid'>"
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
@@ -126,7 +126,7 @@ class BenchSite:
     def GenerateHTMLRankingAllTheme():
         HTMLThemeRanking = "<div id='theme-rank'>\
             <h1>Theme Ranking</h1>\
-            <p>Here is the ranking of the best library for each theme.</p>\
+            <p>The best libraries for each theme</p>\
                 <div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(
             threshold=BenchSite.LEXMAX_THRESHOLD
@@ -167,8 +167,8 @@ class BenchSite:
             os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         )
         HTMLBestTheme = "<div id='theme-rank' class='card'>\
-            <h1>Library Per Theme</h1>\
-            <p>Here is the ranking of the best library for each theme.</p>\
+            <h1>Per Theme</h1>\
+            <p>The best libraries for each theme</p>\
                 <div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(
             threshold=BenchSite.LEXMAX_THRESHOLD
@@ -179,22 +179,22 @@ class BenchSite:
             for k, v in sorted(rankLibraryInTheme.items(), key=lambda item: item[0])
         }
         for themeName in rankLibraryInTheme.keys():
-            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>(made of <b>{', '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</b></p>"
+            HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>({', '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</p>"
             highLightedLibrary = rankLibraryInTheme[themeName][0]
-            HTMLBestTheme += f"<p><b>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</b></p></div>"
+            HTMLBestTheme += f"<p>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</p></div>"
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
 
     def GenerateHTMLMachineInfo(self):
-        HTMLMachineInfo = "<div class ='card'><h1>Machine Info</h1>"
+        HTMLMachineInfo = "<div class ='card' id='machine_info'><h1>Machine Informations</h1>"
         machineData = self.machineData
         if machineData is None:
-            HTMLMachineInfo += "<p>No machine info available</p>"
+            HTMLMachineInfo += "<p>No machine informations available</p>"
         else:
             HTMLMachineInfo += "<ul>"
             for key in machineData.keys():
                 HTMLMachineInfo += (
-                    f"<li>{key.replace('_', ' ')} : {machineData[key]}</li>"
+                    f"<li>{' '.join(key.split('_')[1:]).upper()} : <b>{machineData[key]}</b></li>"
                 )
             HTMLMachineInfo += "</ul>"
         HTMLMachineInfo += "</div>"
@@ -204,7 +204,7 @@ class BenchSite:
         contentfilePath = (
             os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         )
-        HTMLTask = "<div id='task-rank' class='card'><h1> Library Per Task</h1><div class=\"grid\">"
+        HTMLTask = "<div id='task-rank' class='card'><h1>Per Task</h1><div class=\"grid\">"
         rankLibraryInTask = rk.RankingLibraryByTask(
             threshold=BenchSite.LEXMAX_THRESHOLD
         )
@@ -267,8 +267,6 @@ class BenchSite:
                 self.siteConfig.get("social_media", {}).split(" "),
             )
         )
-        print(social_media)
-
         codeLibrary = CollectCode(pathToInfrastructure=self.structureTestPath)
 
         # GOOGLEANALYTICS
