@@ -1,7 +1,7 @@
 
 <!-- Rank Bar  -->
 <div id="rank-bar">
-    <div id="rank-str">
+    <div id="rank-str" class="rankBar" data-bar="{{data}}">
         <div id="indication">
             <!--  Here we need the link for the global About Page -->
             <a href="https://white-on.github.io/BenchSite/#explications">
@@ -12,17 +12,38 @@
     <div>{{dataGenerationDate}}</div>
 </div>
 <script type="module">
-    import { rankBar } from "{{scriptFilePath}}";
-    {{data}}
+    import { rankBar } from "{{scriptFilePath}}rankBar.js";
+    import { arrowRank } from "{{scriptFilePath}}arrowRank.js";
+    const rankBarElement = document.getElementsByClassName("rankBar")
+    
+    for(let element of rankBarElement){
+        let cls = element.dataset.bar.replaceAll("'", '"');
+        cls = JSON.parse(cls);
+        let librarySizeBox= 100;
+        let barSVG = rankBar(cls, {
+            width : (librarySizeBox* Object.keys(cls).length),
+            height : 25,
+            fontSize : 10,
+            gap : 5,
 
-    let chart = rankBar(cls, {
-        width : 400,
-        height : 25,
-        fontSize : 10,
-        gap : 5,
+            contentFolderPath : "{{contentFolderPath}}",
+        });
+        element.appendChild(barSVG);
+    }
+
+    const elements = document.getElementsByClassName("rank-arrow");
+    for (let element of elements) {
+        // console.log(element.dataset.rank);
+        let cls = element.dataset.rank.replaceAll("'", '"');
+        let libraryName = element.innerHTML;
+        element.innerHTML = "";
+        cls = JSON.parse(cls);
+        let arrow = arrowRank(cls, libraryName, {
+        width : 200,
+        height : 50,
 
         contentFolderPath : "{{contentFolderPath}}",
     });
-
-    document.getElementById("rank-str").appendChild(chart);
+        element.appendChild(arrow);
+    }
 </script>

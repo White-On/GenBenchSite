@@ -74,47 +74,47 @@ for (let i = 0; i < codeElements.length; i++) {
 
 // seperate("main-title");
 
-const caracters = "ABCDEFGHIJKMNLOPQRSTUVWXYZ";
+// const caracters = "ABCDEFGHIJKMNLOPQRSTUVWXYZ";
 
-const element = document.getElementById("main-title");
-element.onmouseover = (event) => {
-    glitch("main-title");
-};
+// const element = document.getElementById("main-title");
+// element.onmouseover = (event) => {
+//     glitch("main-title");
+// };
 
-const glitch = id => {
-    const glitchElement = document.getElementById(id);
-    let iterations = -5;
-    // a list going to 0 to the length of the text
-    const letterToFix = glitchElement.innerText.split("").map((letter, index) => index);
-    const letterOrderToFix = letterToFix.sort(() => Math.random() - 0.5);
-    const interval = setInterval(() => {
-      glitchElement.innerText = glitchElement.innerText
-        .split("")
-        .map((letter, index) => {
-            // create the list of the n first letters to fix
-            let letterIndex = [];
-            if (iterations > 0) {
-                letterIndex =  letterOrderToFix.slice(0, iterations);
-            }
+// const glitch = id => {
+//     const glitchElement = document.getElementById(id);
+//     let iterations = -5;
+//     // a list going to 0 to the length of the text
+//     const letterToFix = glitchElement.innerText.split("").map((letter, index) => index);
+//     const letterOrderToFix = letterToFix.sort(() => Math.random() - 0.5);
+//     const interval = setInterval(() => {
+//       glitchElement.innerText = glitchElement.innerText
+//         .split("")
+//         .map((letter, index) => {
+//             // create the list of the n first letters to fix
+//             let letterIndex = [];
+//             if (iterations > 0) {
+//                 letterIndex =  letterOrderToFix.slice(0, iterations);
+//             }
             
-            if (letterIndex.includes(index)) {
-                return glitchElement.dataset.value[index];
-            }
-            return caracters[Math.floor(Math.random() * 26)];
-        })
-        .join("");
-      if (iterations >= glitchElement.dataset.value.length) {
-        clearInterval(interval);
-      }
+//             if (letterIndex.includes(index)) {
+//                 return glitchElement.dataset.value[index];
+//             }
+//             return caracters[Math.floor(Math.random() * 26)];
+//         })
+//         .join("");
+//       if (iterations >= glitchElement.dataset.value.length) {
+//         clearInterval(interval);
+//       }
 
-      iterations += 1 / 3;
-    }, 30);
-}
+//       iterations += 1 / 3;
+//     }, 30);
+// }
 
-// every 20 seconds we glitch the title
-setInterval(function () {
-    glitch("main-title");
-}, 20000);
+// // every 20 seconds we glitch the title
+// setInterval(function () {
+//     glitch("main-title");
+// }, 20000);
 
 const blob = document.getElementById("blob");
 

@@ -40,8 +40,8 @@ class Benchmark:
     DEFAULT_VALUE = "Infinity"
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
-    DEFAULT_NB_RUNS = 20
-    DEBUG = True
+    DEFAULT_NB_RUNS = 1
+    DEBUG = False
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -97,6 +97,20 @@ class Benchmark:
             self.dictionaryTaskInTheme[themeName] = listTask
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
+        
+        # look for deactivated tasks
+        deactivatedTasks = []
+        for taskName in self.taskNames:
+            if self.taskConfig[taskName].get("active") == "False":
+                deactivatedTasks.append(taskName)
+        
+        # remove deactivated tasks from the list of tasks
+        for taskName in deactivatedTasks:
+            self.dictionaryTaskInTheme[self.dictonaryThemeInTask[taskName]].remove(taskName)
+            self.taskNames.remove(taskName)
+                
+        
+        logger.debug(f"active tasks: {self.taskNames}")
 
         if baseResult is None:
             self.results = self.create_base_json()
@@ -434,7 +448,7 @@ class Benchmark:
                 self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
             )
 
-            for nb_run in range(total_run):
+            for cpt_run in range(total_run):
 
                 # Before run script
                 if beforeRunScriptExist:
@@ -514,7 +528,7 @@ class Benchmark:
         Calculate the number of iteration for the progress bar
         """
         nbIteration = 0
-        for taskName in self.taskConfig.keys():
+        for taskName in self.taskNames:
             nbIteration += (
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
                 * len(self.taskConfig[taskName].get("arguments").split(","))

@@ -54,6 +54,10 @@ h1{
     padding-inline: 1em;
     padding-block: 0.5em;
     font-family: 'Poppins', sans-serif;
+    background-color: aliceblue;
+    border-radius: 10px;
+    border: 1px solid var(--primary-color);
+    font-size: large;
 }
 
 #codeSelector{

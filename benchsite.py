@@ -109,13 +109,13 @@ class BenchSite:
                                 <h1>Libraries</h1>\
                                 <p>Current order for all libraries with all tasks take into account</p>\
                             <div class='grid'>"
+        RankGlobal = rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList=False)
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
             [
-                f"<div class='global-card'><p>{BenchSite.MakeLink(contentfilePath + library,library)}</p></div>"
-                for rank, library in enumerate(
-                    rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD)
-                )
+                f'<div class="global-card rank-arrow" data-rank="{RankGlobal}">{library}</div>'
+                # f"<div class='global-card'><p>{BenchSite.MakeLink(contentfilePath + library,library)}</p></div>"
+                for library in RankGlobal
             ]
         )
         HTMLGlobalRanking += "</div>\
@@ -171,17 +171,17 @@ class BenchSite:
             <p>The best libraries for each theme</p>\
                 <div class=\"grid\">"
         rankLibraryInTheme = rk.RankingLibraryByTheme(
-            threshold=BenchSite.LEXMAX_THRESHOLD
+            threshold=BenchSite.LEXMAX_THRESHOLD,
+            isResultList=False,
         )
-        # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
-        rankLibraryInTheme = {
-            k: v
-            for k, v in sorted(rankLibraryInTheme.items(), key=lambda item: item[0])
-        }
+        # # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
+        # rankLibraryInTheme = {
+        #     k: v
+        #     for k, v in sorted(rankLibraryInTheme.items(), key=lambda item: item[0])
+        # }
         for themeName in rankLibraryInTheme.keys():
             HTMLBestTheme += f"<div class='theme-card'><h2>{BenchSite.MakeLink(contentfilePath + themeName,themeName)}</h2><p>({', '.join(BenchSite.MakeLink(contentfilePath + taskName , taskName) for taskName in Task.GetTaskNameByThemeName(themeName))})</p>"
-            highLightedLibrary = rankLibraryInTheme[themeName][0]
-            HTMLBestTheme += f"<p>{BenchSite.MakeLink(contentfilePath+highLightedLibrary,  highLightedLibrary)}</p></div>"
+            HTMLBestTheme += f'<p class="rankBar" data-bar="{rankLibraryInTheme[themeName]}"></p></div>'
         HTMLBestTheme += "</div></div>"
         return HTMLBestTheme
 
@@ -206,11 +206,12 @@ class BenchSite:
         )
         HTMLTask = "<div id='task-rank' class='card'><h1>Per Task</h1><div class=\"grid\">"
         rankLibraryInTask = rk.RankingLibraryByTask(
-            threshold=BenchSite.LEXMAX_THRESHOLD
+            threshold=BenchSite.LEXMAX_THRESHOLD,
+            isResultList=False,
         )
         for taskName in rankLibraryInTask.keys():
-            highLightedLibrary = rankLibraryInTask[taskName][0]
-            HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(contentfilePath + taskName, taskName)}</h2><p>{BenchSite.MakeLink(contentfilePath + highLightedLibrary, highLightedLibrary)}<p></div>"
+            HTMLTask += f'<div class="task-card rankBar" data-bar="{rankLibraryInTask[taskName]}"><h2>{BenchSite.MakeLink(contentfilePath + taskName, taskName)}</h2></div>'
+            # HTMLTask += f"<div class='task-card'><h2>{BenchSite.MakeLink(contentfilePath + taskName, taskName)}</h2><p>{BenchSite.MakeLink(contentfilePath + highLightedLibrary, highLightedLibrary)}<p></div>"
         HTMLTask += "</div>"
         return HTMLTask
 
@@ -314,8 +315,8 @@ class BenchSite:
             "rankBar.html",
             contentFolderPath=contentFilePath,
             dataGenerationDate=self.machineData["execution_date"],
-            data=f"const cls = {rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList = False)}",
-            scriptFilePath=f"./{staticSiteGenerator.scriptFilePath}/rankBar.js",
+            data=f"{rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList = False)}",
+            scriptFilePath=f"./{staticSiteGenerator.scriptFilePath}/",
         )
 
         # PRESENTATION DE L'OUTIL
@@ -419,10 +420,10 @@ class BenchSite:
 
         for taskName in Task.GetAllTaskName():
             HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent(
-                "rankBar.html",
-                data=f"const cls = {taskRankDico[taskName]}",
+                "rankBar.html", 
+                data=f"{taskRankDico[taskName]}",
                 dataGenerationDate=self.machineData["execution_date"],
-                scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/rankBar.js",
+                scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
@@ -601,9 +602,9 @@ class BenchSite:
             # CLASSEMENT DES LIBRAIRIES PAR TACHES BAR
             HTMLThemeRankingBar = staticSiteGenerator.CreateHTMLComponent(
                 "rankBar.html",
-                data=f"const cls = {themeRankDico[themeName]}",
+                data=f"{themeRankDico[themeName]}",
                 dataGenerationDate=self.machineData["execution_date"],
-                scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/rankBar.js",
+                scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
             importedRuntime = sum(
@@ -684,7 +685,7 @@ class BenchSite:
             contentFolderPath=contentFilePath,
             data=f"const cls = {libraryDico}",
             dataGenerationDate=self.machineData["execution_date"],
-            scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/rankBar.js",
+            scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
         )
 
         for libraryName in Library.GetAllLibraryName():

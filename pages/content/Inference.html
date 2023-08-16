@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <head>
-    <title>GenBenchSite</title>
+    <title>GenBenSite</title>
     <meta charset="UTF-8">
     <meta name="description" content="This is the description of the page">
     <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
@@ -28,8 +28,16 @@
         <nav class="header-nav">
             <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
             
-            <a href="https://github.com/White-On/BenchSite/" class="icon">
+            <a href="#" class="icon">
+            <img src="../assets/discord.svg" alt="discord-icon">
+            </a>
+            
+            <a href="#" class="icon">
             <img src="../assets/github.svg" alt="github-icon">
+            </a>
+            
+            <a href="#" class="icon">
+            <img src="../assets/gitlab.svg" alt="gitlab-icon">
             </a>
             
         </nav>
@@ -41,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
-            
                 <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
+            
+                <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -54,35 +62,11 @@
         <ul class="subMenu collapse">
             
                 <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Learning.html' id='Learning-nav'>Learning</a></button>
-                
-                <ul class="subMenu collapse">
-                    
-                        <a href='Learning_best_method.html' id='Learning_best_method-nav'>Learning best method</a>
-                    
-                        <a href='Learning_hill_climb_BIC.html' id='Learning_hill_climb_BIC-nav'>Learning hill climb BIC</a>
-                    
-                </ul>
-                </li>
-            
-                <li class="menu-item has-submenu">
                 <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='Inference.html' id='Inference-nav'>Inference</a></button>
                 
                 <ul class="subMenu collapse">
                     
-                        <a href='Approx_Inference.html' id='Approx_Inference-nav'>Approx Inference</a>
-                    
-                        <a href='Exact_Inference.html' id='Exact_Inference-nav'>Exact Inference</a>
-                    
-                </ul>
-                </li>
-            
-                <li class="menu-item has-submenu">
-                <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow"><a href='BIF_manipulation.html' id='BIF_manipulation-nav'>BIF manipulation</a></button>
-                
-                <ul class="subMenu collapse">
-                    
-                        <a href='BIFReading.html' id='BIFReading-nav'>BIFReading</a>
+                        <a href='Exact_Inference_multi_target.html' id='Exact_Inference_multi_target-nav'>Exact Inference multi target</a>
                     
                 </ul>
                 </li>
@@ -127,7 +111,7 @@
 
 <!-- Rank Bar  -->
 <div id="rank-bar">
-    <div id="rank-str">
+    <div id="rank-str" class="rankBar" data-bar="{'pgmpy': 0, 'pyAgrum': 1, 'bnlearn': 2}">
         <div id="indication">
             <!--  Here we need the link for the global About Page -->
             <a href="https://white-on.github.io/BenchSite/#explications">
@@ -135,30 +119,51 @@
             </a>
         </div>
     </div>
-    <div>2023-08-11 17:18:03</div>
+    <div>2023-08-14 17:57:42</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
-    const cls = {'pyAgrum': 0, 'bnlearn': 1, 'pgmpy': 2}
+    import { arrowRank } from "../script/arrowRank.js";
+    const rankBarElement = document.getElementsByClassName("rankBar")
+    
+    for(let element of rankBarElement){
+        let cls = element.dataset.bar.replaceAll("'", '"');
+        cls = JSON.parse(cls);
+        let librarySizeBox= 100;
+        let barSVG = rankBar(cls, {
+            width : (librarySizeBox* Object.keys(cls).length),
+            height : 25,
+            fontSize : 10,
+            gap : 5,
 
-    let chart = rankBar(cls, {
-        width : 400,
-        height : 25,
-        fontSize : 10,
-        gap : 5,
+            contentFolderPath : "",
+        });
+        element.appendChild(barSVG);
+    }
+
+    const elements = document.getElementsByClassName("rank-arrow");
+    for (let element of elements) {
+        // console.log(element.dataset.rank);
+        let cls = element.dataset.rank.replaceAll("'", '"');
+        let libraryName = element.innerHTML;
+        element.innerHTML = "";
+        cls = JSON.parse(cls);
+        let arrow = arrowRank(cls, libraryName, {
+        width : 200,
+        height : 50,
 
         contentFolderPath : "",
     });
-
-    document.getElementById("rank-str").appendChild(chart);
+        element.appendChild(arrow);
+    }
 </script>
 <!-- Theme Main components -->
-<script defer  >const importedData = [{'taskName': 'Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Inference', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Inference', 'libraryName': 'pgmpy', 'results': 2}, {'taskName': 'Approx_Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Approx_Inference', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'Approx_Inference', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Exact_Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Exact_Inference', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Exact_Inference', 'libraryName': 'pgmpy', 'results': 2}];</script>
+<script defer  >const importedData = [{'taskName': 'Inference', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'Inference', 'libraryName': 'pyAgrum', 'results': 1}, {'taskName': 'Inference', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'Exact_Inference_multi_target', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'Exact_Inference_multi_target', 'libraryName': 'pyAgrum', 'results': 1}, {'taskName': 'Exact_Inference_multi_target', 'libraryName': 'bnlearn', 'results': 2}];</script>
 <script defer  >const themeName = 'Inference';</script>
 <script defer type='module' src ='../script/themeScript.js'></script>
 
 <!-- <h1 id="entry-title">Inference</h1>
-<h2>This theme is compose of <a href='Approx_Inference.html' >Approx Inference</a>, <a href='Exact_Inference.html' >Exact Inference</a></h2> -->
+<h2>This theme is compose of <a href='Exact_Inference_multi_target.html' >Exact Inference multi target</a></h2> -->
 <div id="main_container"></div><!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
 <script>

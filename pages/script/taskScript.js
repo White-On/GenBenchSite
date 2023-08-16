@@ -50,7 +50,7 @@ for(let element in importedData){
     let chartdata = importedData[element].data;
     labelList.push(importedData[element].label);
     
-    console.log(chartdata);
+    // console.log(chartdata);
     // console.log(importedData[element]);
     if (chartdata.length == 0){
         chart = document.createElement("p");
@@ -74,7 +74,12 @@ for(let element in importedData){
     else{
         // if the arguments are not numbers we sort the data by the arguments
         let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
-        chartdata.sort(orderingFunction);
+        // before sorting we need to create a dict with the error values removed
+        // and then we sort the data and then fuse the data with the error values
+        let data = chartdata.filter(d => typeof d.runTime === "number");
+        let dataError = chartdata.filter(d => typeof d.runTime !== "number");
+        data.sort(orderingFunction);
+        chartdata = data.concat(dataError);
         // console.log("arguments are not numbers");
     }
 
@@ -110,6 +115,7 @@ for(let element in importedData){
     }
 
     try{
+        console.log(chartdata)
         chart = possibleplot[importedData[element].display](chartdata, {
             values: d => d.runTime,
             categories: d => d.arguments,
@@ -139,7 +145,7 @@ for(let element in importedData){
 
         chartList.push(chart);
     } catch(e){
-        console.log(e);
+        // console.log(e);
         chart = document.createElement("p");
         chart.innerHTML = "Error Occured in the display of the chart 😥";
         chartList.push(chart);
@@ -147,13 +153,19 @@ for(let element in importedData){
 }
 
 
-for(let title of labelList){
-    let option = document.createElement("option");
-    option.value = title;
-    option.text = title;
-    dropdown.appendChild(option);
+if (labelList.length == 1){
+    dropdown = document.createElement("div");
+    dropdown.id = "chartSelector";
+    dropdown.innerHTML = labelList[0];
 }
-
+else{
+    for(let title of labelList){
+        let option = document.createElement("option");
+        option.value = title;
+        option.text = title;
+        dropdown.appendChild(option);
+    }
+}
 htmlComponent.appendChild(dropdown);
 
 for(let chart of chartList){
