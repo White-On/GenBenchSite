@@ -39,6 +39,8 @@ export function GroupedBarChart(data,{
 
     yType = d3.scaleLinear, // "linear" or "log"
 
+    timeout, // for the tooltip
+
 } = {}) {
 
     const Values = d3.map(data, values);
@@ -353,6 +355,19 @@ export function GroupedBarChart(data,{
             .attr("x2", width - margin.left - margin.right)
             .attr("stroke", "currentColor")
             .attr("stroke-opacity", 0.1);
+    }
+
+    // if the timeout is defined, do something
+    if (timeout != null) {
+        // adding the display of the timeout value in the top right corner
+        svg.append("text")
+            .attr("x", width - margin.right)
+            .attr("y", 10 + labelFontSize/2)
+            .attr("text-anchor", "end")
+            .attr("fill", "currentColor")
+            .attr("font-size", labelFontSize)
+            .text("Timeout: " + timeout + " s");
+            
     }
 
     // Menu for the scale

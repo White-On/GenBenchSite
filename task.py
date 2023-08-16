@@ -308,7 +308,6 @@ class Task:
                 return self.runtime[target][0]
             else:
                 # we want to find the first error message
-
                 return self.runtime[target][0][0][1]
         return "Run"
 

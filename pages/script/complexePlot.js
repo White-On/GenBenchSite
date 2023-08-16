@@ -56,6 +56,7 @@ export function ComplexeLineChart(data, {
     legendFontSize = 12, // font size of the legend
 
     graphicalreduction = 0.1, // graphical reduction of the chart 
+    timeout, // timeout for the tooltip
 
     voronoi // show a Voronoi overlay? (for debugging)
     } = {}) {
@@ -319,6 +320,19 @@ export function ComplexeLineChart(data, {
     // add the swatches to the chart.
     if (displayLegend) swatches();
 
+    // if the timeout is defined, do something
+    if (timeout != null) {
+        // adding the display of the timeout value in the top right corner
+        svg.append("text")
+            .attr("x", width - margin.right)
+            .attr("y", 10 + labelFontSize/2)
+            .attr("text-anchor", "end")
+            .attr("fill", "currentColor")
+            .attr("font-size", labelFontSize)
+            .text("Timeout: " + timeout + " s");
+            
+    }
+    
     function pointermoved(event) {
         const [xm, ym] = d3.pointer(event);
         const i = d3.least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point

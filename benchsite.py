@@ -496,6 +496,7 @@ class BenchSite:
                 "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
                 "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
                 "scale": taskConfig[taskName].get("task_scale", "auto"),
+                "timeout": taskConfig[taskName].get("timeout"),
             }
             for i, function in enumerate(functionEvaluation):
                 xlabel = taskConfig[taskName].get("post_task_xlabel", "X-axis")
@@ -759,27 +760,27 @@ class BenchSite:
         # ==================================================
         # ABOUT PAGE
         # ==================================================
-        styleFilePath = "aboutStyle.css"
+        # styleFilePath = "aboutStyle.css"
 
-        # HEADER
-        HTMLHeader = staticSiteGenerator.CreateHTMLComponent(
-            "header.html",
-            styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-            assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
-            linkTo=linkTo,
-            siteName=self.siteConfig.get("name", "No name attributed"),
-            socialMediaList=social_media,
-        )
-        # ABOUT
+        # # HEADER
+        # HTMLHeader = staticSiteGenerator.CreateHTMLComponent(
+        #     "header.html",
+        #     styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
+        #     assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
+        #     linkTo=linkTo,
+        #     siteName=self.siteConfig.get("name", "No name attributed"),
+        #     socialMediaList=social_media,
+        # )
+        # # ABOUT
 
-        HTMLAbout = staticSiteGenerator.CreateHTMLComponent(
-            "aboutContent.html",
-            assetFolder=f"../{staticSiteGenerator.assetsFilePath}",
-        )
+        # HTMLAbout = staticSiteGenerator.CreateHTMLComponent(
+        #     "aboutContent.html",
+        #     assetFolder=f"../{staticSiteGenerator.assetsFilePath}",
+        # )
 
-        staticSiteGenerator.CreateHTMLPage(
-            [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"
-        )
+        # staticSiteGenerator.CreateHTMLPage(
+        #     [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"
+        # )
 
         logger.info("=======Static site generated successfully=======")
 

@@ -140,6 +140,7 @@ for(let element in importedData){
             // yType: d3.scaleLog,
 
             tooltipFontSize: 12,
+            timeout : importedData[element].timeout,
 
         });
 
