@@ -1,17 +1,17 @@
-# GeneratedVelocity
+# GenBenchSite
 
-## What is GeneratedVelocity ▶️
+## What is GenBenchSite ▶️
 
-GeneratedVelocity is a platform designed to **compare the performance of different libraries and frameworks**. It
+GenBenchSite is a platform designed to **compare the performance of different libraries and frameworks**. It
 provides a detailed report of each library's speed, precision, and other parameters, making it easier for
 developers to choose the best library for their project.
 
 You can access the following information on this pages too with extra details : https://white-on.github.io/BenchSite/
 
-## GeneratedVelocity Brief explained 📰
+## GenBenchSite Brief explained 📰
 
-GeneratedVelocity is designed to automate the process of comparing and testing different libraries. To
-achieve this, the test are written in configuration files, then given to GeneratedVelocity. The tests are executed in a
+GenBenchSite is designed to automate the process of comparing and testing different libraries. To
+achieve this, the test are written in configuration files, then given to GenBenchSite. The tests are executed in a
 controlled environment, and the results are then analyzed and compiled into easy-to-read reports. These reports
 are output as HTML files structured and then published on dedicated GitHub pages, where users can access them and see how the different libraries perform
 in a variety of scenarios. By automating the testing process, the website enables developers to save time and

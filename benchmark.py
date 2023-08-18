@@ -352,12 +352,10 @@ class Benchmark:
 
         if process.returncode == 1:
             logger.warning(f"Error in the command")
-            logger.debug(f"{process.stderr = }")
             return Benchmark.ERROR_VALUE
 
         elif process.returncode == 2:
             logger.warning(f"Can't run this command")
-            logger.debug(f"{process.stderr = }")
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
@@ -417,9 +415,11 @@ class Benchmark:
 
         # we check if the library support the task
         if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
+            # if not, we add the results to the results dictionary with the value NOT_RUN_VALUE
             self.results[libraryName][taskName]["results"] = {
                 arg: {"runtime": Benchmark.NOT_RUN_VALUE} for arg in arguments
             }
+            # Progress bar update
             self.progressBar.update(
                 int(self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
                 * len(arguments)
@@ -432,8 +432,8 @@ class Benchmark:
         beforeRunScriptExist = self.ScriptExist(
             taskPath, self.CreateScriptName(libraryName, "_before_run")
         )
-        if not beforeRunScriptExist:
-            beforeRunListTime = [0]
+        # if not beforeRunScriptExist:
+        #     beforeRunListTime = [0]
 
         # we check if there is a after run script
         afterRunScript = self.taskConfig[taskName].get("evaluation_script", None)
@@ -461,11 +461,11 @@ class Benchmark:
                     self.progressBar.update(1)
                     # if the before run script fail we don't run the task
                     # as the task is suposed to be an extension of the before run script
-                    if isinstance(resultProcess, str):
-                        listTime.append(resultProcess)
-                        # self.progressBar.update((total_run - nb_run) * 2 - 1)
-                        self.progressBar.update(1)
-                        continue
+                    # if isinstance(resultProcess, str):
+                    #     listTime.append(resultProcess)
+                    #     # self.progressBar.update((total_run - nb_run) * 2 - 1)
+                    #     self.progressBar.update(1)
+                    #     continue
 
                 # Run script
                 scriptName = self.CreateScriptName(libraryName, "_run")
@@ -479,10 +479,10 @@ class Benchmark:
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
                 # if the run script fail we just continue to the next run
-                if isinstance(resultProcess, str):
-                    # self.progressBar.update((total_run - nb_run - 1) * 2)
-                    self.progressBar.update(1)
-                    continue
+                # if isinstance(resultProcess, str):
+                #     # self.progressBar.update((total_run - nb_run - 1) * 2)
+                #     self.progressBar.update(1)
+                #     continue
 
                 # After run script
                 valueEvaluation = [None]
