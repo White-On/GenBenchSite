@@ -73,13 +73,13 @@ for(let element in importedData){
     }
     else{
         // if the arguments are not numbers we sort the data by the arguments
-        let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
         // before sorting we need to create a dict with the error values removed
         // and then we sort the data and then fuse the data with the error values
-        let data = chartdata.filter(d => typeof d.runTime === "number");
-        let dataError = chartdata.filter(d => typeof d.runTime !== "number");
-        data.sort(orderingFunction);
-        chartdata = data.concat(dataError);
+        // let data = chartdata.filter(d => typeof d.runTime === "number");
+        // let dataError = chartdata.filter(d => typeof d.runTime !== "number");
+        // let orderingFunction = (a, b) => d3.ascending(a.runTime, b.runTime);
+        // data.sort(orderingFunction);
+        // chartdata = data.concat(dataError);
         // console.log("arguments are not numbers");
     }
 

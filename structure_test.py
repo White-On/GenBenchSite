@@ -33,8 +33,8 @@ class StructureTest:
                 logger.error(f"Error while reading config file : {e}")
                 raise Exception(f"Error while reading config file : {e}")
 
-        if len(pathConfig) == 1:
-            config = config[pathConfig[0].parent.name]
+        # if len(pathConfig) == 1:
+        #     config = config[pathConfig[0].parent.name]
 
         logger.info(
             "=======Config file(s) read=======\nnumber of section(s) found: "
@@ -43,13 +43,13 @@ class StructureTest:
         logger.debug(f"Config file : {config}")
         return config
 
-    def findConfigFile(self, path):
+    def findConfigFile(self, path, name="config.ini"):
         path = Path(path)
         if not path.exists():
             logger.error(f"Path not found: {path}")
             raise FileNotFoundError(f"File not found: {path}")
 
-        config_files = path.glob("**/config.ini")
+        config_files = path.glob(f"**/{name}")
         if not config_files:
             logger.warning(f"Config file not found in {path}")
             raise FileNotFoundError(f"Config file not found in {path}")
@@ -60,10 +60,16 @@ class StructureTest:
 if __name__ == "__main__":
     pathSite = "C:/Users/jules/Documents/Git/BenchSite/repository/site"
     listPathTarget = "C:/Users/jules/Documents/Git/BenchSite/repository/targets"
-    test = StructureTest()
-    file_conf = test.findConfigFile(pathSite)
-    config = test.readConfig(*list(file_conf))
+    themePath = "C:/Users/jules/Documents/Git/BenchSite/repository/themes"
+
+    # test = StructureTest()
+    # file_conf = test.findConfigFile(pathSite)
+    # config = test.readConfig(*list(file_conf))
+
+    # test = StructureTest()
+    # file_conf = test.findConfigFile(listPathTarget)
+    # config = test.readConfig(*list(file_conf))
 
     test = StructureTest()
-    file_conf = test.findConfigFile(listPathTarget)
+    file_conf = test.findConfigFile(themePath, "theme.ini")
     config = test.readConfig(*list(file_conf))

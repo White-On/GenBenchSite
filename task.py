@@ -9,6 +9,7 @@ from typing import ClassVar
 import numpy as np
 from logger import logger
 
+MIN_VALUE_POSSIBLE = 0.0001
 
 @dataclass
 class Task:
@@ -39,6 +40,7 @@ class Task:
     cache_runtime: dict[str, list[float]] = field(default_factory=dict)
     cache_evaluation: dict[str, list[float]] = field(default_factory=dict)
     allTasks: ClassVar[list["Task"]] = []
+
 
     def __post_init__(self) -> None:
         logger.debug(f"Task {self.name} created")
@@ -210,6 +212,8 @@ class Task:
         runtime = np.hstack(np.diff(runtime, axis=2)).T
         # runtime[:, :, 0] = -runtime[:, :, 0]
         # runtime = runtime.sum(axis=2)
+        # we adapt the value if the runtime is negative
+        runtime = np.where(runtime < 0, MIN_VALUE_POSSIBLE, runtime)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
     

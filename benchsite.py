@@ -56,20 +56,25 @@ class BenchSite:
         return libraryConfig
 
     def GetTaskConfig(self):
-        listTaskpath = []
-        strTest = StructureTest()
-        listTaskpath = strTest.findConfigFile(
-            os.path.join(self.structureTestPath, "themes")
+        strtest = StructureTest()
+        taskConfig = strtest.readConfig(
+            *strtest.findConfigFile(os.path.join(self.structureTestPath, "themes"))
         )
-        taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
+    
+    def GetThemeConfig(self):
+        strtest = StructureTest()
+        themeConfig = strtest.readConfig(
+            *strtest.findConfigFile(os.path.join(self.structureTestPath, "themes"),name="theme.ini")
+        )
+        return themeConfig
 
     def GetSiteConfig(self):
         strtest = StructureTest()
         siteConfig = strtest.readConfig(
             *strtest.findConfigFile(os.path.join(self.structureTestPath, "site"))
         )
-        return siteConfig
+        return siteConfig["site"]
 
     def GetLibraryLogo(self):
         logo = {}
@@ -793,3 +798,4 @@ if __name__ == "__main__":
     benchSite.GetLibraryConfig()
     benchSite.GetTaskConfig()
     benchSite.GenerateStaticSite()
+    benchSite.GetThemeConfig()

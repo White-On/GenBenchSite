@@ -41,7 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = False
+    DEBUG = True
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -74,6 +74,13 @@ class Benchmark:
         # we collect the config into a dictionary
         self.libraryConfig = self.GetLibraryConfig()
         self.taskConfig = self.GetTaskConfig()
+        self.themeConfig = self.GetThemeConfig()
+
+        logger.info(
+            f"Library config retrieved: list of library {self.libraryConfig.keys()}"
+        )
+        logger.info(f"Task config retrieved: list of task {self.taskConfig.keys()}")
+        logger.info(f"Theme config retrieved: list of theme {self.themeConfig.keys()}")
 
         themeDirectory = self.pathToInfrastructure / "themes"
 
@@ -86,17 +93,41 @@ class Benchmark:
         self.dictionaryTaskInTheme = {}
         self.dictonaryThemeInTask = {}
 
-        # create a dictionary that associate a theme to a list of task and a dictionary 
+        # create a dictionary that associate a theme to a list of task afnd a dictionary 
         # that associate a task to a theme
         for themeName in self.themeNames:
             listTask = [
                 task_path.name
                 for task_path in themeDirectory.joinpath(themeName).iterdir()
+                if task_path.is_dir()
             ]
             self.taskNames += listTask
             self.dictionaryTaskInTheme[themeName] = listTask
             for taskName in self.dictionaryTaskInTheme[themeName]:
                 self.dictonaryThemeInTask[taskName] = themeName
+
+        # We now rearange the order of execution of the tasks
+        # We first look for the order in the config file
+        # If no order is specified, we keep the order of the tasks in the config file
+        order = []
+        for themeName in self.themeNames:
+            theme_config = self.themeConfig.get(themeName)
+
+            if theme_config is None:
+                continue
+
+            order_in_theme = theme_config.get("task_order")
+            if order_in_theme is None:
+                continue
+            order_in_theme = order_in_theme.split(",")
+            for taskName in order_in_theme:
+                order.append(taskName.strip()) if taskName.strip() in self.taskNames else None
+        # we add the remaining tasks not yet added to the order
+        for taskName in self.taskNames:
+            if taskName not in order:
+                order.append(taskName)
+
+        self.taskNames = order
         
         # look for deactivated tasks
         deactivatedTasks = []
@@ -123,10 +154,7 @@ class Benchmark:
         # logger.debug(f"{self.results = }")
         logger.debug(f"{self.create_base_json() = }")
 
-        logger.info(
-            f"Library config retrieved: list of library {self.libraryConfig.keys()}"
-        )
-        logger.info(f"Task config retrieved: list of task {self.taskConfig.keys()}")
+        
 
     def get_result_from_json(self, json_file):
         """
@@ -184,6 +212,15 @@ class Benchmark:
         listTaskpath = strTest.findConfigFile(self.pathToInfrastructure / "themes")
         taskConfig = strTest.readConfig(*listTaskpath)
         return taskConfig
+    
+    def GetThemeConfig(self):
+        """
+        get the theme config from the config.ini file in each theme folder
+        """
+        strTest = StructureTest()
+        listThemepath = strTest.findConfigFile(self.pathToInfrastructure / "themes",name="theme.ini")
+        themeConfig = strTest.readConfig(*listThemepath)
+        return themeConfig
 
     def BeforeBuildLibrary(self):
         """
@@ -334,7 +371,7 @@ class Benchmark:
         """
         logger.debug(f"RunProcess with the command {command}")
         if Benchmark.DEBUG:
-            return np.random.randint(5) * 1.0
+            return np.random.randint(low = 5, high=10) * 1.0 
 
         start = time.perf_counter()
         try:

@@ -8,7 +8,7 @@ developers to choose the best library for their project.
 
 You can access the following information on this pages too with extra details : https://white-on.github.io/BenchSite/
 
-## GenBenchSite Brief explained 📰
+## GenBenchSite Briefly explained 📰
 
 GenBenchSite is designed to automate the process of comparing and testing different libraries. To
 achieve this, the test are written in configuration files, then given to GenBenchSite. The tests are executed in a
