@@ -17,12 +17,15 @@ const libraryName = document.getElementById('entry-title').innerHTML;
 // console.log("libraryName = " + libraryName);
 
 
-const reductFactor = 0.8;
-let width = window.innerWidth * reductFactor;
-let height = window.innerHeight * reductFactor;
+// const reductFactor = 0.8;
+// let width = window.innerWidth * reductFactor;
+// let height = window.innerHeight * reductFactor;
 
+let width = 1000;
+let height = 600;
 let chart;
 
+const timeBackgroundColor = "#aaffff";
 
 // let treatedData = ResultTreatement(data[libraryName],libraryName);
 // console.log(treatedData);
@@ -35,11 +38,11 @@ let orderingFunction = (a, b) => d3.ascending(a.resultElement, b.resultElement);
 for (let taskName of AllTaskName) {
     let element = document.getElementById(taskName);
 
-    console.log("taskName = " + taskName);
+    // console.log("taskName = " + taskName);
     // let intermediateData = FormatedData({[libraryName]:data[libraryName]}, AllTaskName[i]);
     let intermediateData = importedData[taskName];
     // console.log(intermediateData);
-    console.log(intermediateData["status"]);
+    // console.log(intermediateData["status"]);
     if ( intermediateData["status"] != "Run") {
         
         const dictionary = {
@@ -67,7 +70,7 @@ for (let taskName of AllTaskName) {
             height: height,
             yLabel: "Run Time (s) ↑",
             labelFontSize: 20,
-            margin : { top: 40, right: 30, bottom: 80, left: 80 },
+            margin : { top: 40, right: 30, bottom: 100, left: 80 },
 
             legend: false,
 
@@ -96,97 +99,10 @@ for (let taskName of AllTaskName) {
         });
     }
 
-    
     element.appendChild(chart);
-}
-
-function FormatedData(data, TaskName) {
-    let LibraryName = Object.keys(data);
-    let task;
-    // console.log(data)
-
-    // if (data[LibraryName[0]][TaskName]['statusCode'] != 0) {
-    //     return null;
-    // }
+    let card = element.parentElement;
+    card.style.backgroundColor = timeBackgroundColor;
     
-    let formattedData = [];
-    for (let j = 0; j < LibraryName.length; j++) {
-        task = data[LibraryName[j]][TaskName]['results'];
-        let argument = Object.keys(task).map(x=>+x).map(x=>x<0?0:x);
-        // let argumentDomain = Object.keys(task);
-        let diplayModele = "line";
-        if (IsNanList(argument)) {
-            // argumentDomain = Object.keys(task);
-            // argument = Array.from(Array(argumentDomain.length).keys());
-            argument = Object.keys(task);
-            diplayModele = "histogram";
-
-        }
-        let results = Object.values(task).map(x=>+x).map(x=>x<0?0:x);
-
-        let resultsAndArgument = argument.map((x, i) => [x, results[i]]).filter(x => x[1] != Infinity);
-        // console.log(resultsAndArgument);
-
-        for (let i = 0; i < resultsAndArgument.length; i++) {
-            formattedData.push({
-                arguments: resultsAndArgument[i][0],
-                resultElement: resultsAndArgument[i][1],
-                libraryName : LibraryName[j],
-                diplayModele: diplayModele,
-            });
-        }
-    }
-    return formattedData;
-}
-
-function IsNanList(list) {
-    let cpt = 0;
-    for (let i = 0; i < list.length; i++) {
-        if (isNaN(list[i])) {
-            cpt++;
-        }
-    }
-    return cpt == list.length;
-}
-
-function ResultTreatement(tasksData,libraryName,type = "time") {
-    let task;
-    let formattedData = {};
-    for (let taskName in tasksData) {
-        // console.log(taskName);
-        formattedData[taskName] = [];
-
-        let results = Object.values(tasksData[taskName]["results"]).map(x=>x[type=="time"?0:1]).map((x,i)=>+x).map(x=>x<0?0:x);
-        // console.log(results);
-
-        if(IsNanList(results)){
-            formattedData[taskName] = Object.values(tasksData[taskName]["results"]).map(x=>x[type=="time"?0:1])[0];
-            continue;
-        }
-
-        let argument = Object.keys(tasksData[taskName]["results"]).map(x=>+x).map(x=>x<0?0:x);
-        let diplayModele = "line";
-        
-        if (IsNanList(argument)) {
-            argument = Object.keys(tasksData[taskName]["results"])
-            diplayModele = "histogram";
-
-        }
-        // console.log(argument);
-
-        let resultsAndArgument = argument.map((x, i) => [x, results[i]]).filter(x => x[1] == x[1]);
-        // console.log(resultsAndArgument);
-
-        for (let i = 0; i < resultsAndArgument.length; i++) {
-            formattedData[taskName].push({
-                arguments: resultsAndArgument[i][0],
-                resultElement: resultsAndArgument[i][1],
-                libraryName : libraryName,
-                diplayModele: diplayModele,
-            });
-        }
-    }
-    return formattedData;
 }
 
 

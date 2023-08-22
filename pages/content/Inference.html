@@ -49,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
-            
                 <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -147,7 +147,7 @@
 
 <!-- Rank Bar  -->
 <div id="rank-bar">
-    <div id="rank-str" class="rankBar" data-bar="{'pgmpy': 0, 'pyAgrum': 0, 'bnlearn': 1}">
+    <div id="rank-str" class="rankBar" data-bar="{'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}">
         <div id="indication">
             <!--  Here we need the link for the global About Page -->
             <a href="https://white-on.github.io/BenchSite/#explications">
@@ -155,7 +155,7 @@
             </a>
         </div>
     </div>
-    <div>2023-08-21 15:25:40</div>
+    <div>2023-08-22 16:06:44</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
@@ -194,12 +194,20 @@
     }
 </script>
 <!-- Theme Main components -->
-<script defer  >const importedData = [{'taskName': 'Inference', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Inference', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Best_Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Best_Inference', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Best_Inference', 'libraryName': 'pgmpy', 'results': 2}, {'taskName': 'Variable_elimination', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'Variable_elimination', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'Variable_elimination', 'libraryName': 'pyAgrum', 'results': 2}];</script>
+<script defer  >const importedData = [{'taskName': 'Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Inference', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'Inference', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'Best_Inference', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Best_Inference', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'Best_Inference', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'Variable_elimination', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Variable_elimination', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'Variable_elimination', 'libraryName': 'bnlearn', 'results': 2}];</script>
 <script defer  >const themeName = 'Inference';</script>
 <script defer type='module' src ='../script/themeScript.js'></script>
 
-<!-- <h1 id="entry-title">Inference</h1>
-<h2>This theme is compose of <a href='Best_Inference.html' >Best Inference</a>, <a href='Variable_elimination.html' >Variable elimination</a></h2> -->
+<h1 id="entry-title">Inference</h1>
+<h2>This theme is compose of <a href='Best_Inference.html' >Best Inference</a>, <a href='Variable_elimination.html' >Variable elimination</a></h2>
+<p>Performing inference over a Bayesian Network is like using a puzzle to figure out missing information.
+Imagine you have a puzzle with interconnected pieces, where each piece represents a different event or variable.
+Some pieces are already filled in with information (evidence), and you want to find out the most likely values for the missing pieces.
+<br><br>To do this, you use the connections between the puzzle pieces and the probabilities associated with them to logically deduce what the missing pieces should be.
+You're essentially using the known parts of the puzzle to make educated guesses about the unknown parts, based on how they relate to each other.
+<br><br>Similarly, in a Bayesian Network, you have variables connected by relationships, and you might know the values of some variables (evidence).
+Inference involves using these connections and probabilities to calculate or estimate the values of other variables.
+It's like solving the puzzle of uncertain information by piecing together what you know to make informed conclusions about what you don't know.</p>
 <div id="main_container"></div><!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
 <script>

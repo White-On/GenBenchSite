@@ -5,15 +5,12 @@ export function Histogram(data, {
     width = 640,
     height = 400,
 
-    marginTop = 20, // top margin, in pixels
-    marginRight = 30, // right margin, in pixels
-    marginBottom = 30, // bottom margin, in pixels
-    marginLeft = 50, // left margin, in pixels
+    margin = {top: 20, right: 30, bottom: 30, left: 40},
 
     xDomain = undefined, // [x0, x1], or undefined to auto-detect
     yDomain = undefined, // [y0, y1], or undefined to auto-detect
-    xRange = [marginLeft , width - marginRight], // [x0, x1]
-    yRange = [height - marginBottom, marginTop], // [y0, y1]
+    xRange = [margin.left , width - margin.right], // [x0, x1]
+    yRange = [height - margin.bottom, margin.top], // [y0, y1]
 
     noXAxisValues = false, // array of x-values to show ticks for
 
@@ -68,7 +65,7 @@ export function Histogram(data, {
     
     // X-axis 
     const xGroup = svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
+        .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
         .style("font-size", labelFontSize)
         .attr("text-anchor", "end")
@@ -77,12 +74,12 @@ export function Histogram(data, {
     
     // Y-axis 
     const yGroup = svg.append("g")
-      .attr("transform", `translate(${marginLeft},0)`)
+      .attr("transform", `translate(${margin.left},0)`)
       .call(yAxis)
       .call(g => g.select(".domain").remove())
       .call(g => g.selectAll(".tick").call(grid))
       .call(g => g.append("text")
-            .attr("x", -marginLeft)
+            .attr("x", -margin.left)
             .attr("y", 10 + labelFontSize / 2)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
@@ -105,7 +102,7 @@ export function Histogram(data, {
     function grid(tick) {
         return tick.append("line")
             .attr("class", "grid")
-            .attr("x2", width - marginLeft - marginRight)
+            .attr("x2", width - margin.left - margin.right)
             .attr("stroke", "currentColor")
             .attr("stroke-opacity", 0.1);
     }

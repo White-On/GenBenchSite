@@ -9,6 +9,7 @@ function dataSpread(data){
     let max = Math.max.apply(Math, data)
     return max - min;
 }
+
 // to get the Task Name that we want to plot we have 3 options:
 
 // 1. get the task name from an element in the html page
@@ -37,8 +38,8 @@ let height = 500;
 
 let possibleplot = {"line": ComplexeLineChart, "histo": Histogram, "groupedBar": GroupedBarChart, "violons": ViolonsChart};
 
-const timeBackgroundColor = "#ffffaa";
-const evaluationBackgroundcolor = "#aaffff";
+const timeBackgroundColor = "#aaffff";
+const evaluationBackgroundcolor = "#ffffaa";
 // const defaultBackgroundcolor = "#aaffff";
 
 let chartList = [];
@@ -64,6 +65,11 @@ for(let element in importedData){
         allLibraries = chartdata.map(d => d.libraryName);
         allLibraries = [...new Set(allLibraries)];
     }
+
+    // we attribute a color to each library as a function of the number of libraries
+    let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+    colorScale.domain(allLibraries);
+
     // check if the arguments are numbers or not to sort the data if needed
     if(typeof chartdata[0].arguments === "number"){
         // if the arguments are numbers we sort the data by the arguments
@@ -98,7 +104,7 @@ for(let element in importedData){
         }
         
         // we remove the eventual 0 from the local spread -> error in the data
-        local_spread = local_spread.filter(d => d != 0);
+        local_spread = local_spread.filter(d => d > 0);
         let data = chartdata.filter(d => typeof d.runTime === "number");
         let global_spread = dataSpread(data.map(d => d.runTime));
         // default scale is linear
@@ -141,6 +147,8 @@ for(let element in importedData){
 
             tooltipFontSize: 12,
             timeout : importedData[element].timeout,
+
+            color : d => colorScale(d),
 
         });
 

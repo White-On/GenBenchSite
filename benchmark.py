@@ -41,7 +41,7 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = True
+    DEBUG = False
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """

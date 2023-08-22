@@ -49,9 +49,9 @@
         <button type="button"><img src="../assets/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
         <ul class="subMenu collapse">
             
-                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
-            
                 <li class='menu-item'><a href='pgmpy.html' id='pgmpy-nav'><img src='../assets\pgmpy.png' alt='pgmpy' class='logo'>pgmpy</a></li>
+            
+                <li class='menu-item'><a href='bnlearn.html' id='bnlearn-nav'><img src='../assets\question.svg' alt='bnlearn' class='logo'>bnlearn</a></li>
             
                 <li class='menu-item'><a href='pyAgrum.html' id='pyAgrum-nav'><img src='../assets\pyAgrum.png' alt='pyAgrum' class='logo'>pyAgrum</a></li>
             
@@ -147,7 +147,7 @@
 
 <!-- Rank Bar  -->
 <div id="rank-bar">
-    <div id="rank-str" class="rankBar" data-bar="{'pgmpy': 0, 'pyAgrum': 0, 'bnlearn': 1}">
+    <div id="rank-str" class="rankBar" data-bar="{'pyAgrum': 0, 'pgmpy': 1, 'bnlearn': 2}">
         <div id="indication">
             <!--  Here we need the link for the global About Page -->
             <a href="https://white-on.github.io/BenchSite/#explications">
@@ -155,7 +155,7 @@
             </a>
         </div>
     </div>
-    <div>2023-08-21 15:25:40</div>
+    <div>2023-08-22 16:06:44</div>
 </div>
 <script type="module">
     import { rankBar } from "../script/rankBar.js";
@@ -194,12 +194,16 @@
     }
 </script>
 <!-- Theme Main components -->
-<script defer  >const importedData = [{'taskName': 'Input_Output', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'Input_Output', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Input_Output', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'BIF', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'BIF', 'libraryName': 'pyAgrum', 'results': 1}, {'taskName': 'BIF', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'BIFXML', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'BIFXML', 'libraryName': 'pyAgrum', 'results': 1}, {'taskName': 'BIFXML', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'DSL', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'DSL', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'DSL', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'NET', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'NET', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'NET', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'UAI', 'libraryName': 'pgmpy', 'results': 0}, {'taskName': 'UAI', 'libraryName': 'pyAgrum', 'results': 1}, {'taskName': 'UAI', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'XDSL', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'XDSL', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'XDSL', 'libraryName': 'pgmpy', 'results': 1}];</script>
+<script defer  >const importedData = [{'taskName': 'Input_Output', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'Input_Output', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'Input_Output', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'BIF', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'BIF', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'BIF', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'BIFXML', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'BIFXML', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'BIFXML', 'libraryName': 'bnlearn', 'results': 2}, {'taskName': 'DSL', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'DSL', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'DSL', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'NET', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'NET', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'NET', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'UAI', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'UAI', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'UAI', 'libraryName': 'bnlearn', 'results': 1}, {'taskName': 'XDSL', 'libraryName': 'pyAgrum', 'results': 0}, {'taskName': 'XDSL', 'libraryName': 'pgmpy', 'results': 1}, {'taskName': 'XDSL', 'libraryName': 'bnlearn', 'results': 1}];</script>
 <script defer  >const themeName = 'Input_Output';</script>
 <script defer type='module' src ='../script/themeScript.js'></script>
 
-<!-- <h1 id="entry-title">Input Output</h1>
-<h2>This theme is compose of <a href='BIF.html' >BIF</a>, <a href='BIFXML.html' >BIFXML</a>, <a href='DSL.html' >DSL</a>, <a href='NET.html' >NET</a>, <a href='UAI.html' >UAI</a>, <a href='XDSL.html' >XDSL</a></h2> -->
+<h1 id="entry-title">Input Output</h1>
+<h2>This theme is compose of <a href='BIF.html' >BIF</a>, <a href='BIFXML.html' >BIFXML</a>, <a href='DSL.html' >DSL</a>, <a href='NET.html' >NET</a>, <a href='UAI.html' >UAI</a>, <a href='XDSL.html' >XDSL</a></h2>
+<p>The Input/Output task involves reading and writing Bayesian Network files.
+<br><br>Bayesian Network files are used to store the structure and parameters of a Bayesian Network.
+<br><br>They can be used to save a Bayesian Network for later use, or to share a Bayesian Network with others.
+<br><br>They can also be used to import a Bayesian Network into another program, such as a Bayesian Network editor or a Bayesian Network inference engine.</p>
 <div id="main_container"></div><!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
 <script>

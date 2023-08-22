@@ -75,7 +75,7 @@ class CollectCode:
             json.dump(self.CodeHTML, file)
 
     def get_code_HTML(self, target, task):
-        return self.CodeHTML[target].get(task, "No code found")
+        return self.CodeHTML[target].get(task, None)
 
 
 if __name__ == "__main__":

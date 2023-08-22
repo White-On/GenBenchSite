@@ -197,7 +197,6 @@ export  function LineChart(data, {
     // for(let i of I ) {
     //     console.log(Y[i]);
     // }
-
     circles
         .attr("fill", typeof color === "string" ? color : null)
         .selectAll("circle")

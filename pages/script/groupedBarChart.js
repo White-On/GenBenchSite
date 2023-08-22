@@ -120,6 +120,7 @@ export function GroupedBarChart(data,{
     // console.log(I);
     // console.log(InerClass);
     // console.log(Values);
+
     
     rect
         .append("rect")

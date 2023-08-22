@@ -260,6 +260,7 @@ class BenchSite:
 
         libraryConfig = self.GetLibraryConfig()
         taskConfig = self.GetTaskConfig()
+        themeConfig = self.GetThemeConfig()
         logoLibrary = self.GetLibraryLogo()
 
         logger.info("Generate HTML Home Page")
@@ -661,6 +662,9 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedRuntime};"
                 ),
+                description=themeConfig.get(themeName, {}).get(
+                    "description", "No description attributed"
+                ),
             )
 
             staticSiteGenerator.CreateHTMLPage(
@@ -689,7 +693,7 @@ class BenchSite:
         HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent(
             "rankBar.html",
             contentFolderPath=contentFilePath,
-            data=f"const cls = {libraryDico}",
+            data=f"{libraryDico}",
             dataGenerationDate=self.machineData["execution_date"],
             scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
         )
