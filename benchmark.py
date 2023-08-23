@@ -484,6 +484,7 @@ class Benchmark:
                 "stop_after_x_timeout", Benchmark.DEFAULT_STOP_AFTER_X_TIMEOUT
             )
         )
+        stop_after_x_timeout = float("inf") if stop_after_x_timeout <= 0 else stop_after_x_timeout
         cpt_timeout = 0
 
         # runnning the task for each argument and the number of runs
@@ -514,12 +515,12 @@ class Benchmark:
                     self.progressBar.update(1)
                     # if the before run script fail we don't run the task
                     # as the task is suposed to be an extension of the before run script
-                    if isinstance(resultProcess, str):
-                        listTime.append(resultProcess)
+                    # if isinstance(resultProcess, str):
+                    #     listTime.append(resultProcess)
                         # self.progressBar.update((total_run - cpt_run) * 2 - 1)
                         # self.progressBar.update(1)        
                         # cpt_timeout += 1 if resultProcess == Benchmark.TIMEOUT_VALUE and cpt_run < stop_after_x_timeout else 0
-                        continue
+                        # continue
 
                 # Run script
                 if cpt_timeout >= stop_after_x_timeout:
@@ -531,7 +532,7 @@ class Benchmark:
 
                     command = f"{language} {path_script} {arg}"
 
-                    resultProcess = self.RunProcess(command=command, timeout=timeout + resultProcess if before_run_script_exist else timeout)
+                    resultProcess = self.RunProcess(command=command, timeout=timeout + resultProcess if before_run_script_exist and not isinstance(resultProcess,str) else timeout)
                     logger.debug(f"{resultProcess = }")
 
                 listTime.append(resultProcess)

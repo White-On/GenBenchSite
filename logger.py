@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # file_name = f"debug_{time.strftime(date_format)}.log"
 
 # # we don't want the logs to over populate the folder
-# # so we delete the odler logs
+# # so we delete the older logs
 
 # # we get all the dates of the logs
 # date_files = [file.name[6:-4] for file in logs_path.glob("*.log")]

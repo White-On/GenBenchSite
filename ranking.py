@@ -9,6 +9,7 @@ import numpy as np
 from task import Task
 from library import Library
 from logger import logger
+from pprint import pprint
 
 
 def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str]]:
@@ -43,12 +44,17 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str
     {'Task1': ['Library1', 'Library2', 'Library3'], 'Task2': ['Library1', 'Library2', 'Library3'], 'Task3': ['Library1', 'Library2', 'Library3']}
     """
     dictionaryTaskLibraryResults = {}
+    test = {}
     for taskName in Task.GetAllTaskName():
         dictionaryTaskLibraryResults[taskName] = {}
+        test[taskName] = {}
         for library in Library.GetLibraryByTaskName(taskName):
             dictionaryTaskLibraryResults[taskName][
                 library.name
             ] = library.GetTaskByName(taskName).mean_runtime(library.name)
+            test[taskName][library.name] = library.GetTaskByName(taskName).mean_evaluation(library.name)
+
+    
 
     for taskName in dictionaryTaskLibraryResults.keys():
         dictionaryTaskLibraryResults[taskName] = LexMaxWithThreshold(
@@ -57,11 +63,24 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str
             threshold,
         )
 
+    dictEval = {}
+    # print(test['Learning_micro_child_Kullback_Leibler'])
+    for taskName in test.keys():
+        for libraries in test[taskName].keys():
+            dictEval[libraries] = [element.get('evaluateFscore') for element in test[taskName][libraries]]
+        # print([element.get('evaluateFscore') for element in test['Learning_micro_child_Kullback_Leibler'][libraries]],end="\n\n")
+    print(dictEval)
+    # print(LexMax(dictEval,reverse=True))
+    
+    # for taskName in dictionaryTaskLibraryResults.keys():
+    #     print(LexMaxWithThreshold(dictionaryTaskLibraryResults[taskName], Task.GetTaskByName(taskName).arguments, threshold))
+
     if isResultList:
         for taskName in dictionaryTaskLibraryResults.keys():
             dictionaryTaskLibraryResults[taskName] = list(
                 dictionaryTaskLibraryResults[taskName].keys()
             )
+            
     return dictionaryTaskLibraryResults
 
 
@@ -157,8 +176,7 @@ def RankingLibraryGlobal(threshold=0, isResultList=True) -> list[str]:
 
     return classementLibrary
 
-
-def LexMax(dictionnary: dict[str, list[float]]) -> list[str]:
+def LexMax(dictionnary: dict[str, list[float]],reverse = False) -> list[str]:
     r"""LexMax algorithm.
 
     The LexMax algorithm is used to rank dictionnary of result.
@@ -195,15 +213,16 @@ def LexMax(dictionnary: dict[str, list[float]]) -> list[str]:
     # the sort here will give a rank no matter the precision of the value
     for column in range(rankMatrix.shape[1]):
         rankMatrix[:, column] = [
-            sorted(rankMatrix[:, column].tolist()).index(element)
+            sorted(rankMatrix[:, column].tolist(),reverse=reverse).index(element)
             for element in rankMatrix[:, column].tolist()
         ]
-
+    # print(rankMatrix)
     # we now sort the rank of each element to have a list of rank for each element sorted
     VectorLibrary = {}
     for i, key in enumerate(dictionnary.keys()):
         VectorLibrary[key] = sorted(rankMatrix[i, :].tolist())
 
+    # print(VectorLibrary)
     # we can now compare the element by their list of rank
     sortedListRank = sorted(VectorLibrary.items(), key=lambda item: item[1])
     rk = 0
@@ -219,7 +238,7 @@ def LexMax(dictionnary: dict[str, list[float]]) -> list[str]:
     return elementRank
 
 
-def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0) -> list:
+def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0, reverse = False) -> list:
     """LexMax algorithm with a threshold.
 
     The LexMax algorithm is used to rank dictionnary of result. The threshold is used to remove the result with an argument that are strictly under the threshold.
@@ -251,7 +270,7 @@ def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0) ->
     ['Library3', 'Library1', 'Library2']
     """
     if threshold == 0 or len(argumentsList) == 0:
-        return LexMax(dictionaryResults)
+        return LexMax(dictionaryResults,reverse=reverse)
 
     # On cherche la limite d'itération pour ne récuperer que les résultats dont
     # la valeur de l'argument est supérieur au seuil
@@ -266,12 +285,12 @@ def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0) ->
     # cela veut dire que le seuil est trop élevé et que il n'y a pas de résultat
     if iterationLimit == len(argumentsList):
         # print("The threshold is too high, the LexMax algorithm will return without threshold")
-        return LexMax(dictionaryResults)
+        return LexMax(dictionaryResults,reverse=reverse)
 
     for key in dictionaryResults.keys():
         dictionaryResults[key] = dictionaryResults[key][iterationLimit:]
 
-    return LexMax(dictionaryResults)
+    return LexMax(dictionaryResults,reverse=reverse)
 
 
 if __name__ == "__main__":
@@ -280,5 +299,5 @@ if __name__ == "__main__":
     _ = FileReaderJson("results.json")
 
     print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=50)}")
-    print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
-    print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=0)}")
+    # print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=50)}")
+    # print(f"RankingLibraryGlobal : {RankingLibraryGlobal(threshold=0)}")
