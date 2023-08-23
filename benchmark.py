@@ -41,7 +41,8 @@ class Benchmark:
     TIMEOUT_VALUE = "Timeout"
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
-    DEBUG = False
+    DEFAULT_STOP_AFTER_X_TIMEOUT = 10
+    DEBUG = True
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -444,15 +445,10 @@ class Benchmark:
             )
 
             self.RunTaskForLibrary(libraryName, taskName, path, timeout=taskTimeout)
-
-    def RunTaskForLibrary(
-        self, libraryName: str, taskName: str, taskPath: str, timeout: int
-    ):
-        arguments = self.taskConfig[taskName].get("arguments").split(",")
-
-        # we check if the library support the task
-        if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
-            # if not, we add the results to the results dictionary with the value NOT_RUN_VALUE
+    
+    def TaskNotSupported(self, libraryName: str, taskName: str, arguments : str) -> None:
+            # if task not supported by the target,
+            # we add the results to the results dictionary with the value NOT_RUN_VALUE
             self.results[libraryName][taskName]["results"] = {
                 arg: {"runtime": Benchmark.NOT_RUN_VALUE} for arg in arguments
             }
@@ -462,69 +458,95 @@ class Benchmark:
                 * len(arguments)
                 * 2
             )  # *2 because we have before and after run script
+
+    def RunTaskForLibrary(
+        self, libraryName: str, taskName: str, taskPath: str, timeout: int
+    ):
+        arguments = self.taskConfig[taskName].get("arguments").split(",")
+
+        # we check if the library support the task
+        if not self.ScriptExist(taskPath, self.CreateScriptName(libraryName, "_run")):
+            self.TaskNotSupported(libraryName, taskName, arguments)
             return
+        
         logger.info(f"Run task {taskName} for library {libraryName}")
 
         # we check if there is a before run script
-        beforeRunScriptExist = self.ScriptExist(
+        before_run_script_exist = self.ScriptExist(
             taskPath, self.CreateScriptName(libraryName, "_before_run")
         )
-        # if not beforeRunScriptExist:
-        #     beforeRunListTime = [0]
 
         # we check if there is a after run script
-        afterRunScript = self.taskConfig[taskName].get("evaluation_script", None)
+        after_run_script = self.taskConfig[taskName].get("evaluation_script", None)
+
+        stop_after_x_timeout = int(
+            self.taskConfig[taskName].get(
+                "stop_after_x_timeout", Benchmark.DEFAULT_STOP_AFTER_X_TIMEOUT
+            )
+        )
+        cpt_timeout = 0
 
         # runnning the task for each argument and the number of runs
         for arg in arguments:
-            beforeRunListTime = []
+            before_run_list_time = []
             listTime = []
 
             # number total of run for the task
             total_run = int(
                 self.taskConfig[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
-            )
+            )     
 
             for cpt_run in range(total_run):
+                logger.debug(f"Run {cpt_run + 1} of {total_run} for {taskName}. At {cpt_timeout} timeout")
 
                 # Before run script
-                if beforeRunScriptExist:
-                    language = self.libraryConfig[libraryName].get("language")
-                    path_script = Path(taskPath,self.CreateScriptName(libraryName,'_before_run'))
-                    command = f"{language} {path_script} {arg}"
+                if before_run_script_exist:
+                    if cpt_timeout >= stop_after_x_timeout:
+                        resultProcess = Benchmark.TIMEOUT_VALUE
+                    else:
+                        language = self.libraryConfig[libraryName].get("language")
+                        path_script = Path(taskPath,self.CreateScriptName(libraryName,'_before_run'))
+                        command = f"{language} {path_script} {arg}"
 
-                    resultProcess = self.RunProcess(command=command, timeout=timeout)
-                    beforeRunListTime.append(resultProcess)
+                        resultProcess = self.RunProcess(command=command, timeout=timeout)
+
+                    before_run_list_time.append(resultProcess)
                     self.progressBar.update(1)
                     # if the before run script fail we don't run the task
                     # as the task is suposed to be an extension of the before run script
-                    # if isinstance(resultProcess, str):
-                    #     listTime.append(resultProcess)
-                    #     # self.progressBar.update((total_run - nb_run) * 2 - 1)
-                    #     self.progressBar.update(1)
-                    #     continue
+                    if isinstance(resultProcess, str):
+                        listTime.append(resultProcess)
+                        # self.progressBar.update((total_run - cpt_run) * 2 - 1)
+                        # self.progressBar.update(1)        
+                        # cpt_timeout += 1 if resultProcess == Benchmark.TIMEOUT_VALUE and cpt_run < stop_after_x_timeout else 0
+                        continue
 
                 # Run script
-                scriptName = self.CreateScriptName(libraryName, "_run")
-                language = self.libraryConfig[libraryName].get("language")
-                path_script = Path(taskPath,scriptName)
+                if cpt_timeout >= stop_after_x_timeout:
+                    resultProcess = Benchmark.TIMEOUT_VALUE
+                else:
+                    scriptName = self.CreateScriptName(libraryName, "_run")
+                    language = self.libraryConfig[libraryName].get("language")
+                    path_script = Path(taskPath,scriptName)
 
-                command = f"{language} {path_script} {arg}"
+                    command = f"{language} {path_script} {arg}"
 
-                resultProcess = self.RunProcess(command=command, timeout=timeout)
-                logger.debug(f"{resultProcess = }")
+                    resultProcess = self.RunProcess(command=command, timeout=timeout + resultProcess if before_run_script_exist else timeout)
+                    logger.debug(f"{resultProcess = }")
+
                 listTime.append(resultProcess)
                 self.progressBar.update(1)
                 # if the run script fail we just continue to the next run
-                # if isinstance(resultProcess, str):
+                if isinstance(resultProcess, str):
                 #     # self.progressBar.update((total_run - nb_run - 1) * 2)
-                #     self.progressBar.update(1)
+                    cpt_timeout += 1 if resultProcess == Benchmark.TIMEOUT_VALUE and cpt_run < stop_after_x_timeout else 0
                 #     continue
 
+                # pass if in debug mode
+                if Benchmark.DEBUG:
+                    continue
                 # After run script
-                valueEvaluation = [None]
-
-                if afterRunScript is not None:
+                if after_run_script is not None:
                     # if the script is not None, then it should be a script name or a list of script name
                     functionEvaluation = self.taskConfig[taskName].get(
                         "evaluation_function", None
@@ -536,16 +558,19 @@ class Benchmark:
 
                     logger.debug(f"{functionEvaluation = }")
 
-                    valueEvaluation = self.EvaluationAfterTask(
-                        afterRunScript,
-                        taskName,
-                        taskPath,
-                        *functionEvaluation,
-                        libraryName=libraryName,
-                        filenameBif=self.taskConfig[taskName].get("file_used", ""),
-                        arg=arg,
-                    )
-                    logger.debug(f"{valueEvaluation = }")
+                    if not isinstance(resultProcess, str):
+                        valueEvaluation = self.EvaluationAfterTask(
+                            after_run_script,
+                            taskName,
+                            taskPath,
+                            *functionEvaluation,
+                            libraryName=libraryName,
+                            filenameBif=self.taskConfig[taskName].get("file_used", ""),
+                            arg=arg,
+                        )
+                        logger.debug(f"{valueEvaluation = }")
+                    else:
+                        valueEvaluation = [resultProcess] * len(functionEvaluation)
                     eval = self.results[libraryName][taskName]["results"][arg].get(
                         "evaluation", {}
                     )
@@ -555,7 +580,7 @@ class Benchmark:
                     self.results[libraryName][taskName]["results"][arg]["evaluation"] = eval
 
             self.results[libraryName][taskName]["results"][arg]["runtime"].extend(
-                [b, t] for b, t in zip(beforeRunListTime, listTime)
+                [b, t] for b, t in zip(before_run_list_time, listTime)
             )
 
         logger.info(f"End task {taskName} for library {libraryName}")

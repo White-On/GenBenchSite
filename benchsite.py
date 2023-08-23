@@ -3,7 +3,6 @@ from structure_test import StructureTest
 import os
 from pathlib import Path
 
-# Here you can import you're own FileReader if the format of the Json/file is different
 from logger import logger
 from json_to_python_object import FileReaderJson, readJsonFile
 from library import Library
