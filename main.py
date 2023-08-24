@@ -17,7 +17,7 @@ def delete_directory(dir_path: str):
     ---------
     dir_path : str
         The path to the directory to clear.
-    
+
     """
     logger.info(f"Deleting directory: {dir_path}")
     path = Path(dir_path)
@@ -56,7 +56,9 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
 
     """
     baseFilename = resultFilename if Path(resultFilename).exists() else None
-    benchmark = Benchmark(pathToInfrastructure=structure_test_path, baseResult=baseFilename)
+    benchmark = Benchmark(
+        pathToInfrastructure=structure_test_path, baseResult=baseFilename
+    )
     benchmark.StartAllProcedure()
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
@@ -134,7 +136,8 @@ def has_python_file_changed(repository_name: str):
             return True
     return False
 
-def enough_test_to_publish(resultFilename: str,min_test_required: int = 10):
+
+def enough_test_to_publish(resultFilename: str, min_test_required: int = 10):
     """
     Checks if there are enough tests to publish the results.
 
@@ -155,10 +158,11 @@ def enough_test_to_publish(resultFilename: str,min_test_required: int = 10):
     # we check if there are enough tests
     return count_test() % min_test_required == 0
 
+
 def count_test():
     import json_to_python_object as jtpo
+
     return jtpo.count_test()
-    
 
 
 if __name__ == "__main__":
@@ -255,7 +259,8 @@ if __name__ == "__main__":
 
     if args.benchmark:
         start_benchmark(
-            working_directory.absolute().__str__(), resultFilename.absolute().__str__(),
+            working_directory.absolute().__str__(),
+            resultFilename.absolute().__str__(),
         )
 
     # The second step is to create the HTML page from the test results. This HTML page will be
@@ -272,27 +277,34 @@ if __name__ == "__main__":
         resultFilename.absolute(),
         os.path.join(args.output_folder, resultFilename),
     )
-    
+
     # The third step is to deploy the HTML page on a server. The server is a github page. The user
     # must have a github account and a github repository. The user must have a github token to deploy
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
     if args.publish and args.access_folder == "github":
-        if not args.force_publish and not enough_test_to_publish(resultFilename.absolute().__str__()):
+        if not args.force_publish and not enough_test_to_publish(
+            resultFilename.absolute().__str__()
+        ):
             logger.info("Not enough tests to publish the results")
-            logger.debug(f'Number of tests: {count_test()}')
+            logger.debug(f"Number of tests: {count_test()}")
             exit(0)
         logger.info("Publishing the HTML page on the github page")
         # before copying the output folder in the repository, we need to check if there is not already
         # copy the output folder in the repository
-        if os.path.exists(os.path.join(working_directory.absolute(), args.output_folder)):
+        if os.path.exists(
+            os.path.join(working_directory.absolute(), args.output_folder)
+        ):
             logger.info(
                 f"Removing the folder {os.path.join(working_directory.absolute(), args.output_folder)}"
             )
-            shutil.rmtree(os.path.join(working_directory.absolute(), args.output_folder))
+            shutil.rmtree(
+                os.path.join(working_directory.absolute(), args.output_folder)
+            )
         shutil.copytree(
-            args.output_folder, os.path.join(working_directory.absolute(), args.output_folder)
+            args.output_folder,
+            os.path.join(working_directory.absolute(), args.output_folder),
         )
         os.chdir(working_directory.absolute())
         os.system(f"git add {args.output_folder}")

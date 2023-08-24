@@ -60,11 +60,13 @@ class BenchSite:
             *strtest.findConfigFile(os.path.join(self.structureTestPath, "themes"))
         )
         return taskConfig
-    
+
     def GetThemeConfig(self):
         strtest = StructureTest()
         themeConfig = strtest.readConfig(
-            *strtest.findConfigFile(os.path.join(self.structureTestPath, "themes"),name="theme.ini")
+            *strtest.findConfigFile(
+                os.path.join(self.structureTestPath, "themes"), name="theme.ini"
+            )
         )
         return themeConfig
 
@@ -113,7 +115,9 @@ class BenchSite:
                                 <h1>Libraries</h1>\
                                 <p>Current order for all libraries with all tasks take into account</p>\
                             <div class='grid'>"
-        RankGlobal = rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList=False)
+        RankGlobal = rk.RankingLibraryGlobal(
+            threshold=BenchSite.LEXMAX_THRESHOLD, isResultList=False
+        )
         HTMLGlobalRanking += "".join(
             # [f"<div class='global-card'><p>{BenchSite.RankSubTitle(rank+1)} : {BenchSite.MakeLink(library)}</p></div>" for rank, library in enumerate(rk.RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD))])
             [
@@ -190,16 +194,16 @@ class BenchSite:
         return HTMLBestTheme
 
     def GenerateHTMLMachineInfo(self):
-        HTMLMachineInfo = "<div class ='card' id='machine_info'><h1>Machine Informations</h1>"
+        HTMLMachineInfo = (
+            "<div class ='card' id='machine_info'><h1>Machine Informations</h1>"
+        )
         machineData = self.machineData
         if machineData is None:
             HTMLMachineInfo += "<p>No machine informations available</p>"
         else:
             HTMLMachineInfo += "<ul>"
             for key in machineData.keys():
-                HTMLMachineInfo += (
-                    f"<li>{' '.join(key.split('_')[1:]).upper()} : <b>{machineData[key]}</b></li>"
-                )
+                HTMLMachineInfo += f"<li>{' '.join(key.split('_')[1:]).upper()} : <b>{machineData[key]}</b></li>"
             HTMLMachineInfo += "</ul>"
         HTMLMachineInfo += "</div>"
         return HTMLMachineInfo
@@ -208,7 +212,9 @@ class BenchSite:
         contentfilePath = (
             os.path.basename(self.staticSiteGenerator.contentFilePath) + "/"
         )
-        HTMLTask = "<div id='task-rank' class='card'><h1>Per Task</h1><div class=\"grid\">"
+        HTMLTask = (
+            "<div id='task-rank' class='card'><h1>Per Task</h1><div class=\"grid\">"
+        )
         rankLibraryInTask = rk.RankingLibraryByTask(
             threshold=BenchSite.LEXMAX_THRESHOLD,
             isResultList=False,
@@ -425,7 +431,7 @@ class BenchSite:
 
         for taskName in Task.GetAllTaskName():
             HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent(
-                "rankBar.html", 
+                "rankBar.html",
                 data=f"{taskRankDico[taskName]}",
                 dataGenerationDate=self.machineData["execution_date"],
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
@@ -441,9 +447,11 @@ class BenchSite:
                     [
                         {
                             "arguments": int(arg) if arg.isnumeric() else arg,
-                            "runTime": runtime if runtime != float("inf") and runtime > 0 else 'error',
+                            "runTime": runtime
+                            if runtime != float("inf") and runtime > 0
+                            else "error",
                             "libraryName": library.name,
-                            "std" : std if std != float("inf") and std > 0 else 'error',
+                            "std": std if std != float("inf") and std > 0 else "error",
                         }
                         for arg, runtime, std in zip(
                             task.arguments_label,
@@ -472,16 +480,20 @@ class BenchSite:
                         [
                             {
                                 "arguments": int(arg) if arg.isnumeric() else arg,
-                                "runTime": res.get(function, 0) if res.get(function, 0) != float("inf") else 'error',
+                                "runTime": res.get(function, 0)
+                                if res.get(function, 0) != float("inf")
+                                else "error",
                                 "libraryName": library.name,
-                                "std": std.get(function, 0) if res.get(function, 0) != float("inf") else 'error',
+                                "std": std.get(function, 0)
+                                if res.get(function, 0) != float("inf")
+                                else "error",
                             }
                             for arg, res, std in zip(
                                 task.arguments_label,
                                 task.mean_evaluation(library.name),
                                 task.standard_deviation_evaluation(library.name),
                             )
-                            # if res.get(function) != float("inf") 
+                            # if res.get(function) != float("inf")
                         ]
                         for library in Library.GetAllLibrary()
                     ],

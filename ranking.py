@@ -10,8 +10,9 @@ from task import Task
 from library import Library
 from pprint import pprint
 
-def RankingMethod(*args,**kwargs):
-    return LexMaxWithThreshold(*args,**kwargs)
+
+def RankingMethod(*args, **kwargs):
+    return LexMaxWithThreshold(*args, **kwargs)
 
 
 def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str]]:
@@ -26,6 +27,9 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str
     threshold : float, default=0.0
         The threshold to remove the result with an argument that are under the threshold.
 
+    isResultList : bool, default=True
+        If True, the result will be a list of library name sorted by their rank. If False, the result will be a dictionary with the library name as key and their rank as value.
+
     Returns
     -------
     dictionaryTaskLibraryResults : dict of str and list of str
@@ -45,32 +49,40 @@ def RankingLibraryByTask(threshold=0.0, isResultList=True) -> dict[str, list[str
     >>> print(RankingLibraryByTask())
     {'Task1': ['Library1', 'Library2', 'Library3'], 'Task2': ['Library1', 'Library2', 'Library3'], 'Task3': ['Library1', 'Library2', 'Library3']}
     """
-    res = {}
-    
-    rank_by_runtime = RankingLibraryByTaskRuntime(threshold, isResultList=False)
-    rank_by_eval = RankingLibraryByTaskEval(threshold)
+    rank_over_all_aspect = {}
+    # we collect the ranking by runtime and by eval
+    rank_task_runtime = RankingLibraryByTaskRuntime(threshold, isResultList=False)
+    rank_task_eval = RankingLibraryByTaskEval(threshold, isResultList=False)
+    # we merge the two ranking to be able to lexmax them
     for taskName in Task.GetAllTaskName():
         dictionaryTaskLibraryResults = []
-        dictionaryTaskLibraryResults.append(rank_by_eval[taskName]) if len(rank_by_eval[taskName]) > 0 else None
-        dictionaryTaskLibraryResults.append(rank_by_runtime[taskName])
-        res[taskName] = {}
+        rank_over_all_aspect[taskName] = {}
+        # we only add the eval ranking if there is an eval function for the task
+        dictionaryTaskLibraryResults.append(rank_task_eval[taskName]) if len(
+            rank_task_eval[taskName]
+        ) > 0 else None
+        dictionaryTaskLibraryResults.append(rank_task_runtime[taskName])
         tmp = {}
         for library in Library.GetAllLibraryName():
-                tmp[library] = []
-                for ranking in dictionaryTaskLibraryResults:
-                    tmp[library].append(ranking[library])
-        res[taskName] = RankingMethod(tmp, [], 0)
-        
+            tmp[library] = [
+                ranking[library]
+                for ranking in dictionaryTaskLibraryResults
+                if library in ranking.keys()
+            ]
 
+        rank_over_all_aspect[taskName] = RankingMethod(tmp, [], threshold=threshold)
+
+    # we convert the result to a list if needed
     if isResultList:
-        for taskName in res.keys():
-            res[taskName] = list(
-                res[taskName].keys()
-            )
-            
-    return res
+        for taskName in rank_over_all_aspect.keys():
+            rank_over_all_aspect[taskName] = list(rank_over_all_aspect[taskName].keys())
 
-def RankingLibraryByTaskRuntime(threshold=0.0, isResultList=True) -> dict[str, list[str]]:
+    return rank_over_all_aspect
+
+
+def RankingLibraryByTaskRuntime(
+    threshold=0.0, isResultList=True
+) -> dict[str, list[str]]:
     r"""Rank all the Library by their results for each task.
 
     Each library has a list of result for each task. For each result we apply the LexMax algorithm
@@ -101,6 +113,7 @@ def RankingLibraryByTaskRuntime(threshold=0.0, isResultList=True) -> dict[str, l
     >>> print(RankingLibraryByTask())
     {'Task1': ['Library1', 'Library2', 'Library3'], 'Task2': ['Library1', 'Library2', 'Library3'], 'Task3': ['Library1', 'Library2', 'Library3']}
     """
+    # the goal here is to create a dictionary with the runtime of each library for each task
     dictionaryTaskLibraryRuntime = {}
     for taskName in Task.GetAllTaskName():
         dictionaryTaskLibraryRuntime[taskName] = {}
@@ -109,8 +122,7 @@ def RankingLibraryByTaskRuntime(threshold=0.0, isResultList=True) -> dict[str, l
                 library.name
             ] = library.GetTaskByName(taskName).mean_runtime(library.name)
 
-    
-
+    # we apply the ranking method on the runtime
     for taskName in dictionaryTaskLibraryRuntime.keys():
         dictionaryTaskLibraryRuntime[taskName] = RankingMethod(
             dictionaryTaskLibraryRuntime[taskName],
@@ -118,50 +130,113 @@ def RankingLibraryByTaskRuntime(threshold=0.0, isResultList=True) -> dict[str, l
             threshold,
         )
 
+    # we convert the result to a list if needed
     if isResultList:
         for taskName in dictionaryTaskLibraryRuntime.keys():
             dictionaryTaskLibraryRuntime[taskName] = list(
                 dictionaryTaskLibraryRuntime[taskName].keys()
             )
-            
+
     return dictionaryTaskLibraryRuntime
 
 
-def RankingLibraryByTaskEval(threshold=0.0) -> dict[str, list[str]]:
-    
-    res = {}
+def RankingLibraryByTaskEval(threshold=0.0, isResultList=True) -> dict[str, list[str]]:
+    rank_task_eval = {}
     for taskName in Task.GetAllTaskName():
         dictionaryTaskLibraryResults = []
-        res[taskName] = {}
+        rank_task_eval[taskName] = {}
         eval_function = Task.GetTaskByName(taskName).evaluation_function_name
         # if there is no evaluation function for the task, we skip it
         if len(eval_function) == 0:
             continue
-        for function_name, sort_order in zip(Task.GetTaskByName(taskName).evaluation_function_name,Task.GetTaskByName(taskName).evaluation_sort_order):
-            dictionaryTaskLibraryResults.append(RankingLibraryByEvaluation(taskName, function_name, threshold, sort_order))
-        tmp = {}
-        for library in Library.GetAllLibraryName():
-                tmp[library] = []
-                for ranking in dictionaryTaskLibraryResults:
-                    tmp[library].append(ranking[library])
-        res[taskName] = RankingMethod(tmp, [], 0)
+        # we apply the ranking method on each evaluation function according to the sort order ( asc or desc )
+        # can be changed in the config file of the task
+        for function_name, sort_order in zip(
+            eval_function, Task.GetTaskByName(taskName).evaluation_sort_order
+        ):
+            dictionaryTaskLibraryResults.append(
+                RankingLibraryByEvaluation(
+                    taskName, function_name, threshold, sort_order
+                )
+            )
 
-    return res
+        # we merge the ranking of each evaluation function
+        # so we have a dictionary with the library name as key and a list of rank for each evaluation function
+        rank_task_eval[taskName] = RankingMethod(
+            {
+                library: [ranking[library] for ranking in dictionaryTaskLibraryResults]
+                for library in Library.GetAllLibraryName()
+            },
+            [],
+            threshold=threshold,
+        )
 
-def RankingLibraryByEvaluation(task_name, function_name,threshold = 0, sort_order = 'desc') -> dict[str, list[str]]:
+    # we convert the result to a list if needed
+    if isResultList:
+        for taskName in rank_task_eval.keys():
+            rank_task_eval[taskName] = list(rank_task_eval[taskName].keys())
+
+    return rank_task_eval
+
+
+def RankingLibraryByEvaluation(
+    task_name, function_name, threshold=0, sort_order="desc"
+) -> dict[str, list[str]]:
+    """Rank all the Library by their results for each task.
+
+    Each library has a list of result for each task. For each result we apply the LexMax algorithm
+    on the argument of the task. The result is a list of library name sorted by their rank compiled inside a
+    dictionary with the task name as key. The threshold is used to remove the result with an argument that are under the threshold.
+
+    Parameters
+    ----------
+    task_name : str
+        The name of the task.
+    function_name : str
+        The name of the evaluation function.
+    threshold : float, default=0.0
+        The threshold to remove the result with an argument that are under the threshold.
+
+    Returns
+    -------
+    dictionaryTaskLibraryResults : dict of str and list of str
+        A dictionary with the task name as key and a list of library name sorted by their rank as value.
+
+    See Also
+    --------
+    LexMax : The LexMax algorithm.
+    LexMaxWithThreshold : The LexMax algorithm with a threshold.
+
+    Examples
+    --------
+    >>> from task import Task
+    >>> from library import Library
+    >>> from json_to_python_object import FileReaderJson
+    >>> libraryList, taskList = FileReaderJson("data.json")
+
+
+    """
+    rank_task_function = {}
     # we check if the task exists and if it has an evaluation function
     if task_name not in Task.GetAllTaskName():
-        return {}
+        return rank_task_function
     eval_function = Task.GetTaskByName(task_name).evaluation_function_name
+    # if there is no evaluation function for the task, we skip it
     if len(eval_function) == 0 or function_name not in eval_function:
-        return {}
-    dict = {}
+        return rank_task_function
+
     for library in Library.GetLibraryByTaskName(task_name):
+        # we apply the ranking method on each evaluation function according to the sort order ( asc or desc )
         results = library.GetTaskByName(task_name).mean_evaluation(library.name)
-        dict[library.name] = [r.get(function_name) for r in results]
-    dict = RankingMethod(dict, Task.GetTaskByName(task_name).arguments, threshold=threshold, reverse=sort_order == "asc")
-    return dict
-    
+        rank_task_function[library.name] = [r.get(function_name) for r in results]
+    rank_task_function = RankingMethod(
+        rank_task_function,
+        Task.GetTaskByName(task_name).arguments,
+        threshold=threshold,
+        reverse=sort_order == "asc",
+    )
+    return rank_task_function
+
 
 def RankingLibraryByTheme(threshold=0, isResultList=True) -> dict[str, list[str]]:
     """Rank all the Library by their results for each theme.
@@ -255,7 +330,8 @@ def RankingLibraryGlobal(threshold=0, isResultList=True) -> list[str]:
 
     return classementLibrary
 
-def LexMax(dictionnary: dict[str, list[float]],reverse = False) -> list[str]:
+
+def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> list[str]:
     r"""LexMax algorithm.
 
     The LexMax algorithm is used to rank dictionnary of result.
@@ -292,7 +368,7 @@ def LexMax(dictionnary: dict[str, list[float]],reverse = False) -> list[str]:
     # the sort here will give a rank no matter the precision of the value
     for column in range(rankMatrix.shape[1]):
         rankMatrix[:, column] = [
-            sorted(rankMatrix[:, column].tolist(),reverse=reverse).index(element)
+            sorted(rankMatrix[:, column].tolist(), reverse=reverse).index(element)
             for element in rankMatrix[:, column].tolist()
         ]
     # print(rankMatrix)
@@ -317,7 +393,9 @@ def LexMax(dictionnary: dict[str, list[float]],reverse = False) -> list[str]:
     return elementRank
 
 
-def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0, reverse = False) -> list:
+def LexMaxWithThreshold(
+    dictionaryResults, argumentsList=list(), threshold=0, reverse=False
+) -> list:
     """LexMax algorithm with a threshold.
 
     The LexMax algorithm is used to rank dictionnary of result. The threshold is used to remove the result with an argument that are strictly under the threshold.
@@ -349,7 +427,7 @@ def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0, re
     ['Library3', 'Library1', 'Library2']
     """
     if threshold == 0 or len(argumentsList) == 0:
-        return LexMax(dictionaryResults,reverse=reverse)
+        return LexMax(dictionaryResults, reverse=reverse)
 
     # On cherche la limite d'itération pour ne récuperer que les résultats dont
     # la valeur de l'argument est supérieur au seuil
@@ -364,18 +442,21 @@ def LexMaxWithThreshold(dictionaryResults, argumentsList=list(), threshold=0, re
     # cela veut dire que le seuil est trop élevé et que il n'y a pas de résultat
     if iterationLimit == len(argumentsList):
         # print("The threshold is too high, the LexMax algorithm will return without threshold")
-        return LexMax(dictionaryResults,reverse=reverse)
+        return LexMax(dictionaryResults, reverse=reverse)
 
     for key in dictionaryResults.keys():
         dictionaryResults[key] = dictionaryResults[key][iterationLimit:]
 
-    return LexMax(dictionaryResults,reverse=reverse)
+    return LexMax(dictionaryResults, reverse=reverse)
 
 
 if __name__ == "__main__":
     from json_to_python_object import FileReaderJson
 
-    _ = FileReaderJson("results.json",'C:/Users/jules/Documents/Git/BenchSite/repository')
+    # _ = FileReaderJson("results.json",'C:/Users/jules/Documents/Git/BenchSite/repository')
+    _ = FileReaderJson(
+        "results.json", "D:/Jules_Scolaire/Master_Androide_M1/BenchSite/repository"
+    )
 
     # print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=0)}")
     # print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=0)}")

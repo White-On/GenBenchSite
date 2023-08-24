@@ -11,6 +11,7 @@ from logger import logger
 
 MIN_VALUE_POSSIBLE = 0.0001
 
+
 @dataclass
 class Task:
     """
@@ -37,12 +38,11 @@ class Task:
     runtime: dict[str, list[float]] = field(default_factory=dict)
     evaluation: dict[str, list[float]] = field(default_factory=dict)
     evaluation_function_name: list[str] = field(default_factory=list)
-    evaluation_sort_order : list[str] = field(default_factory=list)
+    evaluation_sort_order: list[str] = field(default_factory=list)
     arguments_label: list[str] = field(default_factory=list)
     cache_runtime: dict[str, list[float]] = field(default_factory=dict)
     cache_evaluation: dict[str, list[float]] = field(default_factory=dict)
     allTasks: ClassVar[list["Task"]] = []
-
 
     def __post_init__(self) -> None:
         logger.debug(f"Task {self.name} created")
@@ -218,7 +218,7 @@ class Task:
         runtime = np.where(runtime < 0, MIN_VALUE_POSSIBLE, runtime)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
-    
+
     # def get_evaluation_function(self) -> list[float]:
     #     evaluation_function = []
     #     if self.evaluation is None:
@@ -233,9 +233,8 @@ class Task:
     #                 if function not in evaluation_function:
     #                     evaluation_function.append(function)
     #     return evaluation_function
-    
+
     def get_evaluation(self, target: str) -> list[float]:
-        
         if self.evaluation[target] is None:
             # the evaluation is a error message
             evaluation = [float("inf")] * len(self.arguments_label)
@@ -281,7 +280,7 @@ class Task:
                 continue
             evaluation.append(element.copy())
         for i in range(len(evaluation)):
-            if evaluation[i]  == float("inf"):
+            if evaluation[i] == float("inf"):
                 continue
             for function in evaluation[i].keys():
                 evaluation[i][function] = np.nanmean(evaluation[i][function]).tolist()
