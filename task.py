@@ -36,6 +36,8 @@ class Task:
     arguments: list[float] = field(default_factory=list)
     runtime: dict[str, list[float]] = field(default_factory=dict)
     evaluation: dict[str, list[float]] = field(default_factory=dict)
+    evaluation_function_name: list[str] = field(default_factory=list)
+    evaluation_sort_order : list[str] = field(default_factory=list)
     arguments_label: list[str] = field(default_factory=list)
     cache_runtime: dict[str, list[float]] = field(default_factory=dict)
     cache_evaluation: dict[str, list[float]] = field(default_factory=dict)
@@ -216,6 +218,21 @@ class Task:
         runtime = np.where(runtime < 0, MIN_VALUE_POSSIBLE, runtime)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
+    
+    # def get_evaluation_function(self) -> list[float]:
+    #     evaluation_function = []
+    #     if self.evaluation is None:
+    #         return evaluation_function
+    #     for target in self.evaluation.keys():
+    #         if self.evaluation[target] is None:
+    #             continue
+    #         for element in self.evaluation[target]:
+    #             if len(element) == 0:
+    #                 continue
+    #             for function in element.keys():
+    #                 if function not in evaluation_function:
+    #                     evaluation_function.append(function)
+    #     return evaluation_function
     
     def get_evaluation(self, target: str) -> list[float]:
         

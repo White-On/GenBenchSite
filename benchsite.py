@@ -25,7 +25,7 @@ class BenchSite:
     ) -> None:
         logger.info("=======Creating BenchSite=======")
         # Here to change you'r own FileReader
-        FileReaderJson(inputFilename)
+        FileReaderJson(inputFilename, structureTestPath)
         self.inputFilename = inputFilename
         self.outputPath = outputPath
         self.structureTestPath = structureTestPath

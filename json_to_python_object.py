@@ -8,9 +8,12 @@ import json
 from library import Library
 from task import Task
 from logger import logger
+import os 
+from structure_test import StructureTest
 
 
-def FileReaderJson(filename: str) -> None:
+
+def FileReaderJson(filename: str, structure_test_path: str) -> None:
     """Read a json file and create the python object.
 
     Parameters
@@ -25,6 +28,9 @@ def FileReaderJson(filename: str) -> None:
 
     """
     data = readJsonFile(filename)
+    strtest = StructureTest()
+    taskConfig = strtest.readConfig(
+    *strtest.findConfigFile(os.path.join(structure_test_path, "themes")))
 
     for libName, libInfo in data.items():
         library = Library(libName)
@@ -55,6 +61,15 @@ def FileReaderJson(filename: str) -> None:
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
 
+            evaluation_function_name = taskConfig[task.name].get("evaluation_function")
+            if evaluation_function_name:
+                task.evaluation_function_name = evaluation_function_name.split(" ")
+                task.evaluation_sort_order = taskConfig[task.name].get("evaluation_sort_order")
+                if task.evaluation_sort_order:
+                    task.evaluation_sort_order = task.evaluation_sort_order.split(",")
+                else:
+                    task.evaluation_sort_order = ['desc' for _ in range(len(task.evaluation_function_name))]
+
             library.tasks.append(task)
 
 
@@ -80,7 +95,7 @@ def count_test():
     # we take the first runtime of the task
     runtime = task.runtime[library.name][0]
     return len(runtime)
-
+        
 
 if __name__ == "__main__":
     FileReaderJson("results.json")
