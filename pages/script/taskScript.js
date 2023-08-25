@@ -119,9 +119,25 @@ for(let element in importedData){
         }
 
     }
+    // ICI
+    // we try to change the scale to relatibe by default
+    // we first determine the mean of the data for all the arguments and all the libraries
+    // we create simple data with the mean of the data for each argument
+    // for(let argument of [...new Set(chartdata.map(d => d.arguments))]){
+    //     let framedData = chartdata.filter(d => d.arguments == argument);
+    //     console.log(framedData);
+    //     let mean = d3.mean(framedData.map(d => d.runTime));
+    //     console.log(mean);
+    //     // we now divide the data by the mean
+    //     for(let d of framedData){
+    //         d.runTime = d.runTime / mean *100 ;
+    //     }
+        // console.log(framedData);
+
+    // }
 
     try{
-        console.log(chartdata)
+        // console.log(chartdata)
         chart = possibleplot[importedData[element].display](chartdata, {
             values: d => d.runTime,
             categories: d => d.arguments,
@@ -143,7 +159,7 @@ for(let element in importedData){
             margin: { top: 40, right: 10, bottom: 100, left: 50 },
 
             yType: (importedData[element].scale == 'log')?d3.scaleLog:d3.scaleLinear ,
-            // yType: d3.scaleLog,
+            // yType: d3.scaleLinear,
 
             tooltipFontSize: 12,
             timeout : importedData[element].timeout,

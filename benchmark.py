@@ -39,6 +39,7 @@ class Benchmark:
     ERROR_VALUE = "Error"
     DEFAULT_VALUE = "Infinity"
     TIMEOUT_VALUE = "Timeout"
+
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
     DEFAULT_STOP_AFTER_X_TIMEOUT = 10
@@ -76,6 +77,7 @@ class Benchmark:
         self.libraryConfig = self.GetLibraryConfig()
         self.taskConfig = self.GetTaskConfig()
         self.themeConfig = self.GetThemeConfig()
+        self.benchmark_config = self.GetBenchmarkConfig()
 
         logger.info(
             f"Library config retrieved: list of library {self.libraryConfig.keys()}"
@@ -157,6 +159,12 @@ class Benchmark:
 
         # logger.debug(f"{self.results = }")
         logger.debug(f"{self.create_base_json() = }")
+    
+    def Setup_Global_Variables(self):
+        Benchmark.DEBUG = eval(self.benchmark_config.get('debug', Benchmark.DEBUG))
+        Benchmark.DEFAULT_TIMEOUT = int(self.benchmark_config.get('default_timeout', Benchmark.DEFAULT_TIMEOUT))
+        Benchmark.DEFAULT_NB_RUNS = int(self.benchmark_config.get('default_nb_runs', Benchmark.DEFAULT_NB_RUNS))
+        Benchmark.DEFAULT_STOP_AFTER_X_TIMEOUT = int(self.benchmark_config.get('default_stop_after_x_timeout', Benchmark.DEFAULT_STOP_AFTER_X_TIMEOUT))
 
     def get_result_from_json(self, json_file):
         """
@@ -225,6 +233,17 @@ class Benchmark:
         )
         themeConfig = strTest.readConfig(*listThemepath)
         return themeConfig
+    
+    def GetBenchmarkConfig(self):
+        """
+        get the benchmark config from the config.ini file in the root folder
+        """
+        strTest = StructureTest()
+        listBenchmarkpath = strTest.findConfigFile(
+            self.pathToInfrastructure / "config", name="config.ini"
+        )
+        benchmarkConfig = strTest.readConfig(*listBenchmarkpath,listSection=['benchmark'])
+        return benchmarkConfig['config']
 
     def BeforeBuildLibrary(self):
         """
@@ -588,21 +607,21 @@ class Benchmark:
                             taskPath,
                             *functionEvaluation,
                             libraryName=libraryName,
-                            filenameBif=self.taskConfig[taskName].get("file_used", ""),
                             arg=arg,
+                            **eval(self.taskConfig[taskName].get("evaluation_arguments", {})),
                         )
                         logger.debug(f"{valueEvaluation = }")
                     else:
                         valueEvaluation = [resultProcess] * len(functionEvaluation)
-                    eval = self.results[libraryName][taskName]["results"][arg].get(
+                    evaluation_result = self.results[libraryName][taskName]["results"][arg].get(
                         "evaluation", {}
                     )
                     for i, function in enumerate(functionEvaluation):
-                        element = eval.get(function, [])
-                        eval = {**eval, function: element + [valueEvaluation[i]]}
+                        element = evaluation_result.get(function, [])
+                        evaluation_result = {**evaluation_result, function: element + [valueEvaluation[i]]}
                     self.results[libraryName][taskName]["results"][arg][
                         "evaluation"
-                    ] = eval
+                    ] = evaluation_result
 
             self.results[libraryName][taskName]["results"][arg]["runtime"].extend(
                 [b, t] for b, t in zip(before_run_list_time, listTime)
@@ -635,6 +654,7 @@ class Benchmark:
         logger.info(f"Result saved in {outputFileName}")
 
     def StartAllProcedure(self):
+        self.Setup_Global_Variables()
         if not Benchmark.DEBUG:
             self.BeforeBuildLibrary()
 

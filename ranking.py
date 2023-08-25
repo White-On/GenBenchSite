@@ -228,7 +228,11 @@ def RankingLibraryByEvaluation(
     for library in Library.GetLibraryByTaskName(task_name):
         # we apply the ranking method on each evaluation function according to the sort order ( asc or desc )
         results = library.GetTaskByName(task_name).mean_evaluation(library.name)
-        rank_task_function[library.name] = [r.get(function_name) for r in results]
+        # if the task has not been evaluated, we set the rank to inf
+        if all([r == float('inf') for r in results]):
+            rank_task_function[library.name] = [float('inf') for r in results]
+        else:
+            rank_task_function[library.name] = [r.get(function_name) for r in results]
     rank_task_function = RankingMethod(
         rank_task_function,
         Task.GetTaskByName(task_name).arguments,
@@ -453,10 +457,10 @@ def LexMaxWithThreshold(
 if __name__ == "__main__":
     from json_to_python_object import FileReaderJson
 
-    # _ = FileReaderJson("results.json",'C:/Users/jules/Documents/Git/BenchSite/repository')
-    _ = FileReaderJson(
-        "results.json", "D:/Jules_Scolaire/Master_Androide_M1/BenchSite/repository"
-    )
+    _ = FileReaderJson("results.json",'C:/Users/jules/Documents/Git/BenchSite/repository')
+    # _ = FileReaderJson(
+    #     "results.json", "D:/Jules_Scolaire/Master_Androide_M1/BenchSite/repository"
+    # )
 
     # print(f"RankingLibraryByTask : {RankingLibraryByTask(threshold=0)}")
     # print(f"RankingLibraryByTheme : {RankingLibraryByTheme(threshold=0)}")

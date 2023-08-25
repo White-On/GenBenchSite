@@ -73,9 +73,9 @@ class BenchSite:
     def GetSiteConfig(self):
         strtest = StructureTest()
         siteConfig = strtest.readConfig(
-            *strtest.findConfigFile(os.path.join(self.structureTestPath, "site"))
+            *strtest.findConfigFile(os.path.join(self.structureTestPath, "config")),listSection=["site"]
         )
-        return siteConfig["site"]
+        return siteConfig['config']
 
     def GetLibraryLogo(self):
         logo = {}
