@@ -77,7 +77,7 @@ def repository_is_github(repository, **kargs):
         path.mkdir()
     else:
         # we check if a python file has changed since the last pull
-        if has_python_file_changed(path.absolute().__str__()):
+        if len(has_python_file_changed(path.absolute().__str__())) > 0:
             logger.info(f"Python file has changed since the last pull")
             # we clear the local repository and the results file needed for the benchmark
             # as the old test are now deprecated we delete the old results
@@ -110,7 +110,7 @@ def repository_is_github(repository, **kargs):
     return path
 
 
-def has_python_file_changed(repository_name: str):
+def has_python_file_changed(repository_name: str)-> list:
     # we memorize the current directory
     current_dir = os.getcwd()
     # we check if a python file has changed since the last pull
@@ -131,10 +131,11 @@ def has_python_file_changed(repository_name: str):
     logger.debug(f"Files changed : {files_changed}")
     # we go back to the current directory
     os.chdir(current_dir)
+    changed_python_files = []
     for file in files_changed:
         if file.endswith(".py"):
-            return True
-    return False
+            changed_python_files.append(file) 
+    return changed_python_files
 
 
 def enough_test_to_publish(resultFilename: str, min_test_required: int = 10):

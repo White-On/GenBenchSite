@@ -269,6 +269,34 @@ class Benchmark:
                 )
             else:
                 logger.info(f"Before build of {libraryName} done")
+            
+    def ExecuteFunctionInModule(self, module, funcName, **kwargs):
+        """
+        Execute a function in a module with the given arguments
+
+        Parameters
+        ----------
+        module : str
+            name of the module
+        funcName : str
+            name of the function
+        kwargs : dict
+            arguments of the function
+
+        """
+        logger.debug(f"Execute function {funcName} in module {module} with {kwargs}")
+        res = None
+        try:
+            module = __import__(module, fromlist=[funcName])
+            func = getattr(module, funcName)
+            res = func(**kwargs)
+        except Exception as e:
+            logger.warning(f"Error in the evaluation function {funcName}")
+            logger.debug(f"{e = }")
+            res = Benchmark.ERROR_VALUE
+        finally:    
+            return res
+        
 
     def BeforeTask(self, taskPath: str, taskName: str):
         """
@@ -313,17 +341,21 @@ class Benchmark:
         relativePath = os.path.relpath(
             taskPath, os.path.dirname(os.path.abspath(__file__))
         ).replace(os.sep, ".")
-        module = __import__(f"{relativePath}.{beforeTaskModule}", fromlist=[funcName])
-        func = getattr(module, funcName)
+        
+        # relative_module = __import__(f"{relativePath}.{beforeTaskModule}", fromlist=[funcName])
+        # func = getattr(module, funcName)
 
-        logger.debug(f"{module.__name__ = }")
-        logger.debug(f"{func.__name__ = }")
+        # logger.debug(f"{module.__name__ = }")
+        # logger.debug(f"{func.__name__ = }")
 
-        try:
-            func(**kwargs)
-        except Exception as e:
-            logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
-            logger.debug(f"{e = }")
+        # try:
+        #     func(**kwargs)
+        # except Exception as e:
+        #     logger.warning(f"Error in the evaluation function {funcName} of {taskName}")
+        #     logger.debug(f"{e = }")
+        
+        # the before task should'nt return anything
+        self.ExecuteFunctionInModule(f"{relativePath}.{beforeTaskModule}", funcName, **kwargs)
 
     def EvaluationAfterTask(
         self, moduleEvaluation, taskName: str, taskPath: str, *funcEvaluation, **kwargs
@@ -357,23 +389,25 @@ class Benchmark:
             logger.debug(
                 f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}"
             )
+            # we need a relative path to import the module with os.sep replaced by .
             relativePath = os.path.relpath(
                 taskPath, os.path.dirname(os.path.abspath(__file__))
             ).replace(os.sep, ".")
-            module = __import__(
-                f"{relativePath}.{moduleEvaluation}", fromlist=[funcName]
-            )
-            try:
-                logger.debug(f"{module = }")
-                func = getattr(module, funcName)
-                logger.debug(f"{func = }")
-                output = func(**kwargs)
-            except Exception as e:
-                logger.warning(
-                    f"Error in the evaluation function {funcName} of {taskName}"
-                )
-                logger.debug(f"{e = }")
-                output = Benchmark.ERROR_VALUE
+            # relative_module = __import__(
+            #     f"{relativePath}.{moduleEvaluation}", fromlist=[funcName]
+            # )
+            # try:
+            #     logger.debug(f"{module = }")
+            #     func = getattr(module, funcName)
+            #     logger.debug(f"{func = }")
+            #     output = func(**kwargs)
+            # except Exception as e:
+            #     logger.warning(
+            #         f"Error in the evaluation function {funcName} of {taskName}"
+            #     )
+            #     logger.debug(f"{e = }")
+            #     output = Benchmark.ERROR_VALUE
+            output = self.ExecuteFunctionInModule(f"{relativePath}.{moduleEvaluation}", funcName, **kwargs)
             logger.debug(f"{output = }")
             valueEvaluation.append(output)
 
@@ -587,6 +621,7 @@ class Benchmark:
                 # pass if in debug mode
                 if Benchmark.DEBUG:
                     continue
+
                 # After run script
                 if after_run_script is not None:
                     # if the script is not None, then it should be a script name or a list of script name
@@ -600,6 +635,7 @@ class Benchmark:
 
                     logger.debug(f"{functionEvaluation = }")
 
+                    # if the task has  been run successfuly we run the evaluation function
                     if not isinstance(resultProcess, str):
                         valueEvaluation = self.EvaluationAfterTask(
                             after_run_script,
@@ -611,6 +647,7 @@ class Benchmark:
                             **eval(self.taskConfig[taskName].get("evaluation_arguments", {})),
                         )
                         logger.debug(f"{valueEvaluation = }")
+                    # if not we add the value ERROR_VALUE to the evaluation function
                     else:
                         valueEvaluation = [resultProcess] * len(functionEvaluation)
                     evaluation_result = self.results[libraryName][taskName]["results"][arg].get(

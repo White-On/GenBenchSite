@@ -170,19 +170,6 @@ class Task:
                 listTaskName.append(task.name)
         return listTaskName
 
-    # @staticmethod
-    # def transform_str_to_nan(array: np.ndarray) -> np.ndarray:
-    #     def is_float(string: str):
-    #         try:
-    #             float(string)
-    #             return True
-    #         except ValueError:
-    #             return False
-
-    #     array[np.vectorize(lambda x: not is_float(x))(array)] = np.nan
-    #     array = array.astype(np.float64)
-    #     return array
-
     @staticmethod
     def str_and_none_to_nan(array: np.ndarray) -> np.ndarray:
         """transform the string and None into np.nan and transform the array into float64"""
@@ -203,6 +190,7 @@ class Task:
         # for element in self.runtime[target]:
         #     print(len(element))
         #     print(element)
+        # print(self.runtime[target])
         # we transform the string and None into np.nan and transform the array into float64
         runtime = Task.str_and_none_to_nan(np.array(self.runtime[target]))
         # if there is no runtime for the target, we return a list of np.nan with the same size as the arguments
@@ -210,36 +198,27 @@ class Task:
             # problem with the shape of the array
             return np.vstack(runtime).tolist()
             # return np.hstack(runtime).tolist()
-        # we inverse the runtime to have the difference between the end and the start
+        # we inverse the runtime to have the difference between the end and the start (end - start)
         runtime = np.hstack(np.diff(runtime, axis=2)).T
-        # runtime[:, :, 0] = -runtime[:, :, 0]
-        # runtime = runtime.sum(axis=2)
         # we adapt the value if the runtime is negative
         runtime = np.where(runtime < 0, MIN_VALUE_POSSIBLE, runtime)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
 
-    # def get_evaluation_function(self) -> list[float]:
-    #     evaluation_function = []
-    #     if self.evaluation is None:
-    #         return evaluation_function
-    #     for target in self.evaluation.keys():
-    #         if self.evaluation[target] is None:
-    #             continue
-    #         for element in self.evaluation[target]:
-    #             if len(element) == 0:
-    #                 continue
-    #             for function in element.keys():
-    #                 if function not in evaluation_function:
-    #                     evaluation_function.append(function)
-    #     return evaluation_function
-
     def get_evaluation(self, target: str) -> list[float]:
-        if self.evaluation[target] is None:
-            # the evaluation is a error message
+        # if there is no evaluation for the target, we return a list of np.nan with the same size as the arguments
+        if len(self.evaluation_function_name) == 0:
             evaluation = [float("inf")] * len(self.arguments_label)
             logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
             return evaluation
+
+        # if self.evaluation[target] is None:
+        #     # the evaluation is a error message
+        #     evaluation = [float("inf")] * len(self.arguments_label)
+        #     logger.debug(f"Evaluation for {target} in {self.name} : {evaluation}")
+            return evaluation
+        
+
         evaluation = self.evaluation[target][:]
         for i in range(len(evaluation)):
             for function in evaluation[i].keys():
