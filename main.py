@@ -64,9 +64,70 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
 
 
 def repository_is_local(repository, **kargs):
+    # we save the resutls file in a backup folder
+    #  as we can't know if the user want to keep the old results or not
+    if kargs["resultFilename"] is not None:
+        logger.info(
+            f"Creating a backup of the previous results file {kargs['resultFilename']}"
+        )
+        # check if the backup folder exists
+        backup_folder = Path("backup")
+        if not backup_folder.exists():
+            backup_folder.mkdir()
+        # we copy the results file in the backup folder
+        shutil.copyfile(
+            kargs["resultFilename"],
+            os.path.join(backup_folder, kargs["resultFilename"]),
+        )
+        logger.info(
+            f"Backup of the previous results file {kargs['resultFilename']} created"
+        )
     return Path(repository)
 
+def GetTaskToReset(python_files_changed: list):
+    """
+    Get the tasks to reset from the python files changed.
 
+    Arguments
+    ---------
+    python_files_changed : list
+        The list of python files changed.
+    """
+    task_to_reset = []
+    for file in python_files_changed:
+        task_path = Path(file)
+        task_to_reset.append(task_path.parent.name)
+    logger.debug(f"Tasks to reset: {task_to_reset}")
+    return task_to_reset
+
+def ResetTask(task_to_reset: list, resultFilename: str = "results.json"):
+    """
+    Reset the tasks.
+
+    Arguments
+    ---------
+    task_to_reset : list
+        The list of tasks to reset.
+    """
+    import json
+    resultFilename = Path(resultFilename)
+    # we check if the file exists
+    if not resultFilename.exists():
+        logger.warning(f"File {resultFilename} does not exist")
+        return
+    # we open the file
+    results = None
+    with open(resultFilename, "r") as f:
+        results = json.load(f)
+    # we reset the tasks
+    for target in results.keys():
+        for task in task_to_reset:
+            if task in results[target].keys():
+                results[target][task]["results"] = {}
+    # we save the file
+    with open(resultFilename, "w") as f:
+        json.dump(results, f, indent=4)
+                
 def repository_is_github(repository, **kargs):
     default_repository_name = "repository"
 
@@ -77,10 +138,33 @@ def repository_is_github(repository, **kargs):
         path.mkdir()
     else:
         # we check if a python file has changed since the last pull
-        if len(has_python_file_changed(path.absolute().__str__())) > 0:
+        python_files_changed = has_python_file_changed(path.absolute().__str__())
+        if len(python_files_changed) > 0:
             logger.info(f"Python file has changed since the last pull")
             # we clear the local repository and the results file needed for the benchmark
             # as the old test are now deprecated we delete the old results
+            # but before that, we create a backup of the results in case the user want to keep them
+            if kargs["resultFilename"] is not None:
+                logger.info(
+                    f"Creating a backup of the previous results file {kargs['resultFilename']}"
+                )
+                # check if the backup folder exists
+                backup_folder = Path("backup")
+                if not backup_folder.exists():
+                    backup_folder.mkdir()
+                # we copy the results file in the backup folder
+                shutil.copyfile(
+                    kargs["resultFilename"],
+                    os.path.join(backup_folder, kargs["resultFilename"]),
+                )
+                logger.info(
+                    f"Backup of the previous results file {kargs['resultFilename']} created"
+                )
+            # we get the tasks to reset
+            task_to_reset = GetTaskToReset(python_files_changed)
+            # we reset the tasks
+            ResetTask(task_to_reset, resultFilename=kargs["resultFilename"])
+            # we delete the local repository
             delete_directory(path.absolute().__str__())
             delete_file(kargs["resultFilename"])
 
@@ -125,16 +209,25 @@ def has_python_file_changed(repository_name: str)-> list:
     local_last_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
     # we compare the two commits
     # compare the SHAs to see if the Python file has changed
-    files_changed = subprocess.check_output(
-        ["git", "diff", "--name-only", last_commit, local_last_commit], encoding="utf-8"
+    diff_output = subprocess.check_output(
+        ["git", "diff", "--name-status", last_commit, local_last_commit], encoding="utf-8"
     ).splitlines()
-    logger.debug(f"Files changed : {files_changed}")
+    logger.debug(f"Diff output: {diff_output}")
     # we go back to the current directory
     os.chdir(current_dir)
     changed_python_files = []
-    for file in files_changed:
+    for line in diff_output:
+        status, file = line.split("\t")
         if file.endswith(".py"):
-            changed_python_files.append(file) 
+            if status == "A":
+                changed_python_files.append(file)
+                logger.info(f"Python file {file} has been added")
+            elif status == "D":
+                changed_python_files.append(file)
+                logger.info(f"Python file {file} has been deleted")
+            elif status == "M":
+                changed_python_files.append(file)
+                logger.info(f"Python file {file} has been modified")
     return changed_python_files
 
 
