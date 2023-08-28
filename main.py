@@ -62,6 +62,27 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
     benchmark.StartAllProcedure()
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
+def GenerateNameForBackupFile(resultFilename: str):
+    """
+    Generates the name of the backup file.
+
+    Arguments
+    ---------
+    resultFilename : str
+        The path to the file containing the results of the benchmark.
+    """
+    import datetime
+    # we get the current date
+    now = datetime.datetime.now()
+    # we get the name of the file
+    filename = Path(resultFilename).name
+    # we get the extension of the file
+    extension = Path(resultFilename).suffix
+    # we get the name of the file without the extension
+    filename_without_extension = filename.replace(extension, "")
+    # we create the name of the backup file
+    backup_filename = f"{filename_without_extension}_{now.strftime('%m-%d_%H-%M')}{extension}"
+    return backup_filename
 
 def repository_is_local(repository, **kargs):
     # we save the resutls file in a backup folder
@@ -75,12 +96,13 @@ def repository_is_local(repository, **kargs):
         if not backup_folder.exists():
             backup_folder.mkdir()
         # we copy the results file in the backup folder
+        name_for_backup_file = GenerateNameForBackupFile(kargs["resultFilename"])
         shutil.copyfile(
             kargs["resultFilename"],
-            os.path.join(backup_folder, kargs["resultFilename"]),
+            backup_folder / name_for_backup_file,
         )
         logger.info(
-            f"Backup of the previous results file {kargs['resultFilename']} created"
+            f"Backup of the previous results file {kargs['resultFilename']} created in {backup_folder} folder with the name {name_for_backup_file}"
         )
     return Path(repository)
 
@@ -152,13 +174,13 @@ def repository_is_github(repository, **kargs):
                 backup_folder = Path("backup")
                 if not backup_folder.exists():
                     backup_folder.mkdir()
-                # we copy the results file in the backup folder
+                name_for_backup_file = GenerateNameForBackupFile(kargs["resultFilename"])
                 shutil.copyfile(
                     kargs["resultFilename"],
-                    os.path.join(backup_folder, kargs["resultFilename"]),
+                    backup_folder / name_for_backup_file,
                 )
                 logger.info(
-                    f"Backup of the previous results file {kargs['resultFilename']} created"
+                    f"Backup of the previous results file {kargs['resultFilename']} created in {backup_folder} folder with the name {name_for_backup_file}"
                 )
             # we get the tasks to reset
             task_to_reset = GetTaskToReset(python_files_changed)
