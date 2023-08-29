@@ -10,8 +10,7 @@ class Repository:
         return f'Repository({self.path})\n' + \
             '\n'.join([f'├── {f}' for f in self.file_list]) + \
             '\n' + \
-            '\n'.join([f'└── {r}' for r in self.repository_list]) + \
-    
+            '\n'.join([f'└── {r}' for r in self.repository_list]) 
     
     
     def add_file(self, file_name,content=''):
