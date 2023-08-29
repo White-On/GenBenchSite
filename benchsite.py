@@ -19,6 +19,9 @@ ABOUT_URL = "https://white-on.github.io/BenchSite/"
 
 class BenchSite:
     LEXMAX_THRESHOLD = 0
+    DEFAULT_LOGO = "question.svg"
+    DEFAULT_TASK_SCALE = "auto"
+    DEFAULT_POST_TASK_SCALE = "auto"
 
     def __init__(
         self, inputFilename: str, outputPath="pages", structureTestPath="repository"
@@ -46,6 +49,14 @@ class BenchSite:
 
         self.machineData = GetRunMachineMetadata()
         self.siteConfig = self.GetSiteConfig()
+        self.benchmarkConfig = self.GetBenchmarkConfig()
+        self.Setup_Global_Variables()
+    
+    def Setup_Global_Variables(self):
+        BenchSite.LEXMAX_THRESHOLD = int(self.siteConfig.get("threshold", BenchSite.LEXMAX_THRESHOLD))
+        BenchSite.DEFAULT_LOGO = self.siteConfig.get("default_logo", BenchSite.DEFAULT_LOGO)
+        BenchSite.DEFAULT_TASK_SCALE = self.siteConfig.get("default_task_scale", BenchSite.DEFAULT_TASK_SCALE)
+
 
     def GetLibraryConfig(self):
         strtest = StructureTest()
@@ -76,6 +87,17 @@ class BenchSite:
             *strtest.findConfigFile(os.path.join(self.structureTestPath, "config")),listSection=["site"]
         )
         return siteConfig['config']
+    
+    def GetBenchmarkConfig(self):
+        """
+        get the benchmark config from the config.ini file in the root folder
+        """
+        strTest = StructureTest()
+        listBenchmarkpath = strTest.findConfigFile(
+            os.path.join(self.structureTestPath, "config"), name="config.ini"
+        )
+        benchmarkConfig = strTest.readConfig(*listBenchmarkpath,listSection=['benchmark'])
+        return benchmarkConfig['config']
 
     def GetLibraryLogo(self):
         logo = {}
@@ -102,7 +124,7 @@ class BenchSite:
             else:
                 # logo[libraryName] = os.path.join(self.staticSiteGenerator.assetsFilePath,"default.png")
                 logo[libraryName] = os.path.join(
-                    self.staticSiteGenerator.assetsFilePath, "question.svg"
+                    self.staticSiteGenerator.assetsFilePath, BenchSite.DEFAULT_LOGO
                 )
 
         return logo
@@ -533,12 +555,27 @@ class BenchSite:
                     "YLabel": ylabel[i] if i < len(ylabel) else ylabel[0],
                     "scale": scale[i] if i < len(scale) else scale[0],
                 }
-
+            complementary_description = taskConfig[taskName].get(
+                "extra_description", ""
+            )
+            # we're also adding information relevant to the task in the description
+            complementary_description += "<br><br>"
+            complementary_description += f"<p>Timeout : {taskConfig[taskName].get('timeout',self.benchmarkConfig.get('default_timeout','No timeout configured'))} (seconds)</p>"
+            complementary_description += f"<p>Number of iteration : {taskConfig[taskName].get('nb_runs',self.benchmarkConfig.get('default_nb_runs','No number of iteration configured'))}</p>"
+            complementary_description += f"<p>The task is interrupted if the number of timeout reached {self.benchmarkConfig.get('default_stop_after_x_timeout','No number of timeout configured')}</p>"
+            
             HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
             if HTMLExtra is not None:
-                HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[
-                    0
-                ].read_text()
+                try:
+                    HTMLExtra = list(Path(self.structureTestPath).glob(f"**/{HTMLExtra}"))[
+                        0
+                    ].read_text()
+                # if there is a typo in the extra html element
+                except IndexError:
+                    HTMLExtra = ""
+                    logger.warning(
+                        f"Extra HTML element {HTMLExtra} not found in the repository"
+                    )
             else:
                 HTMLExtra = ""
 
@@ -580,7 +617,7 @@ class BenchSite:
                     content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
-                extra_description=taskConfig[taskName].get("extra_description", ""),
+                extra_description=complementary_description,
             )
 
             staticSiteGenerator.CreateHTMLPage(
@@ -776,31 +813,6 @@ class BenchSite:
                 ],
                 f"{libraryName}.html",
             )
-
-        # ==================================================
-        # ABOUT PAGE
-        # ==================================================
-        # styleFilePath = "aboutStyle.css"
-
-        # # HEADER
-        # HTMLHeader = staticSiteGenerator.CreateHTMLComponent(
-        #     "header.html",
-        #     styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
-        #     assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
-        #     linkTo=linkTo,
-        #     siteName=self.siteConfig.get("name", "No name attributed"),
-        #     socialMediaList=social_media,
-        # )
-        # # ABOUT
-
-        # HTMLAbout = staticSiteGenerator.CreateHTMLComponent(
-        #     "aboutContent.html",
-        #     assetFolder=f"../{staticSiteGenerator.assetsFilePath}",
-        # )
-
-        # staticSiteGenerator.CreateHTMLPage(
-        #     [HTMLHeader, HTMLNavigation, HTMLAbout, HTMLFooter], "about.html"
-        # )
 
         logger.info("=======Static site generated successfully=======")
 

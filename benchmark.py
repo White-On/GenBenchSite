@@ -286,6 +286,10 @@ class Benchmark:
         """
         logger.debug(f"Execute function {funcName} in module {module} with {kwargs}")
         res = None
+        # first we check if the module exist
+        if not os.path.exists(module.replace(".", os.sep) + ".py"):
+            logger.warning(f"Module {module} does not exist")
+            return Benchmark.NOT_RUN_VALUE
         try:
             module = __import__(module, fromlist=[funcName])
             func = getattr(module, funcName)
@@ -382,6 +386,11 @@ class Benchmark:
         if len(funcEvaluation) == 0:
             logger.warning(f"No evaluation function for {taskName}")
             return valueEvaluation
+        
+        # we need a relative path to import the module with os.sep replaced by .
+        relativePath = os.path.relpath(
+                taskPath, os.path.dirname(os.path.abspath(__file__))
+            ).replace(os.sep, ".")
 
         for funcName in funcEvaluation:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
@@ -389,10 +398,7 @@ class Benchmark:
             logger.debug(
                 f"Run the evaluation function {funcName} of {moduleEvaluation} for {taskName} with {kwargs}"
             )
-            # we need a relative path to import the module with os.sep replaced by .
-            relativePath = os.path.relpath(
-                taskPath, os.path.dirname(os.path.abspath(__file__))
-            ).replace(os.sep, ".")
+            
             # relative_module = __import__(
             #     f"{relativePath}.{moduleEvaluation}", fromlist=[funcName]
             # )

@@ -127,8 +127,10 @@ export function ComplexeLineChart(data, {
         .defined(i => D[i])
         .curve(curve)
         .x(i => xScale(X[i]))
-        .y0(i => yScale(Y[i] - W[i]))
+        // we have to be careful with the y values when in log scale
+        .y0(i => yScale(Y[i] - W[i] <= 0 ? 0.0001 : Y[i] - W[i]))
         .y1(i => yScale(Y[i] + W[i]));
+        
 
 
     // Construct a new SVG. this is the main container for the chart.

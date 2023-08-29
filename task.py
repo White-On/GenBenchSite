@@ -9,7 +9,7 @@ from typing import ClassVar
 import numpy as np
 from logger import logger
 
-MIN_VALUE_POSSIBLE = 0.0001
+MIN_RUNTIME_POSSIBLE = 0.0001
 
 
 @dataclass
@@ -172,7 +172,7 @@ class Task:
 
     @staticmethod
     def str_and_none_to_nan(array: np.ndarray) -> np.ndarray:
-        """transform the string and None into np.nan and transform the array into float64"""
+        """transform the string and None into np.nan inside an array and transform the array into float64"""
 
         def is_float(string: str):
             """return True if the string is a float, False otherwise"""
@@ -201,7 +201,7 @@ class Task:
         # we inverse the runtime to have the difference between the end and the start (end - start)
         runtime = np.hstack(np.diff(runtime, axis=2)).T
         # we adapt the value if the runtime is negative
-        runtime = np.where(runtime < 0, MIN_VALUE_POSSIBLE, runtime)
+        runtime = np.where(runtime <= 0, MIN_RUNTIME_POSSIBLE, runtime)
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         return runtime.tolist()
 
@@ -222,13 +222,15 @@ class Task:
         evaluation = self.evaluation[target][:]
         for i in range(len(evaluation)):
             for function in evaluation[i].keys():
+                # we transform the string and None into np.nan and transform the array into float64 to be able to do computation
                 evaluation[i][function] = Task.str_and_none_to_nan(
                     evaluation[i][function]
                 )
+                # if the evaluation is a list of string or None, that means that all the evaluation failed
                 if np.isnan(evaluation[i][function]).all():
                     evaluation[i][function] = float("inf")
-                    continue
-                evaluation[i][function] = evaluation[i][function].tolist()
+                else:
+                    evaluation[i][function] = evaluation[i][function].tolist()
         return evaluation
 
     def mean_runtime(self, target: str) -> list[float]:
@@ -271,7 +273,10 @@ class Task:
         return evaluation
 
     def standard_deviation_runtime(self, target) -> list[float]:
-        return np.nanstd(self.get_runtime(target=target), axis=1).tolist()
+        std_runtime = np.nanstd(self.get_runtime(target=target), axis=1)
+        std_runtime = np.where(std_runtime <= 0, MIN_RUNTIME_POSSIBLE, std_runtime)
+        logger.debug(f"Standard deviation for {target} in {self.name} : {std_runtime}")
+        return std_runtime.tolist()
 
     def standard_deviation_evaluation(self, target) -> list[float]:
         evaluation = []

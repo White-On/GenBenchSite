@@ -87,23 +87,10 @@ def GenerateNameForBackupFile(resultFilename: str):
 def repository_is_local(repository, **kargs):
     # we save the resutls file in a backup folder
     #  as we can't know if the user want to keep the old results or not
-    if kargs["resultFilename"] is not None:
-        logger.info(
-            f"Creating a backup of the previous results file {kargs['resultFilename']}"
-        )
-        # check if the backup folder exists
-        backup_folder = Path("backup")
-        if not backup_folder.exists():
-            backup_folder.mkdir()
-        # we copy the results file in the backup folder
-        name_for_backup_file = GenerateNameForBackupFile(kargs["resultFilename"])
-        shutil.copyfile(
-            kargs["resultFilename"],
-            backup_folder / name_for_backup_file,
-        )
-        logger.info(
-            f"Backup of the previous results file {kargs['resultFilename']} created in {backup_folder} folder with the name {name_for_backup_file}"
-        )
+    if kargs["resultFilename"].exists():
+        BackupResultsFile(kargs["resultFilename"])
+        # we delete the results file
+        delete_file(kargs["resultFilename"])
     return Path(repository)
 
 def GetTaskToReset(python_files_changed: list):
@@ -121,6 +108,29 @@ def GetTaskToReset(python_files_changed: list):
         task_to_reset.append(task_path.parent.name)
     logger.debug(f"Tasks to reset: {task_to_reset}")
     return task_to_reset
+
+def BackupResultsFile(resultFilename: str):
+    """
+    Backup the results file.
+
+    Arguments
+    ---------
+    resultFilename : str
+        The path to the file containing the results of the benchmark.
+    """
+    backup_filename = GenerateNameForBackupFile(resultFilename)
+    # we create the backup folder
+    backup_folder = Path("backup")
+    if not backup_folder.exists():
+        backup_folder.mkdir()
+    # we copy the results file in the backup folder
+    shutil.copyfile(
+        resultFilename,
+        backup_folder / backup_filename,
+    )
+    logger.info(
+        f"Backup of the previous results file {resultFilename} created in {backup_folder} folder with the name {backup_filename}"
+    )
 
 def ResetTask(task_to_reset: list, resultFilename: str = "results.json"):
     """
@@ -166,29 +176,15 @@ def repository_is_github(repository, **kargs):
             # we clear the local repository and the results file needed for the benchmark
             # as the old test are now deprecated we delete the old results
             # but before that, we create a backup of the results in case the user want to keep them
-            if kargs["resultFilename"] is not None:
-                logger.info(
-                    f"Creating a backup of the previous results file {kargs['resultFilename']}"
-                )
-                # check if the backup folder exists
-                backup_folder = Path("backup")
-                if not backup_folder.exists():
-                    backup_folder.mkdir()
-                name_for_backup_file = GenerateNameForBackupFile(kargs["resultFilename"])
-                shutil.copyfile(
-                    kargs["resultFilename"],
-                    backup_folder / name_for_backup_file,
-                )
-                logger.info(
-                    f"Backup of the previous results file {kargs['resultFilename']} created in {backup_folder} folder with the name {name_for_backup_file}"
-                )
-            # we get the tasks to reset
-            task_to_reset = GetTaskToReset(python_files_changed)
-            # we reset the tasks
-            ResetTask(task_to_reset, resultFilename=kargs["resultFilename"])
-            # we delete the local repository
-            delete_directory(path.absolute().__str__())
-            delete_file(kargs["resultFilename"])
+            if kargs["resultFilename"].exists():
+                BackupResultsFile(kargs["resultFilename"])
+                # we get the tasks to reset
+                task_to_reset = GetTaskToReset(python_files_changed)
+                # we reset the tasks
+                ResetTask(task_to_reset, resultFilename=kargs["resultFilename"])
+                # we delete the local repository
+                delete_directory(path.absolute().__str__())
+                delete_file(kargs["resultFilename"])
 
         else:
             logger.info(f"No python file has changed since the last pull")
@@ -384,7 +380,7 @@ if __name__ == "__main__":
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
 
     benchsite = BenchSite(
-        inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder
+        inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder, structureTestPath=working_directory.absolute().__str__()
     )
     benchsite.GenerateStaticSite()
 
