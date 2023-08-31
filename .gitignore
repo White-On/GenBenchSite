@@ -6,4 +6,6 @@ repository/
 .vscode/
 logs/
 backup/
+dist/
+build/
 ```

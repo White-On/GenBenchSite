@@ -1,32 +1,33 @@
 from setuptools import setup, find_packages
 
-# with open('Benchsite/README.md') as f:
-#     long_description = f.read()
+# load the README file.
+with open("README.md", encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
-    name='genbenchsite',
-    version='0.0.1',
-    description='Generate a benchmark website from a set of benchmark tests',
-    long_description='long_description',
-    long_description_content_type='text/markdown',
+    name="genbenchsite",
+    version="0.0.1",
+    description="Generate a benchmark website from a set of benchmark tests",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    author="Jules Cassan",
     entry_points={
-        'console_scripts': [
-            'gbs = src.main:main',
-
+        "console_scripts": [
+            "gbs = src.main:main",
         ]
     },
-    package_dir={'': 'genbenchsite'},
-    packages=find_packages(where='genbenchsite'),
-    package_data={'': ['htmlTemplate/*','template.txt','pages/**']},
-    python_requires='>=3.9',
+    package_dir={"": "app"},
+    packages=find_packages(where="app"),
+    package_data={"": ["htmlTemplate/*", "template.txt", "pages/**"]},
+    python_requires=">=3.9",
     install_requires=[
-        'colorama>=0.4.6',
-        'Jinja2>=3.1.2',
-        'MarkupSafe>=2.1.2',
-        'numpy>=1.24.2',
-        'psutil>=5.9.5',
-        'Pygments>=2.15.1',
-        'tqdm>=4.65.0',
-        'rich>=12.5.1',
+        "colorama>=0.4.6",
+        "Jinja2>=3.1.2",
+        "MarkupSafe>=2.1.2",
+        "numpy>=1.24.2",
+        "psutil>=5.9.5",
+        "Pygments>=2.15.1",
+        "tqdm>=4.65.0",
+        "rich>=12.5.1",
     ],
 )
