@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: genbenchsite
+Version: 0.0.1
+Summary: Generate a benchmark website from a set of benchmark tests
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+long_description

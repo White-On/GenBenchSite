@@ -1,0 +1,77 @@
+@import url('bodyStyle.css');
+
+#rank-bar{
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--quaternary-color);
+    box-shadow: 0 0 5px var(--black);
+    font-size: larger;
+    align-self: normal;
+    
+
+}
+
+#rank-bar p{
+    margin: 0rem;
+    transition: all 0.3s ease-in-out;
+}
+
+#rank-str{
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0rem;
+    padding: 0rem;
+    position: relative;
+}
+
+#rank-str a{
+    padding-inline: 0.5rem;
+    
+    /* border-radius: 10px; */
+}
+
+#rank-str:hover #indication{
+    visibility: visible;
+    opacity: 1;
+
+}
+
+#indication{
+    position: absolute;
+    top: calc(100% + 1em);
+    left: 0%;
+    width: 150%;
+    background-color: var(--quaternary-color);
+    border: 3px solid var(--secondary-color);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    padding-inline: 1em;
+    padding-block: 0.5em;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    /* for some reason the block size is not right if not manually calculated */
+    /* block-size: 20px; */
+}
+
+#indication a{
+    margin: 0;
+    padding: 0;
+}
+
+#indication::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: 10px solid var(--secondary-color);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transform: rotate(180deg);
+}

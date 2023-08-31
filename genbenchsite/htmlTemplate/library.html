@@ -1,0 +1,17 @@
+{{scriptData}}
+{{scriptFilePath}}
+
+<!-- Target main component -->
+<div class="title">
+    {{logoLibrary}}<h1 id="entry-title">{{libraryName}}</h1> 
+</div>
+<p class="description">{{taskDescription}}</p>
+
+<div class ="grid">
+    {% for taskName in taskNameList %}
+    <div class="card">
+        <a href="{{taskName[0]}}.html"><h2>{{taskName[1]}}</h2></a>
+        <div id="{{taskName[0]}}"></div>
+    </div>
+    {% endfor %}
+</div>

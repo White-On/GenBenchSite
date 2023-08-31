@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('colorStyle.css');
+@import url('bodyStyle.css');
+@import url('headerStyle.css');
+@import url('navigationStyle.css');
+@import url('rankBarStyle.css');
+
+
+/* GLOBAL PARAMETER */
+
+/* :root{
+    
+} */
+
+body{
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+
+.grid{
+    width: clamp(100px, 90%, 1200px);
+    display: grid;
+    gap : 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: auto;
+    
+}
+
+.card{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--quinary-color);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+h2{
+    margin: 0;
+    padding: 0;
+    letter-spacing: 1px;
+}
+
+#main_container{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chart{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 2rem;
+}
+
+.chart:nth-child(1){
+    margin-bottom: 1rem;
+}

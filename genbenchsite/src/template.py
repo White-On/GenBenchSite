@@ -1,4 +1,5 @@
 from pathlib import Path
+from genbenchsite.src.logger import logger
 
 class Repository:
     def __init__(self, path):
@@ -26,6 +27,9 @@ class Repository:
         return new_repository
 
 def load_config(path):
+    # check that the file exists
+    if not Path(path).exists():
+        raise ValueError(f'{path} does not exists')
     config = ''
     section = ['config','task','target','theme']
     with open(path, 'r') as f:
@@ -34,11 +38,16 @@ def load_config(path):
 
     
 
-def create_template(target_path='repository',nb_targets=2,nb_themes=2,nb_tasks=2):
-    config = load_config(Path('template.txt'))
+def create_template(target_path='benchmark_name',nb_targets=2,nb_themes=2,nb_tasks=2):
+    # we look for the template file
+    template_path = Path(__file__).parent / 'template.txt'
+    logger.info(f'Loading template from {template_path}')
+    config = load_config(template_path)
+    logger.info(f'Creating benchmark template in {target_path}')
     # we check that no repository already exists
     if Path(target_path).exists():
-        raise ValueError(f'{target_path} already exists')
+        logger.error(f'{target_path} already exists')
+        raise ValueError(f'The benchmark or directory {target_path} already exists, please choose another name')
 
     main_repo =  Repository(target_path)
     main_repo.add_repository('config').add_file('config.ini',content=config['config'])

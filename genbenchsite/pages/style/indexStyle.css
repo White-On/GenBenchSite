@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('bodyStyle.css');
+@import url('headerStyle.css');
+@import url('navigationStyle.css');
+@import url('rankBarStyle.css');
+
+/* GLOBAL PARAMETER */
+
+:root{
+    --card-margin-inline: 1rem;
+    --card-margin-block: 1rem;
+}
+
+
+/* body{
+     No navbar in home page
+    margin-left: 1rem; 
+    
+} */
+
+#main-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-auto-rows: auto;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+
+
+
+.grid{
+    display: grid;
+    gap : 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-auto-rows: auto;
+    align-self: normal;
+    
+}
+
+.card{
+    border-radius: 10px;
+    padding: 16px;
+    /* margin-inline: var(--card-margin-inline); */
+    /* margin-block: var(--card-margin-block); */
+    box-shadow: 0 0 5px var(--black);
+    /* border: solid 2px var(--secondary-color); */
+    background-color: var(--tertiary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    
+}
+
+#machine_info{
+    text-align: left;
+}
+
+/* BEST TASK GLOBALY SECTION */
+
+#global-rank{
+    background-color: var(--global-rank-color);
+    
+}
+
+#global-rank .grid{
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.global-card{
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* font-size: 20px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+.global-card p{
+    /* font-size: 16px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+/* BEST TASK BY THEME SECTION */
+
+#theme-rank{
+    background-color: var(--theme-rank-color);
+}
+
+#theme-rank .grid{
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+#theme-rank .rank-arrow svg{
+    width: 100px;
+    height: 30px;
+}
+
+.theme-card{
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /* font-size: 20px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none; 
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+}
+
+.theme-card h2{
+    /* font-size: 24px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+.theme-card p{
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+/* BEST TASK BY TASK SECTION */
+
+#task-rank{
+    background-color: var(--task-rank-color);
+}
+
+#task-rank .grid{
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+#task-rank .rank-arrow svg{
+    width: 100%;
+    height: 30px;
+}
+
+.task-card{
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /* font-size: 20px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+.task-card h2{
+    /* font-size: 24px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+.task-card p{
+    /* font-size: 16px; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    /* color: var(--secondary-color); */
+    text-decoration: none;
+    margin-block: 0;
+}
+
+
+
+
+/* DEBUG TOOLS */
+/* you can see more clearly the box model with this */
+/* div{
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 0 5px var(--black);
+}  */

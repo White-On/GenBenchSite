@@ -4,9 +4,10 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from benchmark import Benchmark
-from benchsite import BenchSite
-from logger import logger
+from genbenchsite.src.benchmark import Benchmark
+from genbenchsite.src.benchsite import BenchSite
+from genbenchsite.src.logger import logger
+from genbenchsite.src.template import create_template
 
 
 def delete_directory(dir_path: str):
@@ -56,6 +57,7 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
 
     """
     baseFilename = resultFilename if Path(resultFilename).exists() else None
+    print(f"baseFilename: {baseFilename}")
     benchmark = Benchmark(
         pathToInfrastructure=structure_test_path, baseResult=baseFilename
     )
@@ -84,13 +86,13 @@ def GenerateNameForBackupFile(resultFilename: str):
     backup_filename = f"{filename_without_extension}_{now.strftime('%m-%d_%H-%M')}{extension}"
     return backup_filename
 
-def repository_is_local(repository, **kargs):
+def repository_is_local(repository, resultFilename: str = "results.json"):
     # we save the resutls file in a backup folder
-    #  as we can't know if the user want to keep the old results or not
-    if kargs["resultFilename"].exists():
-        BackupResultsFile(kargs["resultFilename"])
-        # we delete the results file
-        delete_file(kargs["resultFilename"])
+    # as we can't know if the user want to keep the old results or not
+    # if resultFilename.exists():
+    #     BackupResultsFile(resultFilename)
+    #     # we delete the results file
+    #     delete_file(resultFilename)
     return Path(repository)
 
 def GetTaskToReset(python_files_changed: list):
@@ -145,22 +147,30 @@ def ResetTask(task_to_reset: list, resultFilename: str = "results.json"):
     resultFilename = Path(resultFilename)
     # we check if the file exists
     if not resultFilename.exists():
+        logger.warning('No results file to reset, you must run the benchmark first')
         logger.warning(f"File {resultFilename} does not exist")
         return
     # we open the file
     results = None
     with open(resultFilename, "r") as f:
         results = json.load(f)
+    # we check if the file is empty
+    if len(results) == 0:
+        logger.warning('No results file to reset, the file is empty')
+        logger.warning(f"File {resultFilename} is empty")
+        return
     # we reset the tasks
     for target in results.keys():
         for task in task_to_reset:
             if task in results[target].keys():
                 results[target][task]["results"] = {}
+            else:
+                logger.warning(f"Task {task} not found in results file")
     # we save the file
     with open(resultFilename, "w") as f:
         json.dump(results, f, indent=4)
                 
-def repository_is_github(repository, **kargs):
+def repository_is_github(repository, resultFilename: str = "results.json"):
     default_repository_name = "repository"
 
     # we create a local repository
@@ -176,15 +186,15 @@ def repository_is_github(repository, **kargs):
             # we clear the local repository and the results file needed for the benchmark
             # as the old test are now deprecated we delete the old results
             # but before that, we create a backup of the results in case the user want to keep them
-            if kargs["resultFilename"].exists():
-                BackupResultsFile(kargs["resultFilename"])
+            if resultFilename.exists():
+                BackupResultsFile(resultFilename)
                 # we get the tasks to reset
                 task_to_reset = GetTaskToReset(python_files_changed)
                 # we reset the tasks
-                ResetTask(task_to_reset, resultFilename=kargs["resultFilename"])
+                ResetTask(task_to_reset, resultFilename=resultFilename)
                 # we delete the local repository
                 delete_directory(path.absolute().__str__())
-                delete_file(kargs["resultFilename"])
+                delete_file(resultFilename)
 
         else:
             logger.info(f"No python file has changed since the last pull")
@@ -276,8 +286,104 @@ def count_test():
 
     return jtpo.count_test()
 
+def init(args):
+    create_template(args.benchmark_name, args.nb_targets, args.nb_themes, args.nb_tasks)
 
-if __name__ == "__main__":
+def reset(args):
+    task_name = args.task_name
+    # we check if the task name is not empty
+    if task_name is None or len(task_name) == 0:
+        logger.error("No task name provided")
+        raise Exception("No task name provided")
+    # we reset the tasks
+    logger.debug(f"Tasks to reset: {task_name}")
+    ResetTask(task_name)
+
+def run(args):
+    # we check if the user has provided the url or the local path of the repository
+    if args.url is None and args.O is None:
+        logger.error("No url or local path provided")
+        raise Exception("No url or local path provided")
+    
+    # Test the repository
+    result_filename = Path("results.json")
+
+    # by default if the user provide the url, we clone the repository in the local repository
+    # the online repository takes precedence over the local repository if the user provide both (but it's not recommended)
+
+    # if args.url is not None:
+    #     logger.info(f"Cloning the repository {args.url}")
+    #     local_directory = repository_is_github(args.url, resultFilename=resultFilename.absolute())
+    # else:
+    #     logger.info(f"Using the local repository {args.O}")
+    #     local_directory = repository_is_local(args.O, resultFilename=resultFilename.absolute())
+
+    local_directory = repository_is_local(args.O, resultFilename=result_filename.absolute())
+
+    if not local_directory.exists():
+        logger.error(f"Path {local_directory.absolute()} does not exist")
+        raise Exception(f"Path {local_directory.absolute()} does not exist")
+
+    if args.benchmark:
+        start_benchmark(
+            local_directory.absolute().__str__(),
+            result_filename.absolute().__str__(),
+        )
+    
+    # The second step is to create the HTML page from the test results. This HTML page will be
+    # created in the output folder. The output folder is the folder where the user want to save the
+    # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
+    return # HERE !!!!!!!!!
+    benchsite = BenchSite(
+        inputFilename=result_filename.absolute().__str__(), outputPath=Path().cwd(), structureTestPath=local_directory.absolute().__str__()
+    )
+    benchsite.GenerateStaticSite()
+
+    
+    # we copy the result.json file in the output folder
+    shutil.copyfile(
+        result_filename.absolute(),
+        os.path.join(args.output_folder, result_filename),
+    )
+
+    # The third step is to deploy the HTML page on a server. The server is a github page. The user
+    # must have a github account and a github repository. The user must have a github token to deploy
+    # the HTML page on the github page. The user must specify the name of the github repository where
+    # the HTML page will be deployed.
+
+    if args.publish and args.url is not None:
+        if not args.force_publish and not enough_test_to_publish(
+            result_filename.absolute().__str__()
+        ):
+            logger.info("Not enough tests to publish the results")
+            logger.debug(f"Number of tests: {count_test()}")
+            exit(0)
+        logger.info("Publishing the HTML page on the github page")
+        # before copying the output folder in the repository, we need to check if there is not already
+        # copy the output folder in the repository
+        if os.path.exists(
+            os.path.join(local_directory.absolute(), args.output_folder)
+        ):
+            logger.info(
+                f"Removing the folder {os.path.join(local_directory.absolute(), args.output_folder)}"
+            )
+            shutil.rmtree(
+                os.path.join(local_directory.absolute(), args.output_folder)
+            )
+        shutil.copytree(
+            args.output_folder,
+            os.path.join(local_directory.absolute(), args.output_folder),
+        )
+        os.chdir(local_directory.absolute())
+        os.system(f"git add {args.output_folder}")
+        os.system(f'git commit -m "Updating the HTML page"')
+        os.system(f"git push")
+        logger.info("HTML page deployed on the github page")
+
+        # we remove the local repository
+        # shutil.rmtree(working_directory.absolute())
+
+def main():
     # first step is to Run the tests and evaluate the library based on the repository
     # inputed by the user. This repository may be a github repository or a local repository.
 
@@ -289,139 +395,48 @@ if __name__ == "__main__":
     # output_folder = the path of the folder where the user want to save the HTML page
     # publish = True if the user want to deploy the HTML page, False otherwise
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # we go to the current directory
-    os.chdir(current_dir)
+    # current_dir = os.path.dirname(os.path.abspath(__file__))
+    # # we go to the current directory
+    # os.chdir(current_dir)
+
 
     parser = argparse.ArgumentParser(
         description="Generate a static website of a benchmark of libraries."
     )
 
-    parser.add_argument(
-        "repository",
-        type=str,
-        help="the path of the repository",
-    )
+    subparsers = parser.add_subparsers(dest='action', help='The action to perform')
 
-    parser.add_argument(
-        "-A",
-        "--access_folder",
-        help="The way the repository is accessed. If the repository is local, the value is local. If the repository is on github, the value is github",
-        default="local",
-        choices=["local", "github"],
-    )
+    # Subparser for the init action
+    init_parser = subparsers.add_parser('init', help='Initialize the repository')
+    init_parser.add_argument('benchmark_name', type=str, help='The name of the repository')
+    init_parser.add_argument('-nb_targets', type=int, help='The number of targets', default=2)
+    init_parser.add_argument('-nb_themes', type=int, help='The number of themes', default=2)
+    init_parser.add_argument('-nb_tasks', type=int, help='The number of tasks', default=2)
+    init_parser.set_defaults(func=init)
 
-    parser.add_argument(
-        "-O",
-        "--output_folder",
-        type=str,
-        help="the path of the folder where the user want to save the HTML page",
-        default="pages",
-    )
+    # Subparser for the reset action
+    reset_parser = subparsers.add_parser('reset', help='Reset the repository')
+    reset_parser.add_argument('task_name', type=str, help='The name of the tasks to reset (separated by a space)', nargs='+')
+    reset_parser.set_defaults(func=reset)
 
-    parser.add_argument(
-        "-P",
-        "--publish",
-        help="True if the user want to deploy the HTML page, False otherwise",
-        default=True,
-        action=argparse.BooleanOptionalAction,
-    )
-
-    parser.add_argument(
-        "-B",
-        "--benchmark",
-        help="True if the user want to run the benchmark, False otherwise.\
-            If set to False, the user must provide the result.json file in the repository",
-        default=True,
-        action=argparse.BooleanOptionalAction,
-    )
-
-    parser.add_argument(
-        "-F",
-        "--force_publish",
-        help="True if the user want to publish the HTML page even if there are not enough tests, False otherwise",
-        default=False,
-        action=argparse.BooleanOptionalAction,
-    )
+    # Subparser for the run action
+    run_parser = subparsers.add_parser('run', help='Run the benchmark tests')
+    run_parser.add_argument('-O',type=str, help='The local path of the folder where the benchmark structure is located', default="repository")
+    run_parser.add_argument('-url',type=str, help='The url of the git repository where the benchmark structure is located')
+    run_parser.add_argument('--publish', help='True if the user want to deploy the HTML page, False otherwise', default=True, action=argparse.BooleanOptionalAction)
+    run_parser.add_argument('--benchmark', help='True if the user want to run the benchmark, False otherwise. If set to False, the user must provide the result.json file in the repository', default=True, action=argparse.BooleanOptionalAction)
+    run_parser.set_defaults(func=run)
 
     args = parser.parse_args()
     logger.info(f"Arguments: {args}")
+    logger.info(f"Action: {args.action}")
 
     logger.info("=======Starting the main script=======")
 
-    # Test the repository
-    resultFilename = Path("results.json")
+    # Call the appropriate function based on the selected action
+    if args.action is None:
+        parser.print_help()
+    args.func(args)
 
-    possible_access_folder = {
-        "local": repository_is_local,
-        "github": repository_is_github,
-    }
-
-    logger.info(f"Access folder: {args.access_folder}")
-    logger.info(f"Repository: {args.repository}")
-
-    working_directory = possible_access_folder[args.access_folder](
-        args.repository, resultFilename=resultFilename.absolute()
-    )
-
-    if not working_directory.exists():
-        logger.error(f"Path {working_directory.absolute()} does not exist")
-        raise Exception(f"Path {working_directory.absolute()} does not exist")
-
-    if args.benchmark:
-        start_benchmark(
-            working_directory.absolute().__str__(),
-            resultFilename.absolute().__str__(),
-        )
-
-    # The second step is to create the HTML page from the test results. This HTML page will be
-    # created in the output folder. The output folder is the folder where the user want to save the
-    # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
-
-    benchsite = BenchSite(
-        inputFilename=resultFilename.absolute().__str__(), outputPath=args.output_folder, structureTestPath=working_directory.absolute().__str__()
-    )
-    benchsite.GenerateStaticSite()
-
-    # we copy the result.json file in the output folder
-    shutil.copyfile(
-        resultFilename.absolute(),
-        os.path.join(args.output_folder, resultFilename),
-    )
-
-    # The third step is to deploy the HTML page on a server. The server is a github page. The user
-    # must have a github account and a github repository. The user must have a github token to deploy
-    # the HTML page on the github page. The user must specify the name of the github repository where
-    # the HTML page will be deployed.
-
-    if args.publish and args.access_folder == "github":
-        if not args.force_publish and not enough_test_to_publish(
-            resultFilename.absolute().__str__()
-        ):
-            logger.info("Not enough tests to publish the results")
-            logger.debug(f"Number of tests: {count_test()}")
-            exit(0)
-        logger.info("Publishing the HTML page on the github page")
-        # before copying the output folder in the repository, we need to check if there is not already
-        # copy the output folder in the repository
-        if os.path.exists(
-            os.path.join(working_directory.absolute(), args.output_folder)
-        ):
-            logger.info(
-                f"Removing the folder {os.path.join(working_directory.absolute(), args.output_folder)}"
-            )
-            shutil.rmtree(
-                os.path.join(working_directory.absolute(), args.output_folder)
-            )
-        shutil.copytree(
-            args.output_folder,
-            os.path.join(working_directory.absolute(), args.output_folder),
-        )
-        os.chdir(working_directory.absolute())
-        os.system(f"git add {args.output_folder}")
-        os.system(f'git commit -m "Updating the HTML page"')
-        os.system(f"git push")
-        logger.info("HTML page deployed on the github page")
-
-        # we remove the local repository
-        # shutil.rmtree(working_directory.absolute())
+if __name__ == "__main__":
+    main()
