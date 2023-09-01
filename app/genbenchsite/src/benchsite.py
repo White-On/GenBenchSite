@@ -18,7 +18,7 @@ from genbenchsite.src.getMachineData import GetRunMachineMetadata
 
 RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 
-ABOUT_URL = "https://white-on.github.io/BenchSite/"
+ABOUT_URL = "https://white-on.github.io/GenBenchSite/"
 
 
 class BenchSite:

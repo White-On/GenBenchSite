@@ -8,5 +8,5 @@ logs/
 backup/
 dist/
 build/
-*.egg-info/
+genbenchsite.egg-info/
 ```
