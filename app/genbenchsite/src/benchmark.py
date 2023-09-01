@@ -403,6 +403,9 @@ class Benchmark:
         relativePath = os.path.relpath(
             taskPath, os.path.dirname(os.path.abspath(__file__))
         ).replace(os.sep, ".")
+        # we remove the all first . in the relative path
+        while relativePath[0] == ".":
+            relativePath = relativePath[1:]
 
         for funcName in funcEvaluation:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"

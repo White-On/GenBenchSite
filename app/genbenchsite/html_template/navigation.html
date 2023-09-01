@@ -1,0 +1,64 @@
+<!-- Navigation Bar -->
+
+<nav id = "leftNavBar">
+    <ul>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Targets</button>
+        <ul class="subMenu collapse">
+            {% for library in librarylist %}
+                {{library}}
+            {% endfor %}
+        </ul>
+        </li>
+        <li class="menu-item has-submenu">
+        <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
+        <ul class="subMenu collapse">
+            {% for theme, tasklist in TaskClassifiedByTheme.items() %}
+                <li class="menu-item has-submenu">
+                <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
+                
+                <ul class="subMenu collapse">
+                    {% for task in tasklist %}
+                        {{task}}
+                    {% endfor %}
+                </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </ul>
+</nav>
+
+<script>
+    // get the nav bar
+    let navBar = document.getElementById("leftNavBar");
+
+    // get all the buttons on the nav bar
+    let navBarButtons = navBar.getElementsByTagName("button");
+
+    // get all the sub menus
+    let subMenus = document.getElementsByClassName("subMenu");
+
+    // for each button on the nav bar
+    for (let i = 0; i < navBarButtons.length; i++) {
+        // add an event listener to the button
+        navBarButtons[i].addEventListener("click", function() {
+            // get the sub menu that is a sibling of the button that was clicked
+            let subMenu = this.nextElementSibling;
+
+            // if the sub menu is already displayed
+            if (subMenu.classList.contains("expand")) {
+                // hide the sub menu
+                subMenu.classList.replace("expand", "collapse");
+                // we rottate the arrow back to its original position
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(-90deg)";
+            // if the sub menu is not displayed
+            } else {
+                // display the sub menu
+                subMenu.classList.replace("collapse", "expand");
+                // we rottate the arrow to point down
+                this.getElementsByClassName("arrow")[0].style.transform = "rotate(0deg)";
+            }
+        });
+    }
+</script>
+

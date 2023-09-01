@@ -6,19 +6,19 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name="genbenchsite",
-    version="0.0.1",
+    version="0.0.3",
     description="Generate a benchmark website from a set of benchmark tests",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Jules Cassan",
     entry_points={
         "console_scripts": [
-            "gbs = src.main:main",
+            "gbs = genbenchsite.src.main:main",
         ]
     },
     package_dir={"": "app"},
     packages=find_packages(where="app"),
-    package_data={"": ["htmlTemplate/*", "template.txt", "pages/**"]},
+    package_data={"": ["html_template/*", ".template.txt", "website_template/**"]},
     python_requires=">=3.9",
     install_requires=[
         "colorama>=0.4.6",
@@ -30,4 +30,9 @@ setup(
         "tqdm>=4.65.0",
         "rich>=12.5.1",
     ],
+    extras_require={
+        "dev": [
+            "twine>=4.0.2",
+        ],
+    },
 )

@@ -52,39 +52,38 @@ class StructureTest:
             raise FileNotFoundError(f"Config file not found in {path}")
 
         return config_files
-    
+
     @classmethod
     def get_site_config(cls, pathSite):
         siteConfig = cls.read_config(
-            *cls.find_config_file(Path(pathSite) / "config"),
+            *cls.find_config_file(pathSite),
             listSection=["site"],
         )
         return siteConfig["config"]
-    
+
     @classmethod
     def get_target_config(cls, pathTarget):
         targetConfig = cls.read_config(
-            *cls.find_config_file(Path(pathTarget) / "config"),
-            listSection=["targets"],
+            *cls.find_config_file(pathTarget),
         )
         return targetConfig
-    
+
     @classmethod
     def get_theme_config(cls, pathTheme):
         themeConfig = cls.read_config(
-            *cls.find_config_file(Path(pathTheme) / "config",name="theme.ini"),
+            *cls.find_config_file(pathTheme, name="theme.ini"),
             listSection=["theme"],
         )
         return themeConfig
-    
+
     @classmethod
     def get_task_config(cls, pathTask):
         taskConfig = cls.read_config(
-            *cls.find_config_file(Path(pathTask) / "config"),
+            *cls.find_config_file(pathTask),
             listSection=["task"],
         )
         return taskConfig
-    
+
     @classmethod
     def get_benchmark_config(cls, pathBenchmark):
         benchmarkConfig = cls.read_config(
@@ -95,7 +94,7 @@ class StructureTest:
 
 
 if __name__ == "__main__":
-    pathSite = "C:/Users/jules/Documents/Git/BenchSite/repository/site"
+    pathSite = "C:/Users/jules/Documents/Git/BenchSite/repository/config"
     listPathTarget = "C:/Users/jules/Documents/Git/BenchSite/repository/targets"
     themePath = "C:/Users/jules/Documents/Git/BenchSite/repository/themes"
 
@@ -110,5 +109,7 @@ if __name__ == "__main__":
     # test = StructureTest()
     # file_conf = test.find_config_file(themePath, "theme.ini")
     # config = test.read_config(*list(file_conf))
+
+    print(StructureTest.get_site_config(pathSite))
 
     pass

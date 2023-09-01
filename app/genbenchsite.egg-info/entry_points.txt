@@ -1,3 +1,2 @@
 [console_scripts]
-gbs = src.main:main
-
+gbs = genbenchsite.src.main:main

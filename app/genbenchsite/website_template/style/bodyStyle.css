@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('colorStyle.css');
+
+/* GLOBAL PARAMETER */
+
+:root{
+    --navbar-width: 12rem;
+    --topMargin: 62px 
+}
+
+body{
+    background-color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: clamp(0.75rem, 0.5vw, 1rem);
+    color: var(--font-color);
+    margin-top: calc(var(--topMargin) + 1rem);
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-left: calc(var(--navbar-width) + 1rem);
+}
+
+a{
+    text-decoration: none;
+    color: var(--font-color);
+}
+
+/* @media screen and (max-width: 800px){
+    body{
+        font-size: 0.1rem;
+    }
+} */

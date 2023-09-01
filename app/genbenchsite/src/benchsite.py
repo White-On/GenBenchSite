@@ -1,5 +1,5 @@
-from .static_site_generator import StaticSiteGenerator
-from .structure_test import StructureTest
+from genbenchsite.src.static_site_generator import StaticSiteGenerator
+from genbenchsite.src.structure_test import StructureTest
 import os
 from pathlib import Path
 
@@ -44,11 +44,7 @@ class BenchSite:
         # création du site statique
         # relative path to the script, assets and website folder
         self.staticSiteGenerator = StaticSiteGenerator(
-            os.path.join(outputPath, "script"),
-            "htmlTemplate",
-            os.path.join(outputPath, "assets"),
-            os.path.join(outputPath, "content"),
-            os.path.join(outputPath, "style"),
+            output_website_path=outputPath,
         )
 
         self.machineData = GetRunMachineMetadata()
@@ -825,8 +821,9 @@ class BenchSite:
 
 if __name__ == "__main__":
     # création du site statique
-    currentPath = os.path.dirname(os.path.realpath(__file__))
-    benchSite = BenchSite(os.path.join(currentPath, "results.json"))
+    current_path = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.getcwd()
+    benchSite = BenchSite("results.json")
     pagePath = "pages"
     benchSite.get_library_config()
     benchSite.get_task_config()

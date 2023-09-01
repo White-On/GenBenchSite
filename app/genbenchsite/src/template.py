@@ -29,25 +29,27 @@ class Repository:
         return new_repository
 
 
-def load_config(path):
+def load_template(path):
     # check that the file exists
     if not Path(path).exists():
         raise ValueError(f"{path} does not exists")
     config = ""
-    section = ["config", "task", "target", "theme"]
+    section = ["config", "task", "target", "theme", "readme"]
     with open(path, "r") as f:
         config = f.read()
     return {s: c for s, c in zip(section, config.split("|"))}
 
 
 def create_template(
-    target_path="benchmark_name", nb_targets=2, nb_themes=2, nb_tasks=2
+    target_path="benchmark_name", nb_targets=1, nb_themes=1, nb_tasks=1
 ):
     # we look for the template file
-    template_path = Path(__file__).parent / "template.txt"
+    template_path = Path(__file__).parent / ".template.txt"
     logger.info(f"Loading template from {template_path}")
-    config = load_config(template_path)
+
+    config = load_template(template_path)
     logger.info(f"Creating benchmark template in {target_path}")
+
     # we check that no repository already exists
     if Path(target_path).exists():
         logger.error(f"{target_path} already exists")
@@ -55,43 +57,70 @@ def create_template(
             f"The benchmark or directory {target_path} already exists, please choose another name"
         )
 
+    # main repository
     main_repo = Repository(target_path)
-    main_repo.add_repository("config").add_file("config.ini", content=config["config"])
+    (
+        main_repo.add_file("README.md", content=config["readme"])
+        .add_file("config.ini", content=config["config"])
+        .add_repository("res")
+    )
 
+    # targets repository
     target_repo = main_repo.add_repository("targets")
-    for i in range(nb_targets):
-        target_repo.add_repository(f"target{i}").add_file(
-            "config.ini", content=f"[target{i}]\n" + config["target"]
+    for i in range(1, nb_targets + 1):
+        (
+            target_repo.add_repository(f"target{i}")
+            .add_file("config.ini", content=config["target"])
+            .add_file("description.html", content="<p>Description of the library</p>")
         )
+
+    # themes repository
     themes_repo = main_repo.add_repository("themes")
-    for i in range(nb_themes):
-        theme_repo = themes_repo.add_repository(f"theme{i}").add_file(
-            "theme.ini", content=f"[theme{i}]\n" + config["theme"]
+    for i in range(1, nb_themes + 1):
+        theme_repo = (
+            themes_repo.add_repository(f"theme{i}")
+            .add_file("theme.ini", content=f"[theme{i}]\n" + config["theme"])
+            .add_file(
+                "description.html",
+                content="<p>Here you can add a html element to the page to display</p>",
+            )
         )
-        for j in range(nb_tasks):
+        for j in range(1, nb_tasks + 1):
             task_repo = (
                 theme_repo.add_repository(f"task{j}")
                 .add_file("config.ini", content=f"[task{i}]\n" + config["task"])
                 .add_file(
-                    "before_task.py",
-                    content="# This file is used to prepare the task\ndef before_task():\n    pass",
+                    "before.py",
+                    content="",
                 )
                 .add_file(
-                    "evaluation_task.py",
-                    content="# This file is executed to evaluate was has been done by the task\ndef evaluation_task():\n    pass",
+                    "evaluation.py",
+                    content="",
+                )
+                .add_file(
+                    "description.html",
+                    content="<p>Description of the task</p>",
+                )
+                .add_file(
+                    "extra.html",
+                    content="<p>Optional description, for details, images and extra explanation</p>",
                 )
             )
-            for t in range(nb_targets):
+            task_repo.add_repository("data")
+            task_repo.add_repository("res")
+            for t in range(1, nb_targets + 1):
                 (
-                    task_repo.add_file(
-                        f"target{t}_before_run.py",
+                    task_repo.add_repository(f"target{t}")
+                    .add_file(
+                        f"before.py",
                         content="# This file is used to mesure the time before the task",
-                    ).add_file(
-                        f"target{t}_run.py",
+                    )
+                    .add_file(
+                        f"run.py",
                         content="# This file is executed to run the task (runtime = run - before_run)",
                     )
+                    .add_repository("outputs")
                 )
-            task_repo.add_repository("data")
     return main_repo
 
 

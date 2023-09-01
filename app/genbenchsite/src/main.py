@@ -57,18 +57,27 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
 
     """
     baseFilename = resultFilename if Path(resultFilename).exists() else None
-    print(f"baseFilename: {baseFilename}")
     benchmark = Benchmark(
         pathToInfrastructure=structure_test_path, baseResult=baseFilename
     )
     benchmark.StartAllProcedure()
     benchmark.ConvertResultToJson(outputFileName=resultFilename)
 
+
 def benchmark(args):
     start_benchmark(
-        args.O,
+        structure_test_path=args.I,
         resultFilename="results.json",
     )
+
+
+def website(args):
+    BenchSite(
+        inputFilename="results.json",
+        outputPath=args.O,
+        structureTestPath=args.I,
+    ).GenerateStaticSite()
+
 
 def create_name_for_backup_file(resultFilename: str):
     """
@@ -318,46 +327,30 @@ def reset(args):
     reset_task(task_name)
 
 
-def run(args):
-    # we check if the user has provided the url or the local path of the repository
-    if args.url is None and args.O is None:
-        logger.error("No url or local path provided")
-        raise Exception("No url or local path provided")
-
+def auto(args):
     # Test the repository
     result_filename = Path("results.json")
 
-    # by default if the user provide the url, we clone the repository in the local repository
-    # the online repository takes precedence over the local repository if the user provide both (but it's not recommended)
-
-    # if args.url is not None:
-    #     logger.info(f"Cloning the repository {args.url}")
-    #     local_directory = repository_is_github(args.url, resultFilename=resultFilename.absolute())
-    # else:
-    #     logger.info(f"Using the local repository {args.O}")
-    #     local_directory = repository_is_local(args.O, resultFilename=resultFilename.absolute())
-
-    local_directory = repository_is_local(
-        args.O, resultFilename=result_filename.absolute()
+    local_directory = repository_is_github(
+        args.url, resultFilename=result_filename.absolute()
     )
 
     if not local_directory.exists():
         logger.error(f"Path {local_directory.absolute()} does not exist")
         raise Exception(f"Path {local_directory.absolute()} does not exist")
 
-    if args.benchmark:
-        start_benchmark(
-            local_directory.absolute().__str__(),
-            result_filename.absolute().__str__(),
-        )
+    start_benchmark(
+        local_directory.absolute().__str__(),
+        result_filename.absolute().__str__(),
+    )
 
     # The second step is to create the HTML page from the test results. This HTML page will be
     # created in the output folder. The output folder is the folder where the user want to save the
     # HTML page. The output folder is the same as the input folder if the user didn't specify an output folder.
-    return  # HERE !!!!!!!!!
+
     benchsite = BenchSite(
         inputFilename=result_filename.absolute().__str__(),
-        outputPath=Path().cwd(),
+        outputPath=Path("website"),
         structureTestPath=local_directory.absolute().__str__(),
     )
     benchsite.GenerateStaticSite()
@@ -373,33 +366,51 @@ def run(args):
     # the HTML page on the github page. The user must specify the name of the github repository where
     # the HTML page will be deployed.
 
-    if args.publish and args.url is not None:
-        if not args.force_publish and not enough_test_to_publish(
-            result_filename.absolute().__str__()
-        ):
-            logger.info("Not enough tests to publish the results")
-            logger.debug(f"Number of tests: {count_test()}")
-            exit(0)
-        logger.info("Publishing the HTML page on the github page")
-        # before copying the output folder in the repository, we need to check if there is not already
-        # copy the output folder in the repository
-        if os.path.exists(os.path.join(local_directory.absolute(), args.output_folder)):
-            logger.info(
-                f"Removing the folder {os.path.join(local_directory.absolute(), args.output_folder)}"
-            )
-            shutil.rmtree(os.path.join(local_directory.absolute(), args.output_folder))
-        shutil.copytree(
-            args.output_folder,
-            os.path.join(local_directory.absolute(), args.output_folder),
+    logger.info("Publishing the HTML page on the github page")
+    # before copying the output folder in the repository, we need to check if there is not already
+    # copy the output folder in the repository
+    if os.path.exists(os.path.join(local_directory.absolute(), "website")):
+        logger.info(
+            f"Removing the folder {os.path.join(local_directory.absolute(), 'website')}"
         )
-        os.chdir(local_directory.absolute())
-        os.system(f"git add {args.output_folder}")
-        os.system(f'git commit -m "Updating the HTML page"')
-        os.system(f"git push")
-        logger.info("HTML page deployed on the github page")
+        shutil.rmtree(os.path.join(local_directory.absolute(), "website"))
+    shutil.copytree(
+        "website",
+        os.path.join(local_directory.absolute(), "website"),
+    )
+    os.chdir(local_directory.absolute())
+    os.system(f"git add {'website'}")
+    os.system(f'git commit -m "Updating the HTML page"')
+    os.system(f"git push")
+    logger.info("HTML page deployed on the github page")
 
-        # we remove the local repository
-        # shutil.rmtree(working_directory.absolute())
+    # if args.publish and args.url is not None:
+    #     if not args.force_publish and not enough_test_to_publish(
+    #         result_filename.absolute().__str__()
+    #     ):
+    #         logger.info("Not enough tests to publish the results")
+    #         logger.debug(f"Number of tests: {count_test()}")
+    #         exit(0)
+    #     logger.info("Publishing the HTML page on the github page")
+    #     # before copying the output folder in the repository, we need to check if there is not already
+    #     # copy the output folder in the repository
+    #     if os.path.exists(os.path.join(local_directory.absolute(), args.output_folder)):
+    #         logger.info(
+    #             f"Removing the folder {os.path.join(local_directory.absolute(), args.output_folder)}"
+    #         )
+    #         shutil.rmtree(os.path.join(local_directory.absolute(), args.output_folder))
+    #     shutil.copytree(
+    #         args.output_folder,
+    #         os.path.join(local_directory.absolute(), args.output_folder),
+    #     )
+    #     os.chdir(local_directory.absolute())
+    #     os.system(f"git add {args.output_folder}")
+    #     os.system(f'git commit -m "Updating the HTML page"')
+    #     os.system(f"git push")
+    #     logger.info("HTML page deployed on the github page")
+
+    # we remove the local repository
+    # shutil.rmtree(working_directory.absolute())
 
 
 def main():
@@ -430,13 +441,13 @@ def main():
         "benchmark_name", type=str, help="The name of the repository"
     )
     init_parser.add_argument(
-        "-nb_targets", type=int, help="The number of targets", default=2
+        "-nb_targets", type=int, help="The number of targets", default=1
     )
     init_parser.add_argument(
-        "-nb_themes", type=int, help="The number of themes", default=2
+        "-nb_themes", type=int, help="The number of themes", default=1
     )
     init_parser.add_argument(
-        "-nb_tasks", type=int, help="The number of tasks", default=2
+        "-nb_tasks", type=int, help="The number of tasks", default=1
     )
     init_parser.set_defaults(func=init)
 
@@ -451,41 +462,53 @@ def main():
     reset_parser.set_defaults(func=reset)
 
     # Subparser for the benchmark action
-    benchmark_parser = subparsers.add_parser("benchmark", help="Run the benchmark tests")
+    benchmark_parser = subparsers.add_parser(
+        "benchmark", help="Run the benchmark tests"
+    )
     benchmark_parser.add_argument(
-        "-O",
+        "-I",
         type=str,
         help="The local path of the folder where the benchmark structure is located",
         default="repository",
     )
     benchmark_parser.set_defaults(func=benchmark)
 
-    # Subparser for the run action
-    run_parser = subparsers.add_parser("run", help="Run the benchmark tests")
-    run_parser.add_argument(
-        "-O",
+    # Subparser for the website action
+    website_parser = subparsers.add_parser("website", help="Generate the website")
+    website_parser.add_argument(
+        "-I",
         type=str,
         help="The local path of the folder where the benchmark structure is located",
         default="repository",
     )
-    run_parser.add_argument(
-        "-url",
+    website_parser.add_argument(
+        "-O",
+        type=str,
+        help="The local path of the folder where the HTML page will be generated",
+        default="website",
+    )
+    website_parser.set_defaults(func=website)
+
+    # Subparser for the auto action
+    auto_parser = subparsers.add_parser("auto", help="Run the benchmark tests")
+    auto_parser.add_argument(
+        "url",
         type=str,
         help="The url of the git repository where the benchmark structure is located",
     )
-    run_parser.add_argument(
-        "--publish",
-        help="True if the user want to deploy the HTML page, False otherwise",
-        default=True,
-        action=argparse.BooleanOptionalAction,
-    )
-    run_parser.add_argument(
-        "--benchmark",
-        help="True if the user want to run the benchmark, False otherwise. If set to False, the user must provide the result.json file in the repository",
-        default=True,
-        action=argparse.BooleanOptionalAction,
-    )
-    run_parser.set_defaults(func=run)
+    # auto_parser.add_argument(
+    #     "--publish",
+    #     help="True if the user want to deploy the HTML page, False otherwise",
+    #     default=True,
+    #     action=argparse.BooleanOptionalAction,
+    # )
+    # auto_parser.add_argument(
+    #     "--benchmark",
+    #     help="True if the user want to run the benchmark, False otherwise. If set to False, the user must provide the result.json file in the repository",
+    #     default=True,
+    #     action=argparse.BooleanOptionalAction,
+    # )
+    auto_parser.set_defaults(func=auto)
 
     args = parser.parse_args()
     logger.info(f"Arguments: {args}")
@@ -496,6 +519,7 @@ def main():
     # Call the appropriate function based on the selected action
     if args.action is None:
         parser.print_help()
+        return
     args.func(args)
 
 

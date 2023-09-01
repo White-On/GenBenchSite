@@ -1,0 +1,44 @@
+{{scriptData}}
+{{taskNamePage}}
+{{argumentsDescription}}
+{{displayScale}}
+{{scriptFilePath}}
+
+
+<!-- Task Main Component -->
+<div class="main-content">
+    <h1 id="entry-title">{{taskName}}</h1>
+    <!-- <div id="menu"></div> -->
+    <div>
+        {{taskDescritpion}}
+        {% if extra_description != "" or extra_html_element != "" %}
+        <details>
+            <summary>More details</summary>
+            <div>
+                <div>
+                    {{extra_description}}
+                </div>
+                <div>
+                    {{extra_html_element}}
+                </div>
+            </div>
+        </details>
+        {% else %}
+
+        {% endif %}
+    </div>
+
+    <div id="compare-tool">
+        <div id="head_elements">
+            
+            <div id="graphics"></div>
+        </div>
+
+        <div id="code-menu">
+            <p>Choose the target you want to compare ( if a targets doesn't figure in the possible choices, that means the targets can't support the task )</p>
+            <div id="codeSelector"></div>
+            <div id="code">{{code}}</div>
+        </div>
+    </div>
+
+</div>

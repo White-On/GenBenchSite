@@ -6,3 +6,6 @@ psutil>=5.9.5
 Pygments>=2.15.1
 tqdm>=4.65.0
 rich>=12.5.1
+
+[dev]
+twine>=4.0.2

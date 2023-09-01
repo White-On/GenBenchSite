@@ -11,7 +11,7 @@ logs_path.mkdir(exist_ok=True)
 
 date_format = "%m_%d_%H_%M_%S"
 max_logs = 10
-file_name = f"debug_{time.strftime(date_format)}.log"
+file_name = f"log_GBS_{time.strftime(date_format)}.log"
 
 # we don't want the logs to over populate the folder
 # so we delete the older logs

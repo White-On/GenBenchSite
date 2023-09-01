@@ -7,6 +7,8 @@ You can use it to create and generate static html page with jinja2.
 
 from jinja2 import Environment, FileSystemLoader
 import os
+import shutil
+from pathlib import Path
 
 
 class StaticSiteGenerator:
@@ -29,12 +31,7 @@ class StaticSiteGenerator:
 
     def __init__(
         self,
-        scriptFilePath="script",
-        htmlTemplateFilePath="template",
-        assetsFilePath="assets",
-        contentFilePath="output",
-        styleFilePath="style",
-        createFolder: bool = True,
+        output_website_path: str = "website",
     ):
         """Create the static site generator object
 
@@ -56,34 +53,52 @@ class StaticSiteGenerator:
             If True, create the folder if it does not exist, by default True
         """
 
-        curentPath = os.path.dirname(__file__)
+        # the path of the script
+        website_template_path = Path(__file__).parent.parent / "website_template"
+        html_components_path = Path(__file__).parent.parent / "html_template"
+        # first we make a copy of the website_template folder in the output folder
+        self.output_website_path = Path(output_website_path)
+        # if the output_website_path does exist, we delete it to create a updated version
+        if self.output_website_path.exists():
+            delete_directory(self.output_website_path)
 
-        for path in [
-            scriptFilePath,
-            htmlTemplateFilePath,
-            assetsFilePath,
-            contentFilePath,
-            styleFilePath,
-        ]:
-            if not self.CheckIfPathExist(path) and not createFolder:
-                raise Exception(f"Path {path} does not exist")
-            elif not self.CheckIfPathExist(path) and createFolder:
-                # Create the folder relative to path of the script
-                os.mkdir(os.path.join(curentPath, path))
+        # we copy the website_template folder in the output_website_path
+        shutil.copytree(website_template_path, self.output_website_path)
 
-        # we clean the output folder
-        for file in os.listdir(os.path.join(curentPath, contentFilePath)):
-            os.remove(os.path.join(curentPath, contentFilePath, file))
+        # we create the content folder
+        self.contentFilePath = self.output_website_path / "content"
+        self.contentFilePath.mkdir()
+
+        # we now link the differents attributes to the path of the website_template folder
+        self.scriptFilePath = self.output_website_path / "script"
+        self.assetsFilePath = self.output_website_path / "assets"
+        self.styleFilePath = self.output_website_path / "style"
+        self.contentFilePath = self.output_website_path / "content"
+        self.htmlTemplateFilePath = html_components_path
+
+        # for path in [
+        #     scriptFilePath,
+        #     htmlTemplateFilePath,
+        #     assetsFilePath,
+        #     contentFilePath,
+        #     styleFilePath,
+        # ]:
+        #     if not self.CheckIfPathExist(path) and not createFolder:
+        #         raise Exception(f"Path {path} does not exist")
+        #     elif not self.CheckIfPathExist(path) and createFolder:
+        #         # Create the folder relative to path of the script
+        #         os.mkdir(os.path.join(current_path, path))
+
+        # # we clean the output folder
+        # for file in os.listdir(os.path.join(current_path, contentFilePath)):
+        #     os.remove(os.path.join(current_path, contentFilePath, file))
 
         # we need the basename of these path to use it in the HTML template
         basename = lambda path: os.path.basename(os.path.normpath(path))
 
-        self.scriptFilePath = basename(scriptFilePath)
-        self.assetsFilePath = basename(assetsFilePath)
-        self.styleFilePath = basename(styleFilePath)
-
-        self.contentFilePath = contentFilePath
-        self.htmlTemplateFilePath = htmlTemplateFilePath
+        self.scriptFilePath = basename(self.scriptFilePath)
+        self.assetsFilePath = basename(self.assetsFilePath)
+        self.styleFilePath = basename(self.styleFilePath)
 
     def CheckIfPathExist(self, path: str) -> bool:
         """Check if the path relative to the path of the script exist.
@@ -144,3 +159,24 @@ class StaticSiteGenerator:
 
         with open(f"{outputPath}/{pageName}", "w") as f:
             f.write(html)
+
+
+def delete_directory(dir_path: str):
+    """
+    Clears the contents of a directory.
+
+    Arguments
+    ---------
+    dir_path : str
+        The path to the directory to clear.
+
+    """
+    path = Path(dir_path)
+    if path.exists() and path.is_dir():
+        shutil.rmtree(path)
+    else:
+        print(f"Directory {dir_path} does not exist.")
+
+
+if __name__ == "__main__":
+    ssg = StaticSiteGenerator()

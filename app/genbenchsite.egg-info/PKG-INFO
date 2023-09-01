@@ -1,13 +1,11 @@
 Metadata-Version: 2.1
 Name: genbenchsite
-Version: 0.0.1
+Version: 0.0.3
 Summary: Generate a benchmark website from a set of benchmark tests
-Home-page: UNKNOWN
 Author: Jules Cassan
-License: UNKNOWN
-Platform: UNKNOWN
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
+Provides-Extra: dev
 
 # GenBenchSite
 
@@ -83,6 +81,4 @@ We do this for each task and repeat it for the theme and the global ranking.
 The benchmark website is an open-source project, and contributions from the community are welcome. To contribute,
 users can fork the project on GitHub, make changes to the code, and submit a pull request. Users can also
 contribute by reporting bugs, suggesting improvements, or sharing their benchmarking results.    
-
-
 

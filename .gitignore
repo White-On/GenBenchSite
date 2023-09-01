@@ -8,4 +8,5 @@ logs/
 backup/
 dist/
 build/
+*.egg-info/
 ```

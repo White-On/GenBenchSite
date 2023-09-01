@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <title>{{siteName}}</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the description of the page">
+    <meta name="keywords" content="HTML,CSS,JavaScript,Benchmark,Json,Python">
+    <meta name="author" content="Jules CASSAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{styleFilePath}}">
+    <!-- D3.js import  -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header-grid">
+        <nav class="header-nav">
+            <a href="{{ linkTo.home }}"><b>Home</b></a>
+            <a href="{{ linkTo.about }}"><b>About</b></a>
+            <a href="{{ linkTo.download }}" download="data.json"><b>Raw Data</b></a>
+        </nav>
+        <nav class="header-nav">
+            <p id="link-description">You are invited to contribute through <br> a request on the GitHub page</p>
+            {% for name,link in socialMediaList %}
+            <a href="{{link}}" class="icon">
+            <img src="{{assetsFilePath}}/{{name}}.svg" alt="{{name}}-icon">
+            </a>
+            {% endfor %}
+        </nav>
+    </header>
