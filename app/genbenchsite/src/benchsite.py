@@ -1,20 +1,20 @@
-from genbenchsite.src.static_site_generator import StaticSiteGenerator
-from genbenchsite.src.structure_test import StructureTest
+from static_site_generator import StaticSiteGenerator
+from structure_test import get_benchmark_config, get_target_config, get_theme_config, get_task_config, get_site_config
 import os
 from pathlib import Path
 
-from genbenchsite.src.logger import logger
-from genbenchsite.src.json_to_python_object import FileReaderJson
-from genbenchsite.src.library import Library
-from genbenchsite.src.task import Task
-from genbenchsite.src.ranking import (
+from logger import logger
+from json_to_python_object import FileReaderJson
+from library import Library
+from task import Task
+from ranking import (
     RankingLibraryGlobal,
     RankingLibraryByTask,
     RankingLibraryByTheme,
 )
 from shutil import copyfile
-from genbenchsite.src.collectCode import CollectCode
-from genbenchsite.src.getMachineData import GetRunMachineMetadata
+from collectCode import CodeReader
+from getMachineData import GetRunMachineMetadata
 
 RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 
@@ -48,8 +48,9 @@ class BenchSite:
         )
 
         self.machineData = GetRunMachineMetadata()
-        self.siteConfig = self.get_site_config()
-        self.benchmarkConfig = self.GetBenchmarkConfig()
+        self.siteConfig = get_site_config()
+        self.benchmarkConfig = get_benchmark_config()
+        self.targetConfig = get_target_config()
         self.setup_global_variables()
 
     def setup_global_variables(self):
@@ -63,79 +64,26 @@ class BenchSite:
             "default_task_scale", BenchSite.DEFAULT_TASK_SCALE
         )
 
-    def get_library_config(self):
-        strtest = StructureTest()
-        libraryConfig = strtest.read_config(
-            *strtest.find_config_file(os.path.join(self.structureTestPath, "targets"))
-        )
-        return libraryConfig
-
-    def get_task_config(self):
-        strtest = StructureTest()
-        taskConfig = strtest.read_config(
-            *strtest.find_config_file(os.path.join(self.structureTestPath, "themes"))
-        )
-        return taskConfig
-
-    def get_theme_config(self):
-        strtest = StructureTest()
-        themeConfig = strtest.read_config(
-            *strtest.find_config_file(
-                os.path.join(self.structureTestPath, "themes"), name="theme.ini"
-            )
-        )
-        return themeConfig
-
-    def get_site_config(self):
-        strtest = StructureTest()
-        siteConfig = strtest.read_config(
-            *strtest.find_config_file(os.path.join(self.structureTestPath, "config")),
-            listSection=["site"],
-        )
-        return siteConfig["config"]
-
-    def GetBenchmarkConfig(self):
-        """
-        get the benchmark config from the config.ini file in the root folder
-        """
-        strTest = StructureTest()
-        listBenchmarkpath = strTest.find_config_file(
-            os.path.join(self.structureTestPath, "config"), name="config.ini"
-        )
-        benchmarkConfig = strTest.read_config(
-            *listBenchmarkpath, listSection=["benchmark"]
-        )
-        return benchmarkConfig["config"]
-
-    def GetLibraryLogo(self):
+    def get_target_logo(self):
         logo = {}
         for libraryName in Library.GetAllLibraryName():
             # if the logo is present we copy it in the assets folder
-            # we copy the logo in the assets folder
-            if os.path.exists(
-                os.path.join(self.structureTestPath, "targets", libraryName, "logo.png")
-            ):
-                copyfile(
-                    os.path.join(
-                        self.structureTestPath, "targets", libraryName, "logo.png"
-                    ),
-                    os.path.join(
-                        self.outputPath,
-                        self.staticSiteGenerator.assetsFilePath,
-                        libraryName + ".png",
-                    ),
-                )
-                logo[libraryName] = os.path.join(
-                    self.staticSiteGenerator.assetsFilePath, libraryName + ".png"
-                )
-
+            # else we just use the default logo
+            logo_name = self.targetConfig.get(libraryName, {}).get("logo", None)
+            logo_path = Path(self.structureTestPath) / 'res' / logo_name if logo_name is not None else None
+            if logo_path is not None and Path(logo_path).exists():
+                # copy the logo in the assets folder
+                self.get_new_asset(logo_path)
+                logo[libraryName] = Path(self.staticSiteGenerator.assetsFilePath) / Path(logo_path).name
             else:
-                # logo[libraryName] = os.path.join(self.staticSiteGenerator.assetsFilePath,"default.png")
-                logo[libraryName] = os.path.join(
-                    self.staticSiteGenerator.assetsFilePath, BenchSite.DEFAULT_LOGO
-                )
-
+                logo[libraryName] = Path(self.staticSiteGenerator.assetsFilePath) / BenchSite.DEFAULT_LOGO
         return logo
+    
+    def get_new_asset(self, new_asset_path):
+        copyfile(
+            new_asset_path,
+            Path(self.outputPath) / self.staticSiteGenerator.assetsFilePath / Path(new_asset_path).name,
+        )
 
     def GenerateHTMLBestLibraryGlobal(self):
         contentfilePath = (
@@ -159,27 +107,6 @@ class BenchSite:
         HTMLGlobalRanking += "</div>\
                             </div>"
         return HTMLGlobalRanking
-
-    @staticmethod
-    def GenerateHTMLRankingAllTheme():
-        HTMLThemeRanking = "<div id='theme-rank'>\
-            <h1>Theme Ranking</h1>\
-            <p>The best libraries for each theme</p>\
-                <div class=\"grid\">"
-        rankLibraryInTheme = RankingLibraryByTheme(threshold=BenchSite.LEXMAX_THRESHOLD)
-        # On trie le dictionnaire par nom de thème pour avoir un classement par ordre alphabétique
-        rankLibraryInTheme = {
-            k: v
-            for k, v in sorted(rankLibraryInTheme.items(), key=lambda item: item[0])
-        }
-        for theme in rankLibraryInTheme.keys():
-            HTMLThemeRanking += f"<div class=\"card theme\"><h2>{theme}</h2><h3>{' '.join(taskName for taskName in Task.GetTaskNameByThemeName(theme))}</h3><ol>"
-            HTMLThemeRanking += "".join(
-                [f"<li>{library}</li>" for library in rankLibraryInTheme[theme]]
-            )
-            HTMLThemeRanking += "</ol></div>"
-        HTMLThemeRanking += "</div></div>"
-        return HTMLThemeRanking
 
     @staticmethod
     def GenerateHTMLRankingPerThemeName(themeName):
@@ -289,15 +216,15 @@ class BenchSite:
             "download": "results.json",
         }
 
-        libraryConfig = self.get_library_config()
-        taskConfig = self.get_task_config()
-        themeConfig = self.get_theme_config()
-        logoLibrary = self.GetLibraryLogo()
+        target_config = get_target_config()
+        task_config = get_task_config()
+        theme_config = get_theme_config()
+        target_logo = self.get_target_logo()
 
         logger.info("Generate HTML Home Page")
-        logger.debug(f"library config : {libraryConfig}")
-        logger.debug(f"task config : {taskConfig}")
-        logger.debug(f"logo library : {logoLibrary}")
+        logger.debug(f"library config : {target_config}")
+        logger.debug(f"task config : {task_config}")
+        logger.debug(f"logo library : {target_logo}")
 
         social_media = list(
             map(
@@ -305,7 +232,7 @@ class BenchSite:
                 self.siteConfig.get("social_media", {}).split(" "),
             )
         )
-        codeLibrary = CollectCode(pathToInfrastructure=self.structureTestPath)
+        codeLibrary = CodeReader(pathToInfrastructure=self.structureTestPath)
 
         # GOOGLEANALYTICS
         HTMLGoogleAnalytics = staticSiteGenerator.CreateHTMLComponent(
@@ -338,7 +265,7 @@ class BenchSite:
                 "<li class='menu-item'>"
                 + BenchSite.MakeLink(
                     contentFilePath + libraryName,
-                    strElement=f"<img src='{logoLibrary[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
+                    strElement=f"<img src='{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
                     a_balise_id=f"{libraryName}-nav",
                 )
                 + "</li>"
@@ -433,7 +360,7 @@ class BenchSite:
                 "<li class='menu-item'>"
                 + BenchSite.MakeLink(
                     libraryName,
-                    strElement=f"<img src='../{logoLibrary[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
+                    strElement=f"<img src='../{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
                     a_balise_id=f"{libraryName}-nav",
                 )
                 + "</li>"
@@ -493,7 +420,7 @@ class BenchSite:
 
             logger.debug(f"{importedRuntime = }")
 
-            functionEvaluation = taskConfig[taskName].get("evaluation_function", None)
+            functionEvaluation = task_config[taskName].get("evaluation_function", None)
             if functionEvaluation is not None:
                 functionEvaluation = functionEvaluation.split(" ")
             else:
@@ -533,24 +460,24 @@ class BenchSite:
             chartData = {}
             chartData["runtime"] = {
                 "data": importedRuntime,
-                "display": taskConfig[taskName].get("task_display", "groupedBar"),
+                "display": task_config[taskName].get("task_display", "groupedBar"),
                 "label": "Runtime",
-                "title": taskConfig[taskName].get("task_title", "Title"),
-                "XLabel": taskConfig[taskName].get("task_xlabel", "X-axis"),
-                "YLabel": taskConfig[taskName].get("task_ylabel", "Y-axis"),
-                "scale": taskConfig[taskName].get("task_scale", "auto"),
-                "timeout": taskConfig[taskName].get("timeout"),
+                "title": task_config[taskName].get("task_title", "Title"),
+                "XLabel": task_config[taskName].get("task_xlabel", "X-axis"),
+                "YLabel": task_config[taskName].get("task_ylabel", "Y-axis"),
+                "scale": task_config[taskName].get("task_scale", "auto"),
+                "timeout": task_config[taskName].get("timeout"),
             }
             for i, function in enumerate(functionEvaluation):
-                xlabel = taskConfig[taskName].get("post_task_xlabel", "X-axis")
+                xlabel = task_config[taskName].get("post_task_xlabel", "X-axis")
                 ylabel = (
-                    taskConfig[taskName].get("post_task_ylabel", "Y-axis").split(" ")
+                    task_config[taskName].get("post_task_ylabel", "Y-axis").split(" ")
                 )
-                scale = taskConfig[taskName].get("post_task_scale", "auto").split(" ")
-                title = taskConfig[taskName].get("post_task_title", "Title").split(",")
+                scale = task_config[taskName].get("post_task_scale", "auto").split(" ")
+                title = task_config[taskName].get("post_task_title", "Title").split(",")
                 chartData[function] = {
                     "data": importedEvaluation[function],
-                    "display": taskConfig[taskName].get(
+                    "display": task_config[taskName].get(
                         "post_task_display", "groupedBar"
                     ),
                     "label": function.capitalize(),
@@ -559,16 +486,16 @@ class BenchSite:
                     "YLabel": ylabel[i] if i < len(ylabel) else ylabel[0],
                     "scale": scale[i] if i < len(scale) else scale[0],
                 }
-            complementary_description = taskConfig[taskName].get(
+            complementary_description = task_config[taskName].get(
                 "extra_description", ""
             )
             # we're also adding information relevant to the task in the description
             complementary_description += "<br><br>"
-            complementary_description += f"<p>Timeout : {taskConfig[taskName].get('timeout',self.benchmarkConfig.get('default_timeout','No timeout configured'))} (seconds)</p>"
-            complementary_description += f"<p>Number of iteration : {taskConfig[taskName].get('nb_runs',self.benchmarkConfig.get('default_nb_runs','No number of iteration configured'))}</p>"
+            complementary_description += f"<p>Timeout : {task_config[taskName].get('timeout',self.benchmarkConfig.get('default_timeout','No timeout configured'))} (seconds)</p>"
+            complementary_description += f"<p>Number of iteration : {task_config[taskName].get('nb_runs',self.benchmarkConfig.get('default_nb_runs','No number of iteration configured'))}</p>"
             complementary_description += f"<p>The task is interrupted if the number of timeout reached {self.benchmarkConfig.get('default_stop_after_x_timeout','No number of timeout configured')}</p>"
 
-            HTMLExtra = taskConfig[taskName].get("extra_html_element", None)
+            HTMLExtra = task_config[taskName].get("extra_html_element", None)
             if HTMLExtra is not None:
                 try:
                     HTMLExtra = list(
@@ -609,14 +536,14 @@ class BenchSite:
                     content=f"const importedData = {chartData};"
                 ),
                 code=templateTask,
-                taskDescritpion=taskConfig[taskName].get(
+                taskDescritpion=task_config[taskName].get(
                     "description", "No description"
                 ),
                 argumentsDescription=BenchSite.CreateScriptBalise(
-                    content=f"const argDescription = '{taskConfig[taskName].get('arguments_description', 'No description')}';"
+                    content=f"const argDescription = '{task_config[taskName].get('arguments_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
-                    content=f"const displayScale = '{taskConfig[taskName].get('display_scale', 'linear')}';"
+                    content=f"const displayScale = '{task_config[taskName].get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
                 extra_description=complementary_description,
@@ -712,7 +639,7 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedRuntime};"
                 ),
-                description=themeConfig.get(themeName, {}).get(
+                description=theme_config.get(themeName, {}).get(
                     "description", "No description attributed"
                 ),
             )
@@ -796,11 +723,11 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedRuntime};"
                 ),
-                taskDescription=libraryConfig[libraryName].get(
+                taskDescription=target_config[libraryName].get(
                     "description", "No Description Attributed"
                 ),
-                logoLibrary=f"<img src='../{logoLibrary[libraryName]}' alt='{libraryName}' width='50' height='50'>"
-                if logoLibrary[libraryName] != None
+                logoLibrary=f"<img src='../{target_logo[libraryName]}' alt='{libraryName}' width='50' height='50'>"
+                if target_logo[libraryName] != None
                 else "",
             )
 
@@ -825,7 +752,3 @@ if __name__ == "__main__":
     cwd = os.getcwd()
     benchSite = BenchSite("results.json")
     pagePath = "pages"
-    benchSite.get_library_config()
-    benchSite.get_task_config()
-    benchSite.GenerateStaticSite()
-    benchSite.get_theme_config()

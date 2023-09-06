@@ -25,7 +25,3 @@ def GetRunMachineMetadata():
 def SaveMachineDataInJson(outputFile: str):
     with open(outputFile, "w") as file:
         json.dump(GetRunMachineMetadata(), file)
-
-
-if __name__ == "__main__":
-    SaveMachineDataInJson("machine.json")

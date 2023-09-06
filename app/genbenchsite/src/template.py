@@ -1,5 +1,5 @@
 from pathlib import Path
-from genbenchsite.src.logger import logger
+from logger import logger
 
 
 class Repository:
@@ -52,16 +52,17 @@ def create_template(
 
     # we check that no repository already exists
     if Path(target_path).exists():
-        logger.error(f"{target_path} already exists")
-        raise ValueError(
-            f"The benchmark or directory {target_path} already exists, please choose another name"
-        )
+        logger.error(f"The benchmark or directory {target_path} already exists, please choose another name")
+        # raise ValueError(
+        #     f"The benchmark or directory {target_path} already exists, please choose another name"
+        # )
+        return
 
     # main repository
     main_repo = Repository(target_path)
     (
         main_repo.add_file("README.md", content=config["readme"])
-        .add_file("config.ini", content=config["config"])
+        .add_file("project.ini", content=config["config"])
         .add_repository("res")
     )
 
@@ -70,7 +71,7 @@ def create_template(
     for i in range(1, nb_targets + 1):
         (
             target_repo.add_repository(f"target{i}")
-            .add_file("config.ini", content=config["target"])
+            .add_file("target.ini", content=config["target"])
             .add_file("description.html", content="<p>Description of the library</p>")
         )
 
@@ -79,7 +80,7 @@ def create_template(
     for i in range(1, nb_themes + 1):
         theme_repo = (
             themes_repo.add_repository(f"theme{i}")
-            .add_file("theme.ini", content=f"[theme{i}]\n" + config["theme"])
+            .add_file("theme.ini", content=config["theme"])
             .add_file(
                 "description.html",
                 content="<p>Here you can add a html element to the page to display</p>",
@@ -88,13 +89,17 @@ def create_template(
         for j in range(1, nb_tasks + 1):
             task_repo = (
                 theme_repo.add_repository(f"task{j}")
-                .add_file("config.ini", content=f"[task{i}]\n" + config["task"])
+                .add_file("task.ini", content=config["task"])
                 .add_file(
                     "before.py",
                     content="",
                 )
                 .add_file(
-                    "evaluation.py",
+                    "evaluation1.py",
+                    content="",
+                )
+                .add_file(
+                    "evaluation2.py",
                     content="",
                 )
                 .add_file(
@@ -125,4 +130,4 @@ def create_template(
 
 
 if __name__ == "__main__":
-    print(create_template())
+    print(create_template(nb_targets=2, nb_themes=2, nb_tasks=2))

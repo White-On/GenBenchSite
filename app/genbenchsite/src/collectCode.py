@@ -3,11 +3,11 @@ from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 import json
 from pathlib import Path
-from genbenchsite.src.logger import logger
+from logger import logger
 
 
-class CollectCode:
-    def __init__(self, pathToInfrastructure: str, outputPath=None):
+class CodeReader:
+    def __init__(self, pathToInfrastructure: str):
         logger.info("Collecting the code")
         logger.debug(f"Path to infrastructure : {pathToInfrastructure}")
         self.pathToInfrastructure = Path(pathToInfrastructure)
@@ -18,31 +18,27 @@ class CollectCode:
             path.name for path in self.pathToInfrastructure.glob("targets/*")
         ]
 
-        self.taskPath = list(self.pathToInfrastructure.glob("**/*_run.py"))
+        self.taskPath = list(self.pathToInfrastructure.glob("**/run.py"))
 
         logger.debug(f"Task path : {self.taskPath}")
         logger.debug(f"Targets : {self.targets}")
 
-        self.pure_code_str = self.RetreiveCode(*self.taskPath)
+        self.pure_code_str = self.retreive_code(*self.taskPath)
 
         self.CodeHTML = {target: {} for target in self.targets}
 
-        self.TransfomCodeInHTML()
+        self.all_code_to_html()
         logger.info("=======Code collected=======")
 
-    def RetreiveCode(self, *code_path):
+    def retreive_code(self, *code_path):
         if len(code_path) == 0:
             logger.warning("No path given")
             return {}
 
         code = {target: {} for target in self.targets}
         for path in code_path:
-            # we check if there is a before in the pathName
-            # maybe change strategy in the future to be more flexible
-            if path.name.split("_")[1] == "before":
-                continue
-            taskName = path.parent.name
-            targetName = path.name.split("_")[0]
+            taskName = path.parents[1].name
+            targetName = path.parents[0].name
             logger.debug(f"Reading code file in {path.absolute()}")
             with open(path.absolute(), "r") as f:
                 code[targetName][taskName] = f.read()
@@ -51,7 +47,7 @@ class CollectCode:
 
         return code
 
-    def TransfomCodeInHTML(self):
+    def all_code_to_html(self):
         for target in self.targets:
             for task in self.pure_code_str[target]:
                 self.CodeHTML[target][task] = self.pure_code_to_html(
@@ -69,7 +65,7 @@ class CollectCode:
         )
         return highlight(code, PythonLexer(), formatter)
 
-    def SaveInJson(self, outputPath: str):
+    def save_json(self, outputPath: str):
         with open(outputPath, "w") as file:
             json.dump(self.CodeHTML, file)
 
@@ -78,6 +74,7 @@ class CollectCode:
 
 
 if __name__ == "__main__":
-    pathToInfrastructure = "C:/Users/jules/Documents/Git/BenchSite/repository"
+    pathToInfrastructure = "D:/Jules_Scolaire/Master_Androide_M1/BenchSite/repository"
 
-    collectCode = CollectCode(pathToInfrastructure)
+    collectCode = CodeReader(pathToInfrastructure)
+    print(collectCode.get_code_HTML("target1", "task1"))

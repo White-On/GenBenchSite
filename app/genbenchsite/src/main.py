@@ -4,10 +4,10 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from genbenchsite.src.benchmark import Benchmark
-from genbenchsite.src.benchsite import BenchSite
-from genbenchsite.src.logger import logger
-from genbenchsite.src.template import create_template
+from benchmark import Benchmark
+from benchsite import BenchSite
+from logger import logger
+from template import create_template
 
 
 def delete_directory(dir_path: str):
@@ -60,8 +60,8 @@ def start_benchmark(structure_test_path: str, resultFilename: str = "results.jso
     benchmark = Benchmark(
         pathToInfrastructure=structure_test_path, baseResult=baseFilename
     )
-    benchmark.StartAllProcedure()
-    benchmark.ConvertResultToJson(outputFileName=resultFilename)
+    benchmark.run()
+    benchmark.result_to_json(outputFileName=resultFilename)
 
 
 def benchmark(args):

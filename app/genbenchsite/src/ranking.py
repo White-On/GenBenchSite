@@ -6,8 +6,8 @@ This module contains the differents ranking function to rank the library by task
 
 import numpy as np
 
-from genbenchsite.src.task import Task
-from genbenchsite.src.library import Library
+from task import Task
+from library import Library
 from pprint import pprint
 
 

@@ -44,14 +44,11 @@ arguments = 1000,2000,3000,4000,5000
 timeout = 60
 stop_after_x_timeout = 3
 
-; the arguments of the function to run before the task ( as a dictionary )
-before_task_arguments = {}
-
-; the arguments of the function to run after the task ( as a dictionary )
-evaluation_arguments = {}
+; the scoring script name ( inside the task folder ) separeted by a coma
+scoring = evaluation1.py, evaluation2.py
 
 ; the order of the evaluation for ranking the algorithms ( asc or desc )
-evaluation_metric_type = asc ; ou un meilleur nom
+evaluation_metric_type = asc, desc; ou un meilleur nom
 
 ; the scale of the task graph (auto,linear,log)
 perf_scale = auto

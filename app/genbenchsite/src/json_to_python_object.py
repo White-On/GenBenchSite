@@ -5,10 +5,10 @@ This module contains the function to read a json file and create the python obje
 """
 import os
 import json
-from genbenchsite.src.library import Library
-from genbenchsite.src.task import Task
-from genbenchsite.src.logger import logger
-from genbenchsite.src.structure_test import StructureTest
+from library import Library
+from task import Task
+from logger import logger
+from structure_test import StructureTest
 
 
 def FileReaderJson(filename: str, structure_test_path: str) -> None:
