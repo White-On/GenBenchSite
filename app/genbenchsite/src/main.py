@@ -230,9 +230,10 @@ def repository_is_github(repository, resultFilename: str = "results.json"):
                 logger.error(
                     f"Error when merging the remote repository with the local repository {repository}"
                 )
-                raise Exception(
-                    f"Error when merging the remote repository with the local repository {repository}"
-                )
+                # raise Exception(
+                #     f"Error when merging the remote repository with the local repository {repository}"
+                # )
+                exit(1)
             return path
 
     # we clone the repository in the local repository
@@ -241,7 +242,8 @@ def repository_is_github(repository, resultFilename: str = "results.json"):
         os.system(command)
     except:
         logger.error(f"Error when cloning the repository {repository}")
-        raise Exception(f"Error when cloning the repository {repository}")
+        # raise Exception(f"Error when cloning the repository {repository}")
+        exit(1)
 
     return path
 
@@ -321,7 +323,8 @@ def reset(args):
     # we check if the task name is not empty
     if task_name is None or len(task_name) == 0:
         logger.error("No task name provided")
-        raise Exception("No task name provided")
+        # raise Exception("No task name provided")
+        exit(1)
     # we reset the tasks
     logger.debug(f"Tasks to reset: {task_name}")
     reset_task(task_name)
@@ -330,6 +333,7 @@ def reset(args):
 def auto(args):
     # Test the repository
     result_filename = Path("results.json")
+    website_folder_name = "pages"
 
     local_directory = repository_is_github(
         args.url, resultFilename=result_filename.absolute()
@@ -337,7 +341,8 @@ def auto(args):
 
     if not local_directory.exists():
         logger.error(f"Path {local_directory.absolute()} does not exist")
-        raise Exception(f"Path {local_directory.absolute()} does not exist")
+        # raise Exception(f"Path {local_directory.absolute()} does not exist")
+        exit(1)
 
     start_benchmark(
         local_directory.absolute().__str__(),
@@ -350,7 +355,7 @@ def auto(args):
 
     benchsite = BenchSite(
         inputFilename=result_filename.absolute().__str__(),
-        outputPath=Path("website"),
+        outputPath=Path(website_folder_name),
         structureTestPath=local_directory.absolute().__str__(),
     )
     benchsite.GenerateStaticSite()
@@ -369,17 +374,17 @@ def auto(args):
     logger.info("Publishing the HTML page on the github page")
     # before copying the output folder in the repository, we need to check if there is not already
     # copy the output folder in the repository
-    if os.path.exists(os.path.join(local_directory.absolute(), "website")):
+    if os.path.exists(os.path.join(local_directory.absolute(), website_folder_name)):
         logger.info(
-            f"Removing the folder {os.path.join(local_directory.absolute(), 'website')}"
+            f"Removing the folder {os.path.join(local_directory.absolute(), website_folder_name)}"
         )
-        shutil.rmtree(os.path.join(local_directory.absolute(), "website"))
+        shutil.rmtree(os.path.join(local_directory.absolute(), website_folder_name))
     shutil.copytree(
-        "website",
-        os.path.join(local_directory.absolute(), "website"),
+        website_folder_name,
+        os.path.join(local_directory.absolute(), website_folder_name),
     )
     os.chdir(local_directory.absolute())
-    os.system(f"git add {'website'}")
+    os.system(f"git add {website_folder_name}")
     os.system(f'git commit -m "Updating the HTML page"')
     os.system(f"git push")
     logger.info("HTML page deployed on the github page")
@@ -485,7 +490,7 @@ def main():
         "-O",
         type=str,
         help="The local path of the folder where the HTML page will be generated",
-        default="website",
+        default="pages",
     )
     website_parser.set_defaults(func=website)
 

@@ -313,7 +313,7 @@ class Benchmark:
         # )
 
     def evalution_task(
-        self, taskPath: str, taskName: str, target_name: str, arg: str, *scoring_scripts
+        self, taskName: str, target_name: str, arg: str, *scoring_scripts
     ):
         """
         Run the evaluation function of a task
@@ -340,7 +340,7 @@ class Benchmark:
 
         for script in scoring_scripts:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-            command = f"python {Path(taskPath) / script} {target_name} {arg}"
+            command = f"python {script} {target_name} {arg}"
             logger.debug(
                 f"Run the evaluation function for {taskName} with {command} command"
             )
@@ -605,7 +605,6 @@ class Benchmark:
                     # if the task has  been run successfuly we run the evaluation function
                     if not isinstance(resultProcess, str):
                         valueEvaluation = self.evalution_task(
-                            taskPath,
                             taskName,
                             libraryName,
                             arg,

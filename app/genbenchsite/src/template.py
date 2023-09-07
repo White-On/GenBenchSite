@@ -41,7 +41,7 @@ def load_template(path):
 
 
 def create_template(
-    target_path="benchmark_name", nb_targets=1, nb_themes=1, nb_tasks=1
+    target_path="repository", nb_targets=1, nb_themes=1, nb_tasks=1
 ):
     # we look for the template file
     template_path = Path(__file__).parent / ".template.txt"

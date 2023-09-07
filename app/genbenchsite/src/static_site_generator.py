@@ -65,8 +65,12 @@ class StaticSiteGenerator:
         # we copy the website_template folder in the output_website_path
         shutil.copytree(website_template_path, self.output_website_path)
 
-        # we remove the __init__.py file
-        Path(self.output_website_path / "__init__.py").unlink()
+        # we remove the __init__.py file if it exist
+        if Path(self.output_website_path / "__init__.py").exists():
+            Path(self.output_website_path / "__init__.py").unlink()
+        # we remove the __pycache__ folder if it exist
+        if Path(self.output_website_path / "__pycache__").exists():
+            delete_directory(self.output_website_path / "__pycache__")
 
         # we create the content folder
         self.contentFilePath = self.output_website_path / "content"
