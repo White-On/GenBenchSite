@@ -1,5 +1,5 @@
-from static_site_generator import StaticSiteGenerator
-from structure_test import (
+from .static_site_generator import StaticSiteGenerator
+from .structure_test import (
     get_benchmark_config,
     get_target_config,
     get_theme_config,
@@ -9,18 +9,18 @@ from structure_test import (
 import os
 from pathlib import Path
 
-from logger import logger
-from json_to_python_object import FileReaderJson
-from library import Library
-from task import Task
-from ranking import (
+from .logger import logger
+from .json_to_python_object import FileReaderJson
+from .library import Library
+from .task import Task
+from .ranking import (
     RankingLibraryGlobal,
     RankingLibraryByTask,
     RankingLibraryByTheme,
 )
 from shutil import copyfile
-from collectCode import CodeReader
-from getMachineData import GetRunMachineMetadata
+from .collectCode import CodeReader
+from .getMachineData import GetRunMachineMetadata
 
 RemoveUnderscoreAndDash = lambda string: string.replace("_", " ").replace("-", " ")
 

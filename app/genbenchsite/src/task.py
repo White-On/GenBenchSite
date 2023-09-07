@@ -7,7 +7,7 @@ This module contains the class Task and the differents function to manipulate th
 from dataclasses import dataclass, field
 from typing import ClassVar
 import numpy as np
-from logger import logger
+from .logger import logger
 
 MIN_RUNTIME_POSSIBLE = 0.0001
 

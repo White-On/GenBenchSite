@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 from pathlib import Path
-from logger import logger
+from .logger import logger
 
 
 class StructureTest:

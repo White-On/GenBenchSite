@@ -7,7 +7,7 @@ This module contains the class Library and the differents function to manipulate
 from dataclasses import dataclass, field
 from typing import ClassVar
 
-from task import Task
+from .task import Task
 
 
 @dataclass

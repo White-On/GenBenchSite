@@ -4,10 +4,10 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from benchmark import Benchmark
-from benchsite import BenchSite
-from logger import logger
-from template import create_template
+from .benchmark import Benchmark
+from .benchsite import BenchSite
+from .logger import logger
+from .template import create_template
 
 
 def delete_directory(dir_path: str):

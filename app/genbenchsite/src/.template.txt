@@ -74,7 +74,7 @@ title = Name of the target
 logo = logo.png
 |[theme]
 title = Title of the theme
-task_order = Task2, Task1, Task3
+task_order = Task2,Task1,Task3
 ; to change the order of the tasks
 |# This repository is a Demo for [**GenBenchSite**](https://github.com/White-On/BenchSite), a Benchmarking tools for libraries.
 

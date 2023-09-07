@@ -1,4 +1,3 @@
-import os
 import subprocess
 import time
 import json
@@ -7,8 +6,8 @@ import ast
 from tqdm import tqdm
 from pathlib import Path
 
-from logger import logger
-from structure_test import (
+from .logger import logger
+from .structure_test import (
     get_benchmark_config,
     get_target_config,
     get_theme_config,

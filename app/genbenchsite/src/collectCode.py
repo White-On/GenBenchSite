@@ -3,7 +3,7 @@ from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 import json
 from pathlib import Path
-from logger import logger
+from .logger import logger
 
 
 class CodeReader:

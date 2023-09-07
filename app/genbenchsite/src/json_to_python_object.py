@@ -3,12 +3,11 @@
 This module contains the function to read a json file and create the python object.
 
 """
-import os
 import json
-from library import Library
-from task import Task
-from logger import logger
-from structure_test import get_task_config
+from .library import Library
+from .task import Task
+from .logger import logger
+from .structure_test import get_task_config
 
 
 def FileReaderJson(filename: str, structure_test_path: str) -> None:
