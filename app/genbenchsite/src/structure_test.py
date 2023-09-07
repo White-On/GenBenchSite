@@ -58,59 +58,108 @@ class StructureTest:
 
         return config_files
 
-    @classmethod
-    def get_site_config(cls, path_benchmark):
-        site_config = cls.read_config(
-            *cls.find_config_file(path_benchmark, name="project.ini"),
-            listSection=["benchsite"],
-        )
-        if len(site_config) < 1:
-            logger.error("No config file found for the website parameters")
-            return {}
-        return site_config["benchsite"]
 
-    @classmethod
-    def get_benchmark_config(cls, path_benchmark):
-        benchmark_config = cls.read_config(
-            *cls.find_config_file(Path(path_benchmark), name="project.ini"),
-            listSection=["benchmark"],
-        )
-        if len(benchmark_config) < 1:
-            logger.error("No config file found for the benchmark parameters")
-            return {}
-        return benchmark_config["benchmark"]
+def get_site_config(path_benchmark):
+    site_config = StructureTest.read_config(
+        *StructureTest.find_config_file(path_benchmark, name="project.ini"),
+        listSection=["benchsite"],
+    )
+    if len(site_config) < 1:
+        logger.error("No config file found for the website parameters")
+        return {}
+    return site_config["benchsite"]
 
-    @classmethod
-    def get_target_config(cls, path_benchmark):
-        target_config = cls.read_config(
-            *cls.find_config_file(path_benchmark, name="target.ini"),
-        )
-        if len(target_config) < 1:
-            logger.error("No config file found for the target parameters")
-            return {}
-        return target_config
 
-    @classmethod
-    def get_theme_config(cls, path_benchmark):
-        theme_config = cls.read_config(
-            *cls.find_config_file(path_benchmark, name="theme.ini"),
-        )
-        if len(theme_config) < 1:
-            logger.error("No config file found for the theme parameters")
-            return {}
-        return theme_config
+def get_benchmark_config(path_benchmark):
+    benchmark_config = StructureTest.read_config(
+        *StructureTest.find_config_file(Path(path_benchmark), name="project.ini"),
+        listSection=["benchmark"],
+    )
+    if len(benchmark_config) < 1:
+        logger.error("No config file found for the benchmark parameters")
+        return {}
+    return benchmark_config["benchmark"]
 
-    @classmethod
-    def get_task_config(cls, path_benchmark):
-        task_config = cls.read_config(
-            *cls.find_config_file(path_benchmark, name="task.ini"),
-        )
-        if len(task_config) < 1:
-            logger.error("No config file found for the task parameters")
-            return {}
-        return task_config
 
-    
+def get_target_config(path_benchmark):
+    target_config = StructureTest.read_config(
+        *StructureTest.find_config_file(path_benchmark, name="target.ini"),
+    )
+    if len(target_config) < 1:
+        logger.error("No config file found for the target parameters")
+        return {}
+    # we add the description of the target
+
+    description_path = list(
+        StructureTest.find_config_file(
+            Path(path_benchmark) / "targets", name="description.html"
+        )
+    )
+    if len(description_path) < 1:
+        logger.info("No description file found for the target parameters")
+
+    for path in description_path:
+        with open(path, "r") as f:
+            target_config[path.parent.stem]["description"] = f.read()
+    return target_config
+
+
+def get_theme_config(path_benchmark):
+    theme_config = StructureTest.read_config(
+        *StructureTest.find_config_file(path_benchmark, name="theme.ini"),
+    )
+    if len(theme_config) < 1:
+        logger.error("No config file found for the theme parameters")
+        return {}
+    description_path = list(
+        StructureTest.find_config_file(
+            Path(path_benchmark) / "themes", name="description.html"
+        )
+    )
+    if len(description_path) < 1:
+        logger.info("No description file found for the target parameters")
+
+    for path in description_path:
+        with open(path, "r") as f:
+            theme_config.get(path.parent.stem, {})["description"] = (
+                f.read() if path.parent.stem in theme_config else ""
+            )
+    return theme_config
+
+
+def get_task_config(path_benchmark):
+    task_config = StructureTest.read_config(
+        *StructureTest.find_config_file(path_benchmark, name="task.ini"),
+    )
+    if len(task_config) < 1:
+        logger.error("No config file found for the task parameters")
+        return {}
+    description_path = list(
+        StructureTest.find_config_file(
+            Path(path_benchmark) / "themes", name="description.html"
+        )
+    )
+    if len(description_path) < 1:
+        logger.info("No description file found for the target parameters")
+
+    for path in description_path:
+        with open(path, "r") as f:
+            task_config.get(path.parent.stem, {})["description"] = (
+                f.read() if path.parent.stem in task_config else ""
+            )
+
+    extra_path = list(
+        StructureTest.find_config_file(
+            Path(path_benchmark) / "themes", name="extra.html"
+        )
+    )
+    if len(extra_path) < 1:
+        logger.info("No extra file found for the target parameters")
+
+    for path in extra_path:
+        with open(path, "r") as f:
+            task_config[path.parent.stem]["extra_description"] = f.read()
+    return task_config
 
 
 if __name__ == "__main__":
@@ -132,10 +181,25 @@ if __name__ == "__main__":
     # file_conf = test.find_config_file(themePath, "theme.ini")
     # config = test.read_config(*list(file_conf))
 
-    print(StructureTest.get_site_config(pathRepo), len(StructureTest.get_site_config(pathRepo)))
-    print(StructureTest.get_benchmark_config(pathRepo) , len(StructureTest.get_benchmark_config(pathRepo)))
-    print(StructureTest.get_target_config(pathRepo) , len(StructureTest.get_target_config(pathRepo)))
-    print(StructureTest.get_theme_config(pathRepo) , len(StructureTest.get_theme_config(pathRepo)))
-    print(StructureTest.get_task_config(pathRepo) , len(StructureTest.get_task_config(pathRepo)))
+    print(
+        StructureTest.get_site_config(pathRepo),
+        len(StructureTest.get_site_config(pathRepo)),
+    )
+    print(
+        StructureTest.get_benchmark_config(pathRepo),
+        len(StructureTest.get_benchmark_config(pathRepo)),
+    )
+    print(
+        StructureTest.get_target_config(pathRepo),
+        len(StructureTest.get_target_config(pathRepo)),
+    )
+    print(
+        StructureTest.get_theme_config(pathRepo),
+        len(StructureTest.get_theme_config(pathRepo)),
+    )
+    print(
+        StructureTest.get_task_config(pathRepo),
+        len(StructureTest.get_task_config(pathRepo)),
+    )
 
     pass

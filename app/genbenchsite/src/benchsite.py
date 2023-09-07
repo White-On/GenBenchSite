@@ -1,5 +1,11 @@
 from static_site_generator import StaticSiteGenerator
-from structure_test import get_benchmark_config, get_target_config, get_theme_config, get_task_config, get_site_config
+from structure_test import (
+    get_benchmark_config,
+    get_target_config,
+    get_theme_config,
+    get_task_config,
+    get_site_config,
+)
 import os
 from pathlib import Path
 
@@ -32,6 +38,9 @@ class BenchSite:
     ) -> None:
         logger.info("=======Creating BenchSite=======")
 
+        if Path(inputFilename).exists() is False:
+            logger.error(f"File {inputFilename} not found")
+            exit(1)
         FileReaderJson(inputFilename, structureTestPath)
         self.inputFilename = inputFilename
         self.outputPath = outputPath
@@ -47,20 +56,22 @@ class BenchSite:
             output_website_path=outputPath,
         )
 
-        self.machineData = GetRunMachineMetadata()
-        self.siteConfig = get_site_config()
-        self.benchmarkConfig = get_benchmark_config()
-        self.targetConfig = get_target_config()
+        self.machine_data = GetRunMachineMetadata()
+        self.site_config = get_site_config(self.structureTestPath)
+        self.benchmark_config = get_benchmark_config(self.structureTestPath)
+        self.target_config = get_target_config(self.structureTestPath)
+        self.theme_config = get_theme_config(self.structureTestPath)
+        self.task_config = get_task_config(self.structureTestPath)
         self.setup_global_variables()
 
     def setup_global_variables(self):
         BenchSite.LEXMAX_THRESHOLD = int(
-            self.siteConfig.get("threshold", BenchSite.LEXMAX_THRESHOLD)
+            self.site_config.get("threshold", BenchSite.LEXMAX_THRESHOLD)
         )
-        BenchSite.DEFAULT_LOGO = self.siteConfig.get(
+        BenchSite.DEFAULT_LOGO = self.site_config.get(
             "default_logo", BenchSite.DEFAULT_LOGO
         )
-        BenchSite.DEFAULT_TASK_SCALE = self.siteConfig.get(
+        BenchSite.DEFAULT_TASK_SCALE = self.site_config.get(
             "default_task_scale", BenchSite.DEFAULT_TASK_SCALE
         )
 
@@ -69,20 +80,34 @@ class BenchSite:
         for libraryName in Library.GetAllLibraryName():
             # if the logo is present we copy it in the assets folder
             # else we just use the default logo
-            logo_name = self.targetConfig.get(libraryName, {}).get("logo", None)
-            logo_path = Path(self.structureTestPath) / 'res' / logo_name if logo_name is not None else None
+            logo_name = self.target_config.get(libraryName, {}).get("logo", None)
+            logo_path = (
+                Path(self.structureTestPath) / "res" / logo_name
+                if logo_name is not None
+                else None
+            )
             if logo_path is not None and Path(logo_path).exists():
                 # copy the logo in the assets folder
                 self.get_new_asset(logo_path)
-                logo[libraryName] = Path(self.staticSiteGenerator.assetsFilePath) / Path(logo_path).name
+                logo[libraryName] = (
+                    Path(self.staticSiteGenerator.assetsFilePath) / Path(logo_path).name
+                )
             else:
-                logo[libraryName] = Path(self.staticSiteGenerator.assetsFilePath) / BenchSite.DEFAULT_LOGO
+                logger.warning(
+                    f"Logo for {libraryName} not found at {logo_path}, using default logo"
+                )
+                logo[libraryName] = (
+                    Path(self.staticSiteGenerator.assetsFilePath)
+                    / BenchSite.DEFAULT_LOGO
+                )
         return logo
-    
+
     def get_new_asset(self, new_asset_path):
         copyfile(
             new_asset_path,
-            Path(self.outputPath) / self.staticSiteGenerator.assetsFilePath / Path(new_asset_path).name,
+            Path(self.outputPath)
+            / self.staticSiteGenerator.assetsFilePath
+            / Path(new_asset_path).name,
         )
 
     def GenerateHTMLBestLibraryGlobal(self):
@@ -150,7 +175,7 @@ class BenchSite:
         HTMLMachineInfo = (
             "<div class ='card' id='machine_info'><h1>Machine Informations</h1>"
         )
-        machineData = self.machineData
+        machineData = self.machine_data
         if machineData is None:
             HTMLMachineInfo += "<p>No machine informations available</p>"
         else:
@@ -216,28 +241,31 @@ class BenchSite:
             "download": "results.json",
         }
 
-        target_config = get_target_config()
-        task_config = get_task_config()
-        theme_config = get_theme_config()
         target_logo = self.get_target_logo()
 
         logger.info("Generate HTML Home Page")
-        logger.debug(f"library config : {target_config}")
-        logger.debug(f"task config : {task_config}")
+        logger.debug(f"library config : {self.target_config}")
+        logger.debug(f"task config : {self.task_config}")
         logger.debug(f"logo library : {target_logo}")
 
         social_media = list(
             map(
-                lambda x: tuple(x.split(",")),
-                self.siteConfig.get("social_media", {}).split(" "),
+                lambda x: tuple(x.split(" ")),
+                self.site_config.get("social_media", {}).split(","),
             )
         )
+        for element in social_media:
+            if len(element) != 2:
+                logger.warning(
+                    f"Social media element {element} is not in the form 'name url' check the configuration file of the project"
+                )
+                social_media.remove(element)
         codeLibrary = CodeReader(pathToInfrastructure=self.structureTestPath)
 
         # GOOGLEANALYTICS
         HTMLGoogleAnalytics = staticSiteGenerator.CreateHTMLComponent(
             "googleAnalytics.html",
-            googleAnalyticsID=self.siteConfig.get("googleAnalyticsID", ""),
+            googleAnalyticsID=self.site_config.get("googleAnalyticsID", ""),
         )
 
         # HEADER
@@ -246,16 +274,22 @@ class BenchSite:
             styleFilePath=f"{staticSiteGenerator.styleFilePath}/{styleFilePath}",
             assetsFilePath=f"{staticSiteGenerator.assetsFilePath}",
             linkTo=linkTo,
-            siteName=self.siteConfig.get("name", "No name attributed"),
+            siteName=self.site_config.get("name", "No name attributed"),
             socialMediaList=social_media,
         )
         # NAVIGATION
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent(
             "navigation.html",
             TaskClassifiedByTheme={
-                BenchSite.MakeLink(contentFilePath + theme, theme, f"{theme}-nav"): [
+                BenchSite.MakeLink(
+                    contentFilePath + theme,
+                    self.theme_config[theme].get("title", theme),
+                    f"{theme}-nav",
+                ): [
                     BenchSite.MakeLink(
-                        contentFilePath + taskName, taskName, f"{taskName}-nav"
+                        contentFilePath + taskName,
+                        self.task_config[taskName].get("title", taskName),
+                        f"{taskName}-nav",
                     )
                     for taskName in Task.GetTaskNameByThemeName(theme)
                 ]
@@ -265,7 +299,7 @@ class BenchSite:
                 "<li class='menu-item'>"
                 + BenchSite.MakeLink(
                     contentFilePath + libraryName,
-                    strElement=f"<img src='{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
+                    strElement=f"<img src='{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{self.target_config[libraryName].get('title',libraryName)}",
                     a_balise_id=f"{libraryName}-nav",
                 )
                 + "</li>"
@@ -278,7 +312,7 @@ class BenchSite:
         HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent(
             "rankBar.html",
             contentFolderPath=contentFilePath,
-            dataGenerationDate=self.machineData["execution_date"],
+            dataGenerationDate=self.machine_data["execution_date"],
             data=f"{RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList = False)}",
             scriptFilePath=f"./{staticSiteGenerator.scriptFilePath}/",
         )
@@ -286,8 +320,8 @@ class BenchSite:
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent(
             "presentation.html",
-            siteName=self.siteConfig["name"],
-            siteDescription=self.siteConfig["description"],
+            siteName=self.site_config["name"],
+            siteDescription=self.site_config["description"],
         )
 
         # INFORMATIONS SUR LA MACHINE
@@ -348,9 +382,13 @@ class BenchSite:
         HTMLNavigation = staticSiteGenerator.CreateHTMLComponent(
             "navigation.html",
             TaskClassifiedByTheme={
-                BenchSite.MakeLink(theme, theme, f"{theme}-nav"): [
+                BenchSite.MakeLink(
+                    theme, self.theme_config[theme].get("title", theme), f"{theme}-nav"
+                ): [
                     BenchSite.MakeLink(
-                        taskName, taskName, a_balise_id=f"{taskName}-nav"
+                        taskName,
+                        self.task_config[taskName].get("title", taskName),
+                        a_balise_id=f"{taskName}-nav",
                     )
                     for taskName in Task.GetTaskNameByThemeName(theme)
                 ]
@@ -360,7 +398,7 @@ class BenchSite:
                 "<li class='menu-item'>"
                 + BenchSite.MakeLink(
                     libraryName,
-                    strElement=f"<img src='../{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{libraryName}",
+                    strElement=f"<img src='../{target_logo[libraryName]}' alt='{libraryName}' class='logo'>{self.target_config[libraryName].get('title',libraryName)}",
                     a_balise_id=f"{libraryName}-nav",
                 )
                 + "</li>"
@@ -374,7 +412,7 @@ class BenchSite:
             styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
             assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
             linkTo=linkTo,
-            siteName=self.siteConfig.get("name", "No name attributed"),
+            siteName=self.site_config.get("name", "No name attributed"),
             socialMediaList=social_media,
         )
 
@@ -386,7 +424,7 @@ class BenchSite:
             HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent(
                 "rankBar.html",
                 data=f"{taskRankDico[taskName]}",
-                dataGenerationDate=self.machineData["execution_date"],
+                dataGenerationDate=self.machine_data["execution_date"],
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
@@ -420,11 +458,12 @@ class BenchSite:
 
             logger.debug(f"{importedRuntime = }")
 
-            functionEvaluation = task_config[taskName].get("evaluation_function", None)
-            if functionEvaluation is not None:
-                functionEvaluation = functionEvaluation.split(" ")
+            scoring_title = self.task_config[taskName].get("scoring_titles", None)
+            evaluation_scripts = self.task_config[taskName].get("scoring_scripts", None)
+            if scoring_title is not None:
+                scoring_title = scoring_title.split(",")
             else:
-                functionEvaluation = []
+                scoring_title = []
 
             task = Task.GetTaskByName(taskName)
             importedEvaluation = {
@@ -452,7 +491,7 @@ class BenchSite:
                     ],
                     [],
                 )
-                for function in functionEvaluation
+                for function in scoring_title
             }
 
             logger.debug(f"{importedEvaluation = }")
@@ -460,24 +499,32 @@ class BenchSite:
             chartData = {}
             chartData["runtime"] = {
                 "data": importedRuntime,
-                "display": task_config[taskName].get("task_display", "groupedBar"),
+                "display": self.task_config[taskName].get("task_display", "groupedBar"),
                 "label": "Runtime",
-                "title": task_config[taskName].get("task_title", "Title"),
-                "XLabel": task_config[taskName].get("task_xlabel", "X-axis"),
-                "YLabel": task_config[taskName].get("task_ylabel", "Y-axis"),
-                "scale": task_config[taskName].get("task_scale", "auto"),
-                "timeout": task_config[taskName].get("timeout"),
+                "title": self.task_config[taskName].get("task_title", "Title"),
+                "XLabel": self.task_config[taskName].get("task_xlabel", "X-axis"),
+                "YLabel": self.task_config[taskName].get("task_ylabel", "Y-axis"),
+                "scale": self.task_config[taskName].get("task_scale", "auto"),
+                "timeout": self.task_config[taskName].get("timeout"),
             }
-            for i, function in enumerate(functionEvaluation):
-                xlabel = task_config[taskName].get("post_task_xlabel", "X-axis")
+            for i, function in enumerate(scoring_title):
+                xlabel = self.task_config[taskName].get("post_task_xlabel", "X-axis")
                 ylabel = (
-                    task_config[taskName].get("post_task_ylabel", "Y-axis").split(" ")
+                    self.task_config[taskName]
+                    .get("post_task_ylabel", "Y-axis")
+                    .split(" ")
                 )
-                scale = task_config[taskName].get("post_task_scale", "auto").split(" ")
-                title = task_config[taskName].get("post_task_title", "Title").split(",")
+                scale = (
+                    self.task_config[taskName].get("post_task_scale", "auto").split(" ")
+                )
+                title = (
+                    self.task_config[taskName]
+                    .get("post_task_title", "Title")
+                    .split(",")
+                )
                 chartData[function] = {
                     "data": importedEvaluation[function],
-                    "display": task_config[taskName].get(
+                    "display": self.task_config[taskName].get(
                         "post_task_display", "groupedBar"
                     ),
                     "label": function.capitalize(),
@@ -486,16 +533,16 @@ class BenchSite:
                     "YLabel": ylabel[i] if i < len(ylabel) else ylabel[0],
                     "scale": scale[i] if i < len(scale) else scale[0],
                 }
-            complementary_description = task_config[taskName].get(
+            complementary_description = self.task_config[taskName].get(
                 "extra_description", ""
             )
             # we're also adding information relevant to the task in the description
             complementary_description += "<br><br>"
-            complementary_description += f"<p>Timeout : {task_config[taskName].get('timeout',self.benchmarkConfig.get('default_timeout','No timeout configured'))} (seconds)</p>"
-            complementary_description += f"<p>Number of iteration : {task_config[taskName].get('nb_runs',self.benchmarkConfig.get('default_nb_runs','No number of iteration configured'))}</p>"
-            complementary_description += f"<p>The task is interrupted if the number of timeout reached {self.benchmarkConfig.get('default_stop_after_x_timeout','No number of timeout configured')}</p>"
+            complementary_description += f"<p>Timeout : {self.task_config[taskName].get('timeout',self.benchmark_config.get('default_timeout','No timeout configured'))} (seconds)</p>"
+            complementary_description += f"<p>Number of iteration : {self.task_config[taskName].get('nb_runs',self.benchmark_config.get('default_nb_runs','No number of iteration configured'))}</p>"
+            complementary_description += f"<p>The task is interrupted if the number of timeout reached {self.benchmark_config.get('default_stop_after_x_timeout','No number of timeout configured')}</p>"
 
-            HTMLExtra = task_config[taskName].get("extra_html_element", None)
+            HTMLExtra = self.task_config[taskName].get("extra_html_element", None)
             if HTMLExtra is not None:
                 try:
                     HTMLExtra = list(
@@ -521,7 +568,7 @@ class BenchSite:
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
-                taskName=RemoveUnderscoreAndDash(taskName),
+                taskName=self.task_config[taskName].get("title", taskName),
                 taskNamePage=BenchSite.CreateScriptBalise(
                     content=f"const TaskName = '{taskName}';"
                 ),
@@ -536,14 +583,14 @@ class BenchSite:
                     content=f"const importedData = {chartData};"
                 ),
                 code=templateTask,
-                taskDescritpion=task_config[taskName].get(
+                taskDescritpion=self.task_config[taskName].get(
                     "description", "No description"
                 ),
                 argumentsDescription=BenchSite.CreateScriptBalise(
-                    content=f"const argDescription = '{task_config[taskName].get('arguments_description', 'No description')}';"
+                    content=f"const argDescription = '{self.task_config[taskName].get('arguments_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
-                    content=f"const displayScale = '{task_config[taskName].get('display_scale', 'linear')}';"
+                    content=f"const displayScale = '{self.task_config[taskName].get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
                 extra_description=complementary_description,
@@ -574,7 +621,7 @@ class BenchSite:
             styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
             assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
             linkTo=linkTo,
-            siteName=self.siteConfig.get("name", "No name attributed"),
+            siteName=self.site_config.get("name", "No name attributed"),
             socialMediaList=social_media,
         )
 
@@ -587,7 +634,7 @@ class BenchSite:
             HTMLThemeRankingBar = staticSiteGenerator.CreateHTMLComponent(
                 "rankBar.html",
                 data=f"{themeRankDico[themeName]}",
-                dataGenerationDate=self.machineData["execution_date"],
+                dataGenerationDate=self.machine_data["execution_date"],
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
@@ -623,12 +670,14 @@ class BenchSite:
             # CLASSEMENT DES LIBRAIRIES PAR TACHES
             HTMLThemeRanking = staticSiteGenerator.CreateHTMLComponent(
                 "theme.html",
-                themeName=RemoveUnderscoreAndDash(themeName),
+                themeName=self.theme_config[themeName].get("title", themeName),
                 themeNamePage=BenchSite.CreateScriptBalise(
                     content=f"const themeName = '{themeName}';"
                 ),
                 taskNameList=", ".join(
-                    BenchSite.MakeLink(taskName)
+                    BenchSite.MakeLink(
+                        taskName, self.task_config[taskName].get("title", taskName)
+                    )
                     for taskName in Task.GetTaskNameByThemeName(themeName)
                 ),
                 results=self.GenerateHTMLRankingPerThemeName(themeName),
@@ -639,7 +688,7 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedRuntime};"
                 ),
-                description=theme_config.get(themeName, {}).get(
+                description=self.theme_config.get(themeName, {}).get(
                     "description", "No description attributed"
                 ),
             )
@@ -671,7 +720,7 @@ class BenchSite:
             "rankBar.html",
             contentFolderPath=contentFilePath,
             data=f"{libraryDico}",
-            dataGenerationDate=self.machineData["execution_date"],
+            dataGenerationDate=self.machine_data["execution_date"],
             scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
         )
 
@@ -682,7 +731,7 @@ class BenchSite:
                 styleFilePath=f"../{staticSiteGenerator.styleFilePath}/{styleFilePath}",
                 assetsFilePath=f"../{staticSiteGenerator.assetsFilePath}",
                 linkTo=linkTo,
-                siteName=self.siteConfig.get("name", "No name attributed"),
+                siteName=self.site_config.get("name", "No name attributed"),
                 socialMediaList=social_media,
             )
 
@@ -723,7 +772,7 @@ class BenchSite:
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {importedRuntime};"
                 ),
-                taskDescription=target_config[libraryName].get(
+                taskDescription=self.target_config[libraryName].get(
                     "description", "No Description Attributed"
                 ),
                 logoLibrary=f"<img src='../{target_logo[libraryName]}' alt='{libraryName}' width='50' height='50'>"
@@ -751,4 +800,4 @@ if __name__ == "__main__":
     current_path = os.path.dirname(os.path.realpath(__file__))
     cwd = os.getcwd()
     benchSite = BenchSite("results.json")
-    pagePath = "pages"
+    benchSite.GenerateStaticSite()

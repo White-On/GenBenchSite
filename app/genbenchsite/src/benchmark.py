@@ -8,7 +8,12 @@ from tqdm import tqdm
 from pathlib import Path
 
 from logger import logger
-from structure_test import get_benchmark_config, get_target_config, get_theme_config, get_task_config
+from structure_test import (
+    get_benchmark_config,
+    get_target_config,
+    get_theme_config,
+    get_task_config,
+)
 
 
 class Benchmark:
@@ -16,7 +21,7 @@ class Benchmark:
     Benchmark is a class that run process for each library and each task and save the results in a json file
 
     We expect a very specific infrastucture of file and folder in order to run the test. See the documentation for more details.
-    
+
     Class Attributes
     ----------
     NOT_RUN_VALUE : str or int
@@ -33,7 +38,7 @@ class Benchmark:
     DEFAULT_TIMEOUT = 40
     DEFAULT_NB_RUNS = 1
     DEFAULT_STOP_AFTER_X_TIMEOUT = 10
-    DEBUG = True
+    DEBUG = False
 
     def __init__(self, pathToInfrastructure: str, baseResult=None) -> None:
         """
@@ -153,7 +158,6 @@ class Benchmark:
         Setup the global variables from the config file
 
         """
-        Benchmark.DEBUG = eval(self.benchmark_config.get("debug", Benchmark.DEBUG))
         Benchmark.DEFAULT_TIMEOUT = int(
             self.benchmark_config.get("default_timeout", Benchmark.DEFAULT_TIMEOUT)
         )
@@ -181,7 +185,11 @@ class Benchmark:
             return self.create_base_json()
 
         with open(json_file, "r") as f:
-            results = json.load(f)
+            try:
+                results = json.load(f)
+            except json.decoder.JSONDecodeError:
+                logger.error(f"File {json_file} is not a valid json file")
+                return self.create_base_json()
 
         return results
 
@@ -196,7 +204,9 @@ class Benchmark:
                     "theme": self.dictonaryThemeInTask[taskName],
                     "results": {
                         arg: {"runtime": []}
-                        for arg in self.task_config[taskName].get("arguments").split(",")
+                        for arg in self.task_config[taskName]
+                        .get("arguments")
+                        .split(",")
                     },
                 }
                 for taskName in self.taskNames
@@ -209,18 +219,18 @@ class Benchmark:
         Install or upgrade the targets
 
         """
-        logger.info(
-            "=======Begining of the installation/upgrade of the targets======="
-        )
+        logger.info("=======Begining of the installation/upgrade of the targets=======")
         for libraryName in self.libraryNames:
             process = subprocess.run(
-                f'pip install --upgrade {libraryName}',
+                f"pip install --upgrade {libraryName}",
                 shell=True,
                 capture_output=True,
             )
 
             if process.returncode != 0:
-                logger.error(f"Error in the installation/upgrade of {libraryName} : {process.stderr}")
+                logger.error(
+                    f"Error in the installation/upgrade of {libraryName} : {process.stderr}"
+                )
             else:
                 logger.info(f"Installation/upgrade of {libraryName} successful")
 
@@ -237,13 +247,17 @@ class Benchmark:
 
         """
         # check if the task has a before task script
-        before_task_script_path = Path(taskPath) / 'before.py'
-        before_task_script_exist = before_task_script_path.exists() and before_task_script_path.is_file()
+        before_task_script_path = Path(taskPath) / "before.py"
+        before_task_script_exist = (
+            before_task_script_path.exists() and before_task_script_path.is_file()
+        )
+        logger.debug(f"{before_task_script_path = }")
+        logger.debug(f"{before_task_script_exist = }")
 
         if not before_task_script_exist:
             logger.info(f"No before task command/script for {taskName}")
             return
-        
+
         logger.info(f"Before task of {taskName}")
 
         # the before task may have some argument
@@ -331,8 +345,21 @@ class Benchmark:
             logger.debug(
                 f"Run the evaluation function for {taskName} with {command} command"
             )
-            output = self.run_command(command=command, timeout=Benchmark.DEFAULT_TIMEOUT, getOutput=True)
+            output = self.run_command(
+                command=command, timeout=Benchmark.DEFAULT_TIMEOUT, getOutput=True
+            )
             logger.debug(f"{output = }")
+            # we remove the eventual \n at the end of the output
+            output = output.replace("\n", "")
+            # and we transform the output to a float if possible
+            try:
+                output = float(output)
+            except ValueError:
+                logger.warning(
+                    f"The scoring function {script} of {taskName} does not return a float, the output is {output}"
+                )
+                output = Benchmark.ERROR_VALUE
+            logger.debug(f" after filter {output = }")
             value_evaluation.append(output)
 
         return value_evaluation
@@ -464,7 +491,7 @@ class Benchmark:
         arguments = self.task_config[taskName].get("arguments").split(",")
 
         # we check if the library support the task
-        run_script_path = Path(taskPath) / libraryName / 'run.py'
+        run_script_path = Path(taskPath) / libraryName / "run.py"
         run_script_exist = run_script_path.exists() and run_script_path.is_file()
         if not run_script_exist:
             self.TaskNotSupported(libraryName, taskName, arguments)
@@ -473,11 +500,27 @@ class Benchmark:
         logger.info(f"Run task {taskName} for library {libraryName}")
 
         # we check if there is a before run script
-        before_script_path = Path(taskPath) / libraryName / 'before.py'
-        before_script_exist = before_script_path.exists() and before_script_path.is_file()
+        before_script_path = Path(taskPath) / libraryName / "before.py"
+        before_script_exist = (
+            before_script_path.exists() and before_script_path.is_file()
+        )
 
         # we check if there is a after run script
-        after_run_script = self.task_config[taskName].get("evaluation_script", None)
+        evaluation_scripts = self.task_config[taskName].get("scoring_scripts", None)
+        if evaluation_scripts is not None:
+            # if the script is not None we get the path to the scripts
+            evaluation_scripts = evaluation_scripts.split(",")
+            evaluation_scripts = [
+                Path(taskPath) / script for script in evaluation_scripts
+            ]
+
+            # we remove the script that does not exist
+            evaluation_scripts = [
+                script
+                for script in evaluation_scripts
+                if script.exists() and script.is_file()
+            ]
+        logger.debug(f"{evaluation_scripts = }")
 
         stop_after_x_timeout = int(
             self.task_config[taskName].get(
@@ -509,8 +552,7 @@ class Benchmark:
                     if cpt_timeout >= stop_after_x_timeout:
                         resultProcess = Benchmark.TIMEOUT_VALUE
                     else:
-                        language = self.target_config[libraryName].get("language")
-                        command = f"{language} {before_script_path} {arg}"
+                        command = f"python {before_script_path} {arg}"
 
                         resultProcess = self.run_command(
                             command=command, timeout=timeout
@@ -536,8 +578,7 @@ class Benchmark:
                     resultProcess = self.run_command(
                         command=command,
                         timeout=timeout + resultProcess
-                        if before_script_exist
-                        and not isinstance(resultProcess, str)
+                        if before_script_exist and not isinstance(resultProcess, str)
                         else timeout,
                     )
                     logger.debug(f"{resultProcess = }")
@@ -560,39 +601,43 @@ class Benchmark:
                     continue
 
                 # After run script
-                if after_run_script is not None:
-                    # if the script is not None, then it should be a script name or a list of script name
-                    functionEvaluation = self.task_config[taskName].get(
-                        "evaluation_function", None
-                    )
-                    if functionEvaluation is not None:
-                        functionEvaluation = functionEvaluation.split(" ")
-                    else:
-                        functionEvaluation = []
-
-                    logger.debug(f"{functionEvaluation = }")
-
+                if evaluation_scripts is not None:
+                    # we run the evaluation function
                     # if the task has  been run successfuly we run the evaluation function
                     if not isinstance(resultProcess, str):
                         valueEvaluation = self.evalution_task(
-                            taskPath=taskPath,
-                            target_name=libraryName,
-                            arg=arg,
-                            taskName=taskName,
-                            *functionEvaluation
+                            taskPath,
+                            taskName,
+                            libraryName,
+                            arg,
+                            *evaluation_scripts,
                         )
                         logger.debug(f"{valueEvaluation = }")
                     # if not we add the value ERROR_VALUE to the evaluation function
                     else:
-                        valueEvaluation = [resultProcess] * len(functionEvaluation)
+                        valueEvaluation = [resultProcess] * len(evaluation_scripts)
                     evaluation_result = self.results[libraryName][taskName]["results"][
                         arg
                     ].get("evaluation", {})
-                    for i, function in enumerate(functionEvaluation):
-                        element = evaluation_result.get(function, [])
+                    scoring_title = self.task_config[taskName].get(
+                        "scoring_titles", None
+                    )
+                    if scoring_title is not None:
+                        scoring_title = scoring_title.split(",")
+                    if scoring_title is None or len(scoring_title) != len(
+                        evaluation_scripts
+                    ):
+                        logger.info(
+                            f"scoring_title is not valid for {taskName}, we use default value"
+                        )
+                        scoring_title = [
+                            f"scoring_{i}" for i in range(len(evaluation_scripts))
+                        ]
+                    for i, script in enumerate(evaluation_scripts):
+                        element = evaluation_result.get(scoring_title[i], [])
                         evaluation_result = {
                             **evaluation_result,
-                            function: element + [valueEvaluation[i]],
+                            scoring_title[i]: element + [valueEvaluation[i]],
                         }
                     self.results[libraryName][taskName]["results"][arg][
                         "evaluation"
@@ -611,7 +656,9 @@ class Benchmark:
         nbIteration = 0
         for taskName in self.taskNames:
             nbIteration += (
-                int(self.task_config[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS))
+                int(
+                    self.task_config[taskName].get("nb_runs", Benchmark.DEFAULT_NB_RUNS)
+                )
                 * len(self.task_config[taskName].get("arguments").split(","))
                 * 2
                 * len(self.libraryNames)
@@ -632,7 +679,7 @@ class Benchmark:
         """
         Run the benchmark
         """
-        
+
         self.setup_global_variables()
         if not Benchmark.DEBUG:
             self.install_upgrade_targets()
@@ -640,7 +687,7 @@ class Benchmark:
         self.progressBar = tqdm(
             total=self.calculate_number_interations(),
             desc="Initialization",
-            ncols=150,
+            ncols=100,
             position=0,
         )
         logger.info("=======Begining of the benchmark=======")
@@ -650,7 +697,7 @@ class Benchmark:
 
 
 if __name__ == "__main__":
-    currentDirectory = Path(__file__).parent.absolute()
+    currentDirectory = Path().cwd()
     outputPath = currentDirectory
     result_file = currentDirectory / "results.json"
     if result_file.exists():

@@ -8,7 +8,7 @@ import json
 from library import Library
 from task import Task
 from logger import logger
-from structure_test import StructureTest
+from structure_test import get_task_config
 
 
 def FileReaderJson(filename: str, structure_test_path: str) -> None:
@@ -26,10 +26,7 @@ def FileReaderJson(filename: str, structure_test_path: str) -> None:
 
     """
     data = readJsonFile(filename)
-    strtest = StructureTest()
-    taskConfig = strtest.read_config(
-        *strtest.find_config_file(os.path.join(structure_test_path, "themes"))
-    )
+    taskConfig = get_task_config(structure_test_path)
 
     for libName, libInfo in data.items():
         library = Library(libName)
@@ -59,9 +56,9 @@ def FileReaderJson(filename: str, structure_test_path: str) -> None:
 
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
-            evaluation_function_name = taskConfig[task.name].get("evaluation_function")
+            evaluation_function_name = taskConfig[task.name].get("scoring_titles")
             if evaluation_function_name:
-                task.evaluation_function_name = evaluation_function_name.split(" ")
+                task.evaluation_function_name = evaluation_function_name.split(",")
                 task.evaluation_sort_order = taskConfig[task.name].get(
                     "evaluation_sort_order"
                 )

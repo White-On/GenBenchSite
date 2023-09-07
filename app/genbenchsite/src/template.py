@@ -52,7 +52,9 @@ def create_template(
 
     # we check that no repository already exists
     if Path(target_path).exists():
-        logger.error(f"The benchmark or directory {target_path} already exists, please choose another name")
+        logger.error(
+            f"The benchmark or directory {target_path} already exists, please choose another name"
+        )
         # raise ValueError(
         #     f"The benchmark or directory {target_path} already exists, please choose another name"
         # )

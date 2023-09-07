@@ -17,7 +17,7 @@ file_name = f"log_GBS_{time.strftime(date_format)}.log"
 # so we delete the older logs
 
 # we get all the dates of the logs
-date_files = [file.name[len("log_GBS_"):-4] for file in logs_path.glob("*.log")]
+date_files = [file.name[len("log_GBS_") : -4] for file in logs_path.glob("*.log")]
 # sort them
 oldest_files_dates = sorted(date_files)[: -max_logs + 1]
 # and get the names of the files to delete
