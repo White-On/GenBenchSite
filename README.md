@@ -6,7 +6,7 @@ GenBenchSite is a platform designed to **compare the performance of different li
 provides a detailed report of each library's speed, precision, and other parameters, making it easier for
 developers to choose the best library for their project.
 
-You can access the following information on this pages too with extra details : https://white-on.github.io/BenchSite/
+You can access the following information on this pages too with extra details : [Genbenchsite](https://white-on.github.io/GenBenchSite/)
 
 ## GenBenchSite Briefly explained 📰
 
