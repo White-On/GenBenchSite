@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="about_page/about.css">
+    <link rel="icon" type="image/png" href="about_page/genbenchsite.ico">
     <script defer src="about_page/code_in_clipbord.js"></script>
     <title>About</title>
 </head>
@@ -59,12 +60,19 @@
             <h2>First steps 👣</h2>
             <p>
                 First of all, you'll need to get the project on your computer. To do so, you can either download the project
-                directly from GitHub, or clone it using the following command:
+                directly from GitHub, clone it using the following command:
                 <br><br>
                 <code>
                     git clone https://github.com/White-On/BenchSite
                 </code>
                 <br><br>
+                or download it using the pip command:
+                <br><br>
+                <code>
+                    pip install genbenchsite
+                </code>
+                <br><br>
+
                 Once you have the project on your computer, you can start creating your own benchmark. To do so, you'll need to
                 create a new directory with a specific structure. The directory should contain 3 subdirectories: <b>targets</b>,
                 <b>themes</b>, and <b>site</b>. The <b>targets</b> directory contains the configuration files for the libraries
@@ -75,6 +83,16 @@
                     <summary>For more information on the structure of the directory</summary>
                     <img src="about_page/infrastructure_explanations.png" width="100%" alt="graph explaning the structure of the directory needed to create a benchmark">
                 </details>
+            <p>
+                If you are confused about the structure of the directory, you can use the following command to create a
+                directory with the correct structure:
+                <br><br>
+                <code>
+                    gbs init [name of your benchmark]
+                </code>
+                <br><br>
+                Or refer to the <a href="https://github.com/White-On/BenchMark_Matrix_Computation/tree/main">Matrix Computation
+                    Benchmark</a> for an example of a benchmark.
             
         </div>
     </div>
@@ -83,8 +101,8 @@
         <div class="card-text">
             <h3>tutorials</h3>
             <h2>Setup and Launch 🚀</h2>
-            <p>Once you've installed the project and create your benchmark, we're going to need to install all the required
-                libraries. We recommend to use a virtual environment.
+            <p>With the different libraries you are going to experiment on, we recommend to use a virtual environment 
+                as it will allow you to install the libraries you need without affecting your global python installation.
             </p>
                 <details>
                     <summary>Create a virtual environment 📦</summary>
@@ -120,24 +138,12 @@
                     </p>
                 </details>
                 <p>
-                    To ease your install, there is a <b>Makefile</b>. To see available commands run:
-                    <br><br>
-                    <code>
-                        make help
-                    </code>
-                    <br><br>
-                    To install all the required libraries, run:
-                    <br><br>
-                    <code>
-                        make install
-                    </code>
-                    <br><br>
                     You're now ready to launch your benchmark. Depending on where your benchmark is located, either locally or
                     online, on a github repository, or if you want to publish the results on a github page, you'll need to run a
                     different command. To see available commands run:
                     <br><br>
                     <code>
-                        python main.py --help
+                        gbs --help
                     </code>
                     <br>
                 </p>
