@@ -22,15 +22,19 @@ effort when evaluating libraries, and helps them make informed decisions.
 ## First steps 👣
            
 First of all, you'll need to get the project on your computer. To do so, you can either download the project
-directly from GitHub, or clone it using the following command:
+directly from GitHub,clone it using the following command:
 
 `git clone https://github.com/White-On/BenchSite`
+
+or download it using the pip command:
+
+`pip install genbenchsite`
 
 Once you have the project on your computer, you can start creating your own benchmark. To do so, you'll need to
 create a new directory with a specific structure. The directory should contain 3 subdirectories: **targets**,
 **themes**, and **site**. The **targets** directory contains the configuration files for the libraries
 you want to test. The **themes** directory contains the configuration files for the tests you want to run. The
-**site** directory contains the configuration files for the website. 
+**site** directory contains the configuration files for the website.
 
 
 <details>
@@ -38,23 +42,18 @@ you want to test. The **themes** directory contains the configuration files for 
     <img src="about_page/infrastructure_explanations.png" width="100%" alt="graph explaning the structure of the directory needed to create a benchmark">
 </details>
 
+If you are confused about the structure of the directory, you can use the following command to create a directory with the correct structure:
+`gbs init [name of your benchmark] `   
+Or refer to the [Matrix Computation Benchmark](https://github.com/White-On/BenchMark_Matrix_Computation/tree/main") for an example of a benchmark.
+
 ## Setup and Launch 🚀
-Once you've installed the project and create your benchmark, we're going to need to install all the required
-libraries. We recommend to use a virtual environment.
-
-To ease your install, there is a **Makefile**. To see available commands run:
-
-`make help`
-
-To install all the required libraries, run:
-
-`make install`
+With the different libraries you are going to experiment on, we recommend to use a virtual environment as it will allow you to install the libraries you need without affecting your global python installation.
 
 You're now ready to launch your benchmark. Depending on where your benchmark is located, either locally or
 online, on a github repository, or if you want to publish the results on a github page, you'll need to run a
 different command. To see available commands run:
 
-`python main.py --help`
+`gbs --help`
 
 ## How we compare the targets 🤔
 For the time being, we decided to compare results base on the **Lexicographic Maximal Ordering Algorithm (LexMax)**.
