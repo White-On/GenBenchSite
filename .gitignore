@@ -1,6 +1,7 @@
 .venv
 *.pyc
 *.log
+results.json
 __pycache__/
 repository/
 .vscode/
