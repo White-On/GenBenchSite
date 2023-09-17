@@ -3,6 +3,7 @@ import time
 import json
 import numpy as np
 import ast
+import re
 from tqdm import tqdm
 from pathlib import Path
 
@@ -220,8 +221,12 @@ class Benchmark:
         """
         logger.info("=======Begining of the installation/upgrade of the targets=======")
         for libraryName in self.libraryNames:
+            command_upgrade = self.target_config[libraryName].get("upgrade", None)
+            if command_upgrade is None:
+                logger.info(f"No upgrade command for {libraryName}")
+                continue
             process = subprocess.run(
-                f"pip install --upgrade {libraryName}",
+                command_upgrade,
                 shell=True,
                 capture_output=True,
             )
@@ -233,9 +238,9 @@ class Benchmark:
             else:
                 logger.info(f"Installation/upgrade of {libraryName} successful")
 
-    def before_task(self, taskPath: str, taskName: str):
+    def preparation_task(self, taskPath: str, taskName: str):
         """
-        Run the before task command/script of a task if it exist
+        Run the preparation task command/script of a task if it exist
 
         Parameters
         ----------
@@ -245,30 +250,30 @@ class Benchmark:
             name of the task
 
         """
-        # check if the task has a before task script
-        before_task_script_path = Path(taskPath) / "before.py"
-        before_task_script_exist = (
-            before_task_script_path.exists() and before_task_script_path.is_file()
+        # check if the task has a preparation task script
+        preparation_task_script_path = Path(taskPath) / "preparation.py"
+        preparation_task_script_exist = (
+            preparation_task_script_path.exists() and preparation_task_script_path.is_file()
         )
-        logger.debug(f"{before_task_script_path = }")
-        logger.debug(f"{before_task_script_exist = }")
+        logger.debug(f"{preparation_task_script_path = }")
+        logger.debug(f"{preparation_task_script_exist = }")
 
-        if not before_task_script_exist:
-            logger.info(f"No before task command/script for {taskName}")
+        if not preparation_task_script_exist:
+            logger.info(f"No preparation task command/script for {taskName}")
             return
 
-        logger.info(f"Before task of {taskName}")
+        logger.info(f"preparation task of {taskName}")
 
-        # the before task may have some argument
-        kwargs = self.task_config[taskName].get("before_task_arguments", "{}")
+        # the preparation task may have some argument
+        kwargs = self.task_config[taskName].get("preparation_task_arguments", "{}")
         kwargs = ast.literal_eval(kwargs)
         logger.debug(f"{kwargs = }")
         if len(kwargs) == 0:
             logger.warning(
-                f"No arguments for the before task command/script for {taskName}"
+                f"No arguments for the preparation task command/script for {taskName}"
             )
-        # we run the before task script
-        command = f"python {before_task_script_path}"
+        # we run the preparation task script
+        command = f"python {preparation_task_script_path}"
         logger.debug(f"{command = }")
         self.run_command(command=command, timeout=Benchmark.DEFAULT_TIMEOUT)
 
@@ -426,7 +431,7 @@ class Benchmark:
         #    We check if the before task command/script exist if not we do nothing
         beforeTaskModule = self.task_config[taskName].get("before_script", None)
         if beforeTaskModule is not None:
-            self.before_task(path, taskName)
+            self.preparation_task(path, taskName)
         else:
             logger.info(f"No before task command/script for {taskName}")
 
@@ -487,7 +492,18 @@ class Benchmark:
             timeout in seconds
         """
 
-        arguments = self.task_config[taskName].get("arguments").split(",")
+        arguments = self.task_config[taskName].get("arguments")
+        # if the task has no arguments we do nothing
+        if arguments is None:
+            logger.error(f"No arguments for {taskName}")
+            return
+        # we check if the argument is write in a calculable way
+        # if not we split the arguments with ,
+        if not re.match(r"\(\d+(?:,\d+)*\) \* \(\d+:\d+:\d+\)", arguments):
+            arguments = arguments.split(",")
+        else:
+            arguments = matrix_arguments(arguments)
+        
 
         # we check if the library support the task
         run_script_path = Path(taskPath) / libraryName / "run.py"
@@ -505,7 +521,7 @@ class Benchmark:
         )
 
         # we check if there is a after run script
-        evaluation_scripts = self.task_config[taskName].get("scoring_scripts", None)
+        evaluation_scripts = self.task_config[taskName].get("evaluation_scripts", None)
         if evaluation_scripts is not None:
             # if the script is not None we get the path to the scripts
             evaluation_scripts = evaluation_scripts.split(",")
@@ -618,7 +634,7 @@ class Benchmark:
                         arg
                     ].get("evaluation", {})
                     scoring_title = self.task_config[taskName].get(
-                        "scoring_titles", None
+                        "evaluation_titles", None
                     )
                     if scoring_title is not None:
                         scoring_title = scoring_title.split(",")
@@ -693,6 +709,8 @@ class Benchmark:
             self.RunTask(taskName)
         logger.info("=======End of the benchmark=======")
 
+def matrix_arguments(raw_arg:str):
+    pass
 
 if __name__ == "__main__":
     currentDirectory = Path().cwd()

@@ -93,7 +93,7 @@ def create_template(
                 theme_repo.add_repository(f"task{j}")
                 .add_file("task.ini", content=config["task"])
                 .add_file(
-                    "before.py",
+                    "preparation.py",
                     content="",
                 )
                 .add_file(

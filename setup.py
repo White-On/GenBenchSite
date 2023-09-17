@@ -11,6 +11,11 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Jules Cassan",
+    author_email="jules.cassan@hotmail.com",
+    url="https://white-on.github.io/GenBenchSite/",
+    project_urls={
+            "Github": "https://github.com/White-On/GenBenchSite",
+      },
     entry_points={
         "console_scripts": [
             "gbs = genbenchsite.src.main:main",

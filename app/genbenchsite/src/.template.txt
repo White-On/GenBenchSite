@@ -44,10 +44,10 @@ arguments = 1000,2000,3000,4000,5000
 timeout = 60
 stop_after_x_timeout = 3
 
-; the scoring script name ( inside the task folder ) separeted by a coma
-scoring_scripts = evaluation1.py,evaluation2.py
-; the scoring title separeted by a coma
-scoring_titles = Title1,Title2
+; the evaluation script name ( inside the task folder ) separeted by a coma
+evaluation_scripts = evaluation1.py,evaluation2.py
+; the evaluation title separeted by a coma
+evaluation_titles = Title1,Title2
 
 ; the order of the evaluation for ranking the algorithms ( asc or desc )
 evaluation_metric_type = asc,desc; ou un meilleur nom
@@ -72,10 +72,13 @@ evaluation_display = line,bar
 title = Name of the target
 ; the name of the file containing the logo of the target ( inside res )
 logo = logo.png
+; the command to run the upgrade / install of the target
+upgrade = pip install -U <name>
 |[theme]
+; the title of the theme
 title = Title of the theme
+; the order of the tasks (separated by a coma)
 task_order = Task2,Task1,Task3
-; to change the order of the tasks
 |# This repository is a Demo for [**GenBenchSite**](https://github.com/White-On/BenchSite), a Benchmarking tools for libraries.
 
 ## Files organisation
