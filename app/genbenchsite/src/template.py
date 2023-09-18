@@ -40,9 +40,7 @@ def load_template(path):
     return {s: c for s, c in zip(section, config.split("|"))}
 
 
-def create_template(
-    target_path="repository", nb_targets=1, nb_themes=1, nb_tasks=1
-):
+def create_template(target_path="repository", nb_targets=1, nb_themes=1, nb_tasks=1):
     # we look for the template file
     template_path = Path(__file__).parent / ".template.txt"
     logger.info(f"Loading template from {template_path}")

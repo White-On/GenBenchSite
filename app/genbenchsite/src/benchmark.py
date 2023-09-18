@@ -253,7 +253,8 @@ class Benchmark:
         # check if the task has a preparation task script
         preparation_task_script_path = Path(taskPath) / "preparation.py"
         preparation_task_script_exist = (
-            preparation_task_script_path.exists() and preparation_task_script_path.is_file()
+            preparation_task_script_path.exists()
+            and preparation_task_script_path.is_file()
         )
         logger.debug(f"{preparation_task_script_path = }")
         logger.debug(f"{preparation_task_script_exist = }")
@@ -507,7 +508,6 @@ class Benchmark:
             if len(arguments) == 0:
                 logger.error(f"Invalid argument {arguments}")
                 return
-        
 
         # we check if the library support the task
         run_script_path = Path(taskPath) / libraryName / "run.py"
@@ -713,7 +713,8 @@ class Benchmark:
             self.RunTask(taskName)
         logger.info("=======End of the benchmark=======")
 
-def matrix_arguments(raw_arg:str):
+
+def matrix_arguments(raw_arg: str):
     # the argument cant come in a matrix form
     arg_list = []
     # get the first part and the second part of the argument
@@ -722,7 +723,7 @@ def matrix_arguments(raw_arg:str):
     arg_list = [int(i) for i in re.findall(r"\d+", first_part)]
     # get the list of step from second_part
     step_list = [int(i) for i in re.findall(r"\d+", second_part)]
-    step_list = [i for i in range(step_list[0], step_list[1]+1, step_list[2])]
+    step_list = [i for i in range(step_list[0], step_list[1] + 1, step_list[2])]
     # check if the step_list is valid
     if len(step_list) == 0:
         return arg_list
@@ -731,6 +732,7 @@ def matrix_arguments(raw_arg:str):
         step_list = step_list * len(arg_list)
     arg_list = np.vstack(arg_list) * np.array(step_list)
     return list(set(arg_list.ravel()))
+
 
 if __name__ == "__main__":
     currentDirectory = Path().cwd()
