@@ -474,7 +474,7 @@ def main():
         "-I",
         type=str,
         help="The local path of the folder where the benchmark structure is located",
-        default="repository",
+        default=Path.cwd().__str__(),
     )
     benchmark_parser.set_defaults(func=benchmark)
 
@@ -484,7 +484,7 @@ def main():
         "-I",
         type=str,
         help="The local path of the folder where the benchmark structure is located",
-        default="repository",
+        default=Path.cwd().__str__(),
     )
     website_parser.add_argument(
         "-O",

@@ -503,6 +503,10 @@ class Benchmark:
             arguments = arguments.split(",")
         else:
             arguments = matrix_arguments(arguments)
+            # if the argument is not valid we do nothing
+            if len(arguments) == 0:
+                logger.error(f"Invalid argument {arguments}")
+                return
         
 
         # we check if the library support the task
@@ -710,7 +714,23 @@ class Benchmark:
         logger.info("=======End of the benchmark=======")
 
 def matrix_arguments(raw_arg:str):
-    pass
+    # the argument cant come in a matrix form
+    arg_list = []
+    # get the first part and the second part of the argument
+    first_part, second_part = raw_arg.split("*")
+    # get arg_list from first_part
+    arg_list = [int(i) for i in re.findall(r"\d+", first_part)]
+    # get the list of step from second_part
+    step_list = [int(i) for i in re.findall(r"\d+", second_part)]
+    step_list = [i for i in range(step_list[0], step_list[1]+1, step_list[2])]
+    # check if the step_list is valid
+    if len(step_list) == 0:
+        return arg_list
+    # if the step_list has only one element we use it for all the arguments
+    if len(step_list) == 1:
+        step_list = step_list * len(arg_list)
+    arg_list = np.vstack(arg_list) * np.array(step_list)
+    return list(set(arg_list.ravel()))
 
 if __name__ == "__main__":
     currentDirectory = Path().cwd()
