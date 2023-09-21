@@ -340,7 +340,7 @@ export function ComplexeLineChart(data, {
         const i = d3.least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
         // console.log(Z[i]);
         
-        path.style("stroke", ([z]) => Z[i] === z ? null : "#ddd").filter(([z]) => Z[i] === z).raise();
+        // path.style("stroke", ([z]) => Z[i] === z ? null : "#ddd").filter(([z]) => Z[i] === z).raise();
         path.style("stroke-width", ([z]) => Z[i] === z ? circlesRadius : null).filter(([z]) => Z[i] === z).raise();
         stdArea.style("fill", ([z]) => Z[i] === z ? null : "#ddd").filter(([z]) => Z[i] === z).raise();
         dot.attr("transform", `translate(${xScale(X[i])},${yScale(Y[i])})`);
@@ -358,7 +358,7 @@ export function ComplexeLineChart(data, {
     }
 
     function pointerentered() {
-        path.style("mix-blend-mode", null).style("stroke", "#ddd");
+        // path.style("mix-blend-mode", null).style("stroke", "#ddd");
         dot.attr("display", null);
     }
 
