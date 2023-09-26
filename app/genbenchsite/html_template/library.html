@@ -2,10 +2,13 @@
 {{scriptFilePath}}
 
 <!-- Target main component -->
-<div class="title">
-    {{logoLibrary}}<h1 id="entry-title">{{libraryName}}</h1> 
+
+<div class="library_content">
+    <div class="title">
+        {{logoLibrary}}<h1 id="entry-title">{{libraryName}}</h1>
+    </div>
+    <p class="description">{{taskDescription}}</p>
 </div>
-<p class="description">{{taskDescription}}</p>
 
 <div class ="grid">
     {% for taskName in taskNameList %}

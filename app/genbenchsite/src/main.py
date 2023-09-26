@@ -309,9 +309,9 @@ def enough_test_to_publish(resultFilename: str, min_test_required: int = 10):
 
 
 def count_test():
-    import json_to_python_object as jtpo
+    from .json_to_python_object import count_test
 
-    return jtpo.count_test()
+    return count_test()
 
 
 def init(args):
@@ -363,7 +363,7 @@ def auto(args):
     # we copy the result.json file in the output folder
     shutil.copyfile(
         result_filename.absolute(),
-        os.path.join(args.output_folder, result_filename),
+        Path(website_folder_name) / result_filename.name,
     )
 
     # The third step is to deploy the HTML page on a server. The server is a github page. The user

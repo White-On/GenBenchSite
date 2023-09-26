@@ -63,3 +63,8 @@ body{
     gap : 2rem;
     margin-top: 1rem;
 }
+
+.library_content{
+    margin: 1rem;
+    border-radius: 10px;
+}
