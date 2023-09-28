@@ -52,10 +52,15 @@ h2{
 }
 
 #main_container{
-    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-radius: 10px;
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    background-color: var(--tertiary-color);
 }
 
 .chart{
@@ -70,4 +75,13 @@ h2{
 
 .chart:nth-child(1){
     margin-bottom: 1rem;
+}
+
+.theme_content{
+    border-radius: 10px;
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    background-color: var(--tertiary-color);
 }

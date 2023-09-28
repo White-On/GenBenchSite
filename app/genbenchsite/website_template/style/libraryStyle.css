@@ -62,9 +62,14 @@ body{
     align-items: center;
     gap : 2rem;
     margin-top: 1rem;
+    justify-content: center;
 }
 
 .library_content{
-    margin: 1rem;
     border-radius: 10px;
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    background-color: var(--tertiary-color);
 }

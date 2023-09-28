@@ -155,13 +155,11 @@ summary{
     font-weight: bold;
 }
 
-
-/* DEBUG TOOLS */
-/* you can see more clearly the box model with this */
-/* div{
-    background-color: var(--white);
+.task_content{
     border-radius: 10px;
-    padding: 16px;
-    box-shadow: 0 0 5px var(--black);
-}  */
-
+    padding: 0.5rem;
+    border: solid 2px var(--secondary-color);
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    margin: 16px;
+    background-color: var(--tertiary-color);
+}

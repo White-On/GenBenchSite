@@ -7,25 +7,26 @@
 
 <!-- Task Main Component -->
 <div class="main-content">
-    <h1 id="entry-title">{{taskName}}</h1>
-    <!-- <div id="menu"></div> -->
-    <div>
-        {{taskDescritpion}}
-        {% if extra_description != "" or extra_html_element != "" %}
-        <details>
-            <summary>More details</summary>
-            <div>
+    <div class="task_content">
+        <h1 id="entry-title">{{taskName}}</h1>
+        <!-- <div id="menu"></div> -->
+        <div>
+            {{taskDescritpion}}
+            {% if extra_description != "" or extra_html_element != "" %}
+            <details>
+                <summary>More details</summary>
                 <div>
-                    {{extra_description}}
+                    <div>
+                        {{extra_description}}
+                    </div>
+                    <div>
+                        {{extra_html_element}}
+                    </div>
                 </div>
-                <div>
-                    {{extra_html_element}}
-                </div>
-            </div>
-        </details>
-        {% else %}
-
-        {% endif %}
+            </details>
+            {% else %}
+            {% endif %}
+        </div>
     </div>
 
     <div id="compare-tool">
