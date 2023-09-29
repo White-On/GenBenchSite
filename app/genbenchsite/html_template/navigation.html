@@ -16,7 +16,7 @@
         <ul class="subMenu collapse"> -->
         {% for theme, tasklist in TaskClassifiedByTheme.items() %}
             <li class="menu-item has-submenu">
-            <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
+            <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow"><img src="{{assetsFilePath}}/clipboard-list.svg">{{theme}}</button>
             
             <ul class="subMenu collapse">
                 {% for task in tasklist %}
