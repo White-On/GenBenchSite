@@ -86,6 +86,11 @@
     transition: all 0.3s cubic-bezier(0.06,-1.07, 0.98, 2.13);
 }
 
+.theme-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .menu-item{
     list-style: none;
     display: block;

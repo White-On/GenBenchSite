@@ -36,7 +36,7 @@ def FileReaderJson(filename: str, structure_test_path: str) -> None:
                 else Task.GetTaskByName(taskName)
             )
             if task.name not in taskConfig:
-                logger.error(f"Task {task.name} not found in the task.ini file")
+                logger.error(f"Task {task.name} not found in the task.ini file, maybe an errer in the naming of the files")
                 continue
             logger.info(f"Task {taskName} with {libName} library")
             logger.debug(f"arguments: {len(taskInfo['results'].keys())}")
