@@ -85,3 +85,13 @@ header nav a:hover{
         padding: 10px;
     }
 }
+
+@media screen and (max-width: 850px){
+    #link-description{
+        display: none;
+    }
+
+    #header-grid{
+        padding: 8px 16px 8px 16px;
+    }
+}

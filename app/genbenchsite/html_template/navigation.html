@@ -1,3 +1,4 @@
+
 <!-- Navigation Bar -->
 
 <nav id = "leftNavBar">
@@ -10,21 +11,21 @@
             {% endfor %}
         </ul>
         </li>
-        <li class="menu-item has-submenu">
+        <!-- <li class="menu-item has-submenu">
         <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">Theme</button>
-        <ul class="subMenu collapse">
-            {% for theme, tasklist in TaskClassifiedByTheme.items() %}
-                <li class="menu-item has-submenu">
-                <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
-                
-                <ul class="subMenu collapse">
-                    {% for task in tasklist %}
-                        {{task}}
-                    {% endfor %}
-                </ul>
-                </li>
-            {% endfor %}
-        </ul>
+        <ul class="subMenu collapse"> -->
+        {% for theme, tasklist in TaskClassifiedByTheme.items() %}
+            <li class="menu-item has-submenu">
+            <button type="button"><img src="{{assetsFilePath}}/chevron-down-solid.svg" alt="arrow" class="arrow">{{theme}}</button>
+            
+            <ul class="subMenu collapse">
+                {% for task in tasklist %}
+                    {{task}}
+                {% endfor %}
+            </ul>
+            </li>
+        {% endfor %}
+        <!-- </ul> -->
     </ul>
 </nav>
 
