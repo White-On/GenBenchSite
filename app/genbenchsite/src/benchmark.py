@@ -89,7 +89,7 @@ class Benchmark:
         self.dictionaryTaskInTheme = {}
         self.dictonaryThemeInTask = {}
 
-        # create a dictionary that associate a theme to a list of task afnd a dictionary
+        # create a dictionary that associate a theme to a list of task and a dictionary
         # that associate a task to a theme
         for themeName in self.themeNames:
             listTask = [
@@ -110,11 +110,14 @@ class Benchmark:
             theme_config = self.theme_config.get(themeName)
 
             if theme_config is None:
+                logger.warning(f"No config for {themeName}")
                 continue
 
             order_in_theme = theme_config.get("task_order")
             if order_in_theme is None:
+                logger.info(f"No task order for {themeName}")
                 continue
+
             order_in_theme = order_in_theme.split(",")
             for taskName in order_in_theme:
                 order.append(
@@ -198,21 +201,27 @@ class Benchmark:
         create the base json file structure if the json file does not exist
 
         """
-        return {
-            libraryName: {
-                taskName: {
-                    "theme": self.dictonaryThemeInTask[taskName],
-                    "results": {
-                        arg: {"runtime": []}
-                        for arg in self.task_config[taskName]
-                        .get("arguments")
-                        .split(",")
-                    },
+        try:
+            return {
+                libraryName: {
+                    taskName: {
+                        "theme": self.dictonaryThemeInTask.get(taskName),
+                        "results": {
+                            arg: {"runtime": []}
+                            for arg in self.task_config.get(taskName)
+                            .get("arguments")
+                            .split(",")
+                        },
+                    }
+                    for taskName in self.taskNames
                 }
-                for taskName in self.taskNames
+                for libraryName in self.libraryNames
             }
-            for libraryName in self.libraryNames
-        }
+        except Exception as e:
+            logger.error(f"Error in the creation of the base json file {e = }")
+            return {}
+        
+        
 
     def install_upgrade_targets(self):
         """
@@ -221,7 +230,15 @@ class Benchmark:
         """
         logger.info("=======Begining of the installation/upgrade of the targets=======")
         for libraryName in self.libraryNames:
-            command_upgrade = self.target_config[libraryName].get("upgrade", None)
+            self.progressBar.set_description(
+                f"Install/upgrade target {libraryName}"
+            )
+            logger.info(f"Install/upgrade target {libraryName}")
+            current_config = self.target_config.get(libraryName)
+            if current_config is None:
+                logger.warning(f"No config for {libraryName}")
+                continue
+            command_upgrade = current_config.get("upgrade", None)
             if command_upgrade is None:
                 logger.info(f"No upgrade command for {libraryName}")
                 continue
@@ -266,7 +283,11 @@ class Benchmark:
         logger.info(f"preparation task of {taskName}")
 
         # the preparation task may have some argument
-        kwargs = self.task_config[taskName].get("preparation_task_arguments", "{}")
+        current_config = self.task_config.get(taskName)
+        if current_config is None:
+            logger.warning(f"No config for {taskName}")
+            return
+        kwargs = current_config.get("preparation_task_arguments", "{}")
         kwargs = ast.literal_eval(kwargs)
         logger.debug(f"{kwargs = }")
         if len(kwargs) == 0:

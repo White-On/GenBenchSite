@@ -103,12 +103,26 @@ class BenchSite:
         return logo
 
     def get_new_asset(self, new_asset_path):
-        copyfile(
-            new_asset_path,
-            Path(self.outputPath)
-            / self.staticSiteGenerator.assetsFilePath
-            / Path(new_asset_path).name,
-        )
+        # check if the new asset exists
+        Path(new_asset_path).exists()
+        # check if the new asset is a file or a folder
+        if Path(new_asset_path).is_dir():
+            # if it's a folder we copy all the files in the folder
+            for file in Path(new_asset_path).glob("**/*"):
+                copyfile(
+                    file,
+                    Path(self.outputPath)
+                    / self.staticSiteGenerator.assetsFilePath
+                    / Path(file).name,
+                )
+        else:
+            # if it's a file we copy it in the assets folder
+            copyfile(
+                new_asset_path,
+                Path(self.outputPath)
+                / self.staticSiteGenerator.assetsFilePath
+                / Path(new_asset_path).name,
+            )
 
     def GenerateHTMLBestLibraryGlobal(self):
         contentfilePath = (
