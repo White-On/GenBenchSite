@@ -297,12 +297,12 @@ class BenchSite:
             TaskClassifiedByTheme={
                 BenchSite.MakeLink(
                     contentFilePath + theme,
-                    self.theme_config[theme].get("title", theme),
+                    self.theme_config.get(theme,{}).get("title", theme),
                     f"{theme}-nav",
                 ): [
                     BenchSite.MakeLink(
                         contentFilePath + taskName,
-                        self.task_config[taskName].get("title", taskName),
+                        self.task_config.get(taskName,{}).get("title", taskName),
                         f"{taskName}-nav",
                     )
                     for taskName in Task.GetTaskNameByThemeName(theme)
@@ -326,7 +326,7 @@ class BenchSite:
         HTMLGlobalRankingBar = staticSiteGenerator.CreateHTMLComponent(
             "rankBar.html",
             contentFolderPath=contentFilePath,
-            dataGenerationDate=self.machine_data["execution_date"],
+            dataGenerationDate=self.machine_data.get("execution_date", "No date"),
             data=f"{RankingLibraryGlobal(threshold=BenchSite.LEXMAX_THRESHOLD,isResultList = False)}",
             scriptFilePath=f"./{staticSiteGenerator.scriptFilePath}/",
         )
@@ -334,8 +334,8 @@ class BenchSite:
         # PRESENTATION DE L'OUTIL
         HTMLPresentation = staticSiteGenerator.CreateHTMLComponent(
             "presentation.html",
-            siteName=self.site_config["name"],
-            siteDescription=self.site_config["description"],
+            siteName=self.site_config.get("name", "No name attributed"),
+            siteDescription=self.site_config.get("description", "No description"),
         )
 
         # INFORMATIONS SUR LA MACHINE
@@ -377,7 +377,8 @@ class BenchSite:
                 HTMLFooter,
             ],
             "index.html",
-            manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
+            # manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
+            manualOutputFilename=Path(self.inputFilename).stem,
         )
         # ==================================================
         # TACHES PAGES
@@ -397,11 +398,11 @@ class BenchSite:
             "navigation.html",
             TaskClassifiedByTheme={
                 BenchSite.MakeLink(
-                    theme, self.theme_config[theme].get("title", theme), f"{theme}-nav"
+                    theme, self.theme_config.get(theme,{}).get("title", theme), f"{theme}-nav"
                 ): [
                     BenchSite.MakeLink(
                         taskName,
-                        self.task_config[taskName].get("title", taskName),
+                        self.task_config(taskName,{}).get("title", taskName),
                         a_balise_id=f"{taskName}-nav",
                     )
                     for taskName in Task.GetTaskNameByThemeName(theme)
@@ -437,8 +438,8 @@ class BenchSite:
         for taskName in Task.GetAllTaskName():
             HTMLTaskRankingBar = staticSiteGenerator.CreateHTMLComponent(
                 "rankBar.html",
-                data=f"{taskRankDico[taskName]}",
-                dataGenerationDate=self.machine_data["execution_date"],
+                data=f"{taskRankDico.get(taskName, {})}",
+                dataGenerationDate=self.machine_data.get("execution_date", "No date"),
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
@@ -472,7 +473,7 @@ class BenchSite:
 
             logger.debug(f"{importedRuntime = }")
 
-            scoring_title = self.task_config[taskName].get("evaluation_titles", None)
+            scoring_title = self.task_config.get(taskName,{}).get("evaluation_titles", None)
             # evaluation_scripts = self.task_config[taskName].get("evaluation_scripts", None)
             if scoring_title is not None:
                 scoring_title = scoring_title.split(",")
@@ -510,35 +511,41 @@ class BenchSite:
 
             logger.debug(f"{importedEvaluation = }")
 
+            configuration_task = self.task_config.get(taskName, {})
+            if configuration_task == {}:
+                logger.warning(
+                    f"No configuration found for task {taskName}, using default configuration"
+                )
+
             chartData = {}
             chartData["runtime"] = {
                 "data": importedRuntime,
-                "display": self.task_config[taskName].get("task_display", "groupedBar"),
+                "display": configuration_task.get("task_display", "groupedBar"),
                 "label": "Runtime",
-                "title": self.task_config[taskName].get("task_title", "Title"),
-                "XLabel": self.task_config[taskName].get("task_xlabel", "X-axis"),
-                "YLabel": self.task_config[taskName].get("task_ylabel", "Y-axis"),
-                "scale": self.task_config[taskName].get("task_scale", "auto"),
-                "timeout": self.task_config[taskName].get("timeout"),
+                "title": configuration_task.get("task_title", "Title"),
+                "XLabel": configuration_task.get("task_xlabel", "X-axis"),
+                "YLabel": configuration_task.get("task_ylabel", "Y-axis"),
+                "scale": configuration_task.get("task_scale", "auto"),
+                "timeout": configuration_task.get("timeout"),
             }
             for i, function in enumerate(scoring_title):
-                xlabel = self.task_config[taskName].get("post_task_xlabel", "X-axis")
+                xlabel = configuration_task.get("post_task_xlabel", "X-axis")
                 ylabel = (
-                    self.task_config[taskName]
+                    configuration_task
                     .get("post_task_ylabel", "Y-axis")
                     .split(" ")
                 )
                 scale = (
-                    self.task_config[taskName].get("post_task_scale", "auto").split(" ")
+                    configuration_task.get("post_task_scale", "auto").split(" ")
                 )
                 title = (
-                    self.task_config[taskName]
+                    configuration_task
                     .get("post_task_title", "Title")
                     .split(",")
                 )
                 chartData[function] = {
-                    "data": importedEvaluation[function],
-                    "display": self.task_config[taskName].get(
+                    "data": importedEvaluation.get(function, []),
+                    "display": configuration_task.get(
                         "post_task_display", "groupedBar"
                     ),
                     "label": function.capitalize(),
@@ -547,16 +554,16 @@ class BenchSite:
                     "YLabel": ylabel[i] if i < len(ylabel) else ylabel[0],
                     "scale": scale[i] if i < len(scale) else scale[0],
                 }
-            complementary_description = self.task_config[taskName].get(
+            complementary_description = configuration_task.get(
                 "extra_description", ""
             )
             # we're also adding information relevant to the task in the description
             complementary_description += "<br><br>"
-            complementary_description += f"<p>Timeout : {self.task_config[taskName].get('timeout',self.benchmark_config.get('default_timeout','No timeout configured'))} (seconds)</p>"
-            complementary_description += f"<p>Number of iteration : {self.task_config[taskName].get('nb_runs',self.benchmark_config.get('default_nb_runs','No number of iteration configured'))}</p>"
+            complementary_description += f"<p>Timeout : {configuration_task.get('timeout',self.benchmark_config.get('default_timeout','No timeout configured'))} (seconds)</p>"
+            complementary_description += f"<p>Number of iteration : {configuration_task.get('nb_runs',self.benchmark_config.get('default_nb_runs','No number of iteration configured'))}</p>"
             complementary_description += f"<p>The task is interrupted if the number of timeout reached {self.benchmark_config.get('default_stop_after_x_timeout','No number of timeout configured')}</p>"
 
-            HTMLExtra = self.task_config[taskName].get("extra_html_element", None)
+            HTMLExtra = configuration_task.get("extra_html_element", None)
             if HTMLExtra is not None:
                 try:
                     HTMLExtra = list(
@@ -582,7 +589,7 @@ class BenchSite:
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
-                taskName=self.task_config[taskName].get("title", taskName),
+                taskName=self.task_config.get(taskName,{}).get("title", taskName),
                 taskNamePage=BenchSite.CreateScriptBalise(
                     content=f"const TaskName = '{taskName}';"
                 ),
@@ -591,20 +598,20 @@ class BenchSite:
                     module=True,
                 ),
                 libraryOrdered=BenchSite.OrderedList(
-                    RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD)[taskName]
+                    RankingLibraryByTask(threshold=BenchSite.LEXMAX_THRESHOLD).get(taskName, [])
                 ),
                 scriptData=BenchSite.CreateScriptBalise(
                     content=f"const importedData = {chartData};"
                 ),
                 code=templateTask,
-                taskDescritpion=self.task_config[taskName].get(
+                taskDescritpion=self.task_config.get(taskName,{}).get(
                     "description", "No description"
                 ),
                 argumentsDescription=BenchSite.CreateScriptBalise(
-                    content=f"const argDescription = '{self.task_config[taskName].get('arguments_description', 'No description')}';"
+                    content=f"const argDescription = '{self.task_config.get(taskName,{}).get('arguments_description', 'No description')}';"
                 ),
                 displayScale=BenchSite.CreateScriptBalise(
-                    content=f"const displayScale = '{self.task_config[taskName].get('display_scale', 'linear')}';"
+                    content=f"const displayScale = '{self.task_config.get(taskName,{}).get('display_scale', 'linear')}';"
                 ),
                 extra_html_element=HTMLExtra,
                 extra_description=complementary_description,
@@ -647,8 +654,8 @@ class BenchSite:
             # CLASSEMENT DES LIBRAIRIES PAR TACHES BAR
             HTMLThemeRankingBar = staticSiteGenerator.CreateHTMLComponent(
                 "rankBar.html",
-                data=f"{themeRankDico[themeName]}",
-                dataGenerationDate=self.machine_data["execution_date"],
+                data=f"{themeRankDico.get(themeName, {})}",
+                dataGenerationDate=self.machine_data.get("execution_date", "No date"),
                 scriptFilePath=f"../{staticSiteGenerator.scriptFilePath}/",
             )
 
@@ -664,7 +671,7 @@ class BenchSite:
                         }
                         for t in RankingLibraryByTask(
                             threshold=BenchSite.LEXMAX_THRESHOLD
-                        )[taskName]
+                        ).get(taskName, [])
                     ]
                     for taskName in Task.GetTaskNameByThemeName(themeName)
                 ],
