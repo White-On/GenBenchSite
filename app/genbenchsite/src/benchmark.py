@@ -720,15 +720,18 @@ class Benchmark:
         """
 
         self.setup_global_variables()
-        if not Benchmark.DEBUG:
-            self.install_upgrade_targets()
-
+        
         self.progressBar = tqdm(
             total=self.calculate_number_interations(),
             desc="Initialization",
             ncols=100,
             position=0,
         )
+
+        if not Benchmark.DEBUG:
+            self.install_upgrade_targets()
+
+        
         logger.info("=======Begining of the benchmark=======")
         for taskName in self.taskNames:
             self.RunTask(taskName)
