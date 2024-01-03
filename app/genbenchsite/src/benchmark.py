@@ -238,7 +238,7 @@ class Benchmark:
             if current_config is None:
                 logger.warning(f"No config for {libraryName}")
                 continue
-            command_upgrade = current_config.get("upgrade", None)
+            command_upgrade = current_config.get("install_command", None)
             if command_upgrade is None:
                 logger.info(f"No upgrade command for {libraryName}")
                 continue
