@@ -477,13 +477,13 @@ class BenchSite:
 
             logger.debug(f"{importedRuntime = }")
 
-            scoring_title = self.task_config.get(taskName,{}).get("evaluation_titles", None)
+            scoring_title = self.task_config.get(taskName,{}).get("evaluation_function", None)
             # evaluation_scripts = self.task_config[taskName].get("evaluation_scripts", None)
             if scoring_title is not None:
-                scoring_title = scoring_title.split(",")
+                scoring_title = scoring_title.split(" ")
             else:
                 scoring_title = []
-
+            
             task = Task.GetTaskByName(taskName)
             importedEvaluation = {
                 function: sum(
@@ -504,7 +504,7 @@ class BenchSite:
                                 task.mean_evaluation(library.name),
                                 task.standard_deviation_evaluation(library.name),
                             )
-                            # if res.get(function) != float("inf")
+                            if res != float("inf")
                         ]
                         for library in Library.GetAllLibrary()
                     ],
@@ -593,7 +593,7 @@ class BenchSite:
 
             HTMLTaskRanking = staticSiteGenerator.CreateHTMLComponent(
                 "task.html",
-                taskName=self.task_config.get(taskName,{}).get("title", taskName),
+                taskName=RemoveUnderscoreAndDash(self.task_config.get(taskName,{}).get("title", taskName)),
                 taskNamePage=BenchSite.CreateScriptBalise(
                     content=f"const TaskName = '{taskName}';"
                 ),

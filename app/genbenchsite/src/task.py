@@ -316,7 +316,7 @@ class Task:
 
 
 if __name__ == "__main__":
-    from json_to_python_object import FileReaderJson
+    from .json_to_python_object import FileReaderJson
 
     FileReaderJson("results.json")
 

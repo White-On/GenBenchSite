@@ -58,9 +58,9 @@ def FileReaderJson(filename: str, structure_test_path: str) -> None:
 
             task.runtime[libName] = runtime
             task.evaluation[libName] = evaluation
-            evaluation_function_name = taskConfig[task.name].get("evaluation_titles")
+            evaluation_function_name = taskConfig[task.name].get("evaluation_function")
             if evaluation_function_name:
-                task.evaluation_function_name = evaluation_function_name.split(",")
+                task.evaluation_function_name = evaluation_function_name.split(" ")
                 task.evaluation_sort_order = taskConfig[task.name].get(
                     "evaluation_sort_order"
                 )

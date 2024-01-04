@@ -288,14 +288,13 @@ class Benchmark:
             logger.warning(f"No config for {taskName}")
             return
         kwargs = current_config.get("preparation_task_arguments", "{}")
-        kwargs = ast.literal_eval(kwargs)
         logger.debug(f"{kwargs = }")
         if len(kwargs) == 0:
             logger.warning(
                 f"No arguments for the preparation task command/script for {taskName}"
             )
         # we run the preparation task script
-        command = f"python {preparation_task_script_path}"
+        command = f"python {preparation_task_script_path} {kwargs}"
         logger.debug(f"{command = }")
         self.run_command(command=command, timeout=Benchmark.DEFAULT_TIMEOUT)
 
@@ -451,7 +450,7 @@ class Benchmark:
         )
 
         #    We check if the before task command/script exist if not we do nothing
-        beforeTaskModule = self.task_config[taskName].get("before_script", None)
+        beforeTaskModule = self.task_config[taskName].get("preparation_script", None)
         if beforeTaskModule is not None:
             self.preparation_task(path, taskName)
         else:
