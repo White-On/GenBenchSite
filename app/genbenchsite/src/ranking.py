@@ -335,7 +335,7 @@ def RankingLibraryGlobal(threshold=0, isResultList=True) -> list[str]:
     return classementLibrary
 
 
-def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> list[str]:
+def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> dict[str, int]:
     r"""LexMax algorithm.
 
     The LexMax algorithm is used to rank dictionnary of result.
@@ -347,21 +347,24 @@ def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> list[str]:
 
     Returns
     -------
-    list of str
-        a list of the element sorted by their rank.
+    dict of str and int
+        A dictionary with the element name as key and their rank as value.
 
     Examples
     --------
 
     >>> dictionnary = {'Library1': [52.2, 42.1, 39.4], 'Library2': [45.2, 12.0, 80.2], 'Library3': [34.7, 15.8, 2.42]}
     >>> print(LexMax(dictionnary))
-    ['Library3', 'Library2', 'Library1']
+    {'Library1': 2, 'Library2': 1, 'Library3': 0}
 
     # You can also use it on a dictionary with a list of rank
     >>> dictionnary = {'Library1': [3, 3, 2], 'Library2': [2, 1, 3], 'Library3': [1, 2, 1]}
     >>> print(LexMax(dictionnary))
-    ['Library3', 'Library2', 'Library1']
+    {'Library1': 2, 'Library2': 1, 'Library3': 0}
     """
+    # we check if the dictionnary is empty
+    if len(dictionnary) == 0:
+        return {}
     rankMatrix = np.zeros((len(dictionnary.keys()), len(list(dictionnary.values())[0])))
     # On remplit la matrice avec les valeurs du dictionnaire
     for i, key in enumerate(dictionnary.keys()):
@@ -399,7 +402,7 @@ def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> list[str]:
 
 def LexMaxWithThreshold(
     dictionaryResults, argumentsList=list(), threshold=0, reverse=False
-) -> list:
+) -> dict[str, int]:
     """LexMax algorithm with a threshold.
 
     The LexMax algorithm is used to rank dictionnary of result. The threshold is used to remove the result with an argument that are strictly under the threshold.
@@ -415,8 +418,8 @@ def LexMaxWithThreshold(
 
     Returns
     -------
-    list of str
-        a list of the element sorted by their rank.
+    dict of str and int
+        A dictionary with the element name as key and their rank as value.
 
     See Also
     --------

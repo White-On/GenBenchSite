@@ -366,7 +366,6 @@ class BenchSite:
 
         # FOOTER
         HTMLFooter = staticSiteGenerator.CreateHTMLComponent("footer.html")
-
         staticSiteGenerator.CreateHTMLPage(
             [
                 HTMLHeader,
@@ -378,7 +377,7 @@ class BenchSite:
             ],
             "index.html",
             # manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
-            manualOutputFilename=Path(self.inputFilename).stem,
+            manualOutputPath=Path(self.outputPath).stem,
         )
         # ==================================================
         # TACHES PAGES
@@ -402,7 +401,7 @@ class BenchSite:
                 ): [
                     BenchSite.MakeLink(
                         taskName,
-                        self.task_config(taskName,{}).get("title", taskName),
+                        self.task_config.get(taskName,{}).get("title", taskName),
                         a_balise_id=f"{taskName}-nav",
                     )
                     for taskName in Task.GetTaskNameByThemeName(theme)

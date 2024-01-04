@@ -163,7 +163,6 @@ class StaticSiteGenerator:
         outputPath = self.contentFilePath
         if manualOutputPath is not None:
             outputPath = manualOutputPath
-
         with open(f"{outputPath}/{pageName}", "w") as f:
             f.write(html)
 
