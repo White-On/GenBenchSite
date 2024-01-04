@@ -39,7 +39,7 @@ class BenchSite:
         logger.info("=======Creating BenchSite=======")
 
         if Path(inputFilename).exists() is False:
-            logger.error(f"File {inputFilename} not found")
+            logger.error(f"The file containing the results doesn't seems to exist or hasn't been found : File {inputFilename} not found")
             exit(1)
         FileReaderJson(inputFilename, structureTestPath)
         self.inputFilename = inputFilename
@@ -262,12 +262,17 @@ class BenchSite:
         logger.debug(f"task config : {self.task_config}")
         logger.debug(f"logo library : {target_logo}")
 
-        social_media = list(
-            map(
-                lambda x: tuple(x.split(" ")),
-                self.site_config.get("social_media", {}).split(","),
+        social_media_config = self.site_config.get("social_media", {})
+        if social_media_config == {}:
+            logger.warning("No social media configured in the configuration file of the project")
+            social_media = []
+        else:
+            social_media = list(
+                map(
+                    lambda x: tuple(x.split(" ")),
+                    social_media_config.split(","),
+                )
             )
-        )
         for element in social_media:
             if len(element) != 2:
                 logger.warning(
@@ -377,7 +382,7 @@ class BenchSite:
             ],
             "index.html",
             # manualOutputPath=os.path.split(staticSiteGenerator.contentFilePath)[0],
-            manualOutputPath=Path(self.outputPath).stem,
+            manualOutputPath=Path(self.outputPath),
         )
         # ==================================================
         # TACHES PAGES

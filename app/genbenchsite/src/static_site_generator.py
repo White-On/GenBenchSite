@@ -60,7 +60,10 @@ class StaticSiteGenerator:
         self.output_website_path = Path(output_website_path)
         # if the output_website_path does exist, we delete it to create a updated version
         if self.output_website_path.exists():
-            delete_directory(self.output_website_path)
+            # we first check if the output_website_path is a directory containing the website_template folder
+            if is_pages_directory(self.output_website_path):
+                delete_directory(self.output_website_path)
+            # if not we dont want to delete something that may be important
 
         # we copy the website_template folder in the output_website_path
         shutil.copytree(website_template_path, self.output_website_path)
@@ -182,6 +185,35 @@ def delete_directory(dir_path: str):
         shutil.rmtree(path)
     else:
         print(f"Directory {dir_path} does not exist.")
+
+def is_pages_directory(path: str) -> bool:
+    """
+    Checks if a directory is a pages directory containing an index.html file, style repository, assets repository and script repository.
+
+    Arguments
+    ---------
+    path : str
+        The path to the directory to check.
+
+    Returns
+    -------
+    bool
+        True if the directory is a pages directory, False otherwise.
+
+    """
+    path = Path(path)
+    if path.exists() and path.is_dir():
+        if (
+            Path(path / "index.html").exists()
+            and Path(path / "style").exists()
+            and Path(path / "assets").exists()
+            and Path(path / "script").exists()
+            and Path(path / "content").exists()
+        ):
+            return True
+        else:
+            return False
+    return False
 
 
 if __name__ == "__main__":

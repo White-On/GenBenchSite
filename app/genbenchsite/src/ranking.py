@@ -458,7 +458,7 @@ def LexMaxWithThreshold(
 
 
 if __name__ == "__main__":
-    from json_to_python_object import FileReaderJson
+    from .json_to_python_object import FileReaderJson
 
     _ = FileReaderJson(
         "results.json", "C:/Users/jules/Documents/Git/BenchSite/repository"

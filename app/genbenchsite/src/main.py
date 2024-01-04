@@ -73,9 +73,9 @@ def benchmark(args):
 
 def website(args):
     BenchSite(
-        inputFilename="results.json",
-        outputPath=args.O,
-        structureTestPath=args.I,
+        inputFilename = Path(args.I) / "results.json",
+        outputPath = Path(args.O) / "pages",
+        structureTestPath = args.I,
     ).GenerateStaticSite()
 
 
@@ -489,8 +489,8 @@ def main():
     website_parser.add_argument(
         "-O",
         type=str,
-        help="The local path of the folder where the HTML page will be generated",
-        default="pages",
+        help="The local path of the folder where the HTML page will be generated ( will create a folder named pages in the current directory if not specified )",
+        default= Path.cwd().__str__(),
     )
     website_parser.set_defaults(func=website)
 
