@@ -205,7 +205,7 @@ def is_pages_directory(path: str) -> bool:
     if path.exists() and path.is_dir():
         if (
             Path(path / "index.html").exists()
-            and Path(path / "style").exists()
+            or Path(path / "style").exists()
             and Path(path / "assets").exists()
             and Path(path / "script").exists()
             and Path(path / "content").exists()

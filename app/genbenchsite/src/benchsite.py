@@ -95,6 +95,8 @@ class BenchSite:
             else:
                 logger.warning(
                     f"Logo for {libraryName} not found at {logo_path}, using default logo"
+                ) if logo_name is not None else logger.warning(
+                    f"No logo configured for {libraryName}, using default logo"
                 )
                 logo[libraryName] = (
                     Path(self.staticSiteGenerator.assetsFilePath)

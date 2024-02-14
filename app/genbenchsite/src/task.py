@@ -80,7 +80,7 @@ class Task:
         return listTaskName
 
     @classmethod
-    def GetTaskByName(cls, taskName: str) -> "Task" or None:
+    def GetTaskByName(cls, taskName: str):
         """Getter for a task by its name.
 
         Parameters
@@ -240,7 +240,10 @@ class Task:
             return self.cache_runtime[target]
         runtime = self.get_runtime(target)
         # print(runtime)
+        # There might be warnings about the mean of an empty slice
+        # it is because the runtime is empty for some arguments ( some arguments failed with some libraries )
         runtime = np.nanmean(runtime, axis=1)
+
         runtime[np.isnan(runtime)] = float("inf")
         logger.debug(f"Runtime for {target} in {self.name} : {runtime}")
         # we save the runtime in the cache
