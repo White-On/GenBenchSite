@@ -339,7 +339,7 @@ class Benchmark:
         # )
 
     def evalution_task(
-        self, taskName: str, target_name: str, arg: str, *scoring_scripts
+        self, taskName: str, path_to_file_to_evaluate: str, *scoring_scripts
     ):
         """
         Run the evaluation function of a task
@@ -366,7 +366,7 @@ class Benchmark:
 
         for script in scoring_scripts:
             # command = f"{self.taskConfig[taskName].get('evaluation_language')} {os.path.join(taskPath,script)} {libraryName} {arg}"
-            command = f"python {script} {target_name} {arg}"
+            command = f"python {script} {path_to_file_to_evaluate}"
             logger.debug(
                 f"Run the evaluation function for {taskName} with {command} command"
             )
@@ -449,9 +449,9 @@ class Benchmark:
             / taskName
         )
 
-        #    We check if the before task command/script exist if not we do nothing
-        beforeTaskModule = self.task_config[taskName].get("preparation_script", None)
-        if beforeTaskModule is not None:
+        # We check if the before task command/script exist if not we do nothing
+        preparationScript = self.task_config[taskName].get("preparation_script", None)
+        if preparationScript is not None:
             self.preparation_task(path, taskName)
         else:
             logger.info(f"No before task command/script for {taskName}")
@@ -468,6 +468,7 @@ class Benchmark:
             )
 
             self.RunTaskForLibrary(libraryName, taskName, path, timeout=taskTimeout)
+        
 
     def TaskNotSupported(self, libraryName: str, taskName: str, arguments: str) -> None:
         """
@@ -561,6 +562,13 @@ class Benchmark:
             ]
         logger.debug(f"{evaluation_scripts = }")
 
+        # if there are evaluation scripts we check if the repository output exist if not we create it
+        # TODO fix les path de script
+        if evaluation_scripts is not None:
+            output_directory = Path(taskPath) / "output"
+            output_directory.mkdir(exist_ok=True)
+            logger.warning(f"Output directory don't exist, so we created {output_directory}")
+
         stop_after_x_timeout = int(
             self.task_config[taskName].get(
                 "stop_after_x_timeout", Benchmark.DEFAULT_STOP_AFTER_X_TIMEOUT
@@ -586,7 +594,7 @@ class Benchmark:
                     f"Run {cpt_run + 1} of {total_run} for {taskName}. At {cpt_timeout} timeout"
                 )
 
-                # Before run script
+                # BEFORE RUN SCRIPT
                 if before_script_exist:
                     if cpt_timeout >= stop_after_x_timeout:
                         resultProcess = Benchmark.TIMEOUT_VALUE
@@ -608,7 +616,7 @@ class Benchmark:
                     # cpt_timeout += 1 if resultProcess == Benchmark.TIMEOUT_VALUE and cpt_run < stop_after_x_timeout else 0
                     # continue
 
-                # Run script
+                # RUN SCRIPT
                 if cpt_timeout >= stop_after_x_timeout:
                     resultProcess = Benchmark.TIMEOUT_VALUE
                 else:
@@ -639,15 +647,16 @@ class Benchmark:
                 if Benchmark.DEBUG:
                     continue
 
-                # After run script
+                # AFTER RUN SCRIPT
                 if evaluation_scripts is not None:
                     # we run the evaluation function
-                    # if the task has  been run successfuly we run the evaluation function
-                    if not isinstance(resultProcess, str):
+                    # if the task has been run successfuly we run the evaluation function
+                    # we also check if we create the right file to evaluate the task
+                    generated_file_path = Path(taskPath) / "output" / f"{libraryName}_{arg}.bif" 
+                    if not isinstance(resultProcess, str) and generated_file_path.exists():
                         valueEvaluation = self.evalution_task(
                             taskName,
-                            libraryName,
-                            arg,
+                            generated_file_path,
                             *evaluation_scripts,
                         )
                         logger.debug(f"{valueEvaluation = }")
@@ -686,7 +695,7 @@ class Benchmark:
             )
 
         logger.info(f"End task {taskName} for library {libraryName}")
-
+    
     def calculate_number_interations(self):
         """
         Calculate the number of iteration for the progress bar
@@ -717,16 +726,16 @@ class Benchmark:
         """
         Run the benchmark
         """
-
+        # we collect the global variables from the config file of the project
         self.setup_global_variables()
-        
+        # we initialize the progress bar
         self.progressBar = tqdm(
             total=self.calculate_number_interations(),
             desc="Initialization",
             ncols=100,
             position=0,
         )
-
+        # we install or upgrade the targets libraries
         if not Benchmark.DEBUG:
             self.install_upgrade_targets()
 
@@ -762,15 +771,15 @@ if __name__ == "__main__":
     outputPath = currentDirectory
     result_file = currentDirectory / "results.json"
     if result_file.exists():
-        run = Benchmark(
+        bcm = Benchmark(
             pathToInfrastructure=currentDirectory / "repository",
             baseResult=result_file.absolute(),
         )
     else:
-        run = Benchmark(pathToInfrastructure=currentDirectory / "repository")
+        bcm = Benchmark(pathToInfrastructure=currentDirectory / "repository")
 
     # run = Benchmark(pathToInfrastructure=currentDirectory / "repository")
-    run.run()
+    bcm.run()
 
     # print(run.results)
-    run.result_to_json(result_file.absolute())
+    bcm.result_to_json(result_file.absolute())

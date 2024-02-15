@@ -112,7 +112,7 @@ def create_template(target_path="repository", nb_targets=1, nb_themes=1, nb_task
                 )
             )
             task_repo.add_repository("data")
-            task_repo.add_repository("res")
+            task_repo.add_repository("outputs")
             for t in range(1, nb_targets + 1):
                 (
                     task_repo.add_repository(f"target{t}")
