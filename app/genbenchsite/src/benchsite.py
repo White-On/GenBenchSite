@@ -480,7 +480,7 @@ class BenchSite:
             logger.debug(f"{importedRuntime = }")
 
             scoring_title = self.task_config.get(taskName,{}).get("evaluation_function", None)
-            # evaluation_scripts = self.task_config[taskName].get("evaluation_scripts", None)
+            # scoring_title = self.task_config.get(taskName,{}).get("evaluation_scripts", None)
             if scoring_title is not None:
                 scoring_title = scoring_title.split(" ")
             else:

@@ -273,7 +273,7 @@ class Benchmark:
             preparation_task_script_path.exists()
             and preparation_task_script_path.is_file()
         )
-        logger.debug(f"{preparation_task_script_path = }")
+        logger.debug(f"Preparation script : {preparation_task_script_path.name}")
         logger.debug(f"{preparation_task_script_exist = }")
 
         if not preparation_task_script_exist:
@@ -537,7 +537,7 @@ class Benchmark:
             self.TaskNotSupported(libraryName, taskName, arguments)
             return
 
-        logger.info(f"Run task {taskName} for library {libraryName}")
+        logger.info(f"Run task '{taskName}' for library '{libraryName}'")
 
         # we check if there is a before run script
         before_script_path = Path(taskPath) / libraryName / "before.py"
@@ -549,7 +549,7 @@ class Benchmark:
         evaluation_scripts = self.task_config[taskName].get("evaluation_scripts", None)
         if evaluation_scripts is not None:
             # if the script is not None we get the path to the scripts
-            evaluation_scripts = evaluation_scripts.split(",")
+            evaluation_scripts = evaluation_scripts.split(" ")
             evaluation_scripts = [
                 Path(taskPath) / script for script in evaluation_scripts
             ]
@@ -560,14 +560,15 @@ class Benchmark:
                 for script in evaluation_scripts
                 if script.exists() and script.is_file()
             ]
-        logger.debug(f"{evaluation_scripts = }")
+        logger.debug(f"Script for evaluate results :{[script.name for script in evaluation_scripts]}")
 
         # if there are evaluation scripts we check if the repository output exist if not we create it
-        # TODO fix les path de script
         if evaluation_scripts is not None:
             output_directory = Path(taskPath) / "output"
+            if not output_directory.exists():
+                logger.warning(f"Output directory don't exist, so we created {output_directory}")
             output_directory.mkdir(exist_ok=True)
-            logger.warning(f"Output directory don't exist, so we created {output_directory}")
+            
 
         stop_after_x_timeout = int(
             self.task_config[taskName].get(
@@ -666,6 +667,7 @@ class Benchmark:
                     evaluation_result = self.results[libraryName][taskName]["results"][
                         arg
                     ].get("evaluation", {})
+                    # TODO problème avec le naming des évaluations ce qui pose problème dans la sauvegarde json -> puis dans le ranking
                     scoring_title = self.task_config[taskName].get(
                         "evaluation_titles", None
                     )
@@ -694,7 +696,7 @@ class Benchmark:
                 [b, t] for b, t in zip(before_run_list_time, listTime)
             )
 
-        logger.info(f"End task {taskName} for library {libraryName}")
+        logger.info(f"End task '{taskName}' for library '{libraryName}'")
     
     def calculate_number_interations(self):
         """
