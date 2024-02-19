@@ -669,10 +669,10 @@ class Benchmark:
                     ].get("evaluation", {})
                     # TODO problème avec le naming des évaluations ce qui pose problème dans la sauvegarde json -> puis dans le ranking
                     scoring_title = self.task_config[taskName].get(
-                        "evaluation_titles", None
+                        "evaluation_function", None
                     )
                     if scoring_title is not None:
-                        scoring_title = scoring_title.split(",")
+                        scoring_title = scoring_title.split(" ")
                     if scoring_title is None or len(scoring_title) != len(
                         evaluation_scripts
                     ):

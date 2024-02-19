@@ -19,7 +19,12 @@ class StructureTest:
         for path in pathConfig:
             logger.debug(f"Reading config file in {path.absolute()}")
             configParser = ConfigParser()
-            configParser.read(path.absolute())
+            try:
+                configParser.read(path.absolute())
+            except Exception as e:
+                logger.error(f"Error while reading config file, probably a duplicate section")
+                raise Exception(f"Error while reading config file : {e}")
+            
             sections = configParser.sections() if len(listSection) == 0 else listSection
             logger.debug(f"Sections : {sections}")
             refElement = listSection[0] if len(listSection) == 1 else path.parent.name

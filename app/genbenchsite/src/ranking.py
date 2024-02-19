@@ -365,6 +365,7 @@ def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> dict[str, int]
     # we check if the dictionnary is empty
     if len(dictionnary) == 0:
         return {}
+    
     rankMatrix = np.zeros((len(dictionnary.keys()), len(list(dictionnary.values())[0])))
     # On remplit la matrice avec les valeurs du dictionnaire
     for i, key in enumerate(dictionnary.keys()):
@@ -374,9 +375,10 @@ def LexMax(dictionnary: dict[str, list[float]], reverse=False) -> dict[str, int]
     # for each column we sort the value and we replace the value by their rank
     # the sort here will give a rank no matter the precision of the value
     for column in range(rankMatrix.shape[1]):
+        tmp_sorted = sorted(rankMatrix[:, column].tolist(), reverse=reverse)
         rankMatrix[:, column] = [
-            sorted(rankMatrix[:, column].tolist(), reverse=reverse).index(element)
-            for element in rankMatrix[:, column].tolist()
+            tmp_sorted.index(element)
+            for element in tmp_sorted
         ]
     # print(rankMatrix)
     # we now sort the rank of each element to have a list of rank for each element sorted
