@@ -370,18 +370,20 @@ class Benchmark:
             logger.debug(
                 f"Run the evaluation function for {taskName} with {command} command"
             )
-            output = self.run_command(
+            output = None
+            _, output = self.run_command(
                 command=command, timeout=Benchmark.DEFAULT_TIMEOUT, getOutput=True
             )
             logger.debug(f"{output = }")
             # we remove the eventual \n at the end of the output
             output = output.replace("\n", "")
             # and we transform the output to a float if possible
+            raw_output = output
             try:
                 output = float(output)
             except ValueError:
                 logger.warning(
-                    f"The scoring function {script} of {taskName} does not return a float, the output is {output}"
+                    f"The scoring function '{script.name}' of '{taskName}' does not return a float, the output is '{raw_output}'"
                 )
                 output = Benchmark.ERROR_VALUE
             logger.debug(f" after filter {output = }")
@@ -422,14 +424,18 @@ class Benchmark:
 
         if process.returncode == 1:
             logger.warning(f"Error in the command")
+            if getOutput:
+                return (Benchmark.ERROR_VALUE, process.stdout)
             return Benchmark.ERROR_VALUE
 
         elif process.returncode == 2:
             logger.warning(f"Can't run this command")
+            if getOutput:
+                return (Benchmark.ERROR_VALUE, process.stdout)
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
-            return process.stdout
+            return (end-start, process.stdout)
 
         return end - start
 
@@ -623,11 +629,12 @@ class Benchmark:
                 else:
                     command = f"python {run_script_path} {arg}"
 
-                    resultProcess = self.run_command(
+                    resultProcess, generated_file_path = self.run_command(
                         command=command,
                         timeout=timeout + resultProcess
                         if before_script_exist and not isinstance(resultProcess, str)
                         else timeout,
+                        getOutput=True,
                     )
                     logger.debug(f"{resultProcess = }")
 
@@ -653,7 +660,10 @@ class Benchmark:
                     # we run the evaluation function
                     # if the task has been run successfuly we run the evaluation function
                     # we also check if we create the right file to evaluate the task
-                    generated_file_path = Path(taskPath) / "output" / f"{libraryName}_{arg}.bif" 
+                    # generated_file_path = Path(taskPath) / "output" / f"{libraryName}_{arg}.bif" 
+                    generated_file_path = Path(generated_file_path)
+                    # print(generated_file_path)
+                    # print(generated_file_path.exists())
                     if not isinstance(resultProcess, str) and generated_file_path.exists():
                         valueEvaluation = self.evalution_task(
                             taskName,
@@ -663,11 +673,11 @@ class Benchmark:
                         logger.debug(f"{valueEvaluation = }")
                     # if not we add the value ERROR_VALUE to the evaluation function
                     else:
-                        valueEvaluation = [resultProcess] * len(evaluation_scripts)
+                        valueEvaluation = [Benchmark.ERROR_VALUE] * len(evaluation_scripts)
                     evaluation_result = self.results[libraryName][taskName]["results"][
                         arg
                     ].get("evaluation", {})
-                    # TODO problème avec le naming des évaluations ce qui pose problème dans la sauvegarde json -> puis dans le ranking
+                    
                     scoring_title = self.task_config[taskName].get(
                         "evaluation_function", None
                     )
@@ -734,7 +744,7 @@ class Benchmark:
         self.progressBar = tqdm(
             total=self.calculate_number_interations(),
             desc="Initialization",
-            ncols=100,
+            ncols=125,
             position=0,
         )
         # we install or upgrade the targets libraries

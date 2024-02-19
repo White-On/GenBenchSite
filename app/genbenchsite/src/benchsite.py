@@ -479,6 +479,7 @@ class BenchSite:
 
             logger.debug(f"{importedRuntime = }")
 
+            # on devrais regarder les info du json et pas de la tache ici
             scoring_title = self.task_config.get(taskName,{}).get("evaluation_function", None)
             # scoring_title = self.task_config.get(taskName,{}).get("evaluation_scripts", None)
             if scoring_title is not None:
