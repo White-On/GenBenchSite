@@ -44,6 +44,7 @@ const evaluationBackgroundcolor = "#ffffaa";
 let chartList = [];
 let labelList = [];
 let allLibraries;
+let cache = {};
 
 for(let element in importedData){
     let chart;
@@ -152,6 +153,7 @@ for(let element in importedData){
         });
 
         chartList.push(chart);
+        cache[importedData[element].label] = chartdata;
     } catch(e){
         // console.log(e);
         chart = document.createElement("p");
@@ -201,6 +203,142 @@ dropdown.onchange = function(){
     }else {
         htmlComponent.style.backgroundColor = evaluationBackgroundcolor;
     }
+}
+
+
+
+for (let label of labelList){
+    let hiplot = document.createElement("div");
+    hiplot.id = label;
+    hiplot.innerHTML = label;
+    htmlComponent.appendChild(hiplot);
+    let c = Highcharts.chart( label, {
+
+        title: {
+            text: 'July temperatures in Nesbyen, 2022',
+            align: 'left'
+        },
+    
+        subtitle: {
+            text: 'Source: ' +
+                '<a href="https://www.yr.no/nb/historikk/graf/1-113585/Norge/Viken/Nesbyen/Nesbyen?q=2022-07"' +
+                'target="_blank">YR</a>',
+            align: 'left'
+        },
+    
+        yAxis: {
+            // type: 'logarithmic',
+            // custom: {
+            //     allowNegativeLog: true
+            // },
+        },
+    
+        tooltip: {
+            crosshairs: true,
+            shared: true,
+            // valueSuffix: '°C'
+        },
+    
+        // plotOptions: {
+        //     series: {
+        //         pointStart: Date.UTC(2022, 6, 1),
+        //         pointIntervalUnit: 'day'
+        //     }
+        // },
+
+        // we loop over the target data to create the series
+        // series: allLibraries.map(d => {
+        //     return {
+        //         name: d,
+        //         data: []
+        //     }
+        // }),
+    
+        // series: [{
+        //     name: 'Temperature',
+        //     data: averages,
+        //     zIndex: 1,
+        //     marker: {
+        //         fillColor: 'white',
+        //         lineWidth: 2,
+        //         lineColor: Highcharts.getOptions().colors[0]
+        //     }
+        // }, {
+        //     name: 'Range',
+        //     data: ranges,
+        //     type: 'arearange',
+        //     lineWidth: 0,
+        //     linkedTo: ':previous',
+        //     color: Highcharts.getOptions().colors[0],
+        //     fillOpacity: 0.3,
+        //     zIndex: 0,
+        //     marker: {
+        //         enabled: false
+        //     }
+        // }],
+
+        credits: {
+            enabled: false
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                    },
+                    backgroundColor: '#000'
+                }
+            }]
+        },
+        // chart: {
+        //     backgroundColor: 'transparent'
+        // },
+    });
+
+    let arg = cache[label].map(d => d.arguments);
+    console.log(arg);
+
+
+    for (let library of allLibraries){
+        let average = cache[label].filter(d => d.libraryName == library);
+        // on transforme le dict en liste
+        average = average.map(d => [d.arguments, d.runTime]);
+        c.addSeries({
+            name: library,
+            data: average,
+            zIndex: 1,
+            marker: {
+                fillColor: 'white',
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[0]
+            }
+        });
+
+        let range = cache[label].filter(d => d.libraryName == library);
+        // on transforme le dict en liste
+        range = range.map(d => [d.arguments, d.runTime - d.std, d.runTime + d.std]);
+        c.addSeries({
+            name: library + " range",
+            data: range,
+            type: 'arearange',
+            lineWidth: 0,
+            linkedTo: ':previous',
+            // color: Highcharts.getOptions().colors[0],
+            fillOpacity: 0.3,
+            zIndex: 0,
+            marker: {
+                enabled: false
+            }
+        });
+
+
+    }
+
 }
 
 // we're adding buttons to choose the library's code we want to display

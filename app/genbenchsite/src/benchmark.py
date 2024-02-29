@@ -82,8 +82,8 @@ class Benchmark:
 
         themeDirectory = self.pathToInfrastructure / "themes"
 
-        self.libraryNames = self.target_config.keys()
-        self.themeNames = self.theme_config.keys()
+        self.libraryNames = list(self.target_config.keys())
+        self.themeNames = list(self.theme_config.keys())
 
         self.taskNames = []
         self.dictionaryTaskInTheme = {}
@@ -149,6 +149,20 @@ class Benchmark:
             self.results = self.create_base_json()
         else:
             self.results = self.get_result_from_json(baseResult)
+            # we check if there is a task that is not in the result file -> we added one
+            for taskName in self.taskNames:
+                res = self.results[self.libraryNames[0]].get(taskName, None)
+                if res is None:
+                    for libraryName in self.libraryNames:
+                        self.results[libraryName][taskName] = {
+                            "theme": self.dictonaryThemeInTask.get(taskName),
+                            "results": {
+                                arg: {"runtime": []}
+                                for arg in self.task_config.get(taskName)
+                                .get("arguments")
+                                .split(",")
+                            },
+                        }
 
         logger.debug(f"{self.dictionaryTaskInTheme = }")
         logger.debug(f"{self.dictonaryThemeInTask = }")
@@ -415,6 +429,8 @@ class Benchmark:
             )
         except subprocess.TimeoutExpired:
             logger.warning(f"Timeout expired for the {command} command")
+            if getOutput:
+                return (Benchmark.TIMEOUT_VALUE, "")
             return Benchmark.TIMEOUT_VALUE
         end = time.perf_counter()
 
@@ -431,7 +447,7 @@ class Benchmark:
         elif process.returncode == 2:
             logger.warning(f"Can't run this command")
             if getOutput:
-                return (Benchmark.ERROR_VALUE, process.stdout)
+                return (Benchmark.NOT_RUN_VALUE, process.stdout)
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
@@ -566,7 +582,7 @@ class Benchmark:
                 for script in evaluation_scripts
                 if script.exists() and script.is_file()
             ]
-        logger.debug(f"Script for evaluate results :{[script.name for script in evaluation_scripts]}")
+            logger.debug(f"Script for evaluate results :{[script.name for script in evaluation_scripts]}")
 
         # if there are evaluation scripts we check if the repository output exist if not we create it
         if evaluation_scripts is not None:

@@ -122,3 +122,4 @@ while (navActive.tagName != "NAV") {
     }
     navActive = navActive.parentElement;
 }
+
