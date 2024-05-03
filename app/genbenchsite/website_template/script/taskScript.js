@@ -212,6 +212,7 @@ for (let label of labelList){
     hiplot.id = label;
     hiplot.innerHTML = label;
     htmlComponent.appendChild(hiplot);
+    
     let c = Highcharts.chart( label, {
 
         title: {
@@ -219,12 +220,12 @@ for (let label of labelList){
             align: 'left'
         },
     
-        subtitle: {
-            text: 'Source: ' +
-                '<a href="https://www.yr.no/nb/historikk/graf/1-113585/Norge/Viken/Nesbyen/Nesbyen?q=2022-07"' +
-                'target="_blank">YR</a>',
-            align: 'left'
-        },
+        // subtitle: {
+        //     text: 'Source: ' +
+        //         '<a href="https://www.yr.no/nb/historikk/graf/1-113585/Norge/Viken/Nesbyen/Nesbyen?q=2022-07"' +
+        //         'target="_blank">YR</a>',
+        //     align: 'left'
+        // },
     
         yAxis: {
             // type: 'logarithmic',
@@ -301,7 +302,7 @@ for (let label of labelList){
     });
 
     let arg = cache[label].map(d => d.arguments);
-    console.log(arg);
+    // console.log(arg);
 
 
     for (let library of allLibraries){

@@ -1,60 +1,34 @@
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
-import json
 from pathlib import Path
 from .logger import logger
 
 
 class CodeReader:
+    """
+    The goal of this class is to read the code of the test infrastructure and transform it in HTML
+    """
+
+    noTaskFoundMessage = "Task not found"
+    noCodeFoundMessage = "Code not found"
+
     def __init__(self, pathToInfrastructure: str):
-        logger.info("Collecting the code")
+        logger.info("Reading the code from the test infrastructure")
         logger.debug(f"Path to infrastructure : {pathToInfrastructure}")
         self.pathToInfrastructure = Path(pathToInfrastructure)
 
-        self.taskNames = []
+        themesPath = self.pathToInfrastructure / "themes"
+        individualThemePath = [theme for theme in themesPath.iterdir() if theme.is_dir()]
+        self.tasksPath = []
+        for theme in individualThemePath:
+            tasksPath = [task for task in theme.iterdir() if task.is_dir()]
+            self.tasksPath.extend(tasksPath)
 
-        self.targets = [
-            path.name for path in self.pathToInfrastructure.glob("targets/*")
-        ]
+        self.tasksPath = {task.name: task for task in self.tasksPath}
 
-        self.taskPath = list(self.pathToInfrastructure.glob("**/run.py"))
+        logger.debug(f"Task path : {self.tasksPath}")
 
-        logger.debug(f"Task path : {self.taskPath}")
-        logger.debug(f"Targets : {self.targets}")
-
-        self.pure_code_str = self.retreive_code(*self.taskPath)
-
-        self.CodeHTML = {target: {} for target in self.targets}
-
-        self.all_code_to_html()
-        logger.info("=======Code collected=======")
-
-    def retreive_code(self, *code_path):
-        if len(code_path) == 0:
-            logger.warning("No path given")
-            return {}
-
-        code = {target: {} for target in self.targets}
-        for path in code_path:
-            taskName = path.parents[1].name
-            targetName = path.parents[0].name
-            logger.debug(f"Reading code file in {path.absolute()}")
-            with open(path.absolute(), "r") as f:
-                code[targetName][taskName] = f.read()
-
-        logger.info("Code retreived")
-
-        return code
-
-    def all_code_to_html(self):
-        for target in self.targets:
-            for task in self.pure_code_str[target]:
-                self.CodeHTML[target][task] = self.pure_code_to_html(
-                    self.pure_code_str[target][task]
-                )
-        logger.info("Code transformed in HTML")
-        logger.debug(f"Code HTML : {self.CodeHTML.keys()}")
 
     def pure_code_to_html(self, code: str):
         formatter = HtmlFormatter(
@@ -65,16 +39,28 @@ class CodeReader:
         )
         return highlight(code, PythonLexer(), formatter)
 
-    def save_json(self, outputPath: str):
-        with open(outputPath, "w") as file:
-            json.dump(self.CodeHTML, file)
+    def get_code_HTML(self, target : str, task :str):
+        """
+        Get the code of a task in HTML format
+        """
+        task_path = self.tasksPath.get(task, None)
+        task_path_exists = task_path is not None
+        if not task_path_exists:
+            return CodeReader.noTaskFoundMessage
+        
+        target_code_path = task_path / target / "run.py"
+        target_code_path_exists = target_code_path.exists()
+        if not target_code_path_exists:
+            return CodeReader.noCodeFoundMessage
+        
+        with open(target_code_path, "r") as f:
+            logger.info(f"Reading code file in {target_code_path.absolute()}")
+            code = f.read()
 
-    def get_code_HTML(self, target, task):
-        return self.CodeHTML[target].get(task, None)
+        return self.pure_code_to_html(code)
 
 
 if __name__ == "__main__":
     pathToInfrastructure = "D:/Jules_Scolaire/Master_Androide_M1/BenchSite/repository"
 
     collectCode = CodeReader(pathToInfrastructure)
-    print(collectCode.get_code_HTML("target1", "task1"))

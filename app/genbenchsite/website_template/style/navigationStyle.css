@@ -104,6 +104,7 @@
     gap : 1rem;
     color: var(--font-color);
     transition: all 0.3s ease-in-out;
+    border-radius: 0.5rem;
 }
 
 .menu-item .active{
