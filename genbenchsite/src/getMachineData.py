@@ -20,8 +20,3 @@ def GetRunMachineMetadata():
         "machine_python_version": platform.python_version(),
         "execution_date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
-
-
-def SaveMachineDataInJson(outputFile: str):
-    with open(outputFile, "w") as file:
-        json.dump(GetRunMachineMetadata(), file)

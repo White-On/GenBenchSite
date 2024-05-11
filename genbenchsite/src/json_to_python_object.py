@@ -36,7 +36,7 @@ def FileReaderJson(filename: str, structure_test_path: str) -> None:
                 else Task.GetTaskByName(taskName)
             )
             if task.name not in taskConfig:
-                logger.error(f"Task {task.name} not found in the task.ini file, maybe an errer in the naming of the files")
+                logger.error(f"Task {task.name} not found in the task.ini file, maybe an error in the naming of the files")
                 continue
             logger.info(f"Task {taskName} with {libName} library")
             logger.debug(f"arguments: {len(taskInfo['results'].keys())}")
@@ -90,7 +90,7 @@ def readJsonFile(filename: str):
 
 
 def count_test():
-    # we tak a task at random
+    # we take a task at random
     task = Task.allTasks[0]
     # we take a library at random
     library = Library.allLibrary[0]
