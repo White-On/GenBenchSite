@@ -21,8 +21,8 @@ setup(
             "gbs = genbenchsite.src.main:main",
         ]
     },
-    package_dir={"": "app"},
-    packages=find_packages(where="app"),
+    # package_dir={"": "app"},
+    packages=find_packages(),
     package_data={"": ["html_template/*", ".template.txt", "website_template/**"]},
     python_requires=">=3.9",
     install_requires=[
@@ -38,6 +38,7 @@ setup(
     extras_require={
         "dev": [
             "twine>=4.0.2",
+            "pytest>=8.2.0",
         ],
     },
 )
