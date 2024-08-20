@@ -1,9 +1,9 @@
 # GenBenchSite
 
 ## Type Coverage
-[!typo_progress]
+![typo_progress](https://geps.dev/progress/81)
 
-## What is GenBenchSite ‚ñ∂Ô∏
+## What is GenBenchSite ‚ñ∂Ô∏è
 
 GenBenchSite is a platform designed to **compare the performance of different libraries and frameworks**. It
 provides a detailed report of each library's speed, precision, and other parameters, making it easier for
@@ -70,9 +70,8 @@ score for each argument. On the entire task, we get a vector of score for each l
 algorithm to compare the vector of score for each library and we get a ranking of the libraries for that task.
 We do this for each task and repeat it for the theme and the global ranking.
 
-## How to contribute ‚úÔ∏
+## How to contribute ‚úçÔ∏è
 The benchmark website is an open-source project, and contributions from the community are welcome. To contribute,
 users can fork the project on GitHub, make changes to the code, and submit a pull request. Users can also
 contribute by reporting bugs, suggesting improvements, or sharing their benchmarking results.    
 
-![typo_progress](https://geps.dev/progress/81)
