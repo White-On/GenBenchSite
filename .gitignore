@@ -6,6 +6,8 @@ results.json
 __pycache__/
 repository/
 .vscode/
+*.ipynb_checkpoints/
+*.ipynb
 logs/
 backup/
 dist/
