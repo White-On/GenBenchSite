@@ -1,7 +1,7 @@
 # GenBenchSite
 
 ## Type Coverage
-![typo_progress](https://geps.dev/progress/81)
+![typo_progress](https://geps.dev/progress/79)
 
 ## What is GenBenchSite ▶️
 

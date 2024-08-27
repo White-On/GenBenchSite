@@ -5,6 +5,7 @@ import numpy as np
 import re
 from tqdm import tqdm
 from pathlib import Path
+import importlib
 
 from .logger import logger
 from .structure_test import (
@@ -104,30 +105,7 @@ class Benchmark:
         # We now rearange the order of execution of the tasks
         # We first look for the order in the config file
         # If no order is specified, we keep the order of the tasks in the config file
-        order = []
-        for themeName in self.themeNames:
-            theme_config = self.theme_config.get(themeName)
-
-            if theme_config is None:
-                logger.warning(f"No config for {themeName}")
-                continue
-
-            order_in_theme = theme_config.get("task_order")
-            if order_in_theme is None:
-                logger.info(f"No task order for {themeName}")
-                continue
-
-            order_in_theme = order_in_theme.split(",")
-            for taskName in order_in_theme:
-                order.append(
-                    taskName.strip()
-                ) if taskName.strip() in self.taskNames else None
-        # we add the remaining tasks not yet added to the order
-        for taskName in self.taskNames:
-            if taskName not in order:
-                order.append(taskName)
-
-        self.taskNames = order
+        self.taskNames = self.order_tasks()
 
         # look for deactivated tasks
         deactivatedTasks = []
@@ -167,7 +145,35 @@ class Benchmark:
         logger.debug(f"{self.dictonaryThemeInTask = }")
 
         # logger.debug(f"{self.results = }")
-        logger.debug(f"{self.create_base_json() = }")
+        # logger.debug(f"{self.create_base_json() = }")
+
+    def order_tasks(self) -> list:
+        order = []
+        for themeName in self.themeNames:
+            theme_config = self.theme_config.get(themeName)
+
+            if theme_config is None:
+                logger.warning(f"No config for {themeName}")
+                continue
+
+            order_in_theme = theme_config.get("task_order")
+            if order_in_theme is None:
+                logger.info(f"No task order for {themeName}")
+                continue
+
+            order_in_theme = order_in_theme.split(",")
+            for taskName in order_in_theme:
+                (
+                    order.append(taskName.strip())
+                    if taskName.strip() in self.taskNames
+                    else None
+                )
+        # we add the remaining tasks not yet added to the order
+        for taskName in self.taskNames:
+            if taskName not in order:
+                order.append(taskName)
+        logger.debug(f"Order of tasks: {order}")
+        return order
 
     def setup_global_variables(self):
         """
@@ -233,8 +239,6 @@ class Benchmark:
         except Exception as e:
             logger.error(f"Error in the creation of the base json file {e = }")
             return {}
-        
-        
 
     def install_upgrade_targets(self):
         """
@@ -243,9 +247,7 @@ class Benchmark:
         """
         logger.info("=======Begining of the installation/upgrade of the targets=======")
         for libraryName in self.libraryNames:
-            self.progressBar.set_description(
-                f"Install/upgrade target {libraryName}"
-            )
+            self.progressBar.set_description(f"Install/upgrade target {libraryName}")
             logger.info(f"Install/upgrade target {libraryName}")
             current_config = self.target_config.get(libraryName)
             if current_config is None:
@@ -267,6 +269,27 @@ class Benchmark:
                 )
             else:
                 logger.info(f"Installation/upgrade of {libraryName} successful")
+
+    @staticmethod
+    def load_module_from_path(module_name, file_path):
+        """Dynamically loads a module from a given file path."""
+        spec = importlib.util.spec_from_file_location(module_name, str(file_path))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    @staticmethod
+    def run_test_function(module, function_name, *args, **kwargs):
+        """Runs a function by name from a loaded module."""
+        func = getattr(module, function_name, None)
+        if callable(func):
+            return func(*args, **kwargs)
+        else:
+            logger.error(
+                f"Function '{function_name}' is not present in the file '{module.__file__}'\n\
+                         Please make sure that the function is present in the file and that it is callable."
+            )
+            return None
 
     def preparation_task(self, taskPath: str, taskName: str):
         """
@@ -300,16 +323,25 @@ class Benchmark:
         if current_config is None:
             logger.warning(f"No config for {taskName}")
             return
-        kwargs = current_config.get("preparation_task_arguments", "{}")
-        logger.debug(f"{kwargs = }")
-        if len(kwargs) == 0:
+        args = current_config.get("preparation_task_arguments")
+        logger.debug(f"{args = }")
+        if len(args) == 0:
             logger.warning(
                 f"No arguments for the preparation task command/script for {taskName}"
             )
+
+        preparation_task_as_module = self.load_module_from_path(
+            taskName, preparation_task_script_path
+        )
+        status = self.run_test_function(preparation_task_as_module, "main", args)
+
+        logger.debug(f"End of the preparation task of {taskName}")
+        logger.debug(f"{status = }")
+
         # we run the preparation task script
-        command = f"python {preparation_task_script_path} {kwargs}"
-        logger.debug(f"{command = }")
-        self.run_command(command=command, timeout=Benchmark.DEFAULT_TIMEOUT)
+        # command = f"python {preparation_task_script_path} {kwargs}"
+        # logger.debug(f"{command = }")
+        # self.run_command(command=command, timeout=Benchmark.DEFAULT_TIMEOUT)
 
         # # the before task is a function in a module
         # funcName = self.task_config[taskName].get("before_function", None)
@@ -374,7 +406,7 @@ class Benchmark:
         value_evaluation = []
 
         if len(scoring_scripts) == 0:
-            logger.warning(f"No evaluation function for {taskName}")
+            logger.info(f"No evaluation function for {taskName}")
             return value_evaluation
 
         for script in scoring_scripts:
@@ -450,7 +482,7 @@ class Benchmark:
             return Benchmark.NOT_RUN_VALUE
 
         if getOutput:
-            return (end-start, process.stdout)
+            return (end - start, process.stdout)
 
         return end - start
 
@@ -489,7 +521,6 @@ class Benchmark:
             )
 
             self.RunTaskForLibrary(libraryName, taskName, path, timeout=taskTimeout)
-        
 
     def TaskNotSupported(self, libraryName: str, taskName: str, arguments: str) -> None:
         """
@@ -581,15 +612,18 @@ class Benchmark:
                 for script in evaluation_scripts
                 if script.exists() and script.is_file()
             ]
-            logger.debug(f"Script for evaluate results :{[script.name for script in evaluation_scripts]}")
+            logger.debug(
+                f"Script for evaluate results :{[script.name for script in evaluation_scripts]}"
+            )
 
         # if there are evaluation scripts we check if the repository output exist if not we create it
         if evaluation_scripts is not None:
             output_directory = Path(taskPath) / "output"
             if not output_directory.exists():
-                logger.warning(f"Output directory don't exist, so we created {output_directory}")
+                logger.warning(
+                    f"Output directory don't exist, so we created {output_directory}"
+                )
             output_directory.mkdir(exist_ok=True)
-            
 
         stop_after_x_timeout = int(
             self.task_config[taskName].get(
@@ -646,9 +680,12 @@ class Benchmark:
 
                     resultProcess, generated_file_path = self.run_command(
                         command=command,
-                        timeout=timeout + resultProcess
-                        if before_script_exist and not isinstance(resultProcess, str)
-                        else timeout,
+                        timeout=(
+                            timeout + resultProcess
+                            if before_script_exist
+                            and not isinstance(resultProcess, str)
+                            else timeout
+                        ),
                         getOutput=True,
                     )
                     logger.debug(f"{resultProcess = }")
@@ -675,11 +712,14 @@ class Benchmark:
                     # we run the evaluation function
                     # if the task has been run successfuly we run the evaluation function
                     # we also check if we create the right file to evaluate the task
-                    # generated_file_path = Path(taskPath) / "output" / f"{libraryName}_{arg}.bif" 
+                    # generated_file_path = Path(taskPath) / "output" / f"{libraryName}_{arg}.bif"
                     generated_file_path = Path(generated_file_path)
                     # print(generated_file_path)
                     # print(generated_file_path.exists())
-                    if not isinstance(resultProcess, str) and generated_file_path.exists():
+                    if (
+                        not isinstance(resultProcess, str)
+                        and generated_file_path.exists()
+                    ):
                         valueEvaluation = self.evalution_task(
                             taskName,
                             generated_file_path,
@@ -688,11 +728,13 @@ class Benchmark:
                         logger.debug(f"{valueEvaluation = }")
                     # if not we add the value ERROR_VALUE to the evaluation function
                     else:
-                        valueEvaluation = [Benchmark.ERROR_VALUE] * len(evaluation_scripts)
+                        valueEvaluation = [Benchmark.ERROR_VALUE] * len(
+                            evaluation_scripts
+                        )
                     evaluation_result = self.results[libraryName][taskName]["results"][
                         arg
                     ].get("evaluation", {})
-                    
+
                     scoring_title = self.task_config[taskName].get(
                         "evaluation_function", None
                     )
@@ -722,7 +764,7 @@ class Benchmark:
             )
 
         logger.info(f"End task '{taskName}' for library '{libraryName}'")
-    
+
     def calculate_number_interations(self):
         """
         Calculate the number of iteration for the progress bar
@@ -766,7 +808,6 @@ class Benchmark:
         if not Benchmark.DEBUG:
             self.install_upgrade_targets()
 
-        
         logger.info("=======Begining of the benchmark=======")
         for taskName in self.taskNames:
             self.RunTask(taskName)

@@ -44,6 +44,9 @@ arguments = 1000,2000,3000,4000,5000
 timeout = 60
 stop_after_x_timeout = 3
 
+; the preparation script name ( inside the task folder ) aka a script that run once before the task to prepare the data
+preparation_script = preparation.py
+preparation_task_arguments = 1000
 ; the evaluation script name ( inside the task folder ) separeted by a coma
 evaluation_scripts = evaluation1.py,evaluation2.py
 ; the evaluation title separeted by a coma
@@ -73,7 +76,7 @@ title = Name of the target
 ; the name of the file containing the logo of the target ( inside res )
 logo = logo.png
 ; the command to run the upgrade / install of the target
-upgrade = pip install -U <name>
+install_command = pip install -U <name>
 |[theme]
 ; the title of the theme
 title = Title of the theme
